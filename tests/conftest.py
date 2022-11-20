@@ -6,9 +6,15 @@ import pytest
 from NBDM.model.building import NBDM_Building, NBDM_BuildingSegment
 from NBDM.model.geometry import NBDM_BuildingSegmentGeometry
 from NBDM.model.occupancy import NBDM_BuildingSegmentOccupancy
-from NBDM.model.performance import (NBDM_BuildingSegmentPerformance, NBDM_SiteEnergy, 
-    NBDM_SourceEnergy, NBDM_AnnualHeatingDemandEnergy, NBDM_AnnualCoolingDemandEnergy,
-    NBDM_PeakHeatingLoad, NBDM_PeakSensibleCoolingLoad)
+from NBDM.model.performance import (
+    NBDM_BuildingSegmentPerformance,
+    NBDM_SiteEnergy,
+    NBDM_SourceEnergy,
+    NBDM_AnnualHeatingDemandEnergy,
+    NBDM_AnnualCoolingDemandEnergy,
+    NBDM_PeakHeatingLoad,
+    NBDM_PeakSensibleCoolingLoad,
+)
 from NBDM.model.project import NBDM_Project, NBDM_Variant, NBDM_Variants
 from NBDM.model.site import NBDM_Climate, NBDM_Location, NBDM_Site, NBDM_ProjectAddress
 
@@ -17,29 +23,30 @@ from NBDM.model.site import NBDM_Climate, NBDM_Location, NBDM_Site, NBDM_Project
 
 
 sample_ProjectAddress = NBDM_ProjectAddress(
-    number = "",
-    street = "",
-    city = "",
-    state = "",
-    zip_code = "",
+    number="486",
+    street="3rd Ave.",
+    city="Brooklyn",
+    state="NY",
+    zip_code="11215",
 )
 
 sample_ProjectClimate = NBDM_Climate(
-    zone_ashrae = 0,
-    zone_passive_house = 0,
-    source = "",
+    zone_ashrae="4a",
+    zone_passive_house="4",
+    source="The internet",
 )
 
 sample_ProjectLocation = NBDM_Location(
-    address = sample_ProjectAddress,
-    longitude = 0.0,
-    latitude = 0.0,
+    address=sample_ProjectAddress,
+    longitude=-73.2,
+    latitude=40.1,
 )
 
 sample_Site = NBDM_Site(
-        climate = sample_ProjectClimate,
-        location = sample_ProjectLocation,
-    )
+    climate=sample_ProjectClimate,
+    location=sample_ProjectLocation,
+)
+
 
 @pytest.fixture
 def sample_NBDM_Site() -> NBDM_Site:
@@ -49,35 +56,46 @@ def sample_NBDM_Site() -> NBDM_Site:
 # -- Building Segment Occupancy -----------------------------------------------
 
 
-sample_BuildingSegmentOccupancy = NBDM_BuildingSegmentOccupancy(
-        total_dwelling_units = 0,
-        num_apartments_studio = 0,
-        num_apartments_1_br = 0,
-        num_apartments_2_br = 0,
-        num_apartments_3_br = 0,
-        num_apartments_4_br = 0,
-        total_occupants = 0,
-    )
+sample_BuildingSegmentOccupancy_A = NBDM_BuildingSegmentOccupancy(
+    total_dwelling_units=2,
+    num_apartments_studio=2,
+    num_apartments_1_br=1,
+    num_apartments_2_br=2,
+    num_apartments_3_br=2,
+    num_apartments_4_br=2,
+    total_occupants=10,
+)
+sample_BuildingSegmentOccupancy_B = NBDM_BuildingSegmentOccupancy(
+    total_dwelling_units=1,
+    num_apartments_studio=2,
+    num_apartments_1_br=3,
+    num_apartments_2_br=4,
+    num_apartments_3_br=5,
+    num_apartments_4_br=6,
+    total_occupants=23,
+)
+
 
 @pytest.fixture
 def sample_NBDM_BuildingSegmentOccupancy() -> NBDM_BuildingSegmentOccupancy:
-    return sample_BuildingSegmentOccupancy
+    return sample_BuildingSegmentOccupancy_A
 
 
 # -- Building Segment Geometry ------------------------------------------------
 
 
 sample_BuildingSegmentGeometry = NBDM_BuildingSegmentGeometry(
-        area_envelope = 0.0,
-        area_floor_area_gross = 0.0,
-        area_floor_area_net_interior_weighted = 0.0,
-        area_floor_area_interior_parking = 0.0,
-        volume_gross = 0.0,
-        volume_net_interior = 0.0,
-        total_stories = 0,
-        num_stories_above_grade = 0,
-        num_stories_below_grade = 0,
-    )
+    area_envelope=0.0,
+    area_floor_area_gross=0.0,
+    area_floor_area_net_interior_weighted=0.0,
+    area_floor_area_interior_parking=0.0,
+    volume_gross=0.0,
+    volume_net_interior=0.0,
+    total_stories=0,
+    num_stories_above_grade=0,
+    num_stories_below_grade=0,
+)
+
 
 @pytest.fixture
 def sample_NBDM_BuildingSegmentGeometry() -> NBDM_BuildingSegmentGeometry:
@@ -88,73 +106,70 @@ def sample_NBDM_BuildingSegmentGeometry() -> NBDM_BuildingSegmentGeometry:
 
 
 sample_SiteEnergy = NBDM_SiteEnergy(
-        consumption_gas = 0.0,
-        consumption_electricity = 0.0,
-        consumption_district_heat = 0.0,
-        consumption_other = 0.0,
-        production_solar_photovoltaic = 0.0,
-        production_solar_thermal = 0.0,
-        production_other = 0.0,
-    )
+    consumption_gas=0.0,
+    consumption_electricity=0.0,
+    consumption_district_heat=0.0,
+    consumption_other=0.0,
+    production_solar_photovoltaic=0.0,
+    production_solar_thermal=0.0,
+    production_other=0.0,
+)
 
 sample_SourceEnergy = NBDM_SourceEnergy(
-        consumption_gas = 0.0,
-        consumption_electricity = 0.0,
-        consumption_district_heat = 0.0,
-        consumption_other = 0.0,
-        production_solar_photovoltaic = 0.0,
-        production_solar_thermal = 0.0,
-        production_other = 0.0,
-    )
+    consumption_gas=0.0,
+    consumption_electricity=0.0,
+    consumption_district_heat=0.0,
+    consumption_other=0.0,
+    production_solar_photovoltaic=0.0,
+    production_solar_thermal=0.0,
+    production_other=0.0,
+)
 
 sample_AnnualHeatingDemand = NBDM_AnnualHeatingDemandEnergy(
-    annual_demand = 0.0,
-    losses_transmission = 0.0,
-    losses_ventilation = 0.0,
-    gains_solar = 0.0,
-    gains_internal = 0.0,
-    utilization_factor = 0.0,
-    gains_useful = 0.0,
+    annual_demand=0.0,
+    losses_transmission=0.0,
+    losses_ventilation=0.0,
+    gains_solar=0.0,
+    gains_internal=0.0,
+    utilization_factor=0.0,
+    gains_useful=0.0,
 )
 
 sample_AnnualCoolingDemand = NBDM_AnnualCoolingDemandEnergy(
-    annual_demand = 0.0,
-    losses_transmission = 0.0,
-    losses_ventilation = 0.0,
-    utilization_factor = 0.0,
-    losses_useful = 0.0,
-    gains_solar = 0.0,
-    gains_internal = 0.0,
+    annual_demand=0.0,
+    losses_transmission=0.0,
+    losses_ventilation=0.0,
+    utilization_factor=0.0,
+    losses_useful=0.0,
+    gains_solar=0.0,
+    gains_internal=0.0,
 )
 
 sample_PeakHeatingLoad = NBDM_PeakHeatingLoad(
-    peak_load = 0.0,
-    losses_transmission = 0.0,
-    losses_ventilation = 0.0,
-    gains_solar = 0.0,
-    gains_internal = 0.0,
-    utilization_factor = 0.0,
-    gains_useful = 0.0,
- )
+    peak_load=0.0,
+    losses_transmission=0.0,
+    losses_ventilation=0.0,
+    gains_solar=0.0,
+    gains_internal=0.0,
+)
 
 sample_PeakSensibleCoolingLoad = NBDM_PeakSensibleCoolingLoad(
-    peak_load = 0.0,
-    losses_transmission = 0.0,
-    losses_ventilation = 0.0,
-    utilization_factor = 0.0,
-    losses_useful = 0.0,
-    gains_solar = 0.0,
-    gains_internal = 0.0,
- )
+    peak_load=0.0,
+    losses_transmission=0.0,
+    losses_ventilation=0.0,
+    gains_solar=0.0,
+    gains_internal=0.0,
+)
 
 sample_BuildingSegmentPerformance = NBDM_BuildingSegmentPerformance(
-        site_energy = sample_SiteEnergy,
-        source_energy = sample_SourceEnergy,
-        annual_heating_energy_demand = sample_AnnualHeatingDemand,
-        annual_cooling_energy_demand = sample_AnnualCoolingDemand,
-        peak_heating_load = sample_PeakHeatingLoad,
-        peak_sensible_cooling_load = sample_PeakSensibleCoolingLoad,
-    )
+    site_energy=sample_SiteEnergy,
+    source_energy=sample_SourceEnergy,
+    annual_heating_energy_demand=sample_AnnualHeatingDemand,
+    annual_cooling_energy_demand=sample_AnnualCoolingDemand,
+    peak_heating_load=sample_PeakHeatingLoad,
+    peak_sensible_cooling_load=sample_PeakSensibleCoolingLoad,
+)
+
 
 @pytest.fixture
 def sample_NBDM_BuildingSegmentPerformance() -> NBDM_BuildingSegmentPerformance:
@@ -164,17 +179,26 @@ def sample_NBDM_BuildingSegmentPerformance() -> NBDM_BuildingSegmentPerformance:
 # -- Building -----------------------------------------------------------------
 
 
-sample_BuildingSegment = NBDM_BuildingSegment(
-    segment_name = "",
-    geometry = sample_BuildingSegmentGeometry,
-    occupancy = sample_BuildingSegmentOccupancy,
-    performance = sample_BuildingSegmentPerformance,
+sample_BuildingSegment_A = NBDM_BuildingSegment(
+    segment_name="A First Bldg Segment",
+    geometry=sample_BuildingSegmentGeometry,
+    occupancy=sample_BuildingSegmentOccupancy_A,
+    performance=sample_BuildingSegmentPerformance,
+)
+
+sample_BuildingSegment_B = NBDM_BuildingSegment(
+    segment_name="A Different Bldg Segment",
+    geometry=sample_BuildingSegmentGeometry,
+    occupancy=sample_BuildingSegmentOccupancy_B,
+    performance=sample_BuildingSegmentPerformance,
 )
 
 sample_Building = NBDM_Building(
-    building_name = "", 
+    building_name="",
 )
-sample_Building.add_building_segment(sample_BuildingSegment)
+sample_Building.add_building_segment(sample_BuildingSegment_A)
+sample_Building.add_building_segment(sample_BuildingSegment_B)
+
 
 @pytest.fixture
 def sample_NBDM_Building() -> NBDM_Building:
@@ -185,21 +209,22 @@ def sample_NBDM_Building() -> NBDM_Building:
 
 
 sample_Variant = NBDM_Variant(
-    variant_name = "",
-    building = sample_Building,
+    variant_name="",
+    building=sample_Building,
 )
 
 sample_Variants = NBDM_Variants(
-    proposed = sample_Variant,
-    baseline = sample_Variant,
+    proposed=sample_Variant,
+    baseline=sample_Variant,
 )
 
 sample_Project = NBDM_Project(
-    project_name = "test_proejct_name",
-    client = "test_client_name",
-    site = sample_Site,
-    variants = sample_Variants,
+    project_name="A Test Project Name",
+    client="A Test Client Name",
+    site=sample_Site,
+    variants=sample_Variants,
 )
+
 
 @pytest.fixture
 def sample_NBDM_Project() -> NBDM_Project:

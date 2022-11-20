@@ -15,36 +15,39 @@ class NBDM_ProjectAddress:
     city: str
     state: str
     zip_code: str
-    
+
     @classmethod
-    def from_dict(cls, _d: Dict) -> 'NBDM_ProjectAddress':
+    def from_dict(cls, _d: Dict) -> "NBDM_ProjectAddress":
         obj = cls(
-            number = _d['number'],
-            street = _d['street'],
-            city = _d['city'],
-            state = _d['state'],
-            zip_code = _d['zip_code'],
+            number=_d["number"],
+            street=_d["street"],
+            city=_d["city"],
+            state=_d["state"],
+            zip_code=_d["zip_code"],
         )
-        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(vars(obj).keys(), _d.keys())
+        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(
+            vars(obj).keys(), _d.keys()
+        )
         return obj
 
 
 @dataclass
 class NBDM_Climate:
-    zone_ashrae: int
-    zone_passive_house: int
+    zone_ashrae: str
+    zone_passive_house: str
     source: str
-    
-    @classmethod
-    def from_dict(cls, _d: Dict) -> 'NBDM_Climate':
-        obj = cls(
-            zone_ashrae = _d['zone_ashrae'],
-            zone_passive_house = _d['zone_passive_house'],
-            source = _d['source'],
-        )
-        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(vars(obj).keys(), _d.keys())
-        return obj
 
+    @classmethod
+    def from_dict(cls, _d: Dict) -> "NBDM_Climate":
+        obj = cls(
+            zone_ashrae=_d["zone_ashrae"],
+            zone_passive_house=_d["zone_passive_house"],
+            source=_d["source"],
+        )
+        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(
+            vars(obj).keys(), _d.keys()
+        )
+        return obj
 
 
 @dataclass
@@ -52,15 +55,17 @@ class NBDM_Location:
     address: NBDM_ProjectAddress
     longitude: float
     latitude: float
-    
+
     @classmethod
-    def from_dict(cls, _d: Dict) -> 'NBDM_Location':
+    def from_dict(cls, _d: Dict) -> "NBDM_Location":
         obj = cls(
-            address = _d['address'],
-            longitude = _d['longitude'],
-            latitude = _d['latitude'],
+            address=NBDM_ProjectAddress.from_dict(_d["address"]),
+            longitude=_d["longitude"],
+            latitude=_d["latitude"],
         )
-        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(vars(obj).keys(), _d.keys())
+        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(
+            vars(obj).keys(), _d.keys()
+        )
         return obj
 
 
@@ -70,10 +75,12 @@ class NBDM_Site:
     location: NBDM_Location
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> 'NBDM_Site':
+    def from_dict(cls, _d: Dict) -> "NBDM_Site":
         obj = cls(
-            climate = _d['climate'],
-            location = _d['location'],
+            climate=NBDM_Climate.from_dict(_d["climate"]),
+            location=NBDM_Location.from_dict(_d["location"]),
         )
-        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(vars(obj).keys(), _d.keys())
+        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(
+            vars(obj).keys(), _d.keys()
+        )
         return obj

@@ -1,22 +1,22 @@
 {
-    "project_name": "test_proejct_name",
-    "client": "test_client_name",
+    "project_name": "A Test Project Name",
+    "client": "A Test Client Name",
     "site": {
         "climate": {
-            "zone_ashrae": 0,
-            "zone_passive_house": 0,
-            "source": ""
+            "zone_ashrae": "4a",
+            "zone_passive_house": "4",
+            "source": "The internet"
         },
         "location": {
             "address": {
-                "number": "",
-                "street": "",
-                "city": "",
-                "state": "",
-                "zip_code": ""
+                "number": "486",
+                "street": "3rd Ave.",
+                "city": "Brooklyn",
+                "state": "NY",
+                "zip_code": "11215"
             },
-            "longitude": 0.0,
-            "latitude": 0.0
+            "longitude": -73.2,
+            "latitude": 40.1
         }
     },
     "variants": {
@@ -24,9 +24,9 @@
             "variant_name": "",
             "building": {
                 "building_name": "",
-                "building_segments": [
-                    {
-                        "segment_name": "",
+                "_building_segments": {
+                    "A First Bldg Segment": {
+                        "segment_name": "A First Bldg Segment",
                         "geometry": {
                             "area_envelope": 0.0,
                             "area_floor_area_gross": 0.0,
@@ -39,13 +39,13 @@
                             "num_stories_below_grade": 0
                         },
                         "occupancy": {
-                            "total_dwelling_units": 0,
-                            "num_apartments_studio": 0,
-                            "num_apartments_1_br": 0,
-                            "num_apartments_2_br": 0,
-                            "num_apartments_3_br": 0,
-                            "num_apartments_4_br": 0,
-                            "total_occupants": 0
+                            "total_dwelling_units": 2,
+                            "num_apartments_studio": 2,
+                            "num_apartments_1_br": 1,
+                            "num_apartments_2_br": 2,
+                            "num_apartments_3_br": 2,
+                            "num_apartments_4_br": 2,
+                            "total_occupants": 10
                         },
                         "performance": {
                             "site_energy": {
@@ -89,31 +89,102 @@
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "gains_solar": 0.0,
+                                "gains_internal": 0.0
+                            },
+                            "peak_sensible_cooling_load": {
+                                "peak_load": 0.0,
+                                "losses_transmission": 0.0,
+                                "losses_ventilation": 0.0,
+                                "gains_solar": 0.0,
+                                "gains_internal": 0.0
+                            }
+                        }
+                    },
+                    "A Different Bldg Segment": {
+                        "segment_name": "A Different Bldg Segment",
+                        "geometry": {
+                            "area_envelope": 0.0,
+                            "area_floor_area_gross": 0.0,
+                            "area_floor_area_net_interior_weighted": 0.0,
+                            "area_floor_area_interior_parking": 0.0,
+                            "volume_gross": 0.0,
+                            "volume_net_interior": 0.0,
+                            "total_stories": 0,
+                            "num_stories_above_grade": 0,
+                            "num_stories_below_grade": 0
+                        },
+                        "occupancy": {
+                            "total_dwelling_units": 1,
+                            "num_apartments_studio": 2,
+                            "num_apartments_1_br": 3,
+                            "num_apartments_2_br": 4,
+                            "num_apartments_3_br": 5,
+                            "num_apartments_4_br": 6,
+                            "total_occupants": 23
+                        },
+                        "performance": {
+                            "site_energy": {
+                                "consumption_gas": 0.0,
+                                "consumption_electricity": 0.0,
+                                "consumption_district_heat": 0.0,
+                                "consumption_other": 0.0,
+                                "production_solar_photovoltaic": 0.0,
+                                "production_solar_thermal": 0.0,
+                                "production_other": 0.0
+                            },
+                            "source_energy": {
+                                "consumption_gas": 0.0,
+                                "consumption_electricity": 0.0,
+                                "consumption_district_heat": 0.0,
+                                "consumption_other": 0.0,
+                                "production_solar_photovoltaic": 0.0,
+                                "production_solar_thermal": 0.0,
+                                "production_other": 0.0
+                            },
+                            "annual_heating_energy_demand": {
+                                "annual_demand": 0.0,
+                                "losses_transmission": 0.0,
+                                "losses_ventilation": 0.0,
+                                "gains_solar": 0.0,
                                 "gains_internal": 0.0,
                                 "utilization_factor": 0.0,
                                 "gains_useful": 0.0
                             },
-                            "peak_sensible_cooling_load": {
-                                "peak_load": 0.0,
+                            "annual_cooling_energy_demand": {
+                                "annual_demand": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "utilization_factor": 0.0,
                                 "losses_useful": 0.0,
                                 "gains_solar": 0.0,
                                 "gains_internal": 0.0
+                            },
+                            "peak_heating_load": {
+                                "peak_load": 0.0,
+                                "losses_transmission": 0.0,
+                                "losses_ventilation": 0.0,
+                                "gains_solar": 0.0,
+                                "gains_internal": 0.0
+                            },
+                            "peak_sensible_cooling_load": {
+                                "peak_load": 0.0,
+                                "losses_transmission": 0.0,
+                                "losses_ventilation": 0.0,
+                                "gains_solar": 0.0,
+                                "gains_internal": 0.0
                             }
                         }
                     }
-                ]
+                }
             }
         },
         "baseline": {
             "variant_name": "",
             "building": {
                 "building_name": "",
-                "building_segments": [
-                    {
-                        "segment_name": "",
+                "_building_segments": {
+                    "A First Bldg Segment": {
+                        "segment_name": "A First Bldg Segment",
                         "geometry": {
                             "area_envelope": 0.0,
                             "area_floor_area_gross": 0.0,
@@ -126,13 +197,13 @@
                             "num_stories_below_grade": 0
                         },
                         "occupancy": {
-                            "total_dwelling_units": 0,
-                            "num_apartments_studio": 0,
-                            "num_apartments_1_br": 0,
-                            "num_apartments_2_br": 0,
-                            "num_apartments_3_br": 0,
-                            "num_apartments_4_br": 0,
-                            "total_occupants": 0
+                            "total_dwelling_units": 2,
+                            "num_apartments_studio": 2,
+                            "num_apartments_1_br": 1,
+                            "num_apartments_2_br": 2,
+                            "num_apartments_3_br": 2,
+                            "num_apartments_4_br": 2,
+                            "total_occupants": 10
                         },
                         "performance": {
                             "site_energy": {
@@ -176,22 +247,93 @@
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "gains_solar": 0.0,
+                                "gains_internal": 0.0
+                            },
+                            "peak_sensible_cooling_load": {
+                                "peak_load": 0.0,
+                                "losses_transmission": 0.0,
+                                "losses_ventilation": 0.0,
+                                "gains_solar": 0.0,
+                                "gains_internal": 0.0
+                            }
+                        }
+                    },
+                    "A Different Bldg Segment": {
+                        "segment_name": "A Different Bldg Segment",
+                        "geometry": {
+                            "area_envelope": 0.0,
+                            "area_floor_area_gross": 0.0,
+                            "area_floor_area_net_interior_weighted": 0.0,
+                            "area_floor_area_interior_parking": 0.0,
+                            "volume_gross": 0.0,
+                            "volume_net_interior": 0.0,
+                            "total_stories": 0,
+                            "num_stories_above_grade": 0,
+                            "num_stories_below_grade": 0
+                        },
+                        "occupancy": {
+                            "total_dwelling_units": 1,
+                            "num_apartments_studio": 2,
+                            "num_apartments_1_br": 3,
+                            "num_apartments_2_br": 4,
+                            "num_apartments_3_br": 5,
+                            "num_apartments_4_br": 6,
+                            "total_occupants": 23
+                        },
+                        "performance": {
+                            "site_energy": {
+                                "consumption_gas": 0.0,
+                                "consumption_electricity": 0.0,
+                                "consumption_district_heat": 0.0,
+                                "consumption_other": 0.0,
+                                "production_solar_photovoltaic": 0.0,
+                                "production_solar_thermal": 0.0,
+                                "production_other": 0.0
+                            },
+                            "source_energy": {
+                                "consumption_gas": 0.0,
+                                "consumption_electricity": 0.0,
+                                "consumption_district_heat": 0.0,
+                                "consumption_other": 0.0,
+                                "production_solar_photovoltaic": 0.0,
+                                "production_solar_thermal": 0.0,
+                                "production_other": 0.0
+                            },
+                            "annual_heating_energy_demand": {
+                                "annual_demand": 0.0,
+                                "losses_transmission": 0.0,
+                                "losses_ventilation": 0.0,
+                                "gains_solar": 0.0,
                                 "gains_internal": 0.0,
                                 "utilization_factor": 0.0,
                                 "gains_useful": 0.0
                             },
-                            "peak_sensible_cooling_load": {
-                                "peak_load": 0.0,
+                            "annual_cooling_energy_demand": {
+                                "annual_demand": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "utilization_factor": 0.0,
                                 "losses_useful": 0.0,
                                 "gains_solar": 0.0,
                                 "gains_internal": 0.0
+                            },
+                            "peak_heating_load": {
+                                "peak_load": 0.0,
+                                "losses_transmission": 0.0,
+                                "losses_ventilation": 0.0,
+                                "gains_solar": 0.0,
+                                "gains_internal": 0.0
+                            },
+                            "peak_sensible_cooling_load": {
+                                "peak_load": 0.0,
+                                "losses_transmission": 0.0,
+                                "losses_ventilation": 0.0,
+                                "gains_solar": 0.0,
+                                "gains_internal": 0.0
                             }
                         }
                     }
-                ]
+                }
             }
         }
     }

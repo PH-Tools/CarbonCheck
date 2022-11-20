@@ -1,0 +1,8 @@
+ladybug-core
+honeybee-core
+honeybee-energy
+honeybee-ph
+PH-units
+PHX
+rich
+xlwings

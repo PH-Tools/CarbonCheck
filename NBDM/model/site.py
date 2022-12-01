@@ -6,29 +6,21 @@
 
 from dataclasses import dataclass
 from typing import Dict
+from NBDM.model import serialization
 
 
 @dataclass
 class NBDM_ProjectAddress:
-    number: str
-    street: str
+    building_number: str
+    street_name: str
     city: str
     state: str
     zip_code: str
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_ProjectAddress":
-        obj = cls(
-            number=_d["number"],
-            street=_d["street"],
-            city=_d["city"],
-            state=_d["state"],
-            zip_code=_d["zip_code"],
-        )
-        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(
-            vars(obj).keys(), _d.keys()
-        )
-        return obj
+        attr_dict = serialization.build_attr_dict(cls, _d)
+        return cls(**attr_dict)
 
 
 @dataclass
@@ -39,15 +31,8 @@ class NBDM_Climate:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_Climate":
-        obj = cls(
-            zone_ashrae=_d["zone_ashrae"],
-            zone_passive_house=_d["zone_passive_house"],
-            source=_d["source"],
-        )
-        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(
-            vars(obj).keys(), _d.keys()
-        )
-        return obj
+        attr_dict = serialization.build_attr_dict(cls, _d)
+        return cls(**attr_dict)
 
 
 @dataclass
@@ -58,15 +43,8 @@ class NBDM_Location:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_Location":
-        obj = cls(
-            address=NBDM_ProjectAddress.from_dict(_d["address"]),
-            longitude=_d["longitude"],
-            latitude=_d["latitude"],
-        )
-        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(
-            vars(obj).keys(), _d.keys()
-        )
-        return obj
+        attr_dict = serialization.build_attr_dict(cls, _d)
+        return cls(**attr_dict)
 
 
 @dataclass
@@ -76,11 +54,5 @@ class NBDM_Site:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_Site":
-        obj = cls(
-            climate=NBDM_Climate.from_dict(_d["climate"]),
-            location=NBDM_Location.from_dict(_d["location"]),
-        )
-        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(
-            vars(obj).keys(), _d.keys()
-        )
-        return obj
+        attr_dict = serialization.build_attr_dict(cls, _d)
+        return cls(**attr_dict)

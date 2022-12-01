@@ -4,55 +4,95 @@
 """NBDM Project Classes."""
 
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from NBDM.model.building import NBDM_Building
 from NBDM.model.site import NBDM_Site
 from NBDM.model.building import NBDM_BuildingSegment
+from NBDM.model.team import NBDM_Team
+from NBDM.model import serialization
 
 
 @dataclass
 class NBDM_Variant:
+    """A single 'Variant' with building data"""
+
     variant_name: str
     building: NBDM_Building
 
     def get_building_segment(self, _name: str) -> NBDM_BuildingSegment:
+        """Retrieve a specific Building-Segment by name."""
         return self.building.get_building_segment(_name)
+
+    @property
+    def building_segments(self) -> List[NBDM_BuildingSegment]:
+        """Return a list with all the Building-Segments in alphabetical order."""
+        return self.building.building_segments
+
+    @property
+    def building_segment_names(self) -> List[str]:
+        """Return a list of all the Building-Segment names in alphabetical order."""
+        return self.building.building_segment_names
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_Variant":
-        obj = cls(
-            variant_name=_d["variant_name"],
-            building=NBDM_Building.from_dict(_d["building"]),
-        )
-        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(
-            vars(obj).keys(), _d.keys()
-        )
-        return obj
+        attr_dict = serialization.build_attr_dict(cls, _d)
+        return cls(**attr_dict)
 
 
 @dataclass
 class NBDM_Variants:
+    """A group of 2 variants: 'Proposed' and 'Baseline'."""
+
     proposed: NBDM_Variant
     baseline: NBDM_Variant
 
     @property
-    def building_segment_names(self) -> List[str]:
-        baseline_bldg_seg_names = self.baseline.building.building_segment_names
-        proposed_bldg_seg_names = self.proposed.building.building_segment_names
-        assert baseline_bldg_seg_names == proposed_bldg_seg_names
-        return baseline_bldg_seg_names
+    def building_segment_names_baseline(self) -> List[str]:
+        """Return a list of the Baseline Building-Segment Names."""
+        return self.baseline.building_segment_names
+
+    @property
+    def building_segment_names_proposed(self) -> List[str]:
+        """Return a list of the Proposed Building-Segment Names."""
+        return self.proposed.building_segment_names
+
+    @property
+    def building_segments_baseline(self) -> List[NBDM_BuildingSegment]:
+        """Return a list of the Baseline Building-Segments."""
+        return self.baseline.building_segments
+
+    @property
+    def building_segments_proposed(self) -> List[NBDM_BuildingSegment]:
+        """Return a list of the Proposed Building-Segments."""
+        return self.proposed.building_segments
+
+    def check_building_segments_match(self) -> None:
+        """Raise Error if the Baseline/Proposed Building Segment orders do not match."""
+        error_msg = (
+            f"\n\tError: The Baseline Building Segments:\n\t{self.building_segment_names_baseline}"
+            f"\n\tdo not match the Proposed Building Segments:\n\t{self.building_segment_names_proposed}?"
+        )
+
+        assert (
+            self.building_segment_names_baseline == self.building_segment_names_proposed
+        ), error_msg
+
+    @property
+    def building_segments(
+        self,
+    ) -> List[Tuple[NBDM_BuildingSegment, NBDM_BuildingSegment]]:
+        """Return all building segments in a list of tuples: (baseline, proposed)"""
+        self.check_building_segments_match()
+
+        return list(
+            zip(self.building_segments_baseline, self.building_segments_proposed)
+        )
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_Variants":
-        obj = cls(
-            proposed=NBDM_Variant.from_dict(_d["proposed"]),
-            baseline=NBDM_Variant.from_dict(_d["baseline"]),
-        )
-        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(
-            vars(obj).keys(), _d.keys()
-        )
-        return obj
+        attr_dict = serialization.build_attr_dict(cls, _d)
+        return cls(**attr_dict)
 
     def __iter__(self):
         for _ in (self.proposed, self.baseline):
@@ -61,24 +101,44 @@ class NBDM_Variants:
 
 @dataclass
 class NBDM_Project:
+    """A single Project with site, client and building data."""
+
     project_name: str
     client: str
+    salesforce_num: str
+    report_date: str
+    team: NBDM_Team
     site: NBDM_Site
     variants: NBDM_Variants
 
     @property
-    def building_segment_names(self) -> List[str]:
-        return self.variants.building_segment_names
+    def building_segment_names_baseline(self) -> List[str]:
+        """Return a list of all the Baseline Building Segment Names"""
+        return self.variants.building_segment_names_baseline
+
+    @property
+    def building_segments_baseline(self) -> List[NBDM_BuildingSegment]:
+        """Return a list of all the Baseline Building Segments"""
+        return self.variants.building_segments_baseline
+
+    @property
+    def building_segment_names_proposed(self) -> List[str]:
+        """Return a list of all the Proposed Building Segment Names"""
+        return self.variants.building_segment_names_proposed
+
+    @property
+    def building_segments_proposed(self) -> List[NBDM_BuildingSegment]:
+        """Return a list of all the Proposed Building Segments"""
+        return self.variants.building_segments_proposed
+
+    @property
+    def building_segments(
+        self,
+    ) -> List[Tuple[NBDM_BuildingSegment, NBDM_BuildingSegment]]:
+        """Return all building segments in a list of tuples: (baseline, proposed)"""
+        return self.variants.building_segments
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_Project":
-        obj = cls(
-            project_name=_d["project_name"],
-            client=_d["client"],
-            site=NBDM_Site.from_dict(_d["site"]),
-            variants=NBDM_Variants.from_dict(_d["variants"]),
-        )
-        assert vars(obj).keys() == _d.keys(), "Error: Key mismatch: {} <--> {}".format(
-            vars(obj).keys(), _d.keys()
-        )
-        return obj
+        attr_dict = serialization.build_attr_dict(cls, _d)
+        return cls(**attr_dict)

@@ -1,6 +1,58 @@
 {
     "project_name": "A Test Project Name",
     "client": "A Test Client Name",
+    "salesforce_num": "0123-4567-89",
+    "report_date": "Some Date",
+    "team": {
+        "site_owner": {
+            "name": "A sample team member",
+            "contact_info": {
+                "building_number": "str",
+                "street_name": "str",
+                "city": "str",
+                "state": "str",
+                "zip_code": "str",
+                "phone": "str",
+                "email": "str"
+            }
+        },
+        "designer": {
+            "name": "A sample team member",
+            "contact_info": {
+                "building_number": "str",
+                "street_name": "str",
+                "city": "str",
+                "state": "str",
+                "zip_code": "str",
+                "phone": "str",
+                "email": "str"
+            }
+        },
+        "contractor": {
+            "name": "A sample team member",
+            "contact_info": {
+                "building_number": "str",
+                "street_name": "str",
+                "city": "str",
+                "state": "str",
+                "zip_code": "str",
+                "phone": "str",
+                "email": "str"
+            }
+        },
+        "primary_energy_consultant": {
+            "name": "A sample team member",
+            "contact_info": {
+                "building_number": "str",
+                "street_name": "str",
+                "city": "str",
+                "state": "str",
+                "zip_code": "str",
+                "phone": "str",
+                "email": "str"
+            }
+        }
+    },
     "site": {
         "climate": {
             "zone_ashrae": "4a",
@@ -9,8 +61,8 @@
         },
         "location": {
             "address": {
-                "number": "486",
-                "street": "3rd Ave.",
+                "building_number": "486",
+                "street_name": "3rd Ave.",
                 "city": "Brooklyn",
                 "state": "NY",
                 "zip_code": "11215"
@@ -28,15 +80,15 @@
                     "A First Bldg Segment": {
                         "segment_name": "A First Bldg Segment",
                         "geometry": {
-                            "area_envelope": 0.0,
-                            "area_floor_area_gross": 0.0,
-                            "area_floor_area_net_interior_weighted": 0.0,
-                            "area_floor_area_interior_parking": 0.0,
-                            "volume_gross": 0.0,
-                            "volume_net_interior": 0.0,
-                            "total_stories": 0,
-                            "num_stories_above_grade": 0,
-                            "num_stories_below_grade": 0
+                            "area_envelope": 100.0,
+                            "area_floor_area_gross": 100.0,
+                            "area_floor_area_net_interior_weighted": 113.0,
+                            "area_floor_area_interior_parking": 114.0,
+                            "volume_gross": 115.0,
+                            "volume_net_interior": 116.0,
+                            "total_stories": 8,
+                            "num_stories_above_grade": 7,
+                            "num_stories_below_grade": 1
                         },
                         "occupancy": {
                             "total_dwelling_units": 2,
@@ -103,15 +155,15 @@
                     "A Different Bldg Segment": {
                         "segment_name": "A Different Bldg Segment",
                         "geometry": {
-                            "area_envelope": 0.0,
-                            "area_floor_area_gross": 0.0,
-                            "area_floor_area_net_interior_weighted": 0.0,
-                            "area_floor_area_interior_parking": 0.0,
-                            "volume_gross": 0.0,
-                            "volume_net_interior": 0.0,
-                            "total_stories": 0,
-                            "num_stories_above_grade": 0,
-                            "num_stories_below_grade": 0
+                            "area_envelope": 100.0,
+                            "area_floor_area_gross": 100.0,
+                            "area_floor_area_net_interior_weighted": 113.0,
+                            "area_floor_area_interior_parking": 114.0,
+                            "volume_gross": 115.0,
+                            "volume_net_interior": 116.0,
+                            "total_stories": 8,
+                            "num_stories_above_grade": 7,
+                            "num_stories_below_grade": 1
                         },
                         "occupancy": {
                             "total_dwelling_units": 1,
@@ -186,15 +238,15 @@
                     "A First Bldg Segment": {
                         "segment_name": "A First Bldg Segment",
                         "geometry": {
-                            "area_envelope": 0.0,
-                            "area_floor_area_gross": 0.0,
-                            "area_floor_area_net_interior_weighted": 0.0,
-                            "area_floor_area_interior_parking": 0.0,
-                            "volume_gross": 0.0,
-                            "volume_net_interior": 0.0,
-                            "total_stories": 0,
-                            "num_stories_above_grade": 0,
-                            "num_stories_below_grade": 0
+                            "area_envelope": 100.0,
+                            "area_floor_area_gross": 100.0,
+                            "area_floor_area_net_interior_weighted": 113.0,
+                            "area_floor_area_interior_parking": 114.0,
+                            "volume_gross": 115.0,
+                            "volume_net_interior": 116.0,
+                            "total_stories": 8,
+                            "num_stories_above_grade": 7,
+                            "num_stories_below_grade": 1
                         },
                         "occupancy": {
                             "total_dwelling_units": 2,
@@ -261,15 +313,15 @@
                     "A Different Bldg Segment": {
                         "segment_name": "A Different Bldg Segment",
                         "geometry": {
-                            "area_envelope": 0.0,
-                            "area_floor_area_gross": 0.0,
-                            "area_floor_area_net_interior_weighted": 0.0,
-                            "area_floor_area_interior_parking": 0.0,
-                            "volume_gross": 0.0,
-                            "volume_net_interior": 0.0,
-                            "total_stories": 0,
-                            "num_stories_above_grade": 0,
-                            "num_stories_below_grade": 0
+                            "area_envelope": 100.0,
+                            "area_floor_area_gross": 100.0,
+                            "area_floor_area_net_interior_weighted": 113.0,
+                            "area_floor_area_interior_parking": 114.0,
+                            "volume_gross": 115.0,
+                            "volume_net_interior": 116.0,
+                            "total_stories": 8,
+                            "num_stories_above_grade": 7,
+                            "num_stories_below_grade": 1
                         },
                         "occupancy": {
                             "total_dwelling_units": 1,

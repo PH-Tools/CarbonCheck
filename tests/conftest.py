@@ -17,14 +17,14 @@ from NBDM.model.performance import (
 )
 from NBDM.model.project import NBDM_Project, NBDM_Variant, NBDM_Variants
 from NBDM.model.site import NBDM_Climate, NBDM_Location, NBDM_Site, NBDM_ProjectAddress
-
+from NBDM.model.team import NBDM_Team, NBDM_TeamContactInfo, NBDM_TeamMember
 
 # -- Project Site -------------------------------------------------------------
 
 
 sample_ProjectAddress = NBDM_ProjectAddress(
-    number="486",
-    street="3rd Ave.",
+    building_number="486",
+    street_name="3rd Ave.",
     city="Brooklyn",
     state="NY",
     zip_code="11215",
@@ -85,15 +85,15 @@ def sample_NBDM_BuildingSegmentOccupancy() -> NBDM_BuildingSegmentOccupancy:
 
 
 sample_BuildingSegmentGeometry = NBDM_BuildingSegmentGeometry(
-    area_envelope=0.0,
-    area_floor_area_gross=0.0,
-    area_floor_area_net_interior_weighted=0.0,
-    area_floor_area_interior_parking=0.0,
-    volume_gross=0.0,
-    volume_net_interior=0.0,
-    total_stories=0,
-    num_stories_above_grade=0,
-    num_stories_below_grade=0,
+    area_envelope=100.0,
+    area_floor_area_gross=100.0,
+    area_floor_area_net_interior_weighted=113.0,
+    area_floor_area_interior_parking=114.0,
+    volume_gross=115.0,
+    volume_net_interior=116.0,
+    total_stories=8,
+    num_stories_above_grade=7,
+    num_stories_below_grade=1,
 )
 
 
@@ -205,6 +205,31 @@ def sample_NBDM_Building() -> NBDM_Building:
     return sample_Building
 
 
+# -- Team ---------------------------------------------------------------------
+
+sample_contact_a = NBDM_TeamContactInfo(
+    building_number="str",
+    street_name="str",
+    city="str",
+    state="str",
+    zip_code="str",
+    phone="str",
+    email="str",
+)
+
+sample_team_member_a = NBDM_TeamMember(
+    name="A sample team member",
+    contact_info=sample_contact_a,
+)
+
+sample_Team = NBDM_Team(
+    site_owner=sample_team_member_a,
+    designer=sample_team_member_a,
+    contractor=sample_team_member_a,
+    primary_energy_consultant=sample_team_member_a,
+)
+
+
 # -- Project ------------------------------------------------------------------
 
 
@@ -221,7 +246,10 @@ sample_Variants = NBDM_Variants(
 sample_Project = NBDM_Project(
     project_name="A Test Project Name",
     client="A Test Client Name",
+    salesforce_num="0123-4567-89",
+    report_date="Some Date",
     site=sample_Site,
+    team=sample_Team,
     variants=sample_Variants,
 )
 

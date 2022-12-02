@@ -24,24 +24,39 @@ class OutputReport:
         with self.xl.in_silent_mode():
             self.xl.create_new_worksheet(self.sheet_name)
 
+            # -----------------------------------------------------------------
             # -- 1) Write out the Project site and data
-            row_num = 0
+            row_num = 1
             for xl_item in as_xl_items.Project(self.sheet_name, row_num, _nbdm_project):
                 self.xl.write_xl_item(xl_item)
                 row_num += 1
 
+            # -----------------------------------------------------------------
             # -- 2) Write out the projects's whole-building data
-            baseline_bldg, proposed_bldg = _nbdm_project.buildings
+            (
+                baseline_bldg,
+                proposed_bldg,
+                change_bldg,
+            ) = _nbdm_project.buildings_with_change
             for xl_item in as_xl_items.Building(
-                self.sheet_name, row_num, baseline_bldg, proposed_bldg
+                self.sheet_name,
+                row_num,
+                baseline_bldg,
+                proposed_bldg,
+                change_bldg,
             ):
                 self.xl.write_xl_item(xl_item)
                 row_num += 1
 
+            # -----------------------------------------------------------------
             # -- 3) Write out the project's detailed building-segment data
-            for baseline_seg, proposed_seg in _nbdm_project.building_segments:
+            for (
+                baseline_seg,
+                proposed_seg,
+                change_seg,
+            ) in _nbdm_project.building_segments_with_change:
                 for xl_item in as_xl_items.BuildingSegment(
-                    self.sheet_name, row_num, baseline_seg, proposed_seg
+                    self.sheet_name, row_num, baseline_seg, proposed_seg, change_seg
                 ):
                     self.xl.write_xl_item(xl_item)
                     row_num += 1

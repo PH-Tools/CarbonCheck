@@ -4,13 +4,14 @@
 """NBDM Project Classes."""
 
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 from NBDM.model.building import NBDM_Building
 from NBDM.model.site import NBDM_Site
 from NBDM.model.building import NBDM_BuildingSegment
 from NBDM.model.team import NBDM_Team
 from NBDM.model import serialization
+from NBDM.model import enums
 
 
 @dataclass
@@ -39,6 +40,16 @@ class NBDM_Variant:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
+    def __sub__(self, other: "NBDM_Variant") -> "NBDM_Variant":
+        return self.__class__(
+            variant_name=self.variant_name, building=self.building - other.building
+        )
+
+    def __add__(self, other: "NBDM_Variant") -> "NBDM_Variant":
+        return self.__class__(
+            variant_name=self.variant_name, building=self.building + other.building
+        )
+
 
 @dataclass
 class NBDM_Variants:
@@ -46,6 +57,16 @@ class NBDM_Variants:
 
     proposed: NBDM_Variant
     baseline: NBDM_Variant
+
+    @property
+    def change_from_baseline_variant(self) -> "NBDM_Variant":
+        """Return a new Variant with values representing the change from Baseline."""
+        variant = getattr(self, "_change_from_baseline", None)
+        if variant:
+            return variant
+        else:
+            self._change_from_baseline = self.baseline - self.proposed
+            return self._change_from_baseline
 
     @property
     def building_segment_names_baseline(self) -> List[str]:
@@ -90,9 +111,33 @@ class NBDM_Variants:
         )
 
     @property
+    def building_segments_with_change(self):
+        """Return all building segments in a list of tuples: (baseline, proposed, change)"""
+        self.check_building_segments_match()
+
+        return list(
+            zip(
+                self.building_segments_baseline,
+                self.building_segments_proposed,
+                self.change_from_baseline_variant.building_segments,
+            )
+        )
+
+    @property
     def buildings(self) -> Tuple[NBDM_Building, NBDM_Building]:
         """Return both buildings in a tuple: (baseline, proposed)"""
         return (self.baseline.building, self.proposed.building)
+
+    @property
+    def buildings_with_change(
+        self,
+    ) -> Tuple[NBDM_Building, NBDM_Building, NBDM_Building]:
+        """Return both buildings in a tuple, along with the 'change': (baseline, proposed, change)"""
+        return (
+            self.baseline.building,
+            self.proposed.building,
+            self.change_from_baseline_variant.building,
+        )
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_Variants":
@@ -112,6 +157,9 @@ class NBDM_Project:
     client: str
     salesforce_num: str
     report_date: str
+    nyc_ecc_year: enums.nyc_ecc_year
+    historic_preservation_site: bool
+    disadvantaged_communities: bool
     team: NBDM_Team
     site: NBDM_Site
     variants: NBDM_Variants
@@ -142,11 +190,25 @@ class NBDM_Project:
         return self.variants.buildings
 
     @property
+    def buildings_with_change(
+        self,
+    ) -> Tuple[NBDM_Building, NBDM_Building, NBDM_Building]:
+        """Return all buildings with change in a list of tuples: (baseline, proposed, change)"""
+        return self.variants.buildings_with_change
+
+    @property
     def building_segments(
         self,
     ) -> List[Tuple[NBDM_BuildingSegment, NBDM_BuildingSegment]]:
         """Return all building segments in a list of tuples: (baseline, proposed)"""
         return self.variants.building_segments
+
+    @property
+    def building_segments_with_change(
+        self,
+    ) -> List[Tuple[NBDM_BuildingSegment, NBDM_BuildingSegment, NBDM_BuildingSegment]]:
+        """Return all building segments with change in a list of tuples: (baseline, proposed, change)"""
+        return self.variants.building_segments_with_change
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_Project":

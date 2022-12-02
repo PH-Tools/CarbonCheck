@@ -1,4 +1,4 @@
-from enum import Enum, auto
+from enum import Enum
 
 
 class building_type(Enum):
@@ -7,6 +7,16 @@ class building_type(Enum):
 
 
 class construction_type(Enum):
-    NEW_CONSTRUCTION = auto()
-    ADAPTIVE_REUSE = auto()
-    GUT_REHAB = auto()
+    NEW_CONSTRUCTION = "New Construction"
+    ADAPTIVE_REUSE = "Adaptive Reuse"
+    GUT_REHAB = "Gut Rehab"
+
+
+class construction_method(Enum):
+    METHOD_A = "Method A"
+    METHOD_B = "Method B"
+
+
+class nyc_ecc_year(Enum):
+    _2019 = "2019"
+    _2023 = "2023"

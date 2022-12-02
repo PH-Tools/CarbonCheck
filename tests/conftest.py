@@ -10,6 +10,7 @@ from NBDM.model.performance import (
     NBDM_BuildingSegmentPerformance,
     NBDM_SiteEnergy,
     NBDM_SourceEnergy,
+    NBDM_EnergyCost,
     NBDM_AnnualHeatingDemandEnergy,
     NBDM_AnnualCoolingDemandEnergy,
     NBDM_PeakHeatingLoad,
@@ -66,6 +67,7 @@ sample_BuildingSegmentOccupancy_A = NBDM_BuildingSegmentOccupancy(
     num_apartments_4_br=2,
     total_occupants=10,
 )
+
 sample_BuildingSegmentOccupancy_B = NBDM_BuildingSegmentOccupancy(
     total_dwelling_units=1,
     num_apartments_studio=2,
@@ -126,6 +128,13 @@ sample_SourceEnergy = NBDM_SourceEnergy(
     production_other=0.0,
 )
 
+sample_EnergyCost = NBDM_EnergyCost(
+    cost_gas=100_000,
+    cost_electricity=100_000,
+    cost_district_heat=100_000,
+    cost_other_energy=100_000,
+)
+
 sample_AnnualHeatingDemand = NBDM_AnnualHeatingDemandEnergy(
     annual_demand=0.0,
     losses_transmission=0.0,
@@ -165,6 +174,7 @@ sample_PeakSensibleCoolingLoad = NBDM_PeakSensibleCoolingLoad(
 sample_BuildingSegmentPerformance = NBDM_BuildingSegmentPerformance(
     site_energy=sample_SiteEnergy,
     source_energy=sample_SourceEnergy,
+    energy_cost=sample_EnergyCost,
     annual_heating_energy_demand=sample_AnnualHeatingDemand,
     annual_cooling_energy_demand=sample_AnnualCoolingDemand,
     peak_heating_load=sample_PeakHeatingLoad,
@@ -182,6 +192,8 @@ def sample_NBDM_BuildingSegmentPerformance() -> NBDM_BuildingSegmentPerformance:
 
 sample_BuildingSegment_A = NBDM_BuildingSegment(
     segment_name="A First Bldg Segment",
+    construction_type=enums.construction_type.NEW_CONSTRUCTION,
+    construction_method=enums.construction_method.METHOD_A,
     geometry=sample_BuildingSegmentGeometry,
     occupancy=sample_BuildingSegmentOccupancy_A,
     performance=sample_BuildingSegmentPerformance,
@@ -189,6 +201,8 @@ sample_BuildingSegment_A = NBDM_BuildingSegment(
 
 sample_BuildingSegment_B = NBDM_BuildingSegment(
     segment_name="A Different Bldg Segment",
+    construction_type=enums.construction_type.NEW_CONSTRUCTION,
+    construction_method=enums.construction_method.METHOD_A,
     geometry=sample_BuildingSegmentGeometry,
     occupancy=sample_BuildingSegmentOccupancy_B,
     performance=sample_BuildingSegmentPerformance,
@@ -198,6 +212,7 @@ sample_Building = NBDM_Building(
     building_name="A Sample Building",
     building_type=enums.building_type.MULTIFAMILY,
 )
+
 sample_Building.add_building_segment(sample_BuildingSegment_A)
 sample_Building.add_building_segment(sample_BuildingSegment_B)
 
@@ -250,6 +265,9 @@ sample_Project = NBDM_Project(
     client="A Test Client Name",
     salesforce_num="0123-4567-89",
     report_date="Some Date",
+    nyc_ecc_year=enums.nyc_ecc_year._2019,
+    historic_preservation_site=False,
+    disadvantaged_communities=False,
     site=sample_Site,
     team=sample_Team,
     variants=sample_Variants,

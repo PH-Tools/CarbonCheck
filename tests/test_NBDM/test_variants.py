@@ -1,5 +1,4 @@
 from dataclasses import asdict
-import pytest
 from NBDM.model.project import NBDM_Project, NBDM_Variants, NBDM_Variant
 
 
@@ -37,3 +36,12 @@ def test_variants_bldg_segments_individual(sample_NBDM_Project: NBDM_Project):
 def test_variants_bldg_segments(sample_NBDM_Project: NBDM_Project):
     for seg_a, seg_b in sample_NBDM_Project.variants.building_segments:
         assert seg_a.segment_name == seg_b.segment_name
+
+
+def test_change_from_baseline_variant(sample_NBDM_Project: NBDM_Project):
+    baseline_var = sample_NBDM_Project.variants.baseline
+    change_var = sample_NBDM_Project.variants.change_from_baseline_variant
+
+    assert change_var.variant_name == baseline_var.variant_name
+    assert len(change_var.building_segments) == len(baseline_var.building_segments)
+    assert change_var.building_segment_names == baseline_var.building_segment_names

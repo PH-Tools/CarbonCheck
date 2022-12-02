@@ -1,4 +1,5 @@
 from dataclasses import asdict
+from copy import copy
 import pytest
 from NBDM.model.project import NBDM_Project, NBDM_Variant
 
@@ -43,3 +44,14 @@ def test_variant_building_segments(sample_NBDM_Project: NBDM_Project):
     assert len(segments) == len(
         sample_NBDM_Project.variants.baseline.building_segment_names
     )
+
+
+def test_subtract_variants(sample_NBDM_Project: NBDM_Project):
+    var_1 = copy(sample_NBDM_Project.variants.baseline)
+    var_2 = copy(sample_NBDM_Project.variants.proposed)
+
+    var_3 = var_1 - var_2
+
+    assert var_3.variant_name == var_1.variant_name
+    assert var_3.building_segment_names == var_1.building_segment_names
+    assert len(var_3.building_segment_names) == len(var_1.building_segment_names)

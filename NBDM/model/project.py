@@ -89,6 +89,11 @@ class NBDM_Variants:
             zip(self.building_segments_baseline, self.building_segments_proposed)
         )
 
+    @property
+    def buildings(self) -> Tuple[NBDM_Building, NBDM_Building]:
+        """Return both buildings in a tuple: (baseline, proposed)"""
+        return (self.baseline.building, self.proposed.building)
+
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_Variants":
         attr_dict = serialization.build_attr_dict(cls, _d)
@@ -130,6 +135,11 @@ class NBDM_Project:
     def building_segments_proposed(self) -> List[NBDM_BuildingSegment]:
         """Return a list of all the Proposed Building Segments"""
         return self.variants.building_segments_proposed
+
+    @property
+    def buildings(self) -> Tuple[NBDM_Building, NBDM_Building]:
+        """Return all buildings in a list of tuples: (baseline, proposed)"""
+        return self.variants.buildings
 
     @property
     def building_segments(

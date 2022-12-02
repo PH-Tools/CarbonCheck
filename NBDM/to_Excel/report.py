@@ -30,7 +30,15 @@ class OutputReport:
                 self.xl.write_xl_item(xl_item)
                 row_num += 1
 
-            # -- 2) Write out the project's detailed building-segment data
+            # -- 2) Write out the projects's whole-building data
+            baseline_bldg, proposed_bldg = _nbdm_project.buildings
+            for xl_item in as_xl_items.Building(
+                self.sheet_name, row_num, baseline_bldg, proposed_bldg
+            ):
+                self.xl.write_xl_item(xl_item)
+                row_num += 1
+
+            # -- 3) Write out the project's detailed building-segment data
             for baseline_seg, proposed_seg in _nbdm_project.building_segments:
                 for xl_item in as_xl_items.BuildingSegment(
                     self.sheet_name, row_num, baseline_seg, proposed_seg

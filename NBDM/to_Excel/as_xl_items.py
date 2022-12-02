@@ -5,6 +5,7 @@
 
 from dataclasses import dataclass
 from typing import Optional, List, Union, Dict, Tuple
+from enum import Enum
 
 from NBDM.model import project, building
 from NBDM.to_Excel.xl_data import XlItem
@@ -64,6 +65,25 @@ project_attributes = {
         ("Climate Data Source", "source"),
     ),
     "NBDM_Variants": (),
+}
+
+bldg_attributes = {
+    "NBDM_Building": (
+        ("Building Name", "building_name"),
+        ("Building Type", "building_type"),
+        ("Geometry", "geometry"),
+    ),
+    "NBDM_BuildingSegmentGeometry": (
+        ("Envelope Area", "area_envelope"),
+        ("Gross Floor Area", "area_floor_area_gross"),
+        ("Net Interior Floor Area", "area_floor_area_net_interior_weighted"),
+        ("Interior Parking Floor Area", "area_floor_area_interior_parking"),
+        ("Gross Volume", "volume_gross"),
+        ("Net Interior Volume", "volume_net_interior"),
+        ("Num. Stories", "total_stories"),
+        ("Num. Stories Above Grade", "num_stories_above_grade"),
+        ("Num. Stories Below Grade", "num_stories_below_grade"),
+    ),
 }
 
 bldg_segment_attributes = {
@@ -183,7 +203,7 @@ def build_row_data(
     """Return all the data from the NBDM Object Tree."""
 
     row_data = []
-    xl_range_value = (type(None), str, float, int)  # Can be written to XL
+    xl_rng_val = (type(None), str, float, int)  # Can be written to XL directly
 
     def walk_object(
         _baseline_obj, _proposed_obj, _start_row: int, _level: int
@@ -198,13 +218,24 @@ def build_row_data(
             if attr_name.startswith("_"):
                 continue
 
-            attr_baseline = getattr(_baseline_obj, attr_name, None)
-            attr_proposed = getattr(_proposed_obj, attr_name, None)
+            attr_bsln = getattr(_baseline_obj, attr_name, None)
+            attr_prpsd = getattr(_proposed_obj, attr_name, None)
 
-            if isinstance(attr_baseline, xl_range_value):
+            if isinstance(attr_bsln, xl_rng_val) and isinstance(attr_prpsd, xl_rng_val):
                 row_num += 1
                 row_data.append(
-                    RowData(row_num, attr_display_name, attr_baseline, attr_proposed, 0)
+                    RowData(row_num, attr_display_name, attr_bsln, attr_prpsd, 0)
+                )
+            elif isinstance(attr_bsln, Enum) and isinstance(attr_prpsd, Enum):
+                row_num += 1
+                row_data.append(
+                    RowData(
+                        row_num,
+                        attr_display_name,
+                        attr_bsln.value,
+                        attr_prpsd.value,
+                        0,
+                    )
                 )
             else:
                 # -- Add in a Blank break line
@@ -215,9 +246,7 @@ def build_row_data(
                 row_num += 1
                 level += 1
                 row_data.append(RowData(row_num, attr_display_name, None, None, level))
-                row_num, level = walk_object(
-                    attr_baseline, attr_proposed, row_num, level
-                )
+                row_num, level = walk_object(attr_bsln, attr_prpsd, row_num, level)
 
         return row_num, level
 
@@ -269,6 +298,57 @@ def Project(
     return xl_items
 
 
+def Building(
+    _sheet_name: str,
+    _start_row: int,
+    _s_baseline: building.NBDM_Building,
+    _s_proposed: building.NBDM_Building,
+) -> List[XlItem]:
+    xl_items = []
+
+    # -- Add a Heading / Break line
+    _start_row += 1
+    xl_items.append(
+        XlItem(
+            _sheet_name,
+            f"A{_start_row}",
+            [None, None, None],
+            range_color=COLOR_BACKGROUND_DATA,
+        )
+    )
+    _start_row += 1
+    xl_items.append(
+        XlItem(
+            _sheet_name,
+            f"A{_start_row}",
+            ["WHOLE BUILDING", None, None],
+            range_color=COLOR_BACKGROUND_HEADING,
+            font_color=COLOR_FONT_HEADING,
+        )
+    )
+
+    # -- Create the row data from the Objects
+    row_data_list = build_row_data(
+        _s_baseline, _s_proposed, _start_row, bldg_attributes
+    )
+
+    # -- Create XL-Items from the Row-Data
+    for row_data in row_data_list:
+        xl_items.append(
+            XlItem(
+                _sheet_name,
+                f"A{row_data.row_number}",
+                [
+                    row_data.display_name,
+                    row_data.value_baseline,
+                    row_data.value_proposed,
+                ],
+                range_color=row_data.range_color,
+            )
+        )
+    return xl_items
+
+
 def BuildingSegment(
     _sheet_name: str,
     _start_row: int,
@@ -276,7 +356,9 @@ def BuildingSegment(
     _s_proposed: building.NBDM_BuildingSegment,
 ) -> List[XlItem]:
     """Return an NBDM Building Segment's data as a List of XLItems."""
+
     xl_items = []
+
     # -- Add a Heading / Break line
     _start_row += 1
     xl_items.append(
@@ -303,7 +385,7 @@ def BuildingSegment(
         _s_baseline, _s_proposed, _start_row, bldg_segment_attributes
     )
 
-    # -- Crate XL-Items from the Row-Data
+    # -- Create XL-Items from the Row-Data
     for row_data in row_data_list:
         xl_items.append(
             XlItem(

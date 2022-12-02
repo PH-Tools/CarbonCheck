@@ -1,5 +1,6 @@
 from dataclasses import asdict
 from NBDM.model.building import NBDM_Building, NBDM_BuildingSegment
+from NBDM.model import enums
 
 
 def test_building(sample_NBDM_Building):
@@ -27,6 +28,7 @@ def test_building_segment_to_dict(sample_NBDM_Building: NBDM_Building):
 def test_bldg_segment_alphabetical_order(sample_NBDM_Building: NBDM_Building):
     sample_Building = NBDM_Building(
         building_name="A Sample Building",
+        building_type=enums.building_type.MULTIFAMILY,
     )
     segment_names_in_alpha_order = sorted(
         [seg.segment_name for seg in sample_Building.building_segments]

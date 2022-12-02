@@ -18,6 +18,7 @@ from NBDM.model.performance import (
 from NBDM.model.project import NBDM_Project, NBDM_Variant, NBDM_Variants
 from NBDM.model.site import NBDM_Climate, NBDM_Location, NBDM_Site, NBDM_ProjectAddress
 from NBDM.model.team import NBDM_Team, NBDM_TeamContactInfo, NBDM_TeamMember
+from NBDM.model import enums
 
 # -- Project Site -------------------------------------------------------------
 
@@ -194,7 +195,8 @@ sample_BuildingSegment_B = NBDM_BuildingSegment(
 )
 
 sample_Building = NBDM_Building(
-    building_name="",
+    building_name="A Sample Building",
+    building_type=enums.building_type.MULTIFAMILY,
 )
 sample_Building.add_building_segment(sample_BuildingSegment_A)
 sample_Building.add_building_segment(sample_BuildingSegment_B)

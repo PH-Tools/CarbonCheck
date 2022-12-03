@@ -7,18 +7,22 @@ from typing import Optional, Callable, Text, List
 from contextlib import contextmanager
 import os
 
-import xlwings as xw
-
 from NBDM.to_Excel import xl_data
-
+from NBDM.to_Excel.xl_typing import (
+    xl_Framework_Protocol,
+    xl_Book_Protocol,
+    xl_Sheet_Protocol,
+)
 
 # -----------------------------------------------------------------------------
+# -- Exceptions
 
 
 class ReadRowsError(Exception):
     def __init__(self, row_start, row_end):
         self.msg = (
-            f"Error: row_start should be less than row_end. Got {row_start}, {row_end}"
+            f"Error: row_start should be less than "
+            f"row_end. Got {row_start}, {row_end}"
         )
         super().__init__(self.msg)
 
@@ -44,10 +48,10 @@ class ReadMultipleColumnsError(Exception):
 class WriteValueError(Exception):
     def __init__(self, _value, _range, _worksheet, _e):
         self.msg = (
-            "\n\n\tSomething went wrong trying to write the value: '{}' to the cell: '{}' on worksheet: '{}'. Please "
-            "make sure that a valid PHPP file is open, and both the worksheet and workbook are unprotected.\n\n{}".format(
-                _value, _range, _worksheet, _e
-            )
+            f"\n\n\tSomething went wrong trying to write the value: '{_value}' to the "
+            f"cell: '{_range}' on worksheet: '{_worksheet}'. Please make sure that a "
+            f"valid PHPP file is open, and both the worksheet and workbook are "
+            f"unprotected.\n\n{_e}"
         )
         super().__init__(self.msg)
 
@@ -56,15 +60,16 @@ class WriteValueError(Exception):
 
 
 class XLConnection:
-    def __init__(self, _output: Optional[Callable] = None) -> None:
+    def __init__(self, xl_framework, output: Optional[Callable] = None) -> None:
         """Facade class for Excel Interop
 
         Arguments:
         ----------
             * _output: Optional[Callable]: The output functions to use. Input None for silent.
         """
-
-        self._output = _output
+        # -- Note: can not type-hint argument line cus' 3.7 doesn't have Protocols
+        self.xl: xl_Framework_Protocol = xl_framework
+        self._output = output
 
     def output(self, _input: Text) -> None:
         """Used to set the output method. Default is None (silent).
@@ -84,9 +89,9 @@ class XLConnection:
             pass
 
     @property
-    def wb(self) -> xw.main.Book:
+    def wb(self) -> xl_Book_Protocol:
         try:
-            return xw.books.active
+            return self.xl.books.active
         except:
             raise NoActiveExcelRunningError
 
@@ -130,7 +135,7 @@ class XLConnection:
 
         self.get_sheet_by_name(_sheet_name).clear()
 
-    def get_sheet_by_name(self, _sheet_name: str) -> xw.main.Sheet:
+    def get_sheet_by_name(self, _sheet_name: str) -> xl_Sheet_Protocol:
         """Returns an Excel Sheet with the specified name, or KeyError if not found.
 
         Arguments:

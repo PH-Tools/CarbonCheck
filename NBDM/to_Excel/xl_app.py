@@ -3,7 +3,7 @@
 
 """Class for managing the XL-Connection and common read/write operations."""
 
-from typing import Optional, Callable, Text, List
+from typing import Optional, Callable, Text, List, Any
 from contextlib import contextmanager
 import os
 
@@ -31,7 +31,8 @@ class NoActiveExcelRunningError(Exception):
     def __init__(self):
         self.msg = (
             "\n\tError: No active instance of Excel running?"
-            "\n\tPlease open Excel and try again."
+            "\n\tPlease open"
+            "Excel and try again."
         )
         super().__init__(self.msg)
 
@@ -57,17 +58,26 @@ class WriteValueError(Exception):
 
 
 # -----------------------------------------------------------------------------
+def silent_print(_input: Any) -> None:
+    """Default 'output' for XLConnection."""
+    return
 
 
 class XLConnection:
-    def __init__(self, xl_framework, output: Optional[Callable] = None) -> None:
-        """Facade class for Excel Interop
+    def __init__(
+        self, xl_framework, output: Callable[[Any], None] = silent_print
+    ) -> None:
+        """Facade class for Excel Interop.
 
         Arguments:
         ----------
-            * _output: Optional[Callable]: The output functions to use. Input None for silent.
+            * xl (xl_Framework_Protocol): The Excel framework to use to interact with XL.
+            * _output (Callable[[Any], None]): The output function to use.
+                Default is silent (no output), or provide 'print' for standard-out, etc.
         """
-        # -- Note: can not type-hint argument line cus' 3.7 doesn't have Protocols
+        # -- Note: can not type-hint xl_framework in the Class argument line
+        # -- cus' Python-3.7 doesn't have Protocols yet. It does see to work
+        # -- when type-hinting the actual attribute though.
         self.xl: xl_Framework_Protocol = xl_framework
         self._output = output
 
@@ -90,6 +100,7 @@ class XLConnection:
 
     @property
     def wb(self) -> xl_Book_Protocol:
+        """Return the active XL Workbook, or raise NoActiveExcelRunningError."""
         try:
             return self.xl.books.active
         except:
@@ -112,11 +123,6 @@ class XLConnection:
             self.wb.app.calculation = "automatic"
             self.wb.app.calculate()
 
-    def connection_is_open(self) -> bool:
-        if not self.wb:
-            return False
-        return True
-
     def unprotect_all_sheets(self) -> None:
         """Walk through all the sheets and unprotect them all."""
         for sheet in self.wb.sheets:
@@ -129,9 +135,9 @@ class XLConnection:
         """Try and add a new Worksheet to the Workbook."""
         try:
             self.wb.sheets.add(_sheet_name)
-            print(f"Adding '{_sheet_name}' to Workbook")
+            self.output(f"Adding '{_sheet_name}' to Workbook")
         except ValueError:
-            print(f"Worksheet '{_sheet_name}' already in Workbook.")
+            self.output(f"Worksheet '{_sheet_name}' already in Workbook.")
 
         self.get_sheet_by_name(_sheet_name).clear()
 

@@ -106,9 +106,7 @@ class NBDM_Variants:
         """Return all building segments in a list of tuples: (baseline, proposed)"""
         self.check_building_segments_match()
 
-        return list(
-            zip(self.building_segments_baseline, self.building_segments_proposed)
-        )
+        return list(zip(self.building_segments_baseline, self.building_segments_proposed))
 
     @property
     def building_segments_with_change(self):

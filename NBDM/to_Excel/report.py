@@ -18,9 +18,6 @@ class OutputReport:
     def write_NBDM_Project(self, _nbdm_project: project.NBDM_Project) -> None:
         """Write out a an NBDM Project to an Excel Worksheet."""
 
-        if not self.xl.connection_is_open():
-            raise xl_app.NoActiveExcelRunningError()
-
         with self.xl.in_silent_mode():
             self.xl.create_new_worksheet(self.sheet_name)
 

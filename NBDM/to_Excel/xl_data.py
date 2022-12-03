@@ -86,9 +86,7 @@ class XlItem:
                 for v in self._write_value
             ]
         else:
-            return converter.convert(
-                self._write_value, self.input_unit, self.target_unit
-            )
+            return converter.convert(self._write_value, self.input_unit, self.target_unit)
 
     def __str__(self):
         return f"{self.__class__.__name__}({self.sheet_name}, {self.xl_range}, {self.write_value})"

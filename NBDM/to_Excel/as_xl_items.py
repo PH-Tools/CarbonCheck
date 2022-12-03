@@ -427,9 +427,7 @@ def build_row_data(
 # -----------------------------------------------------------------------------
 
 
-def Project(
-    _sheet_name: str, _start_row: int, _p: project.NBDM_Project
-) -> List[XlItem]:
+def Project(_sheet_name: str, _start_row: int, _p: project.NBDM_Project) -> List[XlItem]:
     """Return the NBDM_Project's data as a list of XLItems."""
 
     # -- Add a Top-Level Heading row

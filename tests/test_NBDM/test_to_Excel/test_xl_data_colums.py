@@ -1,4 +1,4 @@
-from PHX.to_PHPP import xl_data
+from NBDM.to_Excel import xl_data
 
 
 def test_xl_ord():

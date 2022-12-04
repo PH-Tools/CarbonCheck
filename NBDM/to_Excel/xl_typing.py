@@ -3,7 +3,7 @@
 
 """XL-App Protocol Behavior Classes."""
 
-from typing import Optional, Dict, Tuple
+from typing import Optional, Dict, Tuple, Any
 
 from NBDM.to_Excel import xl_data
 
@@ -18,11 +18,16 @@ class xl_app_Protocol:
         return None
 
 
+class xl_Range_Font:
+    def __init__(self):
+        self.color: Optional[Tuple[int, ...]]
+
+
 class xl_Range_Protocol:
     def __init__(self):
         self.value: xl_data.xl_writable
         self.color: Optional[Tuple[int, ...]]
-        self.font: ...
+        self.font: xl_Range_Font = xl_Range_Font()
 
     def offset(self, row_offset: int = 0, column_offset: int = 0) -> "xl_Range_Protocol":
         return xl_Range_Protocol()
@@ -43,12 +48,18 @@ class xl_Sheet_Protocol:
     def __init__(self):
         self.api = xl_API_Protocol(self)
         self.protected = True
+        self._ranges = {}
 
     def clear(self) -> None:
         return None
 
-    def range(self, cell1, cell2=None) -> xl_Range_Protocol:
-        return xl_Range_Protocol()
+    def range(self, cell1: str, cell2: Optional[str] = None) -> xl_Range_Protocol:
+        if cell1 in self._ranges.keys():
+            return self._ranges[cell1]
+        else:
+            rng_obj = xl_Range_Protocol()
+            self._ranges[cell1] = rng_obj
+            return rng_obj
 
 
 class xl_Sheets_Protocol:

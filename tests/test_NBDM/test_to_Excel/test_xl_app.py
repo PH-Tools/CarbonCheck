@@ -120,9 +120,51 @@ def test_xl_app_get_sheet_by_name():
 # Writing
 
 
-def test_xl_app_write_simple_value():
+@pytest.mark.parametrize("test_input", [100_000, 1, 0, -1, -100_000])
+def test_xl_app_write_int_value(test_input):
     mock_xw = Mock_XL_Framework()
     app = xl_app.XLConnection(xl_framework=mock_xw)
 
-    xl_item = xl_data.XlItem("Sheet1", "A1", 1)
+    xl_item = xl_data.XlItem("Sheet1", "A1", test_input)
     app.write_xl_item(xl_item)
+
+    assert app.get_sheet_by_name("Sheet1").range("A1").value == test_input
+
+
+@pytest.mark.parametrize("test_input", ["test", "another", ""])
+def test_xl_app_write_string_value(test_input):
+    mock_xw = Mock_XL_Framework()
+    app = xl_app.XLConnection(xl_framework=mock_xw)
+
+    xl_item = xl_data.XlItem("Sheet1", "A1", test_input)
+    app.write_xl_item(xl_item)
+
+    assert app.get_sheet_by_name("Sheet1").range("A1").value == test_input
+
+
+def test_xl_app_write_list_of_ints():
+    mock_xw = Mock_XL_Framework()
+    app = xl_app.XLConnection(xl_framework=mock_xw)
+
+    xl_item = xl_data.XlItem("Sheet1", "A1", [1, 2, 3, 4])
+    app.write_xl_item(xl_item)
+
+    assert app.get_sheet_by_name("Sheet1").range("A1").value == [1, 2, 3, 4]
+
+
+def test_xl_app_write_raise_Attribute_error():
+    mock_xw = Mock_XL_Framework()
+    app = xl_app.XLConnection(xl_framework=mock_xw)
+
+    xl_item = None  # Not an Excel Item
+    with pytest.raises(AttributeError):
+        app.write_xl_item(xl_item)
+
+
+def test_xl_app_write_raise_WriteValue_error():
+    mock_xw = Mock_XL_Framework()
+    app = xl_app.XLConnection(xl_framework=mock_xw)
+
+    xl_item = xl_data.XlItem(None, "A1", [1, 2, 3, 4])  # Bad Excel Item
+    with pytest.raises(xl_app.WriteValueError):
+        app.write_xl_item(xl_item)

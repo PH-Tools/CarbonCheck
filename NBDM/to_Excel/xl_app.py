@@ -51,7 +51,7 @@ class WriteValueError(Exception):
         self.msg = (
             f"\n\n\tSomething went wrong trying to write the value: '{_value}' to the "
             f"cell: '{_range}' on worksheet: '{_worksheet}'. Please make sure that a "
-            f"valid PHPP file is open, and both the worksheet and workbook are "
+            f"valid Excel file is open, and both the worksheet and workbook are "
             f"unprotected.\n\n{_e}"
         )
         super().__init__(self.msg)
@@ -179,7 +179,8 @@ class XLConnection:
             else:
                 xl_range.color = _xl_item.range_color
                 xl_range.font.color = _xl_item.font_color
-
+        except AttributeError as e:
+            raise AttributeError(e)
         except Exception as e:
             raise WriteValueError(
                 _xl_item.write_value, _xl_item.xl_range, _xl_item.sheet_name, e

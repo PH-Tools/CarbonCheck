@@ -3,57 +3,70 @@
 
 """Excel report generator / writer."""
 
+from typing import Tuple
+
 from NBDM.to_Excel import xl_app
-from NBDM.model import project
+from NBDM.model.project import NBDM_Project
+from NBDM.model.building import NBDM_BuildingSegment
 from NBDM.to_Excel import as_xl_items
+from NBDM.to_Excel.xl_typing import xl_Sheet_Protocol
 
 
 class OutputReport:
-    def __init__(self, _xl: xl_app.XLConnection):
+    """The Excel Output Report object with write-capability."""
 
-        # -- Setup the Excel connection and facade object
+    def __init__(self, _xl: xl_app.XLConnection, _sheet_name: str):
         self.xl = _xl
-        self.sheet_name = "NBDM"
+        self.worksheet = _sheet_name
 
-    def write_NBDM_Project(self, _nbdm_project: project.NBDM_Project) -> None:
-        """Write out a an NBDM Project to an Excel Worksheet."""
+    @property
+    def worksheet(self) -> xl_Sheet_Protocol:
+        """Return the Worksheet to write to."""
+        return self._worksheet
 
-        with self.xl.in_silent_mode():
-            self.xl.create_new_worksheet(self.sheet_name)
+    @worksheet.setter
+    def worksheet(self, _sheet_name: str):
+        """Set the write worksheet by name. Will create the worksheet if it does not exist."""
+        self.xl.create_new_worksheet(_sheet_name)
+        self._worksheet = self.xl.get_sheet_by_name(_sheet_name)
 
-            # -----------------------------------------------------------------
-            # -- 1) Write out the Project site and data
-            row_num = 1
-            for xl_item in as_xl_items.Project(self.sheet_name, row_num, _nbdm_project):
-                self.xl.write_xl_item(xl_item)
-                row_num += 1
+    def write_NBDM_Project(self, _nbdm_project: NBDM_Project, row_num: int) -> int:
+        """Write out a an NBDM Project's data"""
 
-            # -----------------------------------------------------------------
-            # -- 2) Write out the projects's whole-building data
-            (
-                baseline_bldg,
-                proposed_bldg,
-                change_bldg,
-            ) = _nbdm_project.buildings_with_change
-            for xl_item in as_xl_items.Building(
-                self.sheet_name,
-                row_num,
-                baseline_bldg,
-                proposed_bldg,
-                change_bldg,
-            ):
-                self.xl.write_xl_item(xl_item)
-                row_num += 1
+        xl_items = as_xl_items.Project(self.worksheet.name, row_num, _nbdm_project)
+        for xl_item in xl_items:
+            self.xl.write_xl_item(xl_item)
+            row_num += 1
+        return row_num
 
-            # -----------------------------------------------------------------
-            # -- 3) Write out the project's detailed building-segment data
-            for (
-                baseline_seg,
-                proposed_seg,
-                change_seg,
-            ) in _nbdm_project.building_segments_with_change:
-                for xl_item in as_xl_items.BuildingSegment(
-                    self.sheet_name, row_num, baseline_seg, proposed_seg, change_seg
-                ):
-                    self.xl.write_xl_item(xl_item)
-                    row_num += 1
+    def write_NBDM_WholeBuilding(self, _nbdm_project: NBDM_Project, row_num: int) -> int:
+        """Write out the projects's whole-building data."""
+
+        building = _nbdm_project.buildings_with_change
+        # building = Tuple[baseline, proposed, change]
+        xl_items = as_xl_items.Building(self.worksheet.name, row_num, *building)
+        for xl_item in xl_items:
+            self.xl.write_xl_item(xl_item)
+            row_num += 1
+        return row_num
+
+    def write_NBDM_BuildingSegment(
+        self, _segment: Tuple[NBDM_BuildingSegment, ...], row_num: int
+    ) -> int:
+        """Write out a single BuildingSegment's data."""
+
+        xl_items = as_xl_items.BuildingSegment(self.worksheet.name, row_num, *_segment)
+        for xl_item in xl_items:
+            self.xl.write_xl_item(xl_item)
+            row_num += 1
+        return row_num
+
+    def write_NBDM_BuildingSegments(
+        self, _nbdm_project: NBDM_Project, row_num: int
+    ) -> int:
+        """Write out each of the projects's BuildingSegment data."""
+
+        for segment in _nbdm_project.building_segments_with_change:
+            # segment = Tuple[baseline, proposed, change]
+            row_num = self.write_NBDM_BuildingSegment(segment, row_num)
+        return row_num

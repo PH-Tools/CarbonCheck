@@ -49,6 +49,7 @@ class xl_Sheet_Protocol:
         self.api = xl_API_Protocol(self)
         self.protected = True
         self._ranges = {}
+        self.name: str
 
     def clear(self) -> None:
         return None

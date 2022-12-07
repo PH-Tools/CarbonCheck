@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+# -*- Python Version: 3.7 -*-
+
+"""Testing Excel Report Output."""
+
 import pathlib
 
 import xlwings as xw
@@ -17,5 +22,9 @@ from NBDM.to_Excel import report
 from NBDM.to_Excel import xl_app
 
 xl = xl_app.XLConnection(xl_framework=xw, output=print)
-output_report = report.OutputReport(_xl=xl)
-output_report.write_NBDM_Project(nbdm_project)
+output_report = report.OutputReport(_xl=xl, _sheet_name="NBDM")
+row_num = 1
+with xl.in_silent_mode():
+    row_num = output_report.write_NBDM_Project(nbdm_project, row_num)
+    row_num = output_report.write_NBDM_WholeBuilding(nbdm_project, row_num)
+    row_num = output_report.write_NBDM_BuildingSegments(nbdm_project, row_num)

@@ -1,7 +1,8 @@
 import pytest
 
-from NBDM.to_Excel import xl_app, xl_data
-from NBDM.to_Excel import xl_typing
+from NBDM.Excel import xl_app
+from NBDM.Excel import xl_data
+from NBDM.Excel import xl_typing
 
 
 # -- Mock XL Framework --------------------------------------------------------

@@ -7,8 +7,8 @@ from typing import Optional, Callable, Text, List, Any
 from contextlib import contextmanager
 import os
 
-from NBDM.to_Excel import xl_data
-from NBDM.to_Excel.xl_typing import (
+from NBDM.Excel import xl_data
+from NBDM.Excel.xl_typing import (
     xl_Framework_Protocol,
     xl_Book_Protocol,
     xl_Sheet_Protocol,

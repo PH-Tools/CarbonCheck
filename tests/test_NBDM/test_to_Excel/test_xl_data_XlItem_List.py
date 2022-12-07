@@ -1,5 +1,6 @@
 import pytest
-from NBDM.to_Excel import xl_data
+
+from NBDM.Excel import xl_data
 
 
 def test_xl_item_merge_none():

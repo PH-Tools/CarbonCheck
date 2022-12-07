@@ -7,8 +7,9 @@ from dataclasses import dataclass
 from typing import Optional, List, Union, Dict, Tuple, Any, Type
 from enum import Enum
 
+from NBDM.Excel import xl_data
 from NBDM.model import project, building
-from NBDM.to_Excel import xl_data, xl_format, xl_styles
+from NBDM.to_Excel import xl_format, xl_styles
 
 
 @dataclass

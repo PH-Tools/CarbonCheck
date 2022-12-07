@@ -19,7 +19,7 @@ nbdm_project = read.NBDM_Project_from_json_file(json_file)
 
 # # -- Write to Excel
 from NBDM.to_Excel import report
-from NBDM.to_Excel import xl_app
+from NBDM.Excel import xl_app
 
 xl = xl_app.XLConnection(xl_framework=xw, output=print)
 output_report = report.OutputReport(_xl=xl, _sheet_name="NBDM")

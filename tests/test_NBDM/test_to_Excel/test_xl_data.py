@@ -1,5 +1,6 @@
-from NBDM.to_Excel import xl_data
 import pytest
+
+from NBDM.Excel import xl_data
 
 
 def test_XlItem():

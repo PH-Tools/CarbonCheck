@@ -5,7 +5,7 @@
 
 from typing import Optional, Dict, Tuple, Any
 
-from NBDM.to_Excel import xl_data
+from NBDM.Excel import xl_data
 
 
 class xl_app_Protocol:

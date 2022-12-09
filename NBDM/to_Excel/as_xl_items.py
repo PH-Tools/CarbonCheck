@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 # -*- Python Version: 3.7 -*-
 
-"""Schemas to convert NBDM Objects into Excel Report writable items."""
+"""Functions to convert NBDM Project/Building/Segment objects into Excel Report writable items."""
 
 from dataclasses import dataclass
-from typing import Optional, List, Union, Dict, Tuple, Any, Type
-from enum import Enum
+from typing import Optional, List, Union, Tuple
 
-from NBDM.Excel import xl_data
+from PHX.xl import xl_data
+from NBDM.to_Excel import report_format, report_styles
 from NBDM.model import project, building
-from NBDM.to_Excel import xl_format, xl_styles
 
 
 @dataclass
@@ -22,8 +21,8 @@ class RowData:
     value_proposed: Optional[Union[str, float, int]] = None
     value_change: Optional[Union[str, float, int]] = None
     level: int = 0
-    range_color: Optional[Tuple[int, int, int]] = xl_styles.COLOR_BACKGROUND_DATA
-    font_color: Tuple[int, int, int] = xl_styles.COLOR_FONT_DATA
+    range_color: Optional[Tuple[int, int, int]] = report_styles.COLOR_BACKGROUND_DATA
+    font_color: Tuple[int, int, int] = report_styles.COLOR_FONT_DATA
 
     @classmethod
     def blank_line(cls, _row_number: int) -> "RowData":
@@ -47,8 +46,8 @@ class RowData:
             _heading_proposed,
             _heading_change,
         )
-        row.font_color = xl_styles.COLOR_FONT_HEADING_1
-        row.range_color = xl_styles.COLOR_BACKGROUND_HEADING_1
+        row.font_color = report_styles.COLOR_FONT_HEADING_1
+        row.range_color = report_styles.COLOR_BACKGROUND_HEADING_1
         return row
 
     @classmethod
@@ -68,8 +67,8 @@ class RowData:
             _heading_proposed,
             _heading_change,
         )
-        row.font_color = xl_styles.COLOR_FONT_HEADING_2
-        row.range_color = xl_styles.COLOR_BACKGROUND_HEADING_2
+        row.font_color = report_styles.COLOR_FONT_HEADING_2
+        row.range_color = report_styles.COLOR_BACKGROUND_HEADING_2
         return row
 
 
@@ -104,7 +103,7 @@ def build_row_data(
         return True
 
     def _get_object_format(_object):
-        return getattr(xl_format, f"Format_{_object.__class__.__name__}")
+        return getattr(report_format, f"Format_{_object.__class__.__name__}")
 
     # -------------------------------------------------------------------------
     def walk_object(
@@ -183,7 +182,7 @@ def Project(
 
     # -------------------------------------------------------------------------
     # -- Get all the row-data from the NBDM Objects
-    format = xl_format.Format_NBDM_Project
+    format = report_format.Format_NBDM_Project
     row_data_list.extend(
         build_row_data(
             _baseline_obj=_p,

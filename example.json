@@ -131,20 +131,19 @@
                                 "cost_other_energy": 100000
                             },
                             "annual_heating_energy_demand": {
-                                "annual_demand": 0.0,
+                                "heating_demand": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "gains_solar": 0.0,
                                 "gains_internal": 0.0,
-                                "utilization_factor": 0.0,
-                                "gains_useful": 0.0
+                                "utilization_factor": 0.0
                             },
                             "annual_cooling_energy_demand": {
-                                "annual_demand": 0.0,
+                                "sensible_cooling_demand": 0.0,
+                                "latent_cooling_demand": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "utilization_factor": 0.0,
-                                "losses_useful": 0.0,
                                 "gains_solar": 0.0,
                                 "gains_internal": 0.0
                             },
@@ -156,7 +155,8 @@
                                 "gains_internal": 0.0
                             },
                             "peak_sensible_cooling_load": {
-                                "peak_load": 0.0,
+                                "peak_load_sensible": 0.0,
+                                "peak_load_latent": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "gains_solar": 0.0,
@@ -214,20 +214,19 @@
                                 "cost_other_energy": 100000
                             },
                             "annual_heating_energy_demand": {
-                                "annual_demand": 0.0,
+                                "heating_demand": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "gains_solar": 0.0,
                                 "gains_internal": 0.0,
-                                "utilization_factor": 0.0,
-                                "gains_useful": 0.0
+                                "utilization_factor": 0.0
                             },
                             "annual_cooling_energy_demand": {
-                                "annual_demand": 0.0,
+                                "sensible_cooling_demand": 0.0,
+                                "latent_cooling_demand": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "utilization_factor": 0.0,
-                                "losses_useful": 0.0,
                                 "gains_solar": 0.0,
                                 "gains_internal": 0.0
                             },
@@ -239,7 +238,8 @@
                                 "gains_internal": 0.0
                             },
                             "peak_sensible_cooling_load": {
-                                "peak_load": 0.0,
+                                "peak_load_sensible": 0.0,
+                                "peak_load_latent": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "gains_solar": 0.0,
@@ -306,20 +306,19 @@
                                 "cost_other_energy": 100000
                             },
                             "annual_heating_energy_demand": {
-                                "annual_demand": 0.0,
+                                "heating_demand": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "gains_solar": 0.0,
                                 "gains_internal": 0.0,
-                                "utilization_factor": 0.0,
-                                "gains_useful": 0.0
+                                "utilization_factor": 0.0
                             },
                             "annual_cooling_energy_demand": {
-                                "annual_demand": 0.0,
+                                "sensible_cooling_demand": 0.0,
+                                "latent_cooling_demand": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "utilization_factor": 0.0,
-                                "losses_useful": 0.0,
                                 "gains_solar": 0.0,
                                 "gains_internal": 0.0
                             },
@@ -331,7 +330,8 @@
                                 "gains_internal": 0.0
                             },
                             "peak_sensible_cooling_load": {
-                                "peak_load": 0.0,
+                                "peak_load_sensible": 0.0,
+                                "peak_load_latent": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "gains_solar": 0.0,
@@ -389,20 +389,19 @@
                                 "cost_other_energy": 100000
                             },
                             "annual_heating_energy_demand": {
-                                "annual_demand": 0.0,
+                                "heating_demand": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "gains_solar": 0.0,
                                 "gains_internal": 0.0,
-                                "utilization_factor": 0.0,
-                                "gains_useful": 0.0
+                                "utilization_factor": 0.0
                             },
                             "annual_cooling_energy_demand": {
-                                "annual_demand": 0.0,
+                                "sensible_cooling_demand": 0.0,
+                                "latent_cooling_demand": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "utilization_factor": 0.0,
-                                "losses_useful": 0.0,
                                 "gains_solar": 0.0,
                                 "gains_internal": 0.0
                             },
@@ -414,7 +413,8 @@
                                 "gains_internal": 0.0
                             },
                             "peak_sensible_cooling_load": {
-                                "peak_load": 0.0,
+                                "peak_load_sensible": 0.0,
+                                "peak_load_latent": 0.0,
                                 "losses_transmission": 0.0,
                                 "losses_ventilation": 0.0,
                                 "gains_solar": 0.0,

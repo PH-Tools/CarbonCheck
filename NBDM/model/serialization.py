@@ -8,6 +8,16 @@ from dataclasses import fields
 from enum import Enum
 
 
+class FromDictException(Exception):
+    def __init__(self, _cls_name, _attr_name, _dict_keys):
+        self.message = (
+            f"\n\tError building{_cls_name} from dict."
+            f"\n\tThe attribute '{_attr_name}' is missing from "
+            f"in the dictionary keys: {_dict_keys} provided?"
+        )
+        super().__init__(self.message)
+
+
 def build_attr_dict(_cls: Any, _d: Dict) -> Dict:
     """Return a Dict of NBDM objects based on an input Dict.
 
@@ -17,13 +27,23 @@ def build_attr_dict(_cls: Any, _d: Dict) -> Dict:
     d = {}
 
     for field in fields(_cls):
+        if field.name not in _d.keys():
+            raise FromDictException(_cls.__name__, field.name, _d.keys())
+
         try:
             # -- If it is an object with a 'from_dict' method, call
             # -- the 'from_dict' method and pass along the data-dict
             d[field.name] = field.type.from_dict(_d[field.name])
         except AttributeError:
             # -- otherwise, just create a normal object
-            d[field.name] = field.type(_d[field.name])
+            try:
+                d[field.name] = field.type(_d[field.name])
+            except TypeError as e:
+                msg = (
+                    f"\n\tError: cannot use '{_d[field.name]}' for attribute "
+                    f"'{field.name}'? Expected value of type: {field.type} ?\n"
+                )
+                raise TypeError(msg + str(e))
 
     return d
 

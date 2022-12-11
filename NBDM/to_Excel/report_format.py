@@ -140,36 +140,26 @@ class Format_NBDM_EnergyCost:
 
 
 class Format_NBDM_AnnualHeatingDemandEnergy:
-    annual_demand = "Heating Demand"
-    losses_transmission = "Transmission Losses"
-    losses_ventilation = "Ventilation Losses"
-    gains_solar = "Solar Gain"
-    gains_internal = "Internal Gains"
-    utilization_factor = "Utilization Pattern"
-    gains_useful = "Useful Gains"
+    heating_demand = "Annual Heating Energy Demand"
+    losses_total = "Winter Heat Losses"
+    gains_total = "Winter Useful Heat Gains"
 
 
 class Format_NBDM_AnnualCoolingDemandEnergy:
-    annual_demand = "Cooling Demand"
-    losses_transmission = "Transmission Losses"
-    losses_ventilation = "Ventilation Losses"
-    utilization_factor = "Utilization Pattern"
-    losses_useful = "Useful Losses"
-    gains_solar = "Solar Gain"
-    gains_internal = "Internal Gains"
+    sensible_cooling_demand = "Annual Sensible Cooling Energy Demand"
+    latent_cooling_demand = "Annual Latent Cooling Energy Demand"
+    losses_total = "Summer Useful Heat Losses"
+    gains_total = "Summer Heat Gains"
 
 
 class Format_NBDM_PeakHeatingLoad:
     peak_load = "Peak Heating Load"
-    losses_transmission = "Transmission Losses"
-    losses_ventilation = "Ventilation Losses"
-    gains_solar = "Solar Gain"
-    gains_internal = "Internal Gains"
+    losses_total = "Total Peak Heat Losses"
+    gains_total = "Total Peak Heat Gains"
 
 
-class Format_NBDM_PeakSensibleCoolingLoad:
-    peak_load = "Peak Cooling Load"
-    losses_transmission = "Transmission Losses"
-    losses_ventilation = "Ventilation Losses"
-    gains_solar = "Solar Gain"
-    gains_internal = "Internal Gains"
+class Format_NBDM_PeakCoolingLoad:
+    peak_load_sensible = "Peak Sensible Cooling Load"
+    peak_load_latent = "Peak Latent Cooling Load"
+    losses_total = "Total Peak Sensible Cooling Losses"
+    gains_total = "Total Peak Sensible Cooling Gains"

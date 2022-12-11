@@ -74,13 +74,20 @@ class NBDM_SourceEnergy:
 
 @dataclass
 class NBDM_AnnualHeatingDemandEnergy:
-    annual_demand: float
+    heating_demand: float
     losses_transmission: float
     losses_ventilation: float
     gains_solar: float
     gains_internal: float
     utilization_factor: float
-    gains_useful: float
+
+    @property
+    def losses_total(self) -> float:
+        return self.losses_transmission + self.losses_ventilation
+
+    @property
+    def gains_total(self) -> float:
+        return (self.gains_internal + self.gains_solar) * self.utilization_factor
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_AnnualHeatingDemandEnergy":
@@ -100,13 +107,23 @@ class NBDM_AnnualHeatingDemandEnergy:
 
 @dataclass
 class NBDM_AnnualCoolingDemandEnergy:
-    annual_demand: float
+    sensible_cooling_demand: float
+    latent_cooling_demand: float
     losses_transmission: float
     losses_ventilation: float
     utilization_factor: float
-    losses_useful: float
     gains_solar: float
     gains_internal: float
+
+    @property
+    def losses_total(self) -> float:
+        return (
+            self.losses_transmission + self.losses_ventilation
+        ) * self.utilization_factor
+
+    @property
+    def gains_total(self) -> float:
+        return self.gains_solar + self.gains_internal
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_AnnualCoolingDemandEnergy":
@@ -132,6 +149,14 @@ class NBDM_PeakHeatingLoad:
     gains_solar: float
     gains_internal: float
 
+    @property
+    def losses_total(self) -> float:
+        return self.losses_transmission + self.losses_ventilation
+
+    @property
+    def gains_total(self) -> float:
+        return self.gains_solar + self.gains_internal
+
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_PeakHeatingLoad":
         attr_dict = serialization.build_attr_dict(cls, _d)
@@ -145,26 +170,31 @@ class NBDM_PeakHeatingLoad:
 
 
 @dataclass
-class NBDM_PeakSensibleCoolingLoad:
-    peak_load: float
+class NBDM_PeakCoolingLoad:
+    peak_load_sensible: float
+    peak_load_latent: float
     losses_transmission: float
     losses_ventilation: float
     gains_solar: float
     gains_internal: float
 
+    @property
+    def losses_total(self) -> float:
+        return self.losses_transmission + self.losses_ventilation
+
+    @property
+    def gains_total(self) -> float:
+        return self.gains_solar + self.gains_internal
+
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_PeakSensibleCoolingLoad":
+    def from_dict(cls, _d: Dict) -> "NBDM_PeakCoolingLoad":
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    def __sub__(
-        self, other: "NBDM_PeakSensibleCoolingLoad"
-    ) -> "NBDM_PeakSensibleCoolingLoad":
+    def __sub__(self, other: "NBDM_PeakCoolingLoad") -> "NBDM_PeakCoolingLoad":
         return operations.subtract_NBDM_Objects(self, other)
 
-    def __add__(
-        self, other: "NBDM_PeakSensibleCoolingLoad"
-    ) -> "NBDM_PeakSensibleCoolingLoad":
+    def __add__(self, other: "NBDM_PeakCoolingLoad") -> "NBDM_PeakCoolingLoad":
         return operations.add_NBDM_Objects(self, other)
 
 
@@ -176,7 +206,7 @@ class NBDM_BuildingSegmentPerformance:
     annual_heating_energy_demand: NBDM_AnnualHeatingDemandEnergy
     annual_cooling_energy_demand: NBDM_AnnualCoolingDemandEnergy
     peak_heating_load: NBDM_PeakHeatingLoad
-    peak_sensible_cooling_load: NBDM_PeakSensibleCoolingLoad
+    peak_sensible_cooling_load: NBDM_PeakCoolingLoad
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_BuildingSegmentPerformance":

@@ -14,7 +14,7 @@ from NBDM.model.performance import (
     NBDM_AnnualHeatingDemandEnergy,
     NBDM_AnnualCoolingDemandEnergy,
     NBDM_PeakHeatingLoad,
-    NBDM_PeakSensibleCoolingLoad,
+    NBDM_PeakCoolingLoad,
 )
 from NBDM.model.project import NBDM_Project, NBDM_Variant, NBDM_Variants
 from NBDM.model.site import NBDM_Climate, NBDM_Location, NBDM_Site, NBDM_ProjectAddress
@@ -136,21 +136,20 @@ sample_EnergyCost = NBDM_EnergyCost(
 )
 
 sample_AnnualHeatingDemand = NBDM_AnnualHeatingDemandEnergy(
-    annual_demand=0.0,
+    heating_demand=0.0,
     losses_transmission=0.0,
     losses_ventilation=0.0,
     gains_solar=0.0,
     gains_internal=0.0,
     utilization_factor=0.0,
-    gains_useful=0.0,
 )
 
 sample_AnnualCoolingDemand = NBDM_AnnualCoolingDemandEnergy(
-    annual_demand=0.0,
+    sensible_cooling_demand=0.0,
+    latent_cooling_demand=0.0,
     losses_transmission=0.0,
     losses_ventilation=0.0,
     utilization_factor=0.0,
-    losses_useful=0.0,
     gains_solar=0.0,
     gains_internal=0.0,
 )
@@ -163,8 +162,9 @@ sample_PeakHeatingLoad = NBDM_PeakHeatingLoad(
     gains_internal=0.0,
 )
 
-sample_PeakSensibleCoolingLoad = NBDM_PeakSensibleCoolingLoad(
-    peak_load=0.0,
+sample_PeakSensibleCoolingLoad = NBDM_PeakCoolingLoad(
+    peak_load_sensible=0.0,
+    peak_load_latent=0.0,
     losses_transmission=0.0,
     losses_ventilation=0.0,
     gains_solar=0.0,

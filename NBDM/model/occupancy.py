@@ -12,12 +12,7 @@ from NBDM.model import operations
 @dataclass
 class NBDM_BuildingSegmentOccupancy:
     total_dwelling_units: int
-    num_apartments_studio: int
-    num_apartments_1_br: int
-    num_apartments_2_br: int
-    num_apartments_3_br: int
-    num_apartments_4_br: int
-    total_occupants: int
+    total_occupants: float
 
     @classmethod
     def from_dict(cls, _d: Dict) -> "NBDM_BuildingSegmentOccupancy":

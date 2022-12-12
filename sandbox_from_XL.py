@@ -6,10 +6,11 @@
 import xlwings as xw
 from rich import print
 
-# # -- Read in from Excel
-from NBDM.from_PHPP import build_performance
 from PHX.xl import xl_app
 from PHX.PHPP import phpp_app
+
+from NBDM.from_PHPP import create_building
+
 
 if __name__ == "__main__":
     # -- Connect to Excel
@@ -17,5 +18,18 @@ if __name__ == "__main__":
     phpp_conn = phpp_app.PHPPConnection(xl)
 
     with phpp_conn.xl.in_silent_mode():
-        perf = build_performance.build_NBDM_performance(phpp_conn)
-        print(perf)
+        bldg = create_building.create_NBDM_Building(phpp_conn)
+        print(bldg)
+
+        # building = project.NBDM_Building()
+
+        # proposed_variant = project.NBDM_Variant(name="", building="")
+        # baseline_variant = project.NBDM_Variant(name="", building="")
+
+        # project.NBDM_Variants(proposed_variant, baseline_variant)
+
+        # project.NBDM_Project
+        #     team,
+        #     site,
+        #     variants,
+        # )

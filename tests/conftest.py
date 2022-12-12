@@ -60,21 +60,11 @@ def sample_NBDM_Site() -> NBDM_Site:
 
 sample_BuildingSegmentOccupancy_A = NBDM_BuildingSegmentOccupancy(
     total_dwelling_units=2,
-    num_apartments_studio=2,
-    num_apartments_1_br=1,
-    num_apartments_2_br=2,
-    num_apartments_3_br=2,
-    num_apartments_4_br=2,
     total_occupants=10,
 )
 
 sample_BuildingSegmentOccupancy_B = NBDM_BuildingSegmentOccupancy(
     total_dwelling_units=1,
-    num_apartments_studio=2,
-    num_apartments_1_br=3,
-    num_apartments_2_br=4,
-    num_apartments_3_br=5,
-    num_apartments_4_br=6,
     total_occupants=23,
 )
 
@@ -89,14 +79,8 @@ def sample_NBDM_BuildingSegmentOccupancy() -> NBDM_BuildingSegmentOccupancy:
 
 sample_BuildingSegmentGeometry = NBDM_BuildingSegmentGeometry(
     area_envelope=100.0,
-    area_floor_area_gross=100.0,
     area_floor_area_net_interior_weighted=113.0,
-    area_floor_area_interior_parking=114.0,
-    volume_gross=115.0,
     volume_net_interior=116.0,
-    total_stories=8,
-    num_stories_above_grade=7,
-    num_stories_below_grade=1,
 )
 
 

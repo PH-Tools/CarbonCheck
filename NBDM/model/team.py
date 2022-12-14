@@ -3,6 +3,7 @@
 
 """NBDM Team Member and Contact Information Classes."""
 
+from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict
 from NBDM.model import serialization
@@ -21,9 +22,13 @@ class NBDM_TeamContactInfo:
     email: str
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_TeamContactInfo":
+    def from_dict(cls, _d: Dict) -> NBDM_TeamContactInfo:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
+
+    @classmethod
+    def default(cls) -> NBDM_TeamContactInfo:
+        return cls("-", "-", "-", "-", "-", "-", "-")
 
 
 @dataclass
@@ -34,9 +39,13 @@ class NBDM_TeamMember:
     contact_info: NBDM_TeamContactInfo
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_TeamMember":
+    def from_dict(cls, _d: Dict) -> NBDM_TeamMember:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
+
+    @classmethod
+    def default(cls) -> NBDM_TeamMember:
+        return cls("Unnamed Team Member", NBDM_TeamContactInfo.default())
 
 
 @dataclass
@@ -49,6 +58,15 @@ class NBDM_Team:
     primary_energy_consultant: NBDM_TeamMember
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_Team":
+    def from_dict(cls, _d: Dict) -> NBDM_Team:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
+
+    @classmethod
+    def default(cls) -> NBDM_Team:
+        return cls(
+            NBDM_TeamMember.default(),
+            NBDM_TeamMember.default(),
+            NBDM_TeamMember.default(),
+            NBDM_TeamMember.default(),
+        )

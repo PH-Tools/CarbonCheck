@@ -3,6 +3,7 @@
 
 """NBDM Project Classes."""
 
+from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Optional
 
@@ -36,16 +37,16 @@ class NBDM_Variant:
         return self.building.building_segment_names
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_Variant":
+    def from_dict(cls, _d: Dict) -> NBDM_Variant:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    def __sub__(self, other: "NBDM_Variant") -> "NBDM_Variant":
+    def __sub__(self, other: NBDM_Variant) -> NBDM_Variant:
         return self.__class__(
             variant_name=self.variant_name, building=self.building - other.building
         )
 
-    def __add__(self, other: "NBDM_Variant") -> "NBDM_Variant":
+    def __add__(self, other: NBDM_Variant) -> NBDM_Variant:
         return self.__class__(
             variant_name=self.variant_name, building=self.building + other.building
         )
@@ -59,7 +60,7 @@ class NBDM_Variants:
     baseline: NBDM_Variant
 
     @property
-    def change_from_baseline_variant(self) -> "NBDM_Variant":
+    def change_from_baseline_variant(self) -> NBDM_Variant:
         """Return a new Variant with values representing the change from Baseline."""
         variant = getattr(self, "_change_from_baseline", None)
         if variant:
@@ -138,9 +139,13 @@ class NBDM_Variants:
         )
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_Variants":
+    def from_dict(cls, _d: Dict) -> NBDM_Variants:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
+
+    @classmethod
+    def default(cls) -> NBDM_Variants:
+        return None
 
     def __iter__(self):
         for _ in (self.proposed, self.baseline):
@@ -209,6 +214,23 @@ class NBDM_Project:
         return self.variants.building_segments_with_change
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_Project":
+    def from_dict(cls, _d: Dict) -> NBDM_Project:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
+
+    @classmethod
+    def default(cls) -> NBDM_Project:
+        obj = cls(
+            "Project Name",
+            "Client Name",
+            "Salesforce Number",
+            "Date",
+            enums.nyc_ecc_year._2019,
+            False,
+            False,
+            NBDM_Team.default(),
+            NBDM_Site.default(),
+            NBDM_Variants.default(),
+        )
+
+        return obj

@@ -3,6 +3,7 @@
 
 """Functions used for Serialization / Deserialization of NBDM Objects."""
 
+from __future__ import annotations
 from typing import Dict, Any
 from dataclasses import fields
 from enum import Enum

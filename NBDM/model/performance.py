@@ -3,6 +3,7 @@
 
 """NBDM Building Energy Performance Classes."""
 
+from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict
 from NBDM.model import serialization
@@ -17,14 +18,14 @@ class NBDM_EnergyCost:
     cost_other_energy: float
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_EnergyCost":
+    def from_dict(cls, _d: Dict) -> NBDM_EnergyCost:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    def __sub__(self, other: "NBDM_EnergyCost") -> "NBDM_EnergyCost":
+    def __sub__(self, other: NBDM_EnergyCost) -> NBDM_EnergyCost:
         return operations.subtract_NBDM_Objects(self, other)
 
-    def __add__(self, other: "NBDM_EnergyCost") -> "NBDM_EnergyCost":
+    def __add__(self, other: NBDM_EnergyCost) -> NBDM_EnergyCost:
         return operations.add_NBDM_Objects(self, other)
 
 
@@ -39,14 +40,14 @@ class NBDM_SiteEnergy:
     production_other: float
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_SiteEnergy":
+    def from_dict(cls, _d: Dict) -> NBDM_SiteEnergy:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    def __sub__(self, other: "NBDM_SiteEnergy") -> "NBDM_SiteEnergy":
+    def __sub__(self, other: NBDM_SiteEnergy) -> NBDM_SiteEnergy:
         return operations.subtract_NBDM_Objects(self, other)
 
-    def __add__(self, other: "NBDM_SiteEnergy") -> "NBDM_SiteEnergy":
+    def __add__(self, other: NBDM_SiteEnergy) -> NBDM_SiteEnergy:
         return operations.add_NBDM_Objects(self, other)
 
 
@@ -61,14 +62,14 @@ class NBDM_SourceEnergy:
     production_other: float
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_SourceEnergy":
+    def from_dict(cls, _d: Dict) -> NBDM_SourceEnergy:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    def __sub__(self, other: "NBDM_SourceEnergy") -> "NBDM_SourceEnergy":
+    def __sub__(self, other: NBDM_SourceEnergy) -> NBDM_SourceEnergy:
         return operations.subtract_NBDM_Objects(self, other)
 
-    def __add__(self, other: "NBDM_SourceEnergy") -> "NBDM_SourceEnergy":
+    def __add__(self, other: NBDM_SourceEnergy) -> NBDM_SourceEnergy:
         return operations.add_NBDM_Objects(self, other)
 
 
@@ -90,18 +91,18 @@ class NBDM_AnnualHeatingDemandEnergy:
         return (self.gains_internal + self.gains_solar) * self.utilization_factor
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_AnnualHeatingDemandEnergy":
+    def from_dict(cls, _d: Dict) -> NBDM_AnnualHeatingDemandEnergy:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
     def __sub__(
-        self, other: "NBDM_AnnualHeatingDemandEnergy"
-    ) -> "NBDM_AnnualHeatingDemandEnergy":
+        self, other: NBDM_AnnualHeatingDemandEnergy
+    ) -> NBDM_AnnualHeatingDemandEnergy:
         return operations.subtract_NBDM_Objects(self, other)
 
     def __add__(
-        self, other: "NBDM_AnnualHeatingDemandEnergy"
-    ) -> "NBDM_AnnualHeatingDemandEnergy":
+        self, other: NBDM_AnnualHeatingDemandEnergy
+    ) -> NBDM_AnnualHeatingDemandEnergy:
         return operations.add_NBDM_Objects(self, other)
 
 
@@ -126,18 +127,18 @@ class NBDM_AnnualCoolingDemandEnergy:
         return self.gains_solar + self.gains_internal
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_AnnualCoolingDemandEnergy":
+    def from_dict(cls, _d: Dict) -> NBDM_AnnualCoolingDemandEnergy:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
     def __sub__(
-        self, other: "NBDM_AnnualCoolingDemandEnergy"
-    ) -> "NBDM_AnnualCoolingDemandEnergy":
+        self, other: NBDM_AnnualCoolingDemandEnergy
+    ) -> NBDM_AnnualCoolingDemandEnergy:
         return operations.subtract_NBDM_Objects(self, other)
 
     def __add__(
-        self, other: "NBDM_AnnualCoolingDemandEnergy"
-    ) -> "NBDM_AnnualCoolingDemandEnergy":
+        self, other: NBDM_AnnualCoolingDemandEnergy
+    ) -> NBDM_AnnualCoolingDemandEnergy:
         return operations.add_NBDM_Objects(self, other)
 
 
@@ -158,14 +159,14 @@ class NBDM_PeakHeatingLoad:
         return self.gains_solar + self.gains_internal
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_PeakHeatingLoad":
+    def from_dict(cls, _d: Dict) -> NBDM_PeakHeatingLoad:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    def __sub__(self, other: "NBDM_PeakHeatingLoad") -> "NBDM_PeakHeatingLoad":
+    def __sub__(self, other: NBDM_PeakHeatingLoad) -> NBDM_PeakHeatingLoad:
         return operations.subtract_NBDM_Objects(self, other)
 
-    def __add__(self, other: "NBDM_PeakHeatingLoad") -> "NBDM_PeakHeatingLoad":
+    def __add__(self, other: NBDM_PeakHeatingLoad) -> NBDM_PeakHeatingLoad:
         return operations.add_NBDM_Objects(self, other)
 
 
@@ -187,14 +188,14 @@ class NBDM_PeakCoolingLoad:
         return self.gains_solar + self.gains_internal
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_PeakCoolingLoad":
+    def from_dict(cls, _d: Dict) -> NBDM_PeakCoolingLoad:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    def __sub__(self, other: "NBDM_PeakCoolingLoad") -> "NBDM_PeakCoolingLoad":
+    def __sub__(self, other: NBDM_PeakCoolingLoad) -> NBDM_PeakCoolingLoad:
         return operations.subtract_NBDM_Objects(self, other)
 
-    def __add__(self, other: "NBDM_PeakCoolingLoad") -> "NBDM_PeakCoolingLoad":
+    def __add__(self, other: NBDM_PeakCoolingLoad) -> NBDM_PeakCoolingLoad:
         return operations.add_NBDM_Objects(self, other)
 
 
@@ -209,16 +210,16 @@ class NBDM_BuildingSegmentPerformance:
     peak_sensible_cooling_load: NBDM_PeakCoolingLoad
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> "NBDM_BuildingSegmentPerformance":
+    def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentPerformance:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
     def __sub__(
-        self, other: "NBDM_BuildingSegmentPerformance"
-    ) -> "NBDM_BuildingSegmentPerformance":
+        self, other: NBDM_BuildingSegmentPerformance
+    ) -> NBDM_BuildingSegmentPerformance:
         return operations.subtract_NBDM_Objects(self, other)
 
     def __add__(
-        self, other: "NBDM_BuildingSegmentPerformance"
-    ) -> "NBDM_BuildingSegmentPerformance":
+        self, other: NBDM_BuildingSegmentPerformance
+    ) -> NBDM_BuildingSegmentPerformance:
         return operations.add_NBDM_Objects(self, other)

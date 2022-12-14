@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+# -*- Python Version: 3.7 -*-
+
+"""NBDM Enum Classes."""
+
+from __future__ import annotations
 from enum import Enum
 
 

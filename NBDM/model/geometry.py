@@ -12,9 +12,9 @@ from NBDM.model import operations
 
 @dataclass
 class NBDM_BuildingSegmentGeometry:
-    area_envelope: float
-    area_floor_area_net_interior_weighted: float
-    volume_net_interior: float
+    area_envelope: float = 0.0
+    area_floor_area_net_interior_weighted: float = 0.0
+    volume_net_interior: float = 0.0
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentGeometry:

@@ -13,60 +13,43 @@ from NBDM.model import serialization
 class NBDM_TeamContactInfo:
     """Contact Information for an individual team member."""
 
-    building_number: str
-    street_name: str
-    city: str
-    state: str
-    zip_code: str
-    phone: str
-    email: str
+    building_number: str = "-"
+    street_name: str = "-"
+    city: str = "-"
+    state: str = "-"
+    zip_code: str = "-"
+    phone: str = "-"
+    email: str = "-"
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_TeamContactInfo:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    @classmethod
-    def default(cls) -> NBDM_TeamContactInfo:
-        return cls("-", "-", "-", "-", "-", "-", "-")
-
 
 @dataclass
 class NBDM_TeamMember:
     """An individual team member."""
 
-    name: str
-    contact_info: NBDM_TeamContactInfo
+    name: str = "-"
+    contact_info: NBDM_TeamContactInfo = NBDM_TeamContactInfo()
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_TeamMember:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    @classmethod
-    def default(cls) -> NBDM_TeamMember:
-        return cls("Unnamed Team Member", NBDM_TeamContactInfo.default())
-
 
 @dataclass
 class NBDM_Team:
     """A collection of Team member information."""
 
-    site_owner: NBDM_TeamMember
-    designer: NBDM_TeamMember
-    contractor: NBDM_TeamMember
-    primary_energy_consultant: NBDM_TeamMember
+    site_owner: NBDM_TeamMember = NBDM_TeamMember()
+    designer: NBDM_TeamMember = NBDM_TeamMember()
+    contractor: NBDM_TeamMember = NBDM_TeamMember()
+    primary_energy_consultant: NBDM_TeamMember = NBDM_TeamMember()
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Team:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
-
-    @classmethod
-    def default(cls) -> NBDM_Team:
-        return cls(
-            NBDM_TeamMember.default(),
-            NBDM_TeamMember.default(),
-            NBDM_TeamMember.default(),
-            NBDM_TeamMember.default(),
-        )

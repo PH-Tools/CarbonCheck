@@ -12,8 +12,8 @@ from NBDM.model import operations
 
 @dataclass
 class NBDM_BuildingSegmentOccupancy:
-    total_dwelling_units: int
-    total_occupants: float
+    total_dwelling_units: int = 0
+    total_occupants: float = 0.0
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentOccupancy:

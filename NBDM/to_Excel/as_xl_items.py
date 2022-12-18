@@ -182,7 +182,6 @@ def Project(
 
     # -------------------------------------------------------------------------
     # -- Get all the row-data from the NBDM Objects
-    format = report_format.Format_NBDM_Project
     row_data_list.extend(
         build_row_data(
             _baseline_obj=_p,

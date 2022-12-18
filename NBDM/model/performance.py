@@ -12,10 +12,10 @@ from NBDM.model import operations
 
 @dataclass
 class NBDM_EnergyCost:
-    cost_gas: float
-    cost_electricity: float
-    cost_district_heat: float
-    cost_other_energy: float
+    cost_gas: float = 0.0
+    cost_electricity: float = 0.0
+    cost_district_heat: float = 0.0
+    cost_other_energy: float = 0.0
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_EnergyCost:
@@ -31,13 +31,13 @@ class NBDM_EnergyCost:
 
 @dataclass
 class NBDM_SiteEnergy:
-    consumption_gas: float
-    consumption_electricity: float
-    consumption_district_heat: float
-    consumption_other: float
-    production_solar_photovoltaic: float
-    production_solar_thermal: float
-    production_other: float
+    consumption_gas: float = 0.0
+    consumption_electricity: float = 0.0
+    consumption_district_heat: float = 0.0
+    consumption_other: float = 0.0
+    production_solar_photovoltaic: float = 0.0
+    production_solar_thermal: float = 0.0
+    production_other: float = 0.0
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_SiteEnergy:
@@ -53,13 +53,13 @@ class NBDM_SiteEnergy:
 
 @dataclass
 class NBDM_SourceEnergy:
-    consumption_gas: float
-    consumption_electricity: float
-    consumption_district_heat: float
-    consumption_other: float
-    production_solar_photovoltaic: float
-    production_solar_thermal: float
-    production_other: float
+    consumption_gas: float = 0.0
+    consumption_electricity: float = 0.0
+    consumption_district_heat: float = 0.0
+    consumption_other: float = 0.0
+    production_solar_photovoltaic: float = 0.0
+    production_solar_thermal: float = 0.0
+    production_other: float = 0.0
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_SourceEnergy:
@@ -75,12 +75,12 @@ class NBDM_SourceEnergy:
 
 @dataclass
 class NBDM_AnnualHeatingDemandEnergy:
-    heating_demand: float
-    losses_transmission: float
-    losses_ventilation: float
-    gains_solar: float
-    gains_internal: float
-    utilization_factor: float
+    heating_demand: float = 0.0
+    losses_transmission: float = 0.0
+    losses_ventilation: float = 0.0
+    gains_solar: float = 0.0
+    gains_internal: float = 0.0
+    utilization_factor: float = 0.0
 
     @property
     def losses_total(self) -> float:
@@ -108,13 +108,13 @@ class NBDM_AnnualHeatingDemandEnergy:
 
 @dataclass
 class NBDM_AnnualCoolingDemandEnergy:
-    sensible_cooling_demand: float
-    latent_cooling_demand: float
-    losses_transmission: float
-    losses_ventilation: float
-    utilization_factor: float
-    gains_solar: float
-    gains_internal: float
+    sensible_cooling_demand: float = 0.0
+    latent_cooling_demand: float = 0.0
+    losses_transmission: float = 0.0
+    losses_ventilation: float = 0.0
+    utilization_factor: float = 0.0
+    gains_solar: float = 0.0
+    gains_internal: float = 0.0
 
     @property
     def losses_total(self) -> float:
@@ -144,11 +144,11 @@ class NBDM_AnnualCoolingDemandEnergy:
 
 @dataclass
 class NBDM_PeakHeatingLoad:
-    peak_load: float
-    losses_transmission: float
-    losses_ventilation: float
-    gains_solar: float
-    gains_internal: float
+    peak_load: float = 0.0
+    losses_transmission: float = 0.0
+    losses_ventilation: float = 0.0
+    gains_solar: float = 0.0
+    gains_internal: float = 0.0
 
     @property
     def losses_total(self) -> float:
@@ -172,12 +172,12 @@ class NBDM_PeakHeatingLoad:
 
 @dataclass
 class NBDM_PeakCoolingLoad:
-    peak_load_sensible: float
-    peak_load_latent: float
-    losses_transmission: float
-    losses_ventilation: float
-    gains_solar: float
-    gains_internal: float
+    peak_load_sensible: float = 0.0
+    peak_load_latent: float = 0.0
+    losses_transmission: float = 0.0
+    losses_ventilation: float = 0.0
+    gains_solar: float = 0.0
+    gains_internal: float = 0.0
 
     @property
     def losses_total(self) -> float:
@@ -201,13 +201,17 @@ class NBDM_PeakCoolingLoad:
 
 @dataclass
 class NBDM_BuildingSegmentPerformance:
-    site_energy: NBDM_SiteEnergy
-    source_energy: NBDM_SourceEnergy
-    energy_cost: NBDM_EnergyCost
-    annual_heating_energy_demand: NBDM_AnnualHeatingDemandEnergy
-    annual_cooling_energy_demand: NBDM_AnnualCoolingDemandEnergy
-    peak_heating_load: NBDM_PeakHeatingLoad
-    peak_sensible_cooling_load: NBDM_PeakCoolingLoad
+    site_energy: NBDM_SiteEnergy = NBDM_SiteEnergy()
+    source_energy: NBDM_SourceEnergy = NBDM_SourceEnergy()
+    energy_cost: NBDM_EnergyCost = NBDM_EnergyCost()
+    annual_heating_energy_demand: NBDM_AnnualHeatingDemandEnergy = (
+        NBDM_AnnualHeatingDemandEnergy()
+    )
+    annual_cooling_energy_demand: NBDM_AnnualCoolingDemandEnergy = (
+        NBDM_AnnualCoolingDemandEnergy()
+    )
+    peak_heating_load: NBDM_PeakHeatingLoad = NBDM_PeakHeatingLoad()
+    peak_sensible_cooling_load: NBDM_PeakCoolingLoad = NBDM_PeakCoolingLoad()
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentPerformance:

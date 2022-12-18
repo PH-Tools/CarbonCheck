@@ -19,12 +19,15 @@ from NBDM.model import enums
 class NBDM_Variant:
     """A single 'Variant' with building data"""
 
-    variant_name: str
-    building: NBDM_Building
+    variant_name: str = "-"
+    building: NBDM_Building = NBDM_Building()
 
     def get_building_segment(self, _name: str) -> NBDM_BuildingSegment:
         """Retrieve a specific Building-Segment by name."""
         return self.building.get_building_segment(_name)
+
+    def add_building_segment(self, _bldg_segment: NBDM_BuildingSegment) -> None:
+        self.building.add_building_segment(_bldg_segment)
 
     @property
     def building_segments(self) -> List[NBDM_BuildingSegment]:
@@ -56,8 +59,8 @@ class NBDM_Variant:
 class NBDM_Variants:
     """A group of 2 variants: 'Proposed' and 'Baseline'."""
 
-    proposed: NBDM_Variant
-    baseline: NBDM_Variant
+    proposed: NBDM_Variant = NBDM_Variant()
+    baseline: NBDM_Variant = NBDM_Variant()
 
     @property
     def change_from_baseline_variant(self) -> NBDM_Variant:
@@ -143,10 +146,6 @@ class NBDM_Variants:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    @classmethod
-    def default(cls) -> NBDM_Variants:
-        return None
-
     def __iter__(self):
         for _ in (self.proposed, self.baseline):
             yield _
@@ -156,16 +155,16 @@ class NBDM_Variants:
 class NBDM_Project:
     """A single Project with site, client and building data."""
 
-    project_name: str
-    client: str
-    salesforce_num: str
-    report_date: str
-    nyc_ecc_year: enums.nyc_ecc_year
-    historic_preservation_site: bool
-    disadvantaged_communities: bool
-    team: NBDM_Team
-    site: NBDM_Site
-    variants: NBDM_Variants
+    project_name: str = "-"
+    client: str = "-"
+    salesforce_num: str = "-"
+    report_date: str = "-"
+    nyc_ecc_year: enums.nyc_ecc_year = enums.nyc_ecc_year._2019
+    historic_preservation_site: bool = False
+    disadvantaged_communities: bool = False
+    team: NBDM_Team = NBDM_Team()
+    site: NBDM_Site = NBDM_Site()
+    variants: NBDM_Variants = NBDM_Variants()
 
     @property
     def building_segment_names_baseline(self) -> List[str]:
@@ -219,18 +218,9 @@ class NBDM_Project:
         return cls(**attr_dict)
 
     @classmethod
-    def default(cls) -> NBDM_Project:
-        obj = cls(
-            "Project Name",
-            "Client Name",
-            "Salesforce Number",
-            "Date",
-            enums.nyc_ecc_year._2019,
-            False,
-            False,
-            NBDM_Team.default(),
-            NBDM_Site.default(),
-            NBDM_Variants.default(),
-        )
-
-        return obj
+    def default_with_one_segment(cls) -> NBDM_Project:
+        """Default Project with a single BuildingSegment on each variant."""
+        project = cls()
+        project.variants.baseline.add_building_segment(NBDM_BuildingSegment())
+        project.variants.proposed.add_building_segment(NBDM_BuildingSegment())
+        return project

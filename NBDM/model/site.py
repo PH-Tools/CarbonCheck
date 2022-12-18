@@ -11,64 +11,48 @@ from NBDM.model import serialization
 
 @dataclass
 class NBDM_ProjectAddress:
-    building_number: str
-    street_name: str
-    city: str
-    state: str
-    zip_code: str
+    building_number: str = "-"
+    street_name: str = "-"
+    city: str = "-"
+    state: str = "-"
+    zip_code: str = "-"
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_ProjectAddress:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    @classmethod
-    def default(cls) -> NBDM_ProjectAddress:
-        return cls("-", "-", "-", "-", "-")
-
 
 @dataclass
 class NBDM_Climate:
-    zone_ashrae: str
-    zone_passive_house: str
-    source: str
+    zone_ashrae: str = "-"
+    zone_passive_house: str = "-"
+    source: str = "-"
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Climate:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    @classmethod
-    def default(cls) -> NBDM_Climate:
-        return cls("-", "-", "-")
-
 
 @dataclass
 class NBDM_Location:
-    address: NBDM_ProjectAddress
-    longitude: float
-    latitude: float
+    address: NBDM_ProjectAddress = NBDM_ProjectAddress()
+    longitude: float = 0.0
+    latitude: float = 0.0
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Location:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
 
-    @classmethod
-    def default(cls) -> NBDM_Location:
-        return cls(NBDM_ProjectAddress.default(), 0, 0)
-
 
 @dataclass
 class NBDM_Site:
-    climate: NBDM_Climate
-    location: NBDM_Location
+    climate: NBDM_Climate = NBDM_Climate()
+    location: NBDM_Location = NBDM_Location()
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Site:
         attr_dict = serialization.build_attr_dict(cls, _d)
         return cls(**attr_dict)
-
-    @classmethod
-    def default(cls) -> NBDM_Site:
-        return cls(NBDM_Climate.default(), NBDM_Location.default())

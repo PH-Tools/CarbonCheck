@@ -4,9 +4,9 @@
 """Functions used for Serialization / Deserialization of NBDM Objects."""
 
 from __future__ import annotations
-from typing import Dict, Any
-from dataclasses import fields
+from typing import Dict, Any, get_type_hints
 from enum import Enum
+from dataclasses import fields
 
 
 class FromDictException(Exception):
@@ -27,22 +27,23 @@ def build_attr_dict(_cls: Any, _d: Dict) -> Dict:
     """
     d = {}
 
-    for field in fields(_cls):
-        if field.name not in _d.keys():
-            raise FromDictException(_cls.__name__, field.name, _d.keys())
-
+    # -- Note: can't just use dataclasses.fields(_cls) 'cus of
+    # -- from __future__ import annotations breaks fields().
+    for field_name, field_type in get_type_hints(_cls).items():
+        if field_name not in _d.keys():
+            raise FromDictException(_cls.__name__, field_name, _d.keys())
         try:
             # -- If it is an object with a 'from_dict' method, call
             # -- the 'from_dict' method and pass along the data-dict
-            d[field.name] = field.type.from_dict(_d[field.name])
+            d[field_name] = field_type.from_dict(_d[field_name])
         except AttributeError:
             # -- otherwise, just create a normal object
             try:
-                d[field.name] = field.type(_d[field.name])
+                d[field_name] = field_type(_d[field_name])
             except TypeError as e:
                 msg = (
-                    f"\n\tError: cannot use '{_d[field.name]}' for attribute "
-                    f"'{field.name}'? Expected value of type: {field.type} ?\n"
+                    f"\n\tError: cannot use '{_d[field_name]}' for attribute "
+                    f"'{field_name}'? Expected value of type: {field_type} ?\n"
                 )
                 raise TypeError(msg + str(e))
 
@@ -54,21 +55,27 @@ def to_dict(obj) -> Dict:
 
     d = {}
 
+    # -- Note: can't just use dataclasses.fields(obj) 'cus of
+    # -- from __future__ import annotations breaks fields.
+    # for field_name, field_type in get_type_hints(obj).items():
+    # -- wait.... now it IS working? WTF????
     for field in fields(obj):
-        field_value = getattr(obj, field.name)
+        field_name = field.name
+        field_type = field.type
+        field_value = getattr(obj, field_name)
         if hasattr(field_value, "__dataclass_fields__"):
-            d[field.name] = to_dict(field_value)
+            d[field_name] = to_dict(field_value)
         elif isinstance(field_value, (list, tuple)):
-            d[field.name] = []
+            d[field_name] = []
             for _ in field_value:
-                d[field.name].append(to_dict(field_value))
+                d[field_name].append(to_dict(field_value))
         elif isinstance(field_value, dict):
-            d[field.name] = {}
+            d[field_name] = {}
             for k, v in field_value.items():
-                d[field.name][k] = to_dict(v)
+                d[field_name][k] = to_dict(v)
         elif isinstance(field_value, Enum):
-            d[field.name] = field_value.value
+            d[field_name] = field_value.value
         else:
-            d[field.name] = field_value
+            d[field_name] = field_value
 
     return d

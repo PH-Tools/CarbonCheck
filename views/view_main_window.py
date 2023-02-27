@@ -78,11 +78,6 @@ class CCMainWindow(qtw.QMainWindow):
         return self._set_default_tree_view(_data, self.ui.tree_view_team_info)
 
     @qtc.pyqtSlot(dict)
-    def set_site_tree_view(self, _data: Dict[str, Any]) -> qtw.QTreeView:
-        """Create the TreeView objects for the Project's Site Information."""
-        return self._set_default_tree_view(_data, self.ui.tree_view_site_info)
-
-    @qtc.pyqtSlot(dict)
     def set_proposed_tree_view(self, _data: Dict[str, Any]) -> qtw.QTreeView:
         """Create the TreeView objects for the Project's Proposed Segment Data."""
         return self._set_default_tree_view(_data, self.ui.tree_view_proposed)

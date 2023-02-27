@@ -7,8 +7,8 @@ from dataclasses import dataclass
 from typing import Optional, List, Union, Tuple
 
 from PHX.xl import xl_data
-from NBDM.to_Excel import report_format, report_styles
-from NBDM.model import project, building
+from NBDM.to_Excel import report_styles
+from NBDM.model import output_format, project, building
 
 
 @dataclass
@@ -103,7 +103,7 @@ def build_row_data(
         return True
 
     def _get_object_format(_object):
-        return getattr(report_format, f"Format_{_object.__class__.__name__}")
+        return getattr(output_format, f"Format_{_object.__class__.__name__}")
 
     # -------------------------------------------------------------------------
     def walk_object(

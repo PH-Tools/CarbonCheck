@@ -27,6 +27,6 @@ row_num = 1
 with xl.in_silent_mode():
     row_num = output_report.write_NBDM_Project(nbdm_project, row_num)
     row_num = output_report.write_NBDM_WholeBuilding(nbdm_project, row_num)
-    # row_num = output_report.write_NBDM_BuildingSegments(nbdm_project, row_num)
+    row_num = output_report.write_NBDM_BuildingSegments(nbdm_project, row_num)
     output_report.autofit_columns()
     output_report.hide_group_details()

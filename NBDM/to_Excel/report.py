@@ -7,9 +7,10 @@ from __future__ import annotations
 from typing import Tuple
 from copy import copy
 
+from PHX.xl import xl_app, xl_typing
+
 from NBDM.model.project import NBDM_Project
 from NBDM.model.building import NBDM_BuildingSegment
-from PHX.xl import xl_app, xl_typing
 from NBDM.to_Excel import as_xl_items
 
 

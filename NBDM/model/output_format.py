@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -*- Python Version: 3.7 -*-
 
-"""Excel Output Report format and object field ordering."""
+"""Model formatting for user-facing (Excel, GUI, etc) and object field ordering."""
 
 
 class Format_NBDM_Project:
@@ -34,8 +34,8 @@ class Format_NBDM_Location:
 
 
 class Format_NBDM_ProjectAddress:
-    number = "Number"
-    street = "Street"
+    building_number = "Number"
+    street_name = "Street"
     city = "City"
     state = "State"
     zip_code = "Zip_code"

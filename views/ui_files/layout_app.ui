@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>958</width>
-    <height>1050</height>
+    <width>1106</width>
+    <height>1322</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>CarbonCheck</string>
   </property>
   <widget class="QWidget" name="container_body">
    <layout class="QVBoxLayout" name="verticalLayout" stretch="3,1">
@@ -25,7 +25,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="QGroupBox" name="groupBox_Proj_Info">
          <property name="title">
           <string>1. Project Data</string>
          </property>
@@ -41,7 +41,7 @@
             <property name="lineWidth">
              <number>0</number>
             </property>
-            <layout class="QGridLayout" name="gridLayout_2">
+            <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,2" columnminimumwidth="0,0">
              <item row="2" column="0">
               <layout class="QFormLayout" name="form_layout_project_info">
                <item row="1" column="0">
@@ -64,50 +64,7 @@
                <item row="2" column="1">
                 <widget class="QLineEdit" name="line_edit_client_name"/>
                </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="salesforceNumLabel">
-                 <property name="text">
-                  <string>Salesforce Num:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QLineEdit" name="line_edit_salesforce_number"/>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="nYECCYearLabel">
-                 <property name="text">
-                  <string>NY ECC Year:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QComboBox" name="combo_box_ny_ecc_year"/>
-               </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="historicSiteLabel">
-                 <property name="text">
-                  <string>Historic Preservation Site?</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="1">
-                <widget class="QCheckBox" name="checkbox_historic_site"/>
-               </item>
-               <item row="6" column="0">
-                <widget class="QLabel" name="disadvantagedCommunitiesLabel">
-                 <property name="text">
-                  <string>Disadvantaged Communities?</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="1">
-                <widget class="QCheckBox" name="checkbox_disadvantaged_communities"/>
-               </item>
               </layout>
-             </item>
-             <item row="2" column="2">
-              <widget class="QTreeView" name="tree_view_site_info"/>
              </item>
              <item row="2" column="1">
               <widget class="QTreeView" name="tree_view_team_info">
@@ -122,14 +79,7 @@
              <item row="0" column="1">
               <widget class="QLabel" name="label_team_info">
                <property name="text">
-                <string>Team Information</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="2">
-              <widget class="QLabel" name="label_site_info">
-               <property name="text">
-                <string>Site Information</string>
+                <string>Project Information</string>
                </property>
               </widget>
              </item>
@@ -143,14 +93,7 @@
              <item row="3" column="1">
               <widget class="QPushButton" name="button_add_team_information">
                <property name="text">
-                <string>Add Team Info. From File...</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="2">
-              <widget class="QPushButton" name="button_add_site_info">
-               <property name="text">
-                <string>Add Site Info From File...</string>
+                <string>Add Project Info. From File...</string>
                </property>
               </widget>
              </item>
@@ -161,7 +104,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2">
+        <widget class="QGroupBox" name="groupBox_Bldg_Data">
          <property name="title">
           <string>2. Building Segment Data</string>
          </property>
@@ -204,7 +147,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_3">
+        <widget class="QGroupBox" name="groupBox_Create_Report">
          <property name="title">
           <string>3. Create Report</string>
          </property>
@@ -256,7 +199,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>958</width>
+     <width>1106</width>
      <height>24</height>
     </rect>
    </property>

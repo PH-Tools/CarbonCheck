@@ -11,25 +11,6 @@ from NBDM.model import operations
 
 
 @dataclass
-class NBDM_EnergyCost:
-    cost_gas: float = 0.0
-    cost_electricity: float = 0.0
-    cost_district_heat: float = 0.0
-    cost_other_energy: float = 0.0
-
-    @classmethod
-    def from_dict(cls, _d: Dict) -> NBDM_EnergyCost:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
-
-    def __sub__(self, other: NBDM_EnergyCost) -> NBDM_EnergyCost:
-        return operations.subtract_NBDM_Objects(self, other)
-
-    def __add__(self, other: NBDM_EnergyCost) -> NBDM_EnergyCost:
-        return operations.add_NBDM_Objects(self, other)
-
-
-@dataclass
 class NBDM_SiteEnergy:
     consumption_gas: float = 0.0
     consumption_electricity: float = 0.0
@@ -203,7 +184,6 @@ class NBDM_PeakCoolingLoad:
 class NBDM_BuildingSegmentPerformance:
     site_energy: NBDM_SiteEnergy = NBDM_SiteEnergy()
     source_energy: NBDM_SourceEnergy = NBDM_SourceEnergy()
-    energy_cost: NBDM_EnergyCost = NBDM_EnergyCost()
     annual_heating_energy_demand: NBDM_AnnualHeatingDemandEnergy = (
         NBDM_AnnualHeatingDemandEnergy()
     )

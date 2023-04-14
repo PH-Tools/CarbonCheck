@@ -25,7 +25,6 @@ class NBDM_ProjectAddress:
 
 @dataclass
 class NBDM_Climate:
-    zone_ashrae: str = "-"
     zone_passive_house: str = "-"
     source: str = "-"
 

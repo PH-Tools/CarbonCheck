@@ -19,8 +19,8 @@ def create_NBDM_Building(
     nbdm_bldg = building.NBDM_Building(
         building_name="", building_type=enums.building_type.MULTIFAMILY
     )
-    nbdm_bldg.add_building_segment(
-        create_bldg_segment.create_NBDM_BuildingSegment(_phpp_conn)
-    )
+    # nbdm_bldg.add_building_segment(
+    #     create_bldg_segment.create_NBDM_BuildingSegment(_phpp_conn)
+    # )
 
     return nbdm_bldg

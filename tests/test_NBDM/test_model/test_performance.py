@@ -87,7 +87,6 @@ def test_add_building_segment_performance(
     perf_3 = perf_1 + perf_2
     assert perf_3.site_energy == perf_1.site_energy + perf_2.site_energy
     assert perf_3.source_energy == perf_1.source_energy + perf_2.source_energy
-    assert perf_3.energy_cost == perf_1.energy_cost + perf_2.energy_cost
     assert (
         perf_3.annual_heating_energy_demand
         == perf_1.annual_heating_energy_demand + perf_2.annual_heating_energy_demand
@@ -101,34 +100,3 @@ def test_add_building_segment_performance(
         perf_3.peak_sensible_cooling_load
         == perf_1.peak_sensible_cooling_load + perf_2.peak_sensible_cooling_load
     )
-
-
-def test_add_energy_cost(
-    sample_NBDM_BuildingSegmentPerformance: NBDM_BuildingSegmentPerformance,
-):
-    ec1 = copy(sample_NBDM_BuildingSegmentPerformance.energy_cost)
-    ec2 = copy(sample_NBDM_BuildingSegmentPerformance.energy_cost)
-
-    ec3 = ec1 + ec2
-
-    assert ec3 is not None
-    assert ec3.cost_gas == ec1.cost_gas + ec2.cost_gas
-    assert ec3.cost_electricity == ec1.cost_electricity + ec2.cost_electricity
-    assert ec3.cost_district_heat == ec1.cost_district_heat + ec2.cost_district_heat
-    assert ec3.cost_other_energy == ec1.cost_other_energy + ec2.cost_other_energy
-
-
-# --- Test Subtractions
-def test_subtract_energy_cost(
-    sample_NBDM_BuildingSegmentPerformance: NBDM_BuildingSegmentPerformance,
-):
-    ec1 = copy(sample_NBDM_BuildingSegmentPerformance.energy_cost)
-    ec2 = copy(sample_NBDM_BuildingSegmentPerformance.energy_cost)
-
-    ec3 = ec1 - ec2
-
-    assert ec3 is not None
-    assert ec3.cost_gas == ec1.cost_gas - ec2.cost_gas
-    assert ec3.cost_electricity == ec1.cost_electricity - ec2.cost_electricity
-    assert ec3.cost_district_heat == ec1.cost_district_heat - ec2.cost_district_heat
-    assert ec3.cost_other_energy == ec1.cost_other_energy - ec2.cost_other_energy

@@ -222,11 +222,7 @@ def Building(
 ) -> List[xl_data.XlItem]:
     """Return the NBDM_Building's data as a list of XLItems."""
 
-    # -------------------------------------------------------------------------
-    # -- Add a Blank Row
     row_data_list: List[RowData] = []
-    row_data_list.append(RowData.blank_line(_start_row))
-    _start_row += 1
 
     # -------------------------------------------------------------------------
     # -- Add a Top-Level Heading row
@@ -274,11 +270,7 @@ def BuildingSegment(
 ) -> List[xl_data.XlItem]:
     """Return an NBDM_BuildingSegment's data as a List of XLItems."""
 
-    # -------------------------------------------------------------------------
-    # -- Add a Blank Row
     row_data_list: List[RowData] = []
-    row_data_list.append(RowData.blank_line(_start_row))
-    _start_row += 1
 
     # -------------------------------------------------------------------------
     # -- Add a Top-Level Heading row

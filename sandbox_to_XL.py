@@ -22,11 +22,10 @@ from NBDM.to_Excel import report
 from PHX.xl import xl_app
 
 xl = xl_app.XLConnection(xl_framework=xw, output=print)
-output_report = report.OutputReport(_xl=xl, _sheet_name="NBDM")
-row_num = 1
+output_report = report.OutputReport(_xl=xl, _autofit=True, _hide_groups=False)
+
 with xl.in_silent_mode():
-    row_num = output_report.write_NBDM_Project(nbdm_project, row_num)
-    row_num = output_report.write_NBDM_WholeBuilding(nbdm_project, row_num)
-    row_num = output_report.write_NBDM_BuildingSegments(nbdm_project, row_num)
-    output_report.autofit_columns()
-    output_report.hide_group_details()
+    row_num = output_report.write_NBDM_Project(_nbdm_object=nbdm_project)
+    row_num = output_report.write_NBDM_WholeBuilding(_nbdm_object=nbdm_project)
+    row_num = output_report.write_NBDM_BuildingSegments(_nbdm_object=nbdm_project)
+    output_report.remove_sheet_1()

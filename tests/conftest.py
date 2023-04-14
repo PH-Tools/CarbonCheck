@@ -10,7 +10,6 @@ from NBDM.model.performance import (
     NBDM_BuildingSegmentPerformance,
     NBDM_SiteEnergy,
     NBDM_SourceEnergy,
-    NBDM_EnergyCost,
     NBDM_AnnualHeatingDemandEnergy,
     NBDM_AnnualCoolingDemandEnergy,
     NBDM_PeakHeatingLoad,
@@ -25,17 +24,16 @@ from NBDM.model import enums
 
 
 sample_ProjectAddress = NBDM_ProjectAddress(
-    building_number="486",
-    street_name="3rd Ave.",
-    city="Brooklyn",
+    building_number="99",
+    street_name="Example St.",
+    city="Example City",
     state="NY",
-    zip_code="11215",
+    zip_code="11111",
 )
 
 sample_ProjectClimate = NBDM_Climate(
-    zone_ashrae="4a",
     zone_passive_house="4",
-    source="The internet",
+    source="Source",
 )
 
 sample_ProjectLocation = NBDM_Location(
@@ -112,12 +110,6 @@ sample_SourceEnergy = NBDM_SourceEnergy(
     production_other=0.0,
 )
 
-sample_EnergyCost = NBDM_EnergyCost(
-    cost_gas=100_000,
-    cost_electricity=100_000,
-    cost_district_heat=100_000,
-    cost_other_energy=100_000,
-)
 
 sample_AnnualHeatingDemand = NBDM_AnnualHeatingDemandEnergy(
     heating_demand=0.0,
@@ -158,7 +150,6 @@ sample_PeakSensibleCoolingLoad = NBDM_PeakCoolingLoad(
 sample_BuildingSegmentPerformance = NBDM_BuildingSegmentPerformance(
     site_energy=sample_SiteEnergy,
     source_energy=sample_SourceEnergy,
-    energy_cost=sample_EnergyCost,
     annual_heating_energy_demand=sample_AnnualHeatingDemand,
     annual_cooling_energy_demand=sample_AnnualCoolingDemand,
     peak_heating_load=sample_PeakHeatingLoad,
@@ -175,7 +166,7 @@ def sample_NBDM_BuildingSegmentPerformance() -> NBDM_BuildingSegmentPerformance:
 
 
 sample_BuildingSegment_A = NBDM_BuildingSegment(
-    segment_name="A First Bldg Segment",
+    segment_name="Residential Segment",
     construction_type=enums.construction_type.NEW_CONSTRUCTION,
     construction_method=enums.construction_method.METHOD_A,
     geometry=sample_BuildingSegmentGeometry,
@@ -184,7 +175,7 @@ sample_BuildingSegment_A = NBDM_BuildingSegment(
 )
 
 sample_BuildingSegment_B = NBDM_BuildingSegment(
-    segment_name="A Different Bldg Segment",
+    segment_name="Commercial Segment",
     construction_type=enums.construction_type.NEW_CONSTRUCTION,
     construction_method=enums.construction_method.METHOD_A,
     geometry=sample_BuildingSegmentGeometry,
@@ -193,7 +184,7 @@ sample_BuildingSegment_B = NBDM_BuildingSegment(
 )
 
 sample_Building = NBDM_Building(
-    building_name="A Sample Building",
+    building_name="Example Building",
     building_type=enums.building_type.MULTIFAMILY,
 )
 
@@ -209,17 +200,17 @@ def sample_NBDM_Building() -> NBDM_Building:
 # -- Team ---------------------------------------------------------------------
 
 sample_contact_a = NBDM_TeamContactInfo(
-    building_number="str",
-    street_name="str",
-    city="str",
-    state="str",
-    zip_code="str",
-    phone="str",
-    email="str",
+    building_number="99",
+    street_name="Example Street",
+    city="Example City",
+    state="NY",
+    zip_code="11111",
+    phone="555-555-5555",
+    email="example@email.com",
 )
 
 sample_team_member_a = NBDM_TeamMember(
-    name="A sample team member",
+    name="Example Team Member",
     contact_info=sample_contact_a,
 )
 
@@ -247,11 +238,7 @@ sample_Variants = NBDM_Variants(
 sample_Project = NBDM_Project(
     project_name="A Test Project Name",
     client="A Test Client Name",
-    salesforce_num="0123-4567-89",
     report_date="Some Date",
-    nyc_ecc_year=enums.nyc_ecc_year._2019,
-    historic_preservation_site=False,
-    disadvantaged_communities=False,
     site=sample_Site,
     team=sample_Team,
     variants=sample_Variants,

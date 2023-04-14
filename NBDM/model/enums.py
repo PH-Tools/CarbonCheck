@@ -21,8 +21,3 @@ class construction_type(Enum):
 class construction_method(Enum):
     METHOD_A = "Method A"
     METHOD_B = "Method B"
-
-
-class nyc_ecc_year(Enum):
-    _2019 = "2019"
-    _2023 = "2023"

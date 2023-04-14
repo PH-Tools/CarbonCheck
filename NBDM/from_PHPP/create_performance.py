@@ -10,7 +10,6 @@ from enum import Enum
 from PHX.PHPP import phpp_app
 
 from NBDM.model import performance
-from tests.conftest import sample_EnergyCost
 
 # -----------------------------------------------------------------------------
 

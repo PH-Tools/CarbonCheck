@@ -11,7 +11,7 @@ from PyQt6 import QtWidgets as qtw
 from PyQt6 import QtCore as qtc
 
 # -- Layout from QtDesigner
-from views.ui_files.layout_app import Ui_MainWindow
+from App.views.ui_files.layout_app import Ui_MainWindow
 
 
 # class StandardItem(qtg.QStandardItem):

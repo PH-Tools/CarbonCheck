@@ -1,74 +1,69 @@
 {
     "project_name": "A Test Project Name",
     "client": "A Test Client Name",
-    "salesforce_num": "0123-4567-89",
     "report_date": "Some Date",
-    "nyc_ecc_year": "2019",
-    "historic_preservation_site": false,
-    "disadvantaged_communities": false,
     "team": {
         "site_owner": {
-            "name": "A sample team member",
+            "name": "Example Team Member",
             "contact_info": {
-                "building_number": "str",
-                "street_name": "str",
-                "city": "str",
-                "state": "str",
-                "zip_code": "str",
-                "phone": "str",
-                "email": "str"
+                "building_number": "99",
+                "street_name": "Example Street",
+                "city": "Example City",
+                "state": "NY",
+                "zip_code": "11111",
+                "phone": "555-555-5555",
+                "email": "example@email.com"
             }
         },
         "designer": {
-            "name": "A sample team member",
+            "name": "Example Team Member",
             "contact_info": {
-                "building_number": "str",
-                "street_name": "str",
-                "city": "str",
-                "state": "str",
-                "zip_code": "str",
-                "phone": "str",
-                "email": "str"
+                "building_number": "99",
+                "street_name": "Example Street",
+                "city": "Example City",
+                "state": "NY",
+                "zip_code": "11111",
+                "phone": "555-555-5555",
+                "email": "example@email.com"
             }
         },
         "contractor": {
-            "name": "A sample team member",
+            "name": "Example Team Member",
             "contact_info": {
-                "building_number": "str",
-                "street_name": "str",
-                "city": "str",
-                "state": "str",
-                "zip_code": "str",
-                "phone": "str",
-                "email": "str"
+                "building_number": "99",
+                "street_name": "Example Street",
+                "city": "Example City",
+                "state": "NY",
+                "zip_code": "11111",
+                "phone": "555-555-5555",
+                "email": "example@email.com"
             }
         },
         "primary_energy_consultant": {
-            "name": "A sample team member",
+            "name": "Example Team Member",
             "contact_info": {
-                "building_number": "str",
-                "street_name": "str",
-                "city": "str",
-                "state": "str",
-                "zip_code": "str",
-                "phone": "str",
-                "email": "str"
+                "building_number": "99",
+                "street_name": "Example Street",
+                "city": "Example City",
+                "state": "NY",
+                "zip_code": "11111",
+                "phone": "555-555-5555",
+                "email": "example@email.com"
             }
         }
     },
     "site": {
         "climate": {
-            "zone_ashrae": "4a",
             "zone_passive_house": "4",
-            "source": "The internet"
+            "source": "Source"
         },
         "location": {
             "address": {
-                "building_number": "486",
-                "street_name": "3rd Ave.",
-                "city": "Brooklyn",
+                "building_number": "99",
+                "street_name": "Example St.",
+                "city": "Example City",
                 "state": "NY",
-                "zip_code": "11215"
+                "zip_code": "11111"
             },
             "longitude": -73.2,
             "latitude": 40.1
@@ -78,11 +73,11 @@
         "proposed": {
             "variant_name": "",
             "building": {
-                "building_name": "A Sample Building",
+                "building_name": "Example Building",
                 "building_type": "Multi-Family",
                 "_building_segments": {
-                    "A First Bldg Segment": {
-                        "segment_name": "A First Bldg Segment",
+                    "Residential Segment": {
+                        "segment_name": "Residential Segment",
                         "construction_type": "New Construction",
                         "construction_method": "Method A",
                         "geometry": {
@@ -112,12 +107,6 @@
                                 "production_solar_photovoltaic": 0.0,
                                 "production_solar_thermal": 0.0,
                                 "production_other": 0.0
-                            },
-                            "energy_cost": {
-                                "cost_gas": 100000,
-                                "cost_electricity": 100000,
-                                "cost_district_heat": 100000,
-                                "cost_other_energy": 100000
                             },
                             "annual_heating_energy_demand": {
                                 "heating_demand": 0.0,
@@ -153,8 +142,8 @@
                             }
                         }
                     },
-                    "A Different Bldg Segment": {
-                        "segment_name": "A Different Bldg Segment",
+                    "Commercial Segment": {
+                        "segment_name": "Commercial Segment",
                         "construction_type": "New Construction",
                         "construction_method": "Method A",
                         "geometry": {
@@ -184,12 +173,6 @@
                                 "production_solar_photovoltaic": 0.0,
                                 "production_solar_thermal": 0.0,
                                 "production_other": 0.0
-                            },
-                            "energy_cost": {
-                                "cost_gas": 100000,
-                                "cost_electricity": 100000,
-                                "cost_district_heat": 100000,
-                                "cost_other_energy": 100000
                             },
                             "annual_heating_energy_demand": {
                                 "heating_demand": 0.0,
@@ -231,11 +214,11 @@
         "baseline": {
             "variant_name": "",
             "building": {
-                "building_name": "A Sample Building",
+                "building_name": "Example Building",
                 "building_type": "Multi-Family",
                 "_building_segments": {
-                    "A First Bldg Segment": {
-                        "segment_name": "A First Bldg Segment",
+                    "Residential Segment": {
+                        "segment_name": "Residential Segment",
                         "construction_type": "New Construction",
                         "construction_method": "Method A",
                         "geometry": {
@@ -265,12 +248,6 @@
                                 "production_solar_photovoltaic": 0.0,
                                 "production_solar_thermal": 0.0,
                                 "production_other": 0.0
-                            },
-                            "energy_cost": {
-                                "cost_gas": 100000,
-                                "cost_electricity": 100000,
-                                "cost_district_heat": 100000,
-                                "cost_other_energy": 100000
                             },
                             "annual_heating_energy_demand": {
                                 "heating_demand": 0.0,
@@ -306,8 +283,8 @@
                             }
                         }
                     },
-                    "A Different Bldg Segment": {
-                        "segment_name": "A Different Bldg Segment",
+                    "Commercial Segment": {
+                        "segment_name": "Commercial Segment",
                         "construction_type": "New Construction",
                         "construction_method": "Method A",
                         "geometry": {
@@ -337,12 +314,6 @@
                                 "production_solar_photovoltaic": 0.0,
                                 "production_solar_thermal": 0.0,
                                 "production_other": 0.0
-                            },
-                            "energy_cost": {
-                                "cost_gas": 100000,
-                                "cost_electricity": 100000,
-                                "cost_district_heat": 100000,
-                                "cost_other_energy": 100000
                             },
                             "annual_heating_energy_demand": {
                                 "heating_demand": 0.0,

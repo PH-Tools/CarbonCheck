@@ -157,11 +157,7 @@ class NBDM_Project:
 
     project_name: str = "-"
     client: str = "-"
-    salesforce_num: str = "-"
     report_date: str = "-"
-    nyc_ecc_year: enums.nyc_ecc_year = enums.nyc_ecc_year._2019
-    historic_preservation_site: bool = False
-    disadvantaged_communities: bool = False
     team: NBDM_Team = NBDM_Team()
     site: NBDM_Site = NBDM_Site()
     variants: NBDM_Variants = NBDM_Variants()

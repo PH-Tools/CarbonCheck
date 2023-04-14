@@ -7,11 +7,7 @@
 class Format_NBDM_Project:
     project_name = "Project Name"
     client = "Client"
-    salesforce_num = "SalesForce Number"
     report_date = "Report Date"
-    nyc_ecc_year = "NYC ECC Year"
-    historic_preservation_site = "Historic Preservation Site"
-    disadvantaged_communities = "Disadvantaged Communities"
     site = "Site"
     team = "Team"
 
@@ -22,7 +18,6 @@ class Format_NBDM_Site:
 
 
 class Format_NBDM_Climate:
-    zone_ashrae = "ASHRAE CZ"
     zone_passive_house = "Passive House CZ"
     source = "Climate Data Source"
 
@@ -82,28 +77,16 @@ class Format_NBDM_BuildingSegment:
 
 class Format_NBDM_BuildingSegmentGeometry:
     area_envelope = "Envelope Area"
-    area_floor_area_gross = "Gross Floor Area"
     area_floor_area_net_interior_weighted = "Net Interior Floor Area"
-    area_floor_area_interior_parking = "Interior Parking Floor Area"
-    volume_gross = "Gross Volume"
     volume_net_interior = "Net Interior Volume"
-    total_stories = "Num. Stories"
-    num_stories_above_grade = "Num. Stories Above Grade"
-    num_stories_below_grade = "Num. Stories Below Grade"
 
 
 class Format_NBDM_BuildingSegmentOccupancy:
     total_dwelling_units = "Total Dwelling Units"
-    num_apartments_studio = "Num. Studio"
-    num_apartments_1_br = "Num. 1Br"
-    num_apartments_2_br = "Num. 2Br"
-    num_apartments_3_br = "Num. 3Br"
-    num_apartments_4_br = "Num. 4Br"
     total_occupants = "Total Num. Occupants"
 
 
 class Format_NBDM_BuildingSegmentPerformance:
-    energy_cost = "Annual Energy Cost (USD)"
     site_energy = "Annual Site (End) Energy"
     source_energy = "Annual Source (Primary) Energy"
     annual_heating_energy_demand = "Annual Heating Demand"
@@ -130,13 +113,6 @@ class Format_NBDM_SourceEnergy:
     production_solar_photovoltaic = "Production: Solar PV"
     production_solar_thermal = "Production Solar Thermal"
     production_other = "Production Other"
-
-
-class Format_NBDM_EnergyCost:
-    cost_gas = "Cost: Gas"
-    cost_electricity = "Cost: Electricity"
-    cost_district_heat = "Cost: District Energy"
-    cost_other_energy = "Cost: Other"
 
 
 class Format_NBDM_AnnualHeatingDemandEnergy:

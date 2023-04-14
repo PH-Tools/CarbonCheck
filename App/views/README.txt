@@ -1,5 +1,5 @@
 to compile, run the following:
-pyuic6 -o ./views/ui_files/layout_app.py ./views/ui_files/layout_app.ui
+pyuic6 -o ./App/views/ui_files/layout_app.py ./views/ui_files/layout_app.ui
 
 
 

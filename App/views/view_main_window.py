@@ -3,8 +3,9 @@
 
 """Main Application View Class."""
 
-from typing import List, Dict, Any, Optional
+from enum import Enum
 import pathlib
+from typing import List, Dict, Any, Optional
 
 from PyQt6 import QtGui as qtg
 from PyQt6 import QtWidgets as qtw
@@ -14,17 +15,10 @@ from PyQt6 import QtCore as qtc
 from App.views.ui_files.layout_app import Ui_MainWindow
 
 
-# class StandardItem(qtg.QStandardItem):
-#     def __init__(self, txt):
-#         super().__init__()
-
-#         # fnt = QFont(<span class="hljs-string">'Open Sans'</span>, font_size)
-#         # fnt.setBold(set_bold)
-
-#         # self.setEditable(<span class="hljs-literal">False</span>)
-#         # self.setForeground(color)
-#         # self.setFont(fnt)
-#         self.setText(txt)
+class file_type(Enum):
+    NONE = ""
+    JSON = "JSON (*.json)"
+    XL = "Excel (*.xlsx *.xls *.xlsm)"
 
 
 class CCMainWindow(qtw.QMainWindow):
@@ -37,22 +31,30 @@ class CCMainWindow(qtw.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-    def get_file_path(self, filter: str = "xl") -> Optional[pathlib.Path]:
+    def get_file_path(self, filter: file_type = file_type.XL) -> Optional[pathlib.Path]:
         """Return a user-selected file path from a Dialog window."""
 
-        if filter == "xl":
-            filter = "Excel (*.xlsx *.xls *.xlsm)"
-        elif filter == "json":
-            filter = "JSON (*.json)"
-        else:
-            filter = ""
-
         file_name, selected_filter = qtw.QFileDialog.getOpenFileName(
-            self, "Select a file...", filter=filter
+            self, "Select a file...", filter=filter.value
         )
 
         if file_name is not "":  # "" returned on 'Cancel'
-            return pathlib.Path(file_name)
+            return pathlib.Path(file_name).resolve()
+        else:
+            return None
+
+    def get_save_file_path(self) -> Optional[pathlib.Path]:
+        """Return a user-specified file path from a Dialog window."""
+
+        filter: file_type = file_type.JSON
+        file_name, selected_filter = qtw.QFileDialog.getSaveFileName(
+            self,
+            caption="Save CarbonCheck Project...",
+            initialFilter=filter.value,
+            filter=filter.value,
+        )
+        if file_name:
+            return pathlib.Path(file_name).resolve()
         else:
             return None
 
@@ -108,5 +110,4 @@ class CCMainWindow(qtw.QMainWindow):
         treeModel = qtg.QStandardItemModel(0, 2)  # rows=0, columns=2
         rootNode = treeModel.invisibleRootItem()
         self.populate_tree_model(rootNode, _data)
-
         return treeModel

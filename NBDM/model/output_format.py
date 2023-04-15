@@ -18,8 +18,10 @@ class Format_NBDM_Site:
 
 
 class Format_NBDM_Climate:
+    country = "Country"
+    region = "Region"
+    data_set = "Dataset Name"
     zone_passive_house = "Passive House CZ"
-    source = "Climate Data Source"
 
 
 class Format_NBDM_Location:
@@ -33,7 +35,7 @@ class Format_NBDM_ProjectAddress:
     street_name = "Street"
     city = "City"
     state = "State"
-    zip_code = "Zip_code"
+    post_code = "Zip_code"
 
 
 class Format_NBDM_Team:

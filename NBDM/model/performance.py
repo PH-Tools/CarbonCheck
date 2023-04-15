@@ -4,7 +4,7 @@
 """NBDM Building Energy Performance Classes."""
 
 from __future__ import annotations
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict
 from NBDM.model import serialization
 from NBDM.model import operations
@@ -182,16 +182,18 @@ class NBDM_PeakCoolingLoad:
 
 @dataclass
 class NBDM_BuildingSegmentPerformance:
-    site_energy: NBDM_SiteEnergy = NBDM_SiteEnergy()
-    source_energy: NBDM_SourceEnergy = NBDM_SourceEnergy()
-    annual_heating_energy_demand: NBDM_AnnualHeatingDemandEnergy = (
-        NBDM_AnnualHeatingDemandEnergy()
+    site_energy: NBDM_SiteEnergy = field(default_factory=NBDM_SiteEnergy)
+    source_energy: NBDM_SourceEnergy = field(default_factory=NBDM_SourceEnergy)
+    annual_heating_energy_demand: NBDM_AnnualHeatingDemandEnergy = field(
+        default_factory=NBDM_AnnualHeatingDemandEnergy
     )
     annual_cooling_energy_demand: NBDM_AnnualCoolingDemandEnergy = (
         NBDM_AnnualCoolingDemandEnergy()
     )
-    peak_heating_load: NBDM_PeakHeatingLoad = NBDM_PeakHeatingLoad()
-    peak_sensible_cooling_load: NBDM_PeakCoolingLoad = NBDM_PeakCoolingLoad()
+    peak_heating_load: NBDM_PeakHeatingLoad = field(default_factory=NBDM_PeakHeatingLoad)
+    peak_sensible_cooling_load: NBDM_PeakCoolingLoad = field(
+        default_factory=NBDM_PeakCoolingLoad
+    )
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentPerformance:

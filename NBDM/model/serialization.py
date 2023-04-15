@@ -12,7 +12,7 @@ from dataclasses import fields
 class FromDictException(Exception):
     def __init__(self, _cls_name, _attr_name, _dict_keys):
         self.message = (
-            f"\n\tError building{_cls_name} from dict."
+            f"\n\tError building '{_cls_name}' from dict."
             f"\n\tThe attribute '{_attr_name}' is missing from "
             f"in the dictionary keys: {_dict_keys} provided?"
         )

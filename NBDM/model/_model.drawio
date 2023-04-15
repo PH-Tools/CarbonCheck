@@ -1,136 +1,136 @@
 <mxfile host="65bd71144e">
     <diagram id="vwsIQHmzCKzelbVq-6L1" name="Page-1">
-        <mxGraphModel dx="914" dy="530" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="642" dy="495" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="2" value="NBDM_Project" style="swimlane;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
-                    <mxGeometry x="110" y="330" width="200" height="90" as="geometry"/>
+                <mxCell id="2" value="NBDM_Project" style="swimlane;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="80" width="200" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" value="NBDM_Variants" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="2">
+                <mxCell id="3" value="NBDM_Variants" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="2" vertex="1">
                     <mxGeometry x="10" y="40" width="180" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="5" value="NBDM_Variants" style="swimlane;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="1">
+                <mxCell id="73" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="5" target="2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="NBDM_Variants" style="swimlane;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
                     <mxGeometry x="110" y="440" width="200" height="140" as="geometry"/>
                 </mxCell>
-                <mxCell id="7" value="NBDM_Variant [baseline]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" vertex="1" parent="5">
+                <mxCell id="7" value="NBDM_Variant [baseline]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="5" vertex="1">
                     <mxGeometry x="10" y="90" width="180" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="66" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="5" source="6" target="7">
+                <mxCell id="66" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="5" source="6" target="7" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="6" value="NBDM_Variant [proposed]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" vertex="1" parent="5">
+                <mxCell id="6" value="NBDM_Variant [proposed]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="5" vertex="1">
                     <mxGeometry x="10" y="40" width="180" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="8" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3" target="5">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="9" value="NBDM_Variant" style="swimlane;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" vertex="1" parent="1">
+                <mxCell id="9" value="NBDM_Variant" style="swimlane;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
                     <mxGeometry x="380" y="300" width="310" height="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="11" value="NBDM_Building" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="9">
+                <mxCell id="11" value="NBDM_Building" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="9" vertex="1">
                     <mxGeometry x="10" y="40" width="290" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="12" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0.002;entryY=0.11;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="6" target="9">
+                <mxCell id="12" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0.002;entryY=0.11;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="6" target="9" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="13" value="NBDM_BuildingSegment" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" vertex="1" parent="1">
+                <mxCell id="13" value="NBDM_BuildingSegment" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
                     <mxGeometry x="380" y="550" width="310" height="200" as="geometry"/>
                 </mxCell>
-                <mxCell id="14" value="NBDM_BuildingSegmentGeometry" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#6d8764;fontColor=#ffffff;strokeColor=#3A5431;" vertex="1" parent="13">
+                <mxCell id="14" value="NBDM_BuildingSegmentGeometry" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#6d8764;fontColor=#ffffff;strokeColor=#3A5431;" parent="13" vertex="1">
                     <mxGeometry x="10" y="40" width="290" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="59" value="NBDM_BuildingSegmentPerformance" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" vertex="1" parent="13">
+                <mxCell id="59" value="NBDM_BuildingSegmentPerformance" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="13" vertex="1">
                     <mxGeometry x="10" y="140" width="290" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="15" value="NBDM_Building" style="swimlane;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
+                <mxCell id="15" value="NBDM_Building" style="swimlane;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
                     <mxGeometry x="380" y="420" width="310" height="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="16" value="Collection: NBDM_BuildingSegment" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" vertex="1" parent="15">
+                <mxCell id="16" value="Collection: NBDM_BuildingSegment" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="15" vertex="1">
                     <mxGeometry x="10" y="40" width="290" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="17" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="11" target="15">
+                <mxCell id="17" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="11" target="15" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="18" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="16" target="13">
+                <mxCell id="18" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="16" target="13" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="19" value="NBDM_BuildingSegmentGeometry" style="swimlane;whiteSpace=wrap;html=1;fillColor=#6d8764;fontColor=#ffffff;strokeColor=#3A5431;" vertex="1" parent="1">
+                <mxCell id="19" value="NBDM_BuildingSegmentGeometry" style="swimlane;whiteSpace=wrap;html=1;fillColor=#6d8764;fontColor=#ffffff;strokeColor=#3A5431;" parent="1" vertex="1">
                     <mxGeometry x="780" y="150" width="280" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="25" value="area_envelope&lt;br&gt;area_floor_area_net_interior_weighted&lt;br&gt;volume_net_interior" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="19">
+                <mxCell id="25" value="area_envelope&lt;br&gt;area_floor_area_net_interior_weighted&lt;br&gt;volume_net_interior" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="19" vertex="1">
                     <mxGeometry x="10" y="30" width="230" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="21" value="NBDM_BuildingSegmentOccupancy" style="swimlane;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" vertex="1" parent="1">
+                <mxCell id="21" value="NBDM_BuildingSegmentOccupancy" style="swimlane;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
                     <mxGeometry x="780" y="260" width="280" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="26" value="total_dwelling_units&lt;br&gt;total_occupants" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="21">
+                <mxCell id="26" value="total_dwelling_units&lt;br&gt;total_occupants" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="21" vertex="1">
                     <mxGeometry x="10" y="40" width="130" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="23" value="NBDM_BuildingSegmentPerformance" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" vertex="1" parent="1">
+                <mxCell id="23" value="NBDM_BuildingSegmentPerformance" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
                     <mxGeometry x="780" y="360" width="280" height="340" as="geometry"/>
                 </mxCell>
-                <mxCell id="27" value="NBDM_SiteEnergy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="23">
+                <mxCell id="27" value="NBDM_SiteEnergy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="23" vertex="1">
                     <mxGeometry x="10" y="40" width="260" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="28" value="NBDM_SourceEnergy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="23">
+                <mxCell id="28" value="NBDM_SourceEnergy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="23" vertex="1">
                     <mxGeometry x="10" y="90" width="260" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="29" value="NBDM_AnnualHeatingDemandEnergy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="23">
+                <mxCell id="29" value="NBDM_AnnualHeatingDemandEnergy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="23" vertex="1">
                     <mxGeometry x="10" y="140" width="260" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="30" value="NBDM_AnnualCoolingDemandEnergy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="23">
+                <mxCell id="30" value="NBDM_AnnualCoolingDemandEnergy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="23" vertex="1">
                     <mxGeometry x="10" y="190" width="260" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="31" value="NBDM_PeakHeatingLoad" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="23">
+                <mxCell id="31" value="NBDM_PeakHeatingLoad" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="23" vertex="1">
                     <mxGeometry x="10" y="240" width="260" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="32" value="NBDM_PeakCoolingLoad" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="23">
+                <mxCell id="32" value="NBDM_PeakCoolingLoad" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="23" vertex="1">
                     <mxGeometry x="10" y="290" width="260" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="33" value="NBDM_SiteEnergy" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="1">
+                <mxCell id="33" value="NBDM_SiteEnergy" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="1" vertex="1">
                     <mxGeometry x="1200" y="140" width="240" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="34" value="consumption (by fuel)&lt;br&gt;production (by fuel)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="33">
+                <mxCell id="34" value="consumption (by fuel)&lt;br&gt;production (by fuel)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="33" vertex="1">
                     <mxGeometry x="10" y="40" width="140" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="36" value="NBDM_SourceEnergy" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="1">
+                <mxCell id="36" value="NBDM_SourceEnergy" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="1" vertex="1">
                     <mxGeometry x="1200" y="250" width="240" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="37" value="consumption (by fuel)&lt;br&gt;production (by fuel)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="36">
+                <mxCell id="37" value="consumption (by fuel)&lt;br&gt;production (by fuel)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="36" vertex="1">
                     <mxGeometry x="10" y="40" width="140" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="39" value="NBDM_AnnualHeatingDemandEnergy" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="1">
+                <mxCell id="39" value="NBDM_AnnualHeatingDemandEnergy" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="1" vertex="1">
                     <mxGeometry x="1200" y="360" width="240" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="40" value="heat gains&lt;br&gt;heat losses&lt;br&gt;annual demand" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="39">
+                <mxCell id="40" value="heat gains&lt;br&gt;heat losses&lt;br&gt;annual demand" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="39" vertex="1">
                     <mxGeometry x="10" y="30" width="110" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="42" value="NBDM_AnnualCoolingDemandEnergy" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="1">
+                <mxCell id="42" value="NBDM_AnnualCoolingDemandEnergy" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="1" vertex="1">
                     <mxGeometry x="1200" y="460" width="240" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="43" value="heat gains&lt;br&gt;heat losses&lt;br&gt;annual demand" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="42">
+                <mxCell id="43" value="heat gains&lt;br&gt;heat losses&lt;br&gt;annual demand" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="42" vertex="1">
                     <mxGeometry x="10" y="30" width="110" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="45" value="NBDM_PeakHeatingLoad" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="1">
+                <mxCell id="45" value="NBDM_PeakHeatingLoad" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="1" vertex="1">
                     <mxGeometry x="1200" y="560" width="240" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="46" value="heat gains&lt;br&gt;heat losses&lt;br&gt;peak load" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="45">
+                <mxCell id="46" value="heat gains&lt;br&gt;heat losses&lt;br&gt;peak load" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="45" vertex="1">
                     <mxGeometry x="10" y="30" width="80" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="48" value="NBDM_PeakCoolingLoad" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" vertex="1" parent="1">
+                <mxCell id="48" value="NBDM_PeakCoolingLoad" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" parent="1" vertex="1">
                     <mxGeometry x="1200" y="660" width="240" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="49" value="heat gains&lt;br&gt;heat losses&lt;br&gt;peak load" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="48">
+                <mxCell id="49" value="heat gains&lt;br&gt;heat losses&lt;br&gt;peak load" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="48" vertex="1">
                     <mxGeometry x="10" y="30" width="80" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="51" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="32" target="48">
+                <mxCell id="51" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="32" target="48" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="52" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="31" target="45">
+                <mxCell id="52" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="31" target="45" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="53" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="30" target="42">
+                <mxCell id="53" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="30" target="42" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1170" y="570"/>
@@ -138,7 +138,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="54" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="29" target="39">
+                <mxCell id="54" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="29" target="39" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1150" y="520"/>
@@ -146,10 +146,10 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="55" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="28" target="36">
+                <mxCell id="55" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="28" target="36" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="56" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="27" target="33">
+                <mxCell id="56" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="27" target="33" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1100" y="420"/>
@@ -157,7 +157,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="61" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="57" target="21">
+                <mxCell id="61" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="57" target="21" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="740" y="660"/>
@@ -165,10 +165,10 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="57" value="NBDM_BuildingSegmentOccupancy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" vertex="1" parent="1">
+                <mxCell id="57" value="NBDM_BuildingSegmentOccupancy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
                     <mxGeometry x="390" y="640" width="290" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="62" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="14" target="19">
+                <mxCell id="62" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="14" target="19" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="720" y="610"/>
@@ -176,7 +176,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="63" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=-0.004;entryY=0.064;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="59" target="23">
+                <mxCell id="63" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=-0.004;entryY=0.064;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="59" target="23" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="760" y="710"/>
@@ -184,14 +184,26 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="64" value="NBDM_Variant" style="swimlane;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" vertex="1" parent="1">
+                <mxCell id="64" value="NBDM_Variant" style="swimlane;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
                     <mxGeometry x="380" y="790" width="310" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="65" value=". . ." style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" vertex="1" parent="64">
+                <mxCell id="65" value=". . ." style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="64" vertex="1">
                     <mxGeometry x="10" y="40" width="290" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="67" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="7" target="64">
+                <mxCell id="67" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="7" target="64" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="70" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="68" target="2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="68" value="NBDM_TEAM" style="swimlane;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;startSize=23;" vertex="1" parent="1">
+                    <mxGeometry x="370" y="130" width="200" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="72" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="71" target="2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="71" value="NBDM_SITE" style="swimlane;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;startSize=23;" vertex="1" parent="1">
+                    <mxGeometry x="370" y="10" width="200" height="90" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

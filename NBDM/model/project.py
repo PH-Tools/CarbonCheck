@@ -4,7 +4,7 @@
 """NBDM Project Classes."""
 
 from __future__ import annotations
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Optional
 
 from NBDM.model.building import NBDM_Building
@@ -20,7 +20,7 @@ class NBDM_Variant:
     """A single 'Variant' with building data"""
 
     variant_name: str = "-"
-    building: NBDM_Building = NBDM_Building()
+    building: NBDM_Building = field(default_factory=NBDM_Building)
 
     def get_building_segment(self, _name: str) -> NBDM_BuildingSegment:
         """Retrieve a specific Building-Segment by name."""
@@ -59,8 +59,8 @@ class NBDM_Variant:
 class NBDM_Variants:
     """A group of 2 variants: 'Proposed' and 'Baseline'."""
 
-    proposed: NBDM_Variant = NBDM_Variant()
-    baseline: NBDM_Variant = NBDM_Variant()
+    proposed: NBDM_Variant = field(default_factory=NBDM_Variant)
+    baseline: NBDM_Variant = field(default_factory=NBDM_Variant)
 
     @property
     def change_from_baseline_variant(self) -> NBDM_Variant:
@@ -158,9 +158,9 @@ class NBDM_Project:
     project_name: str = "-"
     client: str = "-"
     report_date: str = "-"
-    team: NBDM_Team = NBDM_Team()
-    site: NBDM_Site = NBDM_Site()
-    variants: NBDM_Variants = NBDM_Variants()
+    team: NBDM_Team = field(default_factory=NBDM_Team)
+    site: NBDM_Site = field(default_factory=NBDM_Site)
+    variants: NBDM_Variants = field(default_factory=NBDM_Variants)
 
     @property
     def building_segment_names_baseline(self) -> List[str]:
@@ -220,3 +220,21 @@ class NBDM_Project:
         project.variants.baseline.add_building_segment(NBDM_BuildingSegment())
         project.variants.proposed.add_building_segment(NBDM_BuildingSegment())
         return project
+
+    def add_new_baseline_segment(self, _segment: NBDM_BuildingSegment):
+        """Adds a new BuildingSegment to the Project's "Baseline" variant
+
+        Arguments:
+        ----------
+            * _segment: (NBDM_BuildingSegment) The NBDM_BuildingSegment to add.
+        """
+        self.variants.baseline.add_building_segment(_segment)
+
+    def add_new_proposed_segment(self, _segment: NBDM_BuildingSegment):
+        """Adds a new BuildingSegment to the Project's "Proposed" variant
+
+        Arguments:
+        ----------
+            * _segment: (NBDM_BuildingSegment) The NBDM_BuildingSegment to add.
+        """
+        self.variants.proposed.add_building_segment(_segment)

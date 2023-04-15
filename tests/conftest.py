@@ -28,12 +28,14 @@ sample_ProjectAddress = NBDM_ProjectAddress(
     street_name="Example St.",
     city="Example City",
     state="NY",
-    zip_code="11111",
+    post_code="11111",
 )
 
 sample_ProjectClimate = NBDM_Climate(
     zone_passive_house="4",
-    source="Source",
+    country="-",
+    region="-",
+    data_set="",
 )
 
 sample_ProjectLocation = NBDM_Location(
@@ -204,7 +206,7 @@ sample_contact_a = NBDM_TeamContactInfo(
     street_name="Example Street",
     city="Example City",
     state="NY",
-    zip_code="11111",
+    post_code="11111",
     phone="555-555-5555",
     email="example@email.com",
 )

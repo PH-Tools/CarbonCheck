@@ -83,7 +83,6 @@ def sum_energy_values(_data: Dict[str, List[Tuple[str, float]]], _key: str):
 def build_site_energy(
     _data: Dict[str, Dict[str, Optional[float]]]
 ) -> performance.NBDM_SiteEnergy:
-
     # -- Energy Use Data
     consumption = organize_energy_by_fuel_type(get_consumption_uses(_data))
     production = organize_energy_by_fuel_type(get_production_uses(_data))
@@ -102,7 +101,6 @@ def build_site_energy(
 def build_source_energy(
     _data: Dict[str, Dict[str, Optional[float]]]
 ) -> performance.NBDM_SourceEnergy:
-
     # -- Energy Use Data
     consumption = organize_energy_by_fuel_type(get_consumption_uses(_data))
     production = organize_energy_by_fuel_type(get_production_uses(_data))
@@ -216,13 +214,9 @@ def build_NBDM_performance(_phpp_conn: phpp_app.PHPPConnection):
     site_energy = build_site_energy(_phpp_conn.per.get_final_kWh_by_fuel_type())
     source_energy = build_source_energy(_phpp_conn.per.get_primary_kWh_by_fuel_type())
 
-    # TODO: -- Site and Source Energy
-    energy_cost = sample_EnergyCost
-
     return performance.NBDM_BuildingSegmentPerformance(
         site_energy,
         source_energy,
-        energy_cost,
         annual_heating_energy_demand,
         annual_cooling_energy_demand,
         peak_heating_load,

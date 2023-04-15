@@ -4,7 +4,7 @@
 """NBDM Project Site Classes."""
 
 from __future__ import annotations
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict
 from NBDM.model import serialization
 
@@ -15,7 +15,7 @@ class NBDM_ProjectAddress:
     street_name: str = "-"
     city: str = "-"
     state: str = "-"
-    zip_code: str = "-"
+    post_code: str = "-"
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_ProjectAddress:
@@ -26,7 +26,9 @@ class NBDM_ProjectAddress:
 @dataclass
 class NBDM_Climate:
     zone_passive_house: str = "-"
-    source: str = "-"
+    country: str = "-"
+    region: str = "-"
+    data_set: str = "-"
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Climate:
@@ -36,7 +38,7 @@ class NBDM_Climate:
 
 @dataclass
 class NBDM_Location:
-    address: NBDM_ProjectAddress = NBDM_ProjectAddress()
+    address: NBDM_ProjectAddress = field(default_factory=NBDM_ProjectAddress)
     longitude: float = 0.0
     latitude: float = 0.0
 
@@ -48,8 +50,8 @@ class NBDM_Location:
 
 @dataclass
 class NBDM_Site:
-    climate: NBDM_Climate = NBDM_Climate()
-    location: NBDM_Location = NBDM_Location()
+    climate: NBDM_Climate = field(default_factory=NBDM_Climate)
+    location: NBDM_Location = field(default_factory=NBDM_Location)
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Site:

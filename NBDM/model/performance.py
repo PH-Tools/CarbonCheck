@@ -187,13 +187,12 @@ class NBDM_BuildingSegmentPerformance:
     annual_heating_energy_demand: NBDM_AnnualHeatingDemandEnergy = field(
         default_factory=NBDM_AnnualHeatingDemandEnergy
     )
-    annual_cooling_energy_demand: NBDM_AnnualCoolingDemandEnergy = (
-        NBDM_AnnualCoolingDemandEnergy()
-    )
+    annual_cooling_energy_demand: NBDM_AnnualCoolingDemandEnergy = field(
+        default_factory=NBDM_AnnualCoolingDemandEnergy)
+    
     peak_heating_load: NBDM_PeakHeatingLoad = field(default_factory=NBDM_PeakHeatingLoad)
     peak_sensible_cooling_load: NBDM_PeakCoolingLoad = field(
-        default_factory=NBDM_PeakCoolingLoad
-    )
+        default_factory=NBDM_PeakCoolingLoad)
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentPerformance:

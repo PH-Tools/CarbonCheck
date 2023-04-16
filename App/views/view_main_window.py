@@ -38,7 +38,7 @@ class CCMainWindow(qtw.QMainWindow):
             self, "Select a file...", filter=filter.value
         )
 
-        if file_name is not "":  # "" returned on 'Cancel'
+        if file_name != "":  # "" returned on 'Cancel'
             return pathlib.Path(file_name).resolve()
         else:
             return None

@@ -1,4 +1,5 @@
 black==23.1.0
 pytest
 coverage
-PyQt6
+pyinstaller
+pyinstaller-hooks-contrib

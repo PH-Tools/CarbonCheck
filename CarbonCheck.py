@@ -3,7 +3,6 @@
 """Run to see GUI."""
 
 import sys
-
 from NBDM.model import output_format
 from App.cc_app import CCApp
 

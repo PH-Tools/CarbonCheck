@@ -6,3 +6,4 @@ PH-units
 PHX
 rich
 xlwings
+PyQt6

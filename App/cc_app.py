@@ -40,9 +40,19 @@ class CCApp(qtw.QApplication):
         self.view.ui.btn_add_proposed_seg.clicked.connect(self.add_proposed_seg_from_file)
         self.view.ui.btn_create_report.clicked.connect(self.write_report_to_file)
 
-        self.model.load_team_data.connect(self.view.set_team_tree_view)
-        self.model.load_proposed_segments_data.connect(self.view.set_proposed_tree_view)
-        self.model.load_baseline_segments_data.connect(self.view.set_baseline_tree_view)
+        self.model.load_team_data.connect(self.view.set_treeView_data_team)
+        self.model.load_baseline_segments_data.connect(self.view.set_treeView_data_baseline)
+        self.model.load_proposed_segments_data.connect(self.view.set_treeView_data_proposed)
+
+        self.model.read_treeView_team.connect(self.view.get_treeView_data_team)
+        self.model.read_treeView_site.connect(self.view.get_treeView_data_site)
+        self.model.read_treeView_baseline_segments.connect(self.view.get_treeView_data_baseline_building)
+        self.model.read_treeView_proposed_segments.connect(self.view.get_treeView_data_proposed_building)
+        
+        self.view.got_team_data.connect(self.model.set_project_team_from_treeView_data)
+        self.view.got_site_data.connect(self.model.set_project_site_from_treeView_data)
+        self.view.got_baseline_building_data.connect(self.model.set_project_baseline_segments_from_treeView_data)
+        self.view.got_proposed_building_data.connect(self.model.set_project_proposed_segments_from_treeView_data)
 
         return None
 
@@ -103,7 +113,6 @@ class CCApp(qtw.QApplication):
 
     def write_report_to_file(self) -> None:
         """Write out the data to a new Excel report"""
-
-        # TODO: Build the Project from the data in the view, in case any user modifications.
-
-        self.model.write_excel_report.emit(self.model.NBDM_project)
+        print(">> 1) CCApp.write_report_to_file()")
+        self.model.set_project_from_gui()
+        # self.model.write_excel_report.emit(self.model.NBDM_project)

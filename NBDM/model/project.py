@@ -28,6 +28,10 @@ class NBDM_Variant:
 
     def add_building_segment(self, _bldg_segment: NBDM_BuildingSegment) -> None:
         self.building.add_building_segment(_bldg_segment)
+    
+    def clear_variant_building_segments(self) -> None:
+        """Clear all the Building-Segments"""
+        self.building.clear_building_segments()
 
     @property
     def building_segments(self) -> List[NBDM_BuildingSegment]:
@@ -238,3 +242,8 @@ class NBDM_Project:
             * _segment: (NBDM_BuildingSegment) The NBDM_BuildingSegment to add.
         """
         self.variants.proposed.add_building_segment(_segment)
+
+    def clear_project_building_segments(self):
+        """Clears all BuildingSegments from the Project."""
+        self.variants.baseline.clear_variant_building_segments()
+        self.variants.proposed.clear_variant_building_segments()

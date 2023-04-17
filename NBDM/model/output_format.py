@@ -35,7 +35,7 @@ class Format_NBDM_ProjectAddress:
     street_name = "Street"
     city = "City"
     state = "State"
-    post_code = "Zip_code"
+    post_code = "Zipcode"
 
 
 class Format_NBDM_Team:
@@ -55,7 +55,8 @@ class Format_NBDM_TeamContactInfo:
     street_name = "Street"
     city = "City"
     state = "State"
-    zip_code = "Zip"
+    country = "Country"
+    post_code = "Zipcode"
     phone = "Phone"
     email = "Email"
 

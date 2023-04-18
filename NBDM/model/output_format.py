@@ -119,26 +119,45 @@ class Format_NBDM_SourceEnergy:
 
 
 class Format_NBDM_AnnualHeatingDemandEnergy:
-    heating_demand = "Annual Heating Energy Demand"
-    losses_total = "Winter Heat Losses"
-    gains_total = "Winter Useful Heat Gains"
+    heating_demand = "Winter Heating Energy Demand"
+    losses_transmission = "Transmission Heat Losses"
+    losses_ventilation = "Ventilation Heat Losses"
+    gains_solar = "Solar Heat Gains"
+    gains_internal = "Internal Heat Gains"
+    utilization_factor = "Winter Utilization Factor"
+    losses_total = "Total Winter Heat Losses"
+    gains_total = "Total Winter Useful Heat Gains"
 
 
 class Format_NBDM_AnnualCoolingDemandEnergy:
-    sensible_cooling_demand = "Annual Sensible Cooling Energy Demand"
-    latent_cooling_demand = "Annual Latent Cooling Energy Demand"
-    losses_total = "Summer Useful Heat Losses"
-    gains_total = "Summer Heat Gains"
+    sensible_cooling_demand = "Summer Sensible Cooling Energy Demand"
+    latent_cooling_demand = "Summer Latent Cooling Energy Demand"
+    total_cooling_demand = "Summer Total Cooling Energy Demand"
+    losses_transmission = "Transmission Heat Losses"
+    losses_ventilation = "Ventilation Heat Losses"
+    gains_solar = "Solar Heat Gains"
+    gains_internal = "Internal Heat Gains"
+    utilization_factor = "Seasonal Utilization Factor"
+    losses_total = "Total Summer Useful Heat Losses"
+    gains_total = "Total Summer Heat Gains"
 
 
 class Format_NBDM_PeakHeatingLoad:
-    peak_load = "Peak Heating Load"
+    peak_heating_load = "Peak Heating Load"
+    losses_transmission = "Peak Transmission Heat Losses"
+    losses_ventilation = "Peak Ventilation Heat Losses"
+    gains_solar = "Peak Solar Heat Gains"
+    gains_internal = "Peak Internal Heat Gains"
     losses_total = "Total Peak Heat Losses"
     gains_total = "Total Peak Heat Gains"
 
 
 class Format_NBDM_PeakCoolingLoad:
-    peak_load_sensible = "Peak Sensible Cooling Load"
-    peak_load_latent = "Peak Latent Cooling Load"
+    peak_sensible_cooling_load = "Peak Sensible Cooling Load"
+    peak_latent_cooling_load = "Peak Latent Cooling Load"
+    losses_transmission = "Peak Transmission Heat Losses"
+    losses_ventilation = "Peak Ventilation Heat Losses"
+    gains_solar = "Peak Solar Heat Gains"
+    gains_internal = "Peak Internal Heat Gains"
     losses_total = "Total Peak Sensible Cooling Losses"
     gains_total = "Total Peak Sensible Cooling Gains"

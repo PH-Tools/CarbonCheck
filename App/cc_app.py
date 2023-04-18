@@ -3,7 +3,10 @@
 """Main Application."""
 
 import pathlib
+from queue import Queue
+import sys
 from types import ModuleType
+from typing import Callable, Any
 
 from PyQt6 import QtGui as qtg
 from PyQt6 import QtWidgets as qtw
@@ -11,12 +14,20 @@ from PyQt6 import QtCore as qtc
 
 from App.views import view_main_window
 from App.cc_model import CCModel
+from App.cc_workers import WorkerReceiveText, WriteStream
 
 
 class CCApp(qtw.QApplication):
     """CarbonCheck Application Controller."""
 
-    def __init__(self, _output_format: ModuleType, *args, **kwargs):
+    # -- Thread worker Signal for redirecting stdout
+    received_text = qtc.pyqtSignal(str)
+
+    def __init__(self, 
+                 _output_format: ModuleType, 
+                 *args,
+                 **kwargs,
+    ) -> None:
         super().__init__(*args, **kwargs)
 
         # -- Create the View
@@ -25,15 +36,41 @@ class CCApp(qtw.QApplication):
         # -- Create the Model
         self.model = CCModel(_output_format)
 
-        # -- Connect View and Model
-        self.connect_signals()
+        # -- Setup the Queue for capturing stdout, as shown in:
+        # https://stackoverflow.com/questions/21071448/redirecting-stdout-and-stderr-to-a-pyqt4-qtextedit-from-a-secondary-thread
+        self.queue = Queue()
+        sys.stdout = WriteStream(self.queue)
+        self._configure_worker_threads()
 
-    def connect_signals(self) -> None:
+        # -- Connect View and Model
+        self._connect_signals()
+
+    def _configure_worker_threads(self):
+        """Configure and start up all the worker threads for stdout stream."""
+        self._create_workers()
+        self._start_worker_threads()
+        self._connect_worker_signals()
+    
+    def _create_workers(self):
+        self.worker_txt_receiver = WorkerReceiveText(self.queue)
+        self.worker_txt_receiver_thread = qtc.QThread()
+    
+    def _start_worker_threads(self):
+        self.worker_txt_receiver.moveToThread(self.worker_txt_receiver_thread)
+        self.worker_txt_receiver_thread.start()
+    
+    def _connect_worker_signals(self):
+        self.worker_txt_receiver.received_text.connect(self.append_text)
+        self.worker_txt_receiver_thread.started.connect(self.worker_txt_receiver.run)
+
+    def _connect_signals(self) -> None:
         """Hook up all the signals and slots."""
         # .connect( SLOT )
         self.view.ui.actionOpen.triggered.connect(self.menu_file_open)
         self.view.ui.actionSave.triggered.connect(self.menu_file_save)
         self.view.ui.actionSave_As.triggered.connect(self.menu_file_save_as)
+        self.view.ui.actionClose.triggered.connect(self.menu_close)
+        self.view.ui.actionExport_Report_To.triggered.connect(self.write_report_to_file)
 
         self.view.ui.btn_add_team_info.clicked.connect(self.add_project_info_from_file)
         self.view.ui.btn_add_baseline_seg.clicked.connect(self.add_baseline_seg_from_file)
@@ -56,6 +93,22 @@ class CCApp(qtw.QApplication):
 
         return None
 
+    @qtc.pyqtSlot(str)
+    def append_text(self,text):
+        self.view.ui.textEdit_output.moveCursor(qtg.QTextCursor.MoveOperation.End)
+        self.view.ui.textEdit_output.insertPlainText( text )
+
+    def set_print_function(self, output_func: Callable[[str], Any]) -> None:
+        """Supply and optional output (print) function for the App to use."""
+        self.output = output_func
+
+    def append_txt_to_preview(self, input: Any):
+        """Append text to the Application's Preview panel."""
+        try:
+            self.view.ui.textEdit_output.append(str(input))
+        except:
+            pass
+
     def menu_file_open(self) -> None:
         """Get a CC Project file path and open it. Execute on Menu / File / Open..."""
         filepath = self.view.get_file_path(filter=view_main_window.file_type.JSON)
@@ -76,6 +129,10 @@ class CCApp(qtw.QApplication):
             return
         filepath = pathlib.Path(filepath).resolve()
         self.model.write_json_file(filepath)
+
+    def menu_close(self) -> None:
+        """Execute on Menu / File / Close."""
+        self.view.close()
 
     def add_project_info_from_file(self) -> None:
         """Load 'Project' information from a single PHPP file (Team, Climate, Site...)"""
@@ -113,6 +170,5 @@ class CCApp(qtw.QApplication):
 
     def write_report_to_file(self) -> None:
         """Write out the data to a new Excel report"""
-        print(">> 1) CCApp.write_report_to_file()")
         self.model.set_project_from_gui()
-        # self.model.write_excel_report.emit(self.model.NBDM_project)
+        self.model.write_excel_report.emit(self.model.NBDM_project)

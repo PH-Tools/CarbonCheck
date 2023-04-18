@@ -5,7 +5,7 @@
 
 from enum import Enum
 import pathlib
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional, Tuple, Callable
 
 from PyQt6 import QtGui as qtg
 from PyQt6 import QtWidgets as qtw
@@ -144,7 +144,7 @@ class CCMainWindow(qtw.QMainWindow):
     @qtc.pyqtSlot()
     def get_treeView_data_team(self):
         """Return the 'Team' treeView data as a dict."""
-        print(">>  3) CCMainWindow.get_treeView_data_team()")
+        print("Getting Project Team data.")
         _treeview_model = getattr(self.ui, "tree_view_model_team_info", None)
         data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
         self.got_team_data.emit(data)
@@ -152,7 +152,7 @@ class CCMainWindow(qtw.QMainWindow):
     @qtc.pyqtSlot()
     def get_treeView_data_site(self):
         """Return the 'Site' treeView data as a dict."""
-        print(">>  4) CCMainWindow.get_treeView_data_site()")
+        print("Getting Project Site data.")
         _treeview_model = getattr(self.ui, "tree_view_model_team_info", None)
         data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
         self.got_site_data.emit(data)
@@ -160,7 +160,7 @@ class CCMainWindow(qtw.QMainWindow):
     @qtc.pyqtSlot()
     def get_treeView_data_proposed_building(self):
         """Return the Proposed Building treeView data as a dict."""
-        print(">>  5) CCMainWindow.get_treeView_data_proposed_building()")
+        print("Getting Proposed Building Segment data.")
         _treeview_model = getattr(self.ui, "tree_view_model_proposed", None)
         data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
         self.got_proposed_building_data.emit(data)
@@ -168,7 +168,7 @@ class CCMainWindow(qtw.QMainWindow):
     @qtc.pyqtSlot()
     def get_treeView_data_baseline_building(self):
         """Return the Baseline Building treeView data as a dict."""
-        print(">>  6) CCMainWindow.get_treeView_data_baseline_building()")
+        print("Getting Baseline Building Segment data.")
         _treeview_model = getattr(self.ui, "tree_view_model_baseline", None)
         data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
         self.got_baseline_building_data.emit(data)

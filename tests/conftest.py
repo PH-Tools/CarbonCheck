@@ -133,7 +133,7 @@ sample_AnnualCoolingDemand = NBDM_AnnualCoolingDemandEnergy(
 )
 
 sample_PeakHeatingLoad = NBDM_PeakHeatingLoad(
-    peak_load=0.0,
+    peak_heating_load=0.0,
     losses_transmission=0.0,
     losses_ventilation=0.0,
     gains_solar=0.0,

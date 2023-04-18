@@ -132,15 +132,15 @@
                                 "gains_internal": 2552.8381875742116
                             },
                             "peak_heating_load": {
-                                "peak_load": 1318.4621538299832,
+                                "peak_heating_load": 1318.4621538299832,
                                 "losses_transmission": 1361.3018903821337,
                                 "losses_ventilation": 473.5512062995276,
                                 "gains_solar": 323.3829428516781,
                                 "gains_internal": 193.008
                             },
                             "peak_sensible_cooling_load": {
-                                "peak_load_sensible": 1577.5400396670914,
-                                "peak_load_latent": 371.92282721113503,
+                                "peak_sensible_cooling_load": 1577.5400396670914,
+                                "peak_latent_cooling_load": 371.92282721113503,
                                 "losses_transmission": 60.974558478474165,
                                 "losses_ventilation": 60.37308962901328,
                                 "gains_solar": 1137.72455378837,
@@ -207,15 +207,15 @@
                                 "gains_internal": 2552.8381875742116
                             },
                             "peak_heating_load": {
-                                "peak_load": 1318.4621538299832,
+                                "peak_heating_load": 1318.4621538299832,
                                 "losses_transmission": 1361.3018903821337,
                                 "losses_ventilation": 473.5512062995276,
                                 "gains_solar": 323.3829428516781,
                                 "gains_internal": 193.008
                             },
                             "peak_sensible_cooling_load": {
-                                "peak_load_sensible": 1577.5400396670914,
-                                "peak_load_latent": 371.92282721113503,
+                                "peak_sensible_cooling_load": 1577.5400396670914,
+                                "peak_latent_cooling_load": 371.92282721113503,
                                 "losses_transmission": 60.974558478474165,
                                 "losses_ventilation": 60.37308962901328,
                                 "gains_solar": 1137.72455378837,

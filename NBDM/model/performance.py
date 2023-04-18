@@ -98,6 +98,11 @@ class NBDM_AnnualCoolingDemandEnergy:
     gains_internal: float = 0.0
 
     @property
+    def total_cooling_demand(self) -> float:
+        """Total cooling demand (sensible + latent)."""
+        return self.sensible_cooling_demand + self.latent_cooling_demand
+
+    @property
     def losses_total(self) -> float:
         return (
             self.losses_transmission + self.losses_ventilation
@@ -125,7 +130,7 @@ class NBDM_AnnualCoolingDemandEnergy:
 
 @dataclass
 class NBDM_PeakHeatingLoad:
-    peak_load: float = 0.0
+    peak_heating_load: float = 0.0
     losses_transmission: float = 0.0
     losses_ventilation: float = 0.0
     gains_solar: float = 0.0
@@ -153,8 +158,8 @@ class NBDM_PeakHeatingLoad:
 
 @dataclass
 class NBDM_PeakCoolingLoad:
-    peak_load_sensible: float = 0.0
-    peak_load_latent: float = 0.0
+    peak_sensible_cooling_load: float = 0.0
+    peak_latent_cooling_load: float = 0.0
     losses_transmission: float = 0.0
     losses_ventilation: float = 0.0
     gains_solar: float = 0.0

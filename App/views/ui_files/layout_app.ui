@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1106</width>
-    <height>1006</height>
+    <width>832</width>
+    <height>979</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@
             <property name="lineWidth">
              <number>0</number>
             </property>
-            <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,2" columnminimumwidth="0,0">
+            <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,0">
              <item row="2" column="0">
               <layout class="QFormLayout" name="form_layout_project_info">
                <item row="1" column="0">
@@ -93,7 +93,7 @@
              <item row="3" column="1">
               <widget class="QPushButton" name="btn_add_team_info">
                <property name="text">
-                <string>Add Project Info. From File...</string>
+                <string>Add Project Team / Site</string>
                </property>
               </widget>
              </item>
@@ -108,17 +108,7 @@
          <property name="title">
           <string>2. Building Segment Data</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>BASELINE</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QTreeView" name="tree_view_baseline"/>
-          </item>
+         <layout class="QGridLayout" name="gridLayout" rowminimumheight="0,0,0,0,0,0,0,0,0,0,0,0,0,0" columnminimumwidth="0,0">
           <item row="1" column="1">
            <widget class="QTreeView" name="tree_view_proposed"/>
           </item>
@@ -129,19 +119,69 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QPushButton" name="btn_add_baseline_seg">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
             <property name="text">
-             <string>Add Baseline Segment Data ...</string>
+             <string>BASELINE</string>
             </property>
            </widget>
           </item>
+          <item row="1" column="0">
+           <widget class="QTreeView" name="tree_view_baseline"/>
+          </item>
           <item row="2" column="1">
-           <widget class="QPushButton" name="btn_add_proposed_seg">
-            <property name="text">
-             <string>Add Proposed Segment Data ...</string>
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0">
+            <property name="spacing">
+             <number>-1</number>
             </property>
-           </widget>
+            <property name="sizeConstraint">
+             <enum>QLayout::SetMaximumSize</enum>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QPushButton" name="btn_add_proposed_seg">
+              <property name="text">
+               <string>Add Segment</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_del_proposed_seg">
+              <property name="text">
+               <string>Remove Segment</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
+            <item>
+             <widget class="QPushButton" name="btn_add_baseline_seg">
+              <property name="text">
+               <string>Add Segment</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_del_baseline_seg">
+              <property name="text">
+               <string>Remove Segment</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -187,7 +227,11 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QTextBrowser" name="textBrowser_output"/>
+        <widget class="QTextEdit" name="textEdit_output">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -199,7 +243,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1106</width>
+     <width>832</width>
      <height>37</height>
     </rect>
    </property>
@@ -257,4 +301,7 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>

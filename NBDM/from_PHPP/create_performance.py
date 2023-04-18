@@ -141,8 +141,8 @@ def largest_peak_heating_load(
 ) -> Dict[str, float]:
     """Return the largest peak heating load data-set."""
 
-    peak_load_1 = float(_phpp_data_load_1["peak_load"])
-    peak_load_2 = float(_phpp_data_load_2["peak_load"])
+    peak_load_1 = float(_phpp_data_load_1["peak_heating_load"])
+    peak_load_2 = float(_phpp_data_load_2["peak_heating_load"])
 
     if peak_load_1 > peak_load_2:
         return _phpp_data_load_1
@@ -155,10 +155,10 @@ def largest_peak_cooling_load(
 ) -> Dict[str, float]:
     """Return the largest total (sensible + latent) cooling peak load data-set."""
 
-    peak_sensible_load_1 = float(_phpp_data_load_1["peak_load_sensible"])
-    peak_sensible_load_2 = float(_phpp_data_load_2["peak_load_sensible"])
-    peak_latent_load_1 = float(_phpp_data_load_1["peak_load_latent"])
-    peak_latent_load_2 = float(_phpp_data_load_2["peak_load_latent"])
+    peak_sensible_load_1 = float(_phpp_data_load_1["peak_sensible_cooling_load"])
+    peak_sensible_load_2 = float(_phpp_data_load_2["peak_sensible_cooling_load"])
+    peak_latent_load_1 = float(_phpp_data_load_1["peak_latent_cooling_load"])
+    peak_latent_load_2 = float(_phpp_data_load_2["peak_latent_cooling_load"])
 
     total_load_1 = peak_sensible_load_1 + peak_latent_load_1
     total_load_2 = peak_sensible_load_2 + peak_latent_load_2

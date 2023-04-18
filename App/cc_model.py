@@ -9,20 +9,14 @@ import json
 import os
 import pathlib
 
-import xlwings as xw
-from rich import print
-
 from PyQt6 import QtGui as qtg
 from PyQt6 import QtWidgets as qtw
 from PyQt6 import QtCore as qtc
 
-from PHX.xl import xl_app
-from PHX.PHPP import phpp_app
-
+from App.cc_workers import (WorkerReadProjectData, WorkerReadBaselineSegmentData,
+                             WorkerReadProposedSegmentData, WorkerWriteExcelReport)
 from NBDM.model import project, team, site, building
 from NBDM.model.project import NBDM_Project
-from NBDM.to_Excel import report
-from NBDM.from_PHPP import create_NBDM_BuildingSegment, create_NBDM_Team, create_NBDM_Site
 from NBDM.to_JSON.write import NBDM_Project_to_json_file
 
 
@@ -110,77 +104,6 @@ def NBDM_Object_from_treeView(_output_format: ModuleType, _data: Dict[str, Any],
     return new_NBDM_obj
 
 
-class WorkerReadProjectData(qtc.QObject):
-    """Thread Worker for loading Project Data from PHPP."""
-
-    loaded = qtc.pyqtSignal(NBDM_Project)
-
-    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
-    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
-        xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
-        phpp_conn = phpp_app.PHPPConnection(xl)
-
-        with phpp_conn.xl.in_silent_mode():
-            _project.team = create_NBDM_Team(phpp_conn)
-            _project.site = create_NBDM_Site(phpp_conn)
-
-        self.loaded.emit(_project)
-
-
-class WorkerReadBaselineSegmentData(qtc.QObject):
-    """Thread Worker for loading Baseline Segment Data from PHPP."""
-
-    loaded = qtc.pyqtSignal(NBDM_Project)
-
-    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
-    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
-        xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
-        phpp_conn = phpp_app.PHPPConnection(xl)
-
-        with phpp_conn.xl.in_silent_mode():
-            new_seg = create_NBDM_BuildingSegment(phpp_conn)
-            _project.add_new_baseline_segment(new_seg)
-
-        self.loaded.emit(_project)
-
-
-class WorkerReadProposedSegmentData(qtc.QObject):
-    """Thread Worker for loading Proposed Segment Data from PHPP."""
-
-    loaded = qtc.pyqtSignal(NBDM_Project)
-
-    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
-    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
-        xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
-        phpp_conn = phpp_app.PHPPConnection(xl)
-
-        with phpp_conn.xl.in_silent_mode():
-            new_seg = create_NBDM_BuildingSegment(phpp_conn)
-            _project.add_new_proposed_segment(new_seg)
-
-        self.loaded.emit(_project)
-
-
-class WorkerWriteExcelReport(qtc.QObject):
-    """Thread Worker for writing out the report to Excel."""
-
-    written = qtc.pyqtSignal(NBDM_Project)
-
-    @qtc.pyqtSlot(NBDM_Project)
-    def run(self, _project: NBDM_Project):
-        xl = xl_app.XLConnection(xl_framework=xw, output=print)
-        output_report = report.OutputReport(_xl=xl, _autofit=True, _hide_groups=False)
-
-        with xl.in_silent_mode():
-            xl.activate_new_workbook()
-            row_num = output_report.write_NBDM_Project(_nbdm_object=_project)
-            row_num = output_report.write_NBDM_WholeBuilding(_nbdm_object=_project)
-            row_num = output_report.write_NBDM_BuildingSegments(_nbdm_object=_project)
-            output_report.remove_sheet_1()
-
-        self.written.emit(_project)
-
-
 class CCModel(qtw.QWidget):
     """CarbonCheck Model Class."""
 
@@ -206,9 +129,9 @@ class CCModel(qtw.QWidget):
         super().__init__(*args, **kwargs)
         self.output_format = _output_format
         self.NBDM_project = NBDM_Project()
-        self.configure_worker_threads()
+        self._configure_worker_threads()
 
-    def configure_worker_threads(self):
+    def _configure_worker_threads(self):
         """Configure and start up all the worker threads for read/write."""
         self._create_workers()
         self._start_worker_threads()
@@ -328,18 +251,20 @@ class CCModel(qtw.QWidget):
 
     def load_cc_project_from_file(self, _filepath: pathlib.Path):
         """Build up an NBDM_Project from a save file and set as the active."""
+        print(f"Loading CarbonCheck data from file: {_filepath}")
         data = self.load_json_file_as_dict(_filepath)
         self.NBDM_project = project.NBDM_Project.from_dict(data)
 
         self.update_treeview_team()
         self.update_treeview_baseline()
         self.update_treeview_proposed()
+        print("Successfully loaded data from file.")
 
     def load_json_file_as_dict(self, _filepath: pathlib.Path) -> Dict:
         """Read in a dict from a JSON file."""
         try:
             if not os.path.exists(_filepath):
-                print(f"Warning: No file named: {_filepath}")
+                print(f"Warning: No file named: {_filepath} found?")
                 return {}
 
             with open(_filepath, "r") as read_file:
@@ -350,12 +275,13 @@ class CCModel(qtw.QWidget):
             return {}
 
     def write_json_file(self, _filepath: pathlib.Path):
-        # TODO: Collect new model from UI first...
+        self.set_project_from_gui()
         NBDM_Project_to_json_file(self.NBDM_project, _filepath)
 
     def set_project_from_gui(self):
         """Read in all the data in the GUI fields and build a new project."""
-        print(">> 2) CCModel.set_project_from_gui()")
+        print("- " * 30)
+        print("Updating all Project data.")
         self.read_treeView_team.emit()
         self.read_treeView_site.emit()
         self.read_treeView_proposed_segments.emit()
@@ -364,19 +290,28 @@ class CCModel(qtw.QWidget):
     @qtc.pyqtSlot(dict)
     def set_project_team_from_treeView_data(self, _data: Dict[str, str]) -> None:
         """Set the self.NBDM_project.team from the data in the treeView"""
-        print(">>    3.1) CCModel.set_project_team_from_treeView_data(_data)")
+        print("Updating the Project Team data.")
+        if not _data:
+            return
+        
         self.NBDM_project.team = NBDM_Object_from_treeView(self.output_format, _data, team.NBDM_Team)
 
     @qtc.pyqtSlot(dict)
     def set_project_site_from_treeView_data(self, _data: Dict[str, str]) -> None:
         """Set the self.NBDM_project.site from the data in the treeView"""
-        print(">>    4.1) CCModel.set_project_site_from_treeView_data(_data)")
+        print("Updating the Project Site data.")
+        if not _data:
+            return
+        
         self.NBDM_project.site = NBDM_Object_from_treeView(self.output_format, _data, site.NBDM_Site)
 
     @qtc.pyqtSlot(dict)
     def set_project_proposed_segments_from_treeView_data(self, _data: Dict[str, Any]) -> None:
         """Set the self.NBDM_project.variants.proposed from the data in the treeView"""
-        print(">>    5.1) CCModel.set_project_proposed_segments_from_treeView_data(_data)")
+        print("Updating the Project Proposed Segments data.")
+        if not _data:
+            return
+        
         self.NBDM_project.variants.proposed.clear_variant_building_segments()
         for segment_data in _data.values():
             new_segment = NBDM_Object_from_treeView(self.output_format, segment_data, building.NBDM_BuildingSegment)
@@ -385,7 +320,10 @@ class CCModel(qtw.QWidget):
     @qtc.pyqtSlot(dict)
     def set_project_baseline_segments_from_treeView_data(self, _data: Dict[str, Any]) -> None:
         """Set the self.NBDM_project.variants.baseline from the data in the treeView"""
-        print(">>    6.1) CCModel.set_project_baseline_segments_from_treeView_data(_data)")
+        print("Updating the Project Baseline Segments data.")
+        if not _data:
+            return
+        
         self.NBDM_project.variants.baseline.clear_variant_building_segments()
         for segment_data in _data.values():
             new_segment = NBDM_Object_from_treeView(self.output_format, segment_data, building.NBDM_BuildingSegment)

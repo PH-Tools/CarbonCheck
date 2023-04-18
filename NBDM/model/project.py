@@ -42,6 +42,10 @@ class NBDM_Variant:
     def building_segment_names(self) -> List[str]:
         """Return a list of all the Building-Segment names in alphabetical order."""
         return self.building.building_segment_names
+    
+    @property
+    def has_building_segments(self) -> bool:
+        return False if not self.building._building_segments else True
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Variant:

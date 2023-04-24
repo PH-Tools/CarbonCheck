@@ -33,6 +33,10 @@ class NBDM_Variant:
         """Clear all the Building-Segments"""
         self.building.clear_building_segments()
 
+    def remove_segment_by_name(self, _name: str) -> Optional[NBDM_BuildingSegment]:
+        """Remove a Building-Segment from the self.building by name."""
+        return self.building.remove_segment_by_name(_name)
+
     @property
     def building_segments(self) -> List[NBDM_BuildingSegment]:
         """Return a list with all the Building-Segments in alphabetical order."""

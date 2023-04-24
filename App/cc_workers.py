@@ -1,9 +1,12 @@
-# -*- Python Version: 3.10 -*-
+# -*- Python Version: 3.11 -*-
 
 """Thread Workers called by Model and App processes."""
 
 import pathlib
 from queue import Queue
+import sys
+from typing import Dict
+
 import xlwings as xw
 
 from PyQt6 import QtGui as qtg
@@ -12,10 +15,19 @@ from PyQt6 import QtCore as qtc
 
 from PHX.xl import xl_app
 from PHX.PHPP import phpp_app
+from PHX.PHPP.sheet_io.io_exceptions import PHPPDataMissingException
 
 from NBDM.model.project import NBDM_Project
 from NBDM.to_Excel import report
 from NBDM.from_PHPP import create_NBDM_BuildingSegment, create_NBDM_Team, create_NBDM_Site
+
+from ph_baseliner.codes.model import BaselineCode
+from ph_baseliner.codes.options import ClimateZones
+from ph_baseliner.phpp.areas import set_baseline_envelope_constructions
+from ph_baseliner.phpp.windows import (set_baseline_window_construction,
+        set_baseline_window_area, set_baseline_skylight_area)
+from ph_baseliner.phpp.lighting import set_baseline_lighting_installed_power_density
+
 
 SEPARATOR = "- " * 50
 
@@ -24,9 +36,11 @@ class WriteStream(object):
 
     def __init__(self, queue: Queue):
         self.queue = queue
+        self.stdout = sys.stdout
 
-    def write(self, text):
+    def write(self, text: str):
         self.queue.put(text)
+        self.stdout.write(text)
 
     def flush(self, *args, **kwargs):
         pass
@@ -86,7 +100,14 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
         phpp_conn = phpp_app.PHPPConnection(xl)
 
         with phpp_conn.xl.in_silent_mode():
-            new_seg = create_NBDM_BuildingSegment(phpp_conn)
+            try:
+                new_seg = create_NBDM_BuildingSegment(phpp_conn)
+            except PHPPDataMissingException as e:
+                print(SEPARATOR)
+                print("\t>", e)
+                print(SEPARATOR)
+                return None 
+            
             _project.add_new_baseline_segment(new_seg)
 
         self.loaded.emit(_project)
@@ -156,3 +177,44 @@ class WorkerWriteExcelReport(qtc.QObject):
             return False
         
         return True
+    
+
+class WorkerSetPHPPBaseline(qtc.QObject):
+    """Thread Worker for setting the Baseline values in PHPP."""
+
+    written = qtc.pyqtSignal()
+
+    @qtc.pyqtSlot(pathlib.Path, BaselineCode, dict)
+    def run(self, _filepath: pathlib.Path, _baseline_code: BaselineCode, _options: Dict) -> None:
+        print(SEPARATOR)
+        print(f"Setting Baseline values on the PHPP: '{_filepath}'.")
+        print("Connecting to excel...")
+        xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
+        phpp_conn = phpp_app.PHPPConnection(xl)
+        
+        # -- 
+        climate_zone = ClimateZones(_options.get("baseline_code_climate_zone", False))
+        print(f"Using climate-zone: '{climate_zone.value}' for baseline")
+
+        with phpp_conn.xl.in_silent_mode():
+            print("Setting Baseline values...")
+            
+            if _options.get("set_envelope_u_values", False):
+                print("Setting Baseline opaque envelope U-values.")
+                set_baseline_envelope_constructions(phpp_conn, _baseline_code, climate_zone)
+            
+            if _options.get("set_window_u_values", False):
+                print("Setting Baseline window U-values.")
+                set_baseline_window_construction(phpp_conn, _baseline_code, climate_zone)
+            
+            if _options.get("set_win_areas", False):
+                print("Setting Baseline window areas.")
+                set_baseline_window_area(phpp_conn, _baseline_code)
+            
+            if _options.get("set_skylight_areas", False):
+                print("Setting Baseline skylight areas.")
+                set_baseline_skylight_area(phpp_conn, _baseline_code)
+            
+            if _options.get("set_lighting", False):
+                print("Setting Baseline Lighting installed power density.")
+                set_baseline_lighting_installed_power_density(phpp_conn, _baseline_code)

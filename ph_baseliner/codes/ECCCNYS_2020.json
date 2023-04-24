@@ -1,0 +1,363 @@
+{
+    "name": "Energy Conservation Construction Code of New York State",
+    "state": "NY",
+    "year": "2020",
+    "source_url": "https://up.codes/viewer/new_york/ny-energy-conservation-code-2020",
+    "tables": {
+        "maximum_u_factors": {
+            "name": "Opaque Thermal Envelope Assembly Maximum Requirements, U-Factor Method",
+            "section": "C402.1.4",
+            "units": "Btu/hr-ft2-F",
+            "source_url": "https://up.codes/viewer/new_york/ny-energy-conservation-code-2020/chapter/CE_4/ce-commercial-energy-efficiency#C402.1.4",
+            "roofs": {
+                "insulation_above_deck": {
+                    "CZ4": {
+                        "group_r": 0.032,
+                        "all_other": 0.032
+                    },
+                    "CZ5": {
+                        "group_r": 0.032,
+                        "all_other": 0.032
+                    },
+                    "CZ6": {
+                        "group_r": 0.032,
+                        "all_other": 0.032
+                    }
+                },
+                "metal_building": {
+                    "CZ4": {
+                        "group_r": 0.035,
+                        "all_other": 0.035
+                    },
+                    "CZ5": {
+                        "group_r": 0.035,
+                        "all_other": 0.035
+                    },
+                    "CZ6": {
+                        "group_r": 0.031,
+                        "all_other": 0.031
+                    }
+                },
+                "attic_and_other": {
+                    "CZ4": {
+                        "group_r": 0.027,
+                        "all_other": 0.027
+                    },
+                    "CZ5": {
+                        "group_r": 0.027,
+                        "all_other": 0.021
+                    },
+                    "CZ6": {
+                        "group_r": 0.021,
+                        "all_other": 0.021
+                    }
+                }
+            },
+            "walls": {
+                "mass": {
+                    "CZ4": {
+                        "group_r": 0.104,
+                        "all_other": 0.090
+                    },
+                    "CZ5": {
+                        "group_r": 0.090,
+                        "all_other": 0.080
+                    },
+                    "CZ6": {
+                        "group_r": 0.080,
+                        "all_other": 0.071
+                    }
+                },
+                "metal_building": {
+                    "CZ4": {
+                        "group_r": 0.052,
+                        "all_other": 0.052
+                    },
+                    "CZ5": {
+                        "group_r": 0.052,
+                        "all_other": 0.052
+                    },
+                    "CZ6": {
+                        "group_r": 0.052,
+                        "all_other": 0.052
+                    }
+                },
+                "metal_framed": {
+                    "CZ4": {
+                        "group_r": 0.064,
+                        "all_other": 0.064
+                    },
+                    "CZ5": {
+                        "group_r": 0.064,
+                        "all_other": 0.064
+                    },
+                    "CZ6": {
+                        "group_r": 0.064,
+                        "all_other": 0.064
+                    }
+                },
+                "wood_framed_and_other": {
+                    "CZ4": {
+                        "group_r": 0.064,
+                        "all_other": 0.064
+                    },
+                    "CZ5": {
+                        "group_r": 0.064,
+                        "all_other": 0.064
+                    },
+                    "CZ6": {
+                        "group_r": 0.051,
+                        "all_other": 0.051
+                    }
+                },
+                "below_grade": {
+                    "CZ4": {
+                        "group_r": 0.119,
+                        "all_other": 0.119
+                    },
+                    "CZ5": {
+                        "group_r": 0.119,
+                        "all_other": 0.119
+                    },
+                    "CZ6": {
+                        "group_r": 0.119,
+                        "all_other": 0.119
+                    }
+                }
+            },
+            "floors": {
+                "mass": {
+                    "CZ4": {
+                        "group_r": 0.076,
+                        "all_other": 0.074
+                    },
+                    "CZ5": {
+                        "group_r": 0.074,
+                        "all_other": 0.064
+                    },
+                    "CZ6": {
+                        "group_r": 0.064,
+                        "all_other": 0.064
+                    }
+                },
+                "joist_framed": {
+                    "CZ4": {
+                        "group_r": 0.076,
+                        "all_other": 0.074
+                    },
+                    "CZ5": {
+                        "group_r": 0.074,
+                        "all_other": 0.064
+                    },
+                    "CZ6": {
+                        "group_r": 0.064,
+                        "all_other": 0.064
+                    }
+                },
+                "unheated_slab": {
+                    "CZ4": {
+                        "group_r": 0.54,
+                        "all_other": 0.54
+                    },
+                    "CZ5": {
+                        "group_r": 0.54,
+                        "all_other": 0.54
+                    },
+                    "CZ6": {
+                        "group_r": 0.54,
+                        "all_other": 0.52
+                    }
+                },
+                "heated_slab": {
+                    "CZ4": {
+                        "group_r": 0.64,
+                        "all_other": 0.64
+                    },
+                    "CZ5": {
+                        "group_r": 0.64,
+                        "all_other": 0.64
+                    },
+                    "CZ6": {
+                        "group_r": 0.55,
+                        "all_other": 0.55
+                    }
+                }
+            }
+        },
+        "fenestration_u_factors": {
+            "name": "Building Envelope Fenestration Maximum U-Factor and SHGC Requirements",
+            "section": "C402.4",
+            "units": "Btu/hr-ft2-F",
+            "source_url": "https://up.codes/viewer/new_york/ny-energy-conservation-code-2020/chapter/CE_4/ce-commercial-energy-efficiency#C402.4",
+            "fixed_windows": {
+                "u_factors": {
+                    "CZ4": {
+                        "group_r": 0.38,
+                        "all_other": 0.38
+                    },
+                    "CZ5": {
+                        "group_r": 0.38,
+                        "all_other": 0.38
+                    },
+                    "CZ6": {
+                        "group_r": 0.36,
+                        "all_other": 0.36
+                    }
+                },
+                "shgc": {
+                    "CZ4": {
+                        "group_r": 0.43,
+                        "all_other": 0.43
+                    },
+                    "CZ5": {
+                        "group_r": 0.46,
+                        "all_other": 0.46
+                    },
+                    "CZ6": {
+                        "group_r": 0.48,
+                        "all_other": 0.48
+                    }
+                }
+            },
+            "operable_windows": {
+                "u_factors": {
+                    "CZ4": {
+                        "group_r": 0.45,
+                        "all_other": 0.45
+                    },
+                    "CZ5": {
+                        "group_r": 0.45,
+                        "all_other": 0.45
+                    },
+                    "CZ6": {
+                        "group_r": 0.43,
+                        "all_other": 0.43
+                    }
+                },
+                "shgc": {
+                    "CZ4": {
+                        "group_r": 0.43,
+                        "all_other": 0.43
+                    },
+                    "CZ5": {
+                        "group_r": 0.46,
+                        "all_other": 0.46
+                    },
+                    "CZ6": {
+                        "group_r": 0.48,
+                        "all_other": 0.48
+                    }
+                }
+            },
+            "entrance_doors": {
+                "u_factors": {
+                    "CZ4": {
+                        "group_r": 0.77,
+                        "all_other": 0.77
+                    },
+                    "CZ5": {
+                        "group_r": 0.77,
+                        "all_other": 0.77
+                    },
+                    "CZ6": {
+                        "group_r": 0.77,
+                        "all_other": 0.77
+                    }
+                },
+                "shgc": {
+                    "CZ4": {
+                        "group_r": 0.43,
+                        "all_other": 0.43
+                    },
+                    "CZ5": {
+                        "group_r": 0.46,
+                        "all_other": 0.46
+                    },
+                    "CZ6": {
+                        "group_r": 0.48,
+                        "all_other": 0.48
+                    }
+                }
+            },
+            "skylights": {
+                "u_factors": {
+                    "CZ4": {
+                        "group_r": 0.50,
+                        "all_other": 0.50
+                    },
+                    "CZ5": {
+                        "group_r": 0.50,
+                        "all_other": 0.50
+                    },
+                    "CZ6": {
+                        "group_r": 0.50,
+                        "all_other": 0.50
+                    }
+                },
+                "shgc": {
+                    "CZ4": {
+                        "group_r": 0.40,
+                        "all_other": 0.40
+                    },
+                    "CZ5": {
+                        "group_r": 0.40,
+                        "all_other": 0.40
+                    },
+                    "CZ6": {
+                        "group_r": 0.40,
+                        "all_other": 0.40
+                    }
+                }
+            }
+        },
+        "lighting_area_method": {
+            "name": "Interior Lighting Power Allowances: Building Area Method",
+            "section": "C405.3.2(1)",
+            "units": "W/FT2",
+            "source_url": "https://up.codes/viewer/new_york/ny-energy-conservation-code-2020/chapter/CE_4/ce-commercial-energy-efficiency#C405.3.2",
+            "LPD": {
+                "Automotive facility": 0.71,
+                "Convention center": 0.76,
+                "Courthouse": 0.9,
+                "Dining: bar lounge/leisure": 0.9,
+                "Dining: cafeteria/fast food": 0.79,
+                "Dining: family": 0.78,
+                "Dormitory": 0.61,
+                "Exercise center": 0.65,
+                "Fire station": 0.53,
+                "Gymnasium": 0.68,
+                "Health care clinic": 0.82,
+                "Hospital": 1.05,
+                "Hotel/Motel": 0.75,
+                "Library": 0.78,
+                "Manufacturing facility": 0.9,
+                "Motion picture theater": 0.83,
+                "Multifamily": 0.68,
+                "Museum": 1.06,
+                "Office": 0.79,
+                "Parking garage": 0.15,
+                "Penitentiary": 0.75,
+                "Performing arts theater": 1.18,
+                "Police station": 0.8,
+                "Post office": 0.67,
+                "Religious building": 0.94,
+                "Retail": 1.06,
+                "School/university": 0.81,
+                "Sports arena": 0.87,
+                "Town hall": 0.8,
+                "Transportation": 0.61,
+                "Warehouse": 0.48,
+                "Workshop": 0.9
+            }
+        }
+    },
+    "sections": {
+        "maximum_fenestration_area": {
+            "source_url": "https://up.codes/viewer/new_york/ny-energy-conservation-code-2020/chapter/CE_4/ce-commercial-energy-efficiency#C402.4.1",
+            "name": "Maximum Area [Fenestration]",
+            "section": "C402.4.1",
+            "maximum_skylight_percent_of_roof": 0.03,
+            "maximum_window_percent_of_wall": 0.3
+        }
+    }
+}

@@ -141,8 +141,8 @@ sample_PeakHeatingLoad = NBDM_PeakHeatingLoad(
 )
 
 sample_PeakSensibleCoolingLoad = NBDM_PeakCoolingLoad(
-    peak_load_sensible=0.0,
-    peak_load_latent=0.0,
+    peak_sensible_cooling_load=0.0,
+    peak_latent_cooling_load=0.0,
     losses_transmission=0.0,
     losses_ventilation=0.0,
     gains_solar=0.0,

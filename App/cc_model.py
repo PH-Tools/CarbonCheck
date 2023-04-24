@@ -1,8 +1,8 @@
-# -*- Python Version: 3.10 -*-
+# -*- Python Version: 3.11 -*-
 
 """Main Application Model."""
 
-from typing import Dict, get_type_hints, Any, Optional
+from typing import Dict, get_type_hints, Any, Optional, List
 from types import ModuleType
 import enum
 import json
@@ -14,10 +14,13 @@ from PyQt6 import QtWidgets as qtw
 from PyQt6 import QtCore as qtc
 
 from App.cc_workers import (WorkerReadProjectData, WorkerReadBaselineSegmentData,
-                             WorkerReadProposedSegmentData, WorkerWriteExcelReport)
+    WorkerReadProposedSegmentData, WorkerWriteExcelReport, WorkerSetPHPPBaseline)
 from NBDM.model import project, team, site, building
 from NBDM.model.project import NBDM_Project
 from NBDM.to_JSON.write import NBDM_Project_to_json_file
+
+from ph_baseliner.codes.model import BaselineCode
+from ph_baseliner.codes.options import ClimateZones, BaselineCodes
 
 
 def is_dict_field(_class: type) -> bool:
@@ -124,12 +127,14 @@ class CCModel(qtw.QWidget):
     read_baseline_seg_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
     read_proposed_seg_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
     write_excel_report = qtc.pyqtSignal(NBDM_Project)
+    write_PHPP_baseline = qtc.pyqtSignal(pathlib.Path, BaselineCode, dict)
 
-    def __init__(self, _output_format: ModuleType, *args, **kwargs):
+    def __init__(self, _output_format: ModuleType, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.output_format = _output_format
         self.NBDM_project = NBDM_Project()
         self._configure_worker_threads()
+        self.root_path = pathlib.Path("ph_baseliner", "codes")
 
     def _configure_worker_threads(self):
         """Configure and start up all the worker threads for read/write."""
@@ -150,6 +155,9 @@ class CCModel(qtw.QWidget):
         self.worker_write_report = WorkerWriteExcelReport()
         self.worker_write_report_thread = qtc.QThread()
 
+        self.worker_set_baseline_phpp = WorkerSetPHPPBaseline()
+        self.worker_set_baseline_phpp_thread = qtc.QThread()
+
     def _start_worker_threads(self):
         self.worker_read_proj_data.moveToThread(self.worker_read_proj_data_thread)
         self.worker_read_proj_data_thread.start()
@@ -165,6 +173,9 @@ class CCModel(qtw.QWidget):
         self.worker_write_report.moveToThread(self.worker_write_report_thread)
         self.worker_write_report_thread.start()
 
+        self.worker_set_baseline_phpp.moveToThread(self.worker_set_baseline_phpp_thread)
+        self.worker_set_baseline_phpp_thread.start()
+
     def _connect_worker_signals(self):
         self.worker_read_proj_data.loaded.connect(self.set_NBDM_project)
         self.read_project_data_from_file.connect(self.worker_read_proj_data.run)
@@ -179,6 +190,8 @@ class CCModel(qtw.QWidget):
 
         self.worker_write_report.written.connect(self.set_NBDM_project)
         self.write_excel_report.connect(self.worker_write_report.run)
+
+        self.write_PHPP_baseline.connect(self.worker_set_baseline_phpp.run)
 
     def set_NBDM_project(self, _project: NBDM_Project) -> None:
         self.NBDM_project = _project
@@ -328,3 +341,40 @@ class CCModel(qtw.QWidget):
         for segment_data in _data.values():
             new_segment = NBDM_Object_from_treeView(self.output_format, segment_data, building.NBDM_BuildingSegment)
             self.NBDM_project.add_new_baseline_segment(new_segment)
+
+    def remove_baseline_segment_by_name(self, _segment_name: str):
+        """Remove a baseline building-segment from the project."""
+        self.NBDM_project.variants.baseline.remove_segment_by_name(_segment_name)
+        self.update_treeview_baseline()
+
+    def remove_proposed_segment_by_name(self, _segment_name: str):
+        """Remove a proposed building-segment from the project."""
+        self.NBDM_project.variants.proposed.remove_segment_by_name(_segment_name)
+        self.update_treeview_proposed()
+
+    def load_baseline_code_file(self, _baseline_code_option: BaselineCodes) -> Optional[BaselineCode]:
+        """Load the baseline code file from the specified path. Return None if not found.
+        
+        Arguments:
+        ---------
+            baseline_code: BaselineCodes
+                The Enum of the baseline code name to load.
+        """
+        baseline_code_file_name = f"{_baseline_code_option.name}.json"
+        baseline_code_file_path = pathlib.Path(self.root_path, baseline_code_file_name)
+
+        if not baseline_code_file_path.exists():
+            print(f"Error: Baseline code file not found: {baseline_code_file_path}")
+            return None
+        
+        print(f"Loading the Baseline Code file: '{baseline_code_file_path}'")
+        baseline_code_model = BaselineCode.parse_file(baseline_code_file_path)
+        return baseline_code_model
+
+    def get_allowable_code_names(self) -> List[str]:
+        """Return a list of allowable code names."""
+        return  BaselineCodes.as_list()
+
+    def get_allowable_climate_zone_names(self) -> List[str]:
+        """Return a list of allowable climate zone names."""
+        return ClimateZones.as_list()

@@ -4,27 +4,27 @@
     "report_date": "-",
     "team": {
         "site_owner": {
-            "name": "None",
+            "name": "An Example Owner",
             "contact_info": {
                 "building_number": "-",
-                "street_name": "Clark Rad",
-                "city": "Chatham",
+                "street_name": "Example Street",
+                "city": "Example City",
                 "state": "NY",
                 "country": "US-United States of America",
-                "post_code": "12037.0",
+                "post_code": "10000.0",
                 "phone": "-",
                 "email": "-"
             }
         },
         "designer": {
-            "name": "Mowrey-Marsh",
+            "name": "An Example Architect",
             "contact_info": {
                 "building_number": "-",
-                "street_name": "608 Bloomfield St.",
-                "city": "Hoboken",
-                "state": "NJ",
+                "street_name": "Example Street",
+                "city": "Example City",
+                "state": "NY",
                 "country": "US-United States of America",
-                "post_code": "07030",
+                "post_code": "10000.0",
                 "phone": "-",
                 "email": "-"
             }
@@ -43,14 +43,14 @@
             }
         },
         "primary_energy_consultant": {
-            "name": "bldgtyp, llc",
+            "name": "An Example Architect",
             "contact_info": {
                 "building_number": "-",
-                "street_name": "223 Park Place",
-                "city": "Brooklyn",
+                "street_name": "Example Street",
+                "city": "Example City",
                 "state": "NY",
                 "country": "US-United States of America",
-                "post_code": "11238.0",
+                "post_code": "10000.0",
                 "phone": "-",
                 "email": "-"
             }
@@ -66,10 +66,10 @@
         "location": {
             "address": {
                 "building_number": "-",
-                "street_name": "Clark Road Cabin",
-                "city": "Chatham",
+                "street_name": "Example Street",
+                "city": "Example City",
                 "state": "NY",
-                "post_code": "12037.0"
+                "post_code": "10000.0"
             },
             "longitude": -73.97,
             "latitude": 40.78
@@ -82,23 +82,23 @@
                 "building_name": "-",
                 "building_type": "Multi-Family",
                 "_building_segments": {
-                    "Clark Road Cabin": {
-                        "segment_name": "Clark Road Cabin",
+                    "Example Office Building": {
+                        "segment_name": "Example Office Building",
                         "construction_type": "New Construction",
                         "construction_method": "Method A",
                         "geometry": {
-                            "area_envelope": 427.8303721467981,
-                            "area_floor_area_net_interior_weighted": 89.38,
-                            "volume_net_interior": 299.44
+                            "area_envelope": 768.0,
+                            "area_floor_area_net_interior_weighted": 480.0,
+                            "volume_net_interior": 1200.0
                         },
                         "occupancy": {
                             "total_dwelling_units": 1,
-                            "total_occupants": 2.203056100711105
+                            "total_occupants": 25.0
                         },
                         "performance": {
                             "site_energy": {
                                 "consumption_gas": 0.0,
-                                "consumption_electricity": 4258.444753197871,
+                                "consumption_electricity": 51492.60589461604,
                                 "consumption_district_heat": 0.0,
                                 "consumption_other": 0.0,
                                 "production_solar_photovoltaic": 0.0,
@@ -107,7 +107,7 @@
                             },
                             "source_energy": {
                                 "consumption_gas": 0.0,
-                                "consumption_electricity": 11071.956358314465,
+                                "consumption_electricity": 133880.77532600172,
                                 "consumption_district_heat": 0.0,
                                 "consumption_other": 0.0,
                                 "production_solar_photovoltaic": 0.0,
@@ -115,36 +115,36 @@
                                 "production_other": 0.0
                             },
                             "annual_heating_energy_demand": {
-                                "heating_demand": 1354.8461205347735,
-                                "losses_transmission": 3641.650917524455,
-                                "losses_ventilation": 826.8861231946287,
-                                "gains_solar": 2486.0787017517787,
-                                "gains_internal": 1209.407424,
-                                "utilization_factor": 0.8425659884058927
+                                "heating_demand": 7825.876333864326,
+                                "losses_transmission": 20682.122926720633,
+                                "losses_ventilation": 5643.129220737852,
+                                "gains_solar": 14423.82560016482,
+                                "gains_internal": 8547.84,
+                                "utilization_factor": 0.8053127768611357
                             },
                             "annual_cooling_energy_demand": {
-                                "sensible_cooling_demand": 2303.6481199397376,
-                                "latent_cooling_demand": 312.28828650256503,
-                                "losses_transmission": 5028.486299351534,
-                                "losses_ventilation": 4821.128477060201,
-                                "utilization_factor": 0.5249062301208783,
-                                "gains_solar": 4920.934092794707,
-                                "gains_internal": 2552.8381875742116
+                                "sensible_cooling_demand": 17835.21711810571,
+                                "latent_cooling_demand": 3340.2309200649042,
+                                "losses_transmission": 22419.372778626217,
+                                "losses_ventilation": 38801.52661181543,
+                                "utilization_factor": 0.5124666419456297,
+                                "gains_solar": 24051.83673223089,
+                                "gains_internal": 25157.049113385703
                             },
                             "peak_heating_load": {
-                                "peak_heating_load": 1318.4621538299832,
-                                "losses_transmission": 1361.3018903821337,
-                                "losses_ventilation": 473.5512062995276,
-                                "gains_solar": 323.3829428516781,
-                                "gains_internal": 193.008
+                                "peak_heating_load": 8855.264482392122,
+                                "losses_transmission": 8671.330385245003,
+                                "losses_ventilation": 3662.8389665352793,
+                                "gains_solar": 2038.9048693881596,
+                                "gains_internal": 1440.0
                             },
                             "peak_sensible_cooling_load": {
-                                "peak_sensible_cooling_load": 1577.5400396670914,
-                                "peak_latent_cooling_load": 371.92282721113503,
-                                "losses_transmission": 60.974558478474165,
-                                "losses_ventilation": 60.37308962901328,
-                                "gains_solar": 1137.72455378837,
-                                "gains_internal": 318.467837771234
+                                "peak_sensible_cooling_load": 11797.812055705554,
+                                "peak_latent_cooling_load": 5913.716046109157,
+                                "losses_transmission": 1265.550653442227,
+                                "losses_ventilation": 948.0163547000847,
+                                "gains_solar": 6124.804850452996,
+                                "gains_internal": 3459.440197110245
                             }
                         }
                     }
@@ -157,23 +157,23 @@
                 "building_name": "-",
                 "building_type": "Multi-Family",
                 "_building_segments": {
-                    "Clark Road Cabin": {
-                        "segment_name": "Clark Road Cabin",
+                    "Example Office Building": {
+                        "segment_name": "Example Office Building",
                         "construction_type": "New Construction",
                         "construction_method": "Method A",
                         "geometry": {
-                            "area_envelope": 427.8303721467981,
-                            "area_floor_area_net_interior_weighted": 89.38,
-                            "volume_net_interior": 299.44
+                            "area_envelope": 768.0,
+                            "area_floor_area_net_interior_weighted": 480.0,
+                            "volume_net_interior": 1200.0
                         },
                         "occupancy": {
                             "total_dwelling_units": 1,
-                            "total_occupants": 2.203056100711105
+                            "total_occupants": 25.0
                         },
                         "performance": {
                             "site_energy": {
                                 "consumption_gas": 0.0,
-                                "consumption_electricity": 4258.444753197871,
+                                "consumption_electricity": 56893.367095755515,
                                 "consumption_district_heat": 0.0,
                                 "consumption_other": 0.0,
                                 "production_solar_photovoltaic": 0.0,
@@ -182,7 +182,7 @@
                             },
                             "source_energy": {
                                 "consumption_gas": 0.0,
-                                "consumption_electricity": 11071.956358314465,
+                                "consumption_electricity": 147922.75444896432,
                                 "consumption_district_heat": 0.0,
                                 "consumption_other": 0.0,
                                 "production_solar_photovoltaic": 0.0,
@@ -190,36 +190,36 @@
                                 "production_other": 0.0
                             },
                             "annual_heating_energy_demand": {
-                                "heating_demand": 1354.8461205347735,
-                                "losses_transmission": 3641.650917524455,
-                                "losses_ventilation": 826.8861231946287,
-                                "gains_solar": 2486.0787017517787,
-                                "gains_internal": 1209.407424,
-                                "utilization_factor": 0.8425659884058927
+                                "heating_demand": 36152.88522313017,
+                                "losses_transmission": 49844.62489404282,
+                                "losses_ventilation": 5880.816185081172,
+                                "gains_solar": 11915.682337068389,
+                                "gains_internal": 9797.76,
+                                "utilization_factor": 0.9014027141417499
                             },
                             "annual_cooling_energy_demand": {
-                                "sensible_cooling_demand": 2303.6481199397376,
-                                "latent_cooling_demand": 312.28828650256503,
-                                "losses_transmission": 5028.486299351534,
-                                "losses_ventilation": 4821.128477060201,
-                                "utilization_factor": 0.5249062301208783,
-                                "gains_solar": 4920.934092794707,
-                                "gains_internal": 2552.8381875742116
+                                "sensible_cooling_demand": 10031.76427354198,
+                                "latent_cooling_demand": 3355.6420830072084,
+                                "losses_transmission": 74427.2401691346,
+                                "losses_ventilation": 58257.549711113315,
+                                "utilization_factor": 0.2534404433820335,
+                                "gains_solar": 19132.294544723107,
+                                "gains_internal": 24527.161706120845
                             },
                             "peak_heating_load": {
-                                "peak_heating_load": 1318.4621538299832,
-                                "losses_transmission": 1361.3018903821337,
-                                "losses_ventilation": 473.5512062995276,
-                                "gains_solar": 323.3829428516781,
-                                "gains_internal": 193.008
+                                "peak_heating_load": 20900.67750187038,
+                                "losses_transmission": 19829.16675733133,
+                                "losses_ventilation": 3662.8389665352793,
+                                "gains_solar": 1151.32822199623,
+                                "gains_internal": 1440.0
                             },
                             "peak_sensible_cooling_load": {
-                                "peak_sensible_cooling_load": 1577.5400396670914,
-                                "peak_latent_cooling_load": 371.92282721113503,
-                                "losses_transmission": 60.974558478474165,
-                                "losses_ventilation": 60.37308962901328,
-                                "gains_solar": 1137.72455378837,
-                                "gains_internal": 318.467837771234
+                                "peak_sensible_cooling_load": 11070.025023848357,
+                                "peak_latent_cooling_load": 5913.716046109157,
+                                "losses_transmission": 2953.7189838720274,
+                                "losses_ventilation": 948.0163547000847,
+                                "gains_solar": 4368.385380924548,
+                                "gains_internal": 2799.904304351695
                             }
                         }
                     }

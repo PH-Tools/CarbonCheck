@@ -3,7 +3,7 @@
 """Run to see GUI."""
 
 import sys
-from NBDM.model import output_format
+from NBDM.model import output_format 
 from App.cc_app import CCApp
 
 if __name__ == "__main__":

@@ -11,7 +11,8 @@ a = Analysis(
         (".venv/lib/python3.11/site-packages/ladybug", "ladybug"),
         (".venv/lib/python3.11/site-packages/honeybee_energy", "honeybee_energy"),
         (".venv/lib/python3.11/site-packages/honeybee_standards", "honeybee_standards"),
-        (".venv/lib/python3.11/site-packages/PHX/PHPP/phpp_localization/*.json", "PHX/PHPP/phpp_localization")
+        (".venv/lib/python3.11/site-packages/PHX/PHPP/phpp_localization/*.json", "PHX/PHPP/phpp_localization"),
+        (".venv/lib/python3.11/site-packages/ph_baseliner", "ph_baseliner"),
     ],
     hiddenimports=[],
     hookspath=[],

@@ -11,6 +11,7 @@ from PHX.xl import xl_app
 from PHX.PHPP import phpp_app
 
 from ph_baseliner.codes.model import BaselineCode
+from ph_baseliner.codes.options import ClimateZones
 from ph_baseliner.phpp.areas import set_baseline_envelope_constructions
 from ph_baseliner.phpp.windows import (set_baseline_window_construction,
         set_baseline_window_area, set_baseline_skylight_area)
@@ -29,8 +30,8 @@ _baseline_code = BaselineCode.parse_file(baseline_code_file_path)
 # --- Set the baseline values in the PHPP Worksheets
 # -----------------------------------------------------------------------------
 with _phpp_conn.xl.in_silent_mode():
-    set_baseline_envelope_constructions(_phpp_conn, _baseline_code)
-    set_baseline_window_construction(_phpp_conn, _baseline_code)
-    set_baseline_window_area(_phpp_conn, _maximum_wwr=0.4)
-    set_baseline_skylight_area(_phpp_conn, _maximum_srr=0.03)
+    set_baseline_envelope_constructions(_phpp_conn, _baseline_code, ClimateZones.CZ4)
+    set_baseline_window_construction(_phpp_conn, _baseline_code, ClimateZones.CZ4)
+    set_baseline_window_area(_phpp_conn, _baseline_code)
+    set_baseline_skylight_area(_phpp_conn, _baseline_code)
     set_baseline_lighting_installed_power_density(_phpp_conn, _baseline_code)

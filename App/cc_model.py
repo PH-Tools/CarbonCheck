@@ -2,12 +2,13 @@
 
 """Main Application Model."""
 
-from typing import Dict, get_type_hints, Any, Optional, List
-from types import ModuleType
 import enum
 import json
 import os
 import pathlib
+import sys
+from typing import Dict, get_type_hints, Any, Optional, List
+from types import ModuleType
 
 from PyQt6 import QtGui as qtg
 from PyQt6 import QtWidgets as qtw
@@ -107,6 +108,53 @@ def NBDM_Object_from_treeView(_output_format: ModuleType, _data: Dict[str, Any],
     return new_NBDM_obj
 
 
+def _application_path() -> pathlib.Path:
+    """Returns the path to the application root location.
+
+    The 'application' will be located and run from different places, depending on the OS and 
+    whether it is run as an 'app' or run as a 'script'. 
+    If the application is run as a frozen bundle, the PyInstaller boot-loader
+    extends the sys module by a flag 'frozen=True' and sets the __file__ path into variable '_MEIPASS'.
+    
+    For instance:
+
+    App (sys.frozen==True):
+    ----
+        MacOS:
+        - sys.executable            = '/Users/em/Dropbox/bldgtyp/2209_Nash_Home/12_Scripts/dist/app'
+        - os.path.abspath(__file__) = '/var/folders/vm/rkn0g153d2tph6hz8r00000gn/T/_MEIh08vPN/app.py'
+        - sys._MEIPASS              = '/var/folders/vm/rkn0g153d2tph6hz8r00000gn/T/_MEI1fU4xe'
+
+        Windows:
+        - sys.executable            = '\\\\Mac\\Dropbox\\bldgtyp\\2209_Nash_Home\\12_Scripts\\dist\\app.exe'
+        - os.path.abspath(__file__) = 'C:\\Users\\em\\AppData\\Local\\Temp\\_MEI34162\\app.py'
+        - sys._MEIPASS              = 'C:\\Users\\em\\AppData\\Local\\Temp\\_MEI34162'
+
+    Script (ie: from inside VSCode)
+    ------
+        MacOS:
+        - sys.executable            = '/Users/em/Dropbox/bldgtyp/2209_Nash_Home/12_Scripts/venv/bin/python'
+        - os.path.abspath(__file__) = '/Users/em/Dropbox/bldgtyp/2209_Nash_Home/12_Scripts/app.py'
+        - sys._MEIPASS              = None (does not exist)
+
+        Windows:
+        - sys.executable            = '\\\\mac\\Dropbox\\bldgtyp\\2209_Nash_Home\\12_Scripts\\venv\\Scripts\\python.exe'
+        - os.path.abspath(__file__) = '\\\\mac\\Dropbox\\bldgtyp\\2209_Nash_Home\\12_Scripts\\app.py'
+        - sys._MEIPASS              = None (does not exist)
+    
+    So, if its a script, use __file__, but if its an 'app', use sys.executable for the app location.
+    """
+
+    def _app_is_run_as_frozen_app() -> bool:
+        """Return True if the app is run as a frozen app, False if not."""
+        return getattr(sys, 'frozen', False)
+
+    # -- return the PARENT of the app's location as the application root
+    if _app_is_run_as_frozen_app():
+        return pathlib.Path(sys.executable).parent
+    else:
+        return pathlib.Path(os.path.abspath(__file__)).parent
+
 class CCModel(qtw.QWidget):
     """CarbonCheck Model Class."""
 
@@ -134,7 +182,7 @@ class CCModel(qtw.QWidget):
         self.output_format = _output_format
         self.NBDM_project = NBDM_Project()
         self._configure_worker_threads()
-        self.root_path = pathlib.Path("ph_baseliner", "codes")
+        self.root_path = _application_path()
 
     def _configure_worker_threads(self):
         """Configure and start up all the worker threads for read/write."""
@@ -361,13 +409,19 @@ class CCModel(qtw.QWidget):
                 The Enum of the baseline code name to load.
         """
         baseline_code_file_name = f"{_baseline_code_option.name}.json"
-        baseline_code_file_path = pathlib.Path(self.root_path, baseline_code_file_name)
 
-        if not baseline_code_file_path.exists():
-            print(f"Error: Baseline code file not found: {baseline_code_file_path}")
+        # -- The file might be in a few different places on the system path.
+        for p in sys.path:
+            baseline_code_file_path = pathlib.Path(p, "ph_baseliner", "codes", baseline_code_file_name)
+            print(f"Checking for baseline code file: {baseline_code_file_path}")
+            if baseline_code_file_path.exists():
+                print(f"Loading the Baseline Code file: '{baseline_code_file_path}'")
+                break
+        else:
+            print(f"Error: Baseline code file '{baseline_code_file_name}' not found on system path?")
             return None
         
-        print(f"Loading the Baseline Code file: '{baseline_code_file_path}'")
+        # -- Load in the Baseline Code file as a model.
         baseline_code_model = BaselineCode.parse_file(baseline_code_file_path)
         return baseline_code_model
 

@@ -4,6 +4,7 @@ honeybee-energy
 honeybee-ph
 PH-units
 PHX
+PH-Baseliner
 rich
 xlwings
 PyQt6

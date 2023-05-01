@@ -18,6 +18,7 @@ from App.cc_workers import WorkerReceiveText, WriteStream
 
 from ph_baseliner.codes.options import BaselineCodes, ClimateZones
 
+
 class CCTabReport:
     """The 'Report' tab of the CarbonCheck application."""
 
@@ -105,6 +106,7 @@ class CCTabReport:
         print(f"Removing Proposed Segment '{bldg_segment_name}' from the Project.")
         self.model.remove_proposed_segment_by_name(bldg_segment_name)
 
+
 class PHPPBaselineConfirmationDialog(qtw.QMessageBox):
     """Warning Message Box before Executing the PHPP Baseline Overwrite."""
    
@@ -121,6 +123,7 @@ class PHPPBaselineConfirmationDialog(qtw.QMessageBox):
         self.btn_no = qtw.QMessageBox.StandardButton.No
         self.setStandardButtons( self.btn_yes | self.btn_no)
         self.setDefaultButton(self.btn_no)
+
 
 class CCTabPHPPBaseline:
     """The PHPP Baseline Configuration tab."""
@@ -272,7 +275,8 @@ class CCApp(qtw.QApplication):
         self._connect_worker_signals()
     
     def _create_workers(self):
-        self.worker_txt_receiver = WorkerReceiveText(self.queue)
+        self.mutex = qtc.QMutex()
+        self.worker_txt_receiver = WorkerReceiveText(self.queue, self.mutex)
         self.worker_txt_receiver_thread = qtc.QThread()
     
     def _start_worker_threads(self):

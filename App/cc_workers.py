@@ -45,6 +45,7 @@ class WriteStream(object):
     def flush(self, *args, **kwargs):
         pass
 
+
 class WorkerReceiveText(qtc.QObject):
     """Thread worker for receiving text from a queue.
     
@@ -55,16 +56,28 @@ class WorkerReceiveText(qtc.QObject):
     
     received_text = qtc.pyqtSignal(str)
 
-    def __init__(self, queue, *args, **kwargs):
+    def __init__(self, queue: Queue, mutex: qtc.QMutex, *args, **kwargs):
         qtc.QObject.__init__(self, *args, **kwargs)
         self.queue = queue
+        self.mutex = mutex
 
     @qtc.pyqtSlot()
     def run(self):
-        while True:
-            text = self.queue.get()
-            self.received_text.emit(text)
+        """ChatGPT told me to do it this way."""
 
+        while True:
+            # Lock the thread before accessing the queue
+            with qtc.QMutexLocker(self.mutex):
+                if not self.queue.empty():
+                    text = self.queue.get()
+                    self.received_text.emit(text)
+
+            # ChatGPT says I should do this
+            # But I don't think I should...
+            # # Check if the thread should exit
+            # if self.thread().isInterruptionRequested():
+            #     break
+        
 
 class WorkerReadProjectData(qtc.QObject):
     """Thread Worker for loading Project Data from PHPP."""
@@ -76,14 +89,19 @@ class WorkerReadProjectData(qtc.QObject):
         print(SEPARATOR)
         print("Reading Project Team and Site data from Excel.")
         print("Connecting to excel...")
-        xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
-        phpp_conn = phpp_app.PHPPConnection(xl)
+        try:
+            xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
+            phpp_conn = phpp_app.PHPPConnection(xl)
+        except Exception as e:
+            print(f"Error connecting to the PHPP: '{_filepath}'.\n", e)
+            return None
 
         with phpp_conn.xl.in_silent_mode():
             _project.team = create_NBDM_Team(phpp_conn)
             _project.site = create_NBDM_Site(phpp_conn)
 
         self.loaded.emit(_project)
+
 
 
 class WorkerReadBaselineSegmentData(qtc.QObject):
@@ -96,8 +114,12 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
         print(SEPARATOR)
         print("Reading Baseline Building Segment data from Excel.")
         print("Connecting to excel...")
-        xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
-        phpp_conn = phpp_app.PHPPConnection(xl)
+        try:
+            xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
+            phpp_conn = phpp_app.PHPPConnection(xl)
+        except Exception as e:
+            print(f"Error connecting to the PHPP: '{_filepath}'.\n", e)
+            return None
 
         with phpp_conn.xl.in_silent_mode():
             try:
@@ -123,8 +145,12 @@ class WorkerReadProposedSegmentData(qtc.QObject):
         print(SEPARATOR)
         print("Reading Proposed Building Segment data from Excel.")
         print("Connecting to excel...")
-        xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
-        phpp_conn = phpp_app.PHPPConnection(xl)
+        try:
+            xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
+            phpp_conn = phpp_app.PHPPConnection(xl)
+        except Exception as e:
+            print(f"Error connecting to the PHPP: '{_filepath}'.\n", e)
+            return None
 
         with phpp_conn.xl.in_silent_mode():
             new_seg = create_NBDM_BuildingSegment(phpp_conn)
@@ -146,8 +172,13 @@ class WorkerWriteExcelReport(qtc.QObject):
         print(SEPARATOR)
         print("Writing report data to Excel.")
         print("Connecting to excel...")
-        xl = xl_app.XLConnection(xl_framework=xw, output=print)
-        output_report = report.OutputReport(_xl=xl, _autofit=True, _hide_groups=False)
+        
+        try:
+            xl = xl_app.XLConnection(xl_framework=xw, output=print)
+            output_report = report.OutputReport(_xl=xl, _autofit=True, _hide_groups=False)
+        except Exception as e:
+            print(f"Error connecting to Excel?\n", e)
+            return None
 
         with xl.in_silent_mode():
             xl.activate_new_workbook()
@@ -189,8 +220,13 @@ class WorkerSetPHPPBaseline(qtc.QObject):
         print(SEPARATOR)
         print(f"Setting Baseline values on the PHPP: '{_filepath}'.")
         print("Connecting to excel...")
-        xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
-        phpp_conn = phpp_app.PHPPConnection(xl)
+        
+        try:
+            xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
+            phpp_conn = phpp_app.PHPPConnection(xl)
+        except Exception as e:
+            print(f"Error connecting to the PHPP: '{_filepath}'.\n", e)
+            return None
         
         # -- 
         climate_zone = ClimateZones(_options.get("baseline_code_climate_zone", False))

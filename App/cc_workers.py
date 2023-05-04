@@ -2,34 +2,72 @@
 
 """Thread Workers called by Model and App processes."""
 
+import logging
 import pathlib
 from queue import Queue
 import sys
-from typing import Dict
+from typing import Dict, Optional
 
-import xlwings as xw
+try:
+    import xlwings as xw
+except Exception as e:
+    raise Exception("Error importing xlwings library?", e)
 
-from PyQt6 import QtGui as qtg
-from PyQt6 import QtWidgets as qtw
-from PyQt6 import QtCore as qtc
+try:
+    from PyQt6 import QtGui as qtg
+    from PyQt6 import QtWidgets as qtw
+    from PyQt6 import QtCore as qtc
+except Exception as e:
+    raise Exception("Error importing PyQt6 library?", e)
 
-from PHX.xl import xl_app
-from PHX.PHPP import phpp_app
-from PHX.PHPP.sheet_io.io_exceptions import PHPPDataMissingException
+try:
+    from PHX.xl import xl_app
+    from PHX.PHPP import phpp_app
+    from PHX.PHPP.sheet_io.io_exceptions import PHPPDataMissingException
+except Exception as e:
+    raise Exception("Error importing PHX library?", e)
 
-from NBDM.model.project import NBDM_Project
-from NBDM.to_Excel import report
-from NBDM.from_PHPP import create_NBDM_BuildingSegment, create_NBDM_Team, create_NBDM_Site
+try:
+    from NBDM.model.project import NBDM_Project
+    from NBDM.to_Excel import report
+    from NBDM.from_PHPP import (
+        create_NBDM_BuildingSegment,
+        create_NBDM_Team,
+        create_NBDM_Site,
+    )
+except Exception as e:
+    raise Exception("Error importing NBDM library?", e)
 
-from ph_baseliner.codes.model import BaselineCode
-from ph_baseliner.codes.options import ClimateZones
-from ph_baseliner.phpp.areas import set_baseline_envelope_constructions
-from ph_baseliner.phpp.windows import (set_baseline_window_construction,
-        set_baseline_window_area, set_baseline_skylight_area)
-from ph_baseliner.phpp.lighting import set_baseline_lighting_installed_power_density
+try:
+    from ph_baseliner.codes.model import BaselineCode
+    from ph_baseliner.codes.options import ClimateZones
+    from ph_baseliner.phpp.areas import set_baseline_envelope_constructions
+    from ph_baseliner.phpp.windows import (
+        set_baseline_window_construction,
+        set_baseline_window_area,
+        set_baseline_skylight_area,
+    )
+    from ph_baseliner.phpp.lighting import set_baseline_lighting_installed_power_density
+except Exception as e:
+    raise Exception("Error importing ph_baseliner library?", e)
 
 
 SEPARATOR = "- " * 50
+
+def print_error(_msg: str, _e: Optional[Exception]=None):
+    """Print an error message to the console."""
+    print("\n")
+    print(SEPARATOR)
+    print(SEPARATOR)
+    print("\n")
+    print(_msg)
+    if _e:
+        print(_e)
+    print("\n")
+    print(SEPARATOR)
+    print(SEPARATOR)
+    print("\n")
+
 
 class WriteStream(object):
     """Storage and redirect for receiving text from a queue."""
@@ -48,12 +86,12 @@ class WriteStream(object):
 
 class WorkerReceiveText(qtc.QObject):
     """Thread worker for receiving text from a queue.
-    
-    A QObject (to be run in a QThread) which sits waiting for data to come through 
-    a Queue.Queue().nIt blocks until data is available, and one it has got something
-    from the queue, it sends it to the "MainThread" by emitting a Qt Signal 
+
+    A QObject (to be run in a QThread) which sits waiting for data to come through
+    a Queue.Queue(). It blocks until data is available, and once it has got something
+    from the queue, it sends it back to the "MainThread" by emitting a QtSignal
     """
-    
+
     received_text = qtc.pyqtSignal(str)
 
     def __init__(self, queue: Queue, mutex: qtc.QMutex, *args, **kwargs):
@@ -77,23 +115,29 @@ class WorkerReceiveText(qtc.QObject):
             # # Check if the thread should exit
             # if self.thread().isInterruptionRequested():
             #     break
-        
+
 
 class WorkerReadProjectData(qtc.QObject):
     """Thread Worker for loading Project Data from PHPP."""
 
     loaded = qtc.pyqtSignal(NBDM_Project)
+    logger = logging.getLogger()
 
     @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
     def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
         print(SEPARATOR)
-        print("Reading Project Team and Site data from Excel.")
-        print("Connecting to excel...")
+        self.logger.excel("Reading Project Team and Site data from Excel.")
+        
         try:
-            xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
+            self.logger.excel(f"Connecting to excel document: {_filepath}")
+            xl = xl_app.XLConnection(
+                xl_framework=xw, output=self.logger.excel, xl_file_path=_filepath
+            )
             phpp_conn = phpp_app.PHPPConnection(xl)
         except Exception as e:
-            print(f"Error connecting to the PHPP: '{_filepath}'.\n", e)
+            msg = f"Error connecting to the PHPP: '{_filepath}'"
+            print_error(msg, e)
+            self.logger.error(msg, e, exc_info=True)
             return None
 
         with phpp_conn.xl.in_silent_mode():
@@ -103,33 +147,39 @@ class WorkerReadProjectData(qtc.QObject):
         self.loaded.emit(_project)
 
 
-
 class WorkerReadBaselineSegmentData(qtc.QObject):
     """Thread Worker for loading Baseline Segment Data from PHPP."""
 
     loaded = qtc.pyqtSignal(NBDM_Project)
+    logger = logging.getLogger()
 
     @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
     def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
         print(SEPARATOR)
-        print("Reading Baseline Building Segment data from Excel.")
-        print("Connecting to excel...")
+        self.logger.excel("Reading Baseline Building Segment data from Excel.")
         try:
-            xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
+            self.logger.excel("Connecting to excel...")
+            xl = xl_app.XLConnection(
+                xl_framework=xw, 
+                output=self.logger.excel,
+                xl_file_path=_filepath
+            )
             phpp_conn = phpp_app.PHPPConnection(xl)
         except Exception as e:
-            print(f"Error connecting to the PHPP: '{_filepath}'.\n", e)
+            msg = f"Error connecting to the PHPP: '{_filepath}'."
+            print_error(msg, e)
+            self.logger.error(msg, e, exc_info=True)
             return None
 
         with phpp_conn.xl.in_silent_mode():
             try:
                 new_seg = create_NBDM_BuildingSegment(phpp_conn)
             except PHPPDataMissingException as e:
-                print(SEPARATOR)
-                print("\t>", e)
-                print(SEPARATOR)
-                return None 
-            
+                msg = "Error creating the Baseline Building Segment."
+                print_error(msg, e)
+                self.logger.error(msg, e, exc_info=True)
+                return None
+
             _project.add_new_baseline_segment(new_seg)
 
         self.loaded.emit(_project)
@@ -139,17 +189,24 @@ class WorkerReadProposedSegmentData(qtc.QObject):
     """Thread Worker for loading Proposed Segment Data from PHPP."""
 
     loaded = qtc.pyqtSignal(NBDM_Project)
+    logger = logging.getLogger()
 
     @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
     def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
         print(SEPARATOR)
-        print("Reading Proposed Building Segment data from Excel.")
-        print("Connecting to excel...")
+        self.logger.excel("Reading Proposed Building Segment data from Excel.")
         try:
-            xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
+            self.logger.excel("Connecting to excel...")
+            xl = xl_app.XLConnection(
+                xl_framework=xw, 
+                output=self.logger.excel, 
+                xl_file_path=_filepath
+            )
             phpp_conn = phpp_app.PHPPConnection(xl)
         except Exception as e:
-            print(f"Error connecting to the PHPP: '{_filepath}'.\n", e)
+            msg = f"Error connecting to the PHPP: '{_filepath}'."
+            print_error(msg, e)
+            self.logger.error(msg, e, exc_info=True)
             return None
 
         with phpp_conn.xl.in_silent_mode():
@@ -163,21 +220,29 @@ class WorkerWriteExcelReport(qtc.QObject):
     """Thread Worker for writing out the report to Excel."""
 
     written = qtc.pyqtSignal(NBDM_Project)
+    logger = logging.getLogger()
 
-    @qtc.pyqtSlot(NBDM_Project)
-    def run(self, _project: NBDM_Project) -> None:
-        if not self.valid_project(_project):
-            return 
-        
+    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
+    def run(self, _project: NBDM_Project, _log_path: pathlib.Path) -> None:
         print(SEPARATOR)
-        print("Writing report data to Excel.")
-        print("Connecting to excel...")
-        
+
+        if not self.valid_project(_project):
+            self.logger.excel("Project is not valid. Cannot write report.")
+            return
+
+        self.logger.info("Writing report data to Excel.")
+
         try:
-            xl = xl_app.XLConnection(xl_framework=xw, output=print)
+            self.logger.info("Connecting to excel...")
+            xl = xl_app.XLConnection(
+                            xl_framework=xw, 
+                            output=self.logger.info
+                        )
             output_report = report.OutputReport(_xl=xl, _autofit=True, _hide_groups=False)
         except Exception as e:
-            print(f"Error connecting to Excel?\n", e)
+            msg = f"Error connecting to Excel?"
+            print_error(msg, e)
+            self.logger.error(msg, e, exc_info=True)
             return None
 
         with xl.in_silent_mode():
@@ -185,72 +250,80 @@ class WorkerWriteExcelReport(qtc.QObject):
             row_num = output_report.write_NBDM_Project(_nbdm_object=_project)
             row_num = output_report.write_NBDM_WholeBuilding(_nbdm_object=_project)
             row_num = output_report.write_NBDM_BuildingSegments(_nbdm_object=_project)
+            row_num = output_report.write_log(_log_path)
             output_report.remove_sheet_1()
 
         self.written.emit(_project)
-    
+
     def valid_project(self, _project: NBDM_Project) -> bool:
         """Return True if it a valid Project with data that can be written to the report."""
         if not _project.variants.baseline.has_building_segments:
-            print("\n")
-            print(SEPARATOR)
-            print("Error: 'Baseline' Building Segment data missing. Cannot generate report yet.")
-            print(SEPARATOR)
-            print("\n")
+            msg = "Error: 'Baseline' Building Segment data missing. Cannot generate report yet."
+            print_error(msg)
+            self.logger.error(msg)
             return False
 
         if not _project.variants.proposed.has_building_segments:
-            print("\n")
-            print(SEPARATOR)
-            print("Error: 'Proposed' Building Segment data missing. Cannot generate report yet.")
-            print(SEPARATOR)
-            print("\n")
+            msg = "Error: 'Proposed' Building Segment data missing. Cannot generate report yet."
+            print_error(msg)
+            self.logger.error(msg)
             return False
-        
+
         return True
-    
+
 
 class WorkerSetPHPPBaseline(qtc.QObject):
     """Thread Worker for setting the Baseline values in PHPP."""
 
     written = qtc.pyqtSignal()
+    logger = logging.getLogger()
 
     @qtc.pyqtSlot(pathlib.Path, BaselineCode, dict)
-    def run(self, _filepath: pathlib.Path, _baseline_code: BaselineCode, _options: Dict) -> None:
+    def run(
+        self, _filepath: pathlib.Path, _baseline_code: BaselineCode, _options: Dict
+    ) -> None:
         print(SEPARATOR)
-        print(f"Setting Baseline values on the PHPP: '{_filepath}'.")
-        print("Connecting to excel...")
-        
+        self.logger.info(f"Setting Baseline values on the PHPP: '{_filepath}'.")
+
         try:
-            xl = xl_app.XLConnection(xl_framework=xw, output=print, xl_file_path=_filepath)
+            self.logger.excel("Connecting to excel...")
+            xl = xl_app.XLConnection(
+                xl_framework=xw, 
+                output=self.logger.excel, 
+                xl_file_path=_filepath
+            )
             phpp_conn = phpp_app.PHPPConnection(xl)
         except Exception as e:
-            print(f"Error connecting to the PHPP: '{_filepath}'.\n", e)
+            msg = f"Error connecting to the PHPP: '{_filepath}'."
+            print_error(msg, e)
+            self.logger.error(msg, e, exc_info=True)
             return None
-        
-        # -- 
+
+        # --
         climate_zone = ClimateZones(_options.get("baseline_code_climate_zone", False))
-        print(f"Using climate-zone: '{climate_zone.value}' for baseline")
+        self.logger.excel(f"Using climate-zone: '{climate_zone.value}' for baseline model.")
 
         with phpp_conn.xl.in_silent_mode():
-            print("Setting Baseline values...")
-            
+            self.logger.excel("Setting Baseline values...")
+
             if _options.get("set_envelope_u_values", False):
-                print("Setting Baseline opaque envelope U-values.")
-                set_baseline_envelope_constructions(phpp_conn, _baseline_code, climate_zone)
-            
+                self.logger.excel("Setting Baseline opaque envelope U-values.")
+                set_baseline_envelope_constructions(
+                    phpp_conn, _baseline_code, climate_zone
+                )
+
             if _options.get("set_window_u_values", False):
-                print("Setting Baseline window U-values.")
+                self.logger.excel("Setting Baseline window U-values.")
                 set_baseline_window_construction(phpp_conn, _baseline_code, climate_zone)
-            
+
             if _options.get("set_win_areas", False):
-                print("Setting Baseline window areas.")
+                self.logger.excel("Setting Baseline window areas.")
                 set_baseline_window_area(phpp_conn, _baseline_code)
-            
+
             if _options.get("set_skylight_areas", False):
-                print("Setting Baseline skylight areas.")
+                self.logger.excel("Setting Baseline skylight areas.")
                 set_baseline_skylight_area(phpp_conn, _baseline_code)
-            
+
             if _options.get("set_lighting", False):
-                print("Setting Baseline Lighting installed power density.")
+                self.logger.excel("Setting Baseline Lighting installed power density.")
                 set_baseline_lighting_installed_power_density(phpp_conn, _baseline_code)

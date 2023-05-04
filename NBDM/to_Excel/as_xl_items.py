@@ -308,3 +308,18 @@ def BuildingSegment(
         )
 
     return xl_items
+
+
+def Log(_sheet_name: str, _start_row: int, _log_data: List[str]) -> xl_data.XLItem_List:
+    def _include_data(row: str) -> bool:
+        if row.startswith("Reading:"):
+            return False
+        return True
+    
+    return xl_data.XLItem_List(
+        [
+            xl_data.XlItem(sheet_name=_sheet_name, xl_range=f"A{_start_row}", write_value=row,) 
+            for row in _log_data if _include_data(row)
+        ]
+    )
+

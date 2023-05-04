@@ -2,9 +2,18 @@
 
 """Run to see GUI."""
 
+import logging
 import sys
-from NBDM.model import output_format 
-from App.cc_app import CCApp
+
+try:
+    from NBDM.model import output_format
+except Exception as e:
+    raise Exception("Error importing NBDM library?", e)
+
+try:
+    from App.cc_app import CCApp
+except Exception as e:
+    raise Exception("Error importing App library?", e)
 
 if __name__ == "__main__":
     app = CCApp(output_format, sys.argv)

@@ -5,8 +5,9 @@
 
 from __future__ import annotations
 from copy import copy
-from typing import Tuple
 import inspect
+import pathlib
+from typing import Tuple
 
 from PHX.xl import xl_app
 
@@ -159,6 +160,32 @@ class OutputReport:
                 _nbdm_object=segment, _row_num=_row_num, _worksheet_name=worksheet.name
             )
         return _row_num
+
+    def write_log(self, _logfile_path: pathlib.Path):
+        """Add a worksheet to the workbook and write the excel-log file to it."""
+        # -- temporarily redirect the output o silence it.
+        # -- so that the log-writing doesn't get logged.
+        old_output = self.xl.output
+        self.xl.output = xl_app.silent_print
+
+        ROW_NUM = 1
+        WORKSHEET_NAME = "LOG"
+
+        data = []
+        with open(_logfile_path, "r") as log_file:
+            for line in log_file:
+                data.append(line.strip())
+
+        worksheet = self.get_worksheet(WORKSHEET_NAME)
+        if data:
+            xl_item = as_xl_items.Log(worksheet.name, ROW_NUM, data)
+            self.xl.write_xl_item(xl_item, _transpose=True)
+
+        self.autofit_columns(worksheet.name)
+        self.hide_group_details(worksheet.name)
+
+        # -- restore the normal output
+        self.xl.output = old_output
 
     def remove_sheet_1(self) -> None:
         """Remove the default "Sheet1" from the workbook."""

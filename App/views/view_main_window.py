@@ -3,6 +3,7 @@
 
 """Main Application View Class."""
 
+import logging
 from enum import Enum
 import pathlib
 from typing import List, Dict, Any, Optional, Tuple, Callable
@@ -106,10 +107,22 @@ class CCMainWindow(qtw.QMainWindow):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.logger = logging.getLogger(__name__)
 
         # -- UI Layout from QtDesigner
+        self.logger.debug("Loading UI Layout from QtDesigner.")
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+    @property
+    def buttons(self) -> List[qtw.QPushButton]:
+        """Return a list of all buttons in the UI."""
+        return self.findChildren(qtw.QPushButton) # type: ignore
+
+    @property
+    def actions(self) -> List[qtg.QAction]:
+        """Return a list of all Actions in the UI."""
+        return self.findChildren(qtg.QAction) # type: ignore
 
     def get_file_path(self, filter: file_type = file_type.XL) -> Optional[pathlib.Path]:
         """Return a user-selected file path from a Dialog window."""
@@ -144,7 +157,7 @@ class CCMainWindow(qtw.QMainWindow):
     @qtc.pyqtSlot()
     def get_treeView_data_team(self):
         """Return the 'Team' treeView data as a dict."""
-        print("Getting Project Team data.")
+        self.logger.info("Getting Project Team data from the GUI.")
         _treeview_model = getattr(self.ui, "tree_view_model_team_info", None)
         data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
         self.got_team_data.emit(data)
@@ -152,7 +165,7 @@ class CCMainWindow(qtw.QMainWindow):
     @qtc.pyqtSlot()
     def get_treeView_data_site(self):
         """Return the 'Site' treeView data as a dict."""
-        print("Getting Project Site data.")
+        self.logger.info("Getting Project Site data from the GUI.")
         _treeview_model = getattr(self.ui, "tree_view_model_team_info", None)
         data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
         self.got_site_data.emit(data)
@@ -160,7 +173,7 @@ class CCMainWindow(qtw.QMainWindow):
     @qtc.pyqtSlot()
     def get_treeView_data_proposed_building(self):
         """Return the Proposed Building treeView data as a dict."""
-        print("Getting Proposed Building Segment data.")
+        self.logger.info("Getting Proposed Building Segment data from the GUI.")
         _treeview_model = getattr(self.ui, "tree_view_model_proposed", None)
         data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
         self.got_proposed_building_data.emit(data)
@@ -168,7 +181,7 @@ class CCMainWindow(qtw.QMainWindow):
     @qtc.pyqtSlot()
     def get_treeView_data_baseline_building(self):
         """Return the Baseline Building treeView data as a dict."""
-        print("Getting Baseline Building Segment data.")
+        self.logger.info("Getting Baseline Building Segment data from the GUI.")
         _treeview_model = getattr(self.ui, "tree_view_model_baseline", None)
         data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
         self.got_baseline_building_data.emit(data)

@@ -1,0 +1,29 @@
+version: 1
+formatters:
+  to_console:
+    format: '> %(message)s'
+  to_file:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s - %(message)s'
+  to_excel:
+    format: '%(message)s'
+handlers:
+  to_console_handler:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: to_console
+    stream: ext://sys.stdout
+  to_file_handler:
+    class: logging.FileHandler
+    level: DEBUG
+    formatter: to_file
+    filename: _cc_log_{__timestamp__}.log
+    encoding: utf-8
+  to_excel:
+    class: logging.FileHandler
+    level: 25
+    formatter: to_excel
+    filename: _excel_operations_log_{__timestamp__}.log
+    encoding: utf-8
+root:
+  level: DEBUG
+  handlers: [to_console_handler, to_file_handler, to_excel]

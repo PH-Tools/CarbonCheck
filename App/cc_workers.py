@@ -127,12 +127,13 @@ class WorkerReadProjectData(qtc.QObject):
     @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
     def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
         print(SEPARATOR)
-        self.logger.excel("Reading Project Team and Site data from Excel.")
+        self.output = self.logger.excel  # type: ignore
+        self.output("Reading Project Team and Site data from Excel.")
 
         try:
-            self.logger.excel(f"Connecting to excel document: {_filepath}")
+            self.logger.info(f"Connecting to excel document: {_filepath}")
             xl = xl_app.XLConnection(
-                xl_framework=xw, output=self.logger.excel, xl_file_path=_filepath
+                xl_framework=xw, output=self.output, xl_file_path=_filepath
             )
             phpp_conn = phpp_app.PHPPConnection(xl)
         except Exception as e:
@@ -157,11 +158,13 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
     @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
     def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
         print(SEPARATOR)
-        self.logger.excel("Reading Baseline Building Segment data from Excel.")
+        self.output = self.logger.excel  # type: ignore
+        self.output("Reading Baseline Building Segment data from Excel.")
+
         try:
-            self.logger.excel("Connecting to excel...")
+            self.logger.info(f"Connecting to excel document: {_filepath}")
             xl = xl_app.XLConnection(
-                xl_framework=xw, output=self.logger.excel, xl_file_path=_filepath
+                xl_framework=xw, output=self.output, xl_file_path=_filepath
             )
             phpp_conn = phpp_app.PHPPConnection(xl)
         except Exception as e:
@@ -193,11 +196,13 @@ class WorkerReadProposedSegmentData(qtc.QObject):
     @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
     def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
         print(SEPARATOR)
-        self.logger.excel("Reading Proposed Building Segment data from Excel.")
+        self.output = self.logger.excel  # type: ignore
+        self.output("Reading Proposed Building Segment data from Excel.")
+
         try:
-            self.logger.excel("Connecting to excel...")
+            self.logger.info(f"Connecting to excel document: {_filepath}")
             xl = xl_app.XLConnection(
-                xl_framework=xw, output=self.logger.excel, xl_file_path=_filepath
+                xl_framework=xw, output=self.output, xl_file_path=_filepath
             )
             phpp_conn = phpp_app.PHPPConnection(xl)
         except Exception as e:
@@ -222,12 +227,14 @@ class WorkerWriteExcelReport(qtc.QObject):
     @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
     def run(self, _project: NBDM_Project, _log_path: pathlib.Path) -> None:
         print(SEPARATOR)
+        self.output = self.logger.excel  # type: ignore
 
         if not self.valid_project(_project):
-            self.logger.excel("Project is not valid. Cannot write report.")
+            self.output("Project is not valid. Cannot write report.")
             return
 
-        self.logger.info("Writing report data to Excel.")
+        self.output = self.logger.excel  # type: ignore
+        self.output("Writing report data to Excel.")
 
         try:
             self.logger.info("Connecting to excel...")
@@ -285,12 +292,13 @@ class WorkerSetPHPPBaseline(qtc.QObject):
         """
 
         print(SEPARATOR)
-        self.logger.info(f"Setting Baseline values on the PHPP: '{_filepath}'.")
+        self.output = self.logger.excel  # type: ignore
+        self.output(f"Setting Baseline values on the PHPP: '{_filepath}'.")
 
         try:
-            self.logger.excel("Connecting to excel...")
+            self.logger.info(f"Connecting to excel document: {_filepath}")
             xl = xl_app.XLConnection(
-                xl_framework=xw, output=self.logger.excel, xl_file_path=_filepath
+                xl_framework=xw, output=self.output, xl_file_path=_filepath
             )
             phpp_conn = phpp_app.PHPPConnection(xl)
         except Exception as e:
@@ -304,34 +312,34 @@ class WorkerSetPHPPBaseline(qtc.QObject):
         pf_group = PF_Groups(_options.get("baseline_code_pf_group", False))
         use_group = Use_Groups(_options.get("baseline_code_use_group", False))
 
-        self.logger.excel(f"Using climate-zone: '{climate_zone.value}' for baseline.")
-        self.logger.excel(f"Using PF-Group: '{pf_group.value}' for baseline.")
-        self.logger.excel(f"Using Use-Group: '{use_group.value}' for baseline.")
+        self.output(f"Using climate-zone: '{climate_zone.value}' for baseline.")
+        self.output(f"Using PF-Group: '{pf_group.value}' for baseline.")
+        self.output(f"Using Use-Group: '{use_group.value}' for baseline.")
 
         # -- Set the Baseline values in the PHPP
         with phpp_conn.xl.in_silent_mode():
-            self.logger.excel("Setting Baseline values...")
+            self.output("Setting Baseline values...")
 
             if _options.get("set_envelope_u_values", False):
-                self.logger.excel("Setting Baseline opaque envelope U-values.")
+                self.output("Setting Baseline opaque envelope U-values.")
                 set_baseline_envelope_constructions(
                     phpp_conn, _baseline_code, climate_zone, use_group
                 )
 
             if _options.get("set_window_u_values", False):
-                self.logger.excel("Setting Baseline window U-values.")
+                self.output("Setting Baseline window U-values.")
                 set_baseline_window_construction(
                     phpp_conn, _baseline_code, climate_zone, pf_group, use_group
                 )
 
             if _options.get("set_win_areas", False):
-                self.logger.excel("Setting Baseline window areas.")
+                self.output("Setting Baseline window areas.")
                 set_baseline_window_area(phpp_conn, _baseline_code)
 
             if _options.get("set_skylight_areas", False):
-                self.logger.excel("Setting Baseline skylight areas.")
+                self.output("Setting Baseline skylight areas.")
                 set_baseline_skylight_area(phpp_conn, _baseline_code)
 
             if _options.get("set_lighting", False):
-                self.logger.excel("Setting Baseline Lighting installed power density.")
+                self.output("Setting Baseline Lighting installed power density.")
                 set_baseline_lighting_installed_power_density(phpp_conn, _baseline_code)

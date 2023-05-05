@@ -40,7 +40,7 @@ except Exception as e:
 
 try:
     from ph_baseliner.codes.model import BaselineCode
-    from ph_baseliner.codes.options import ClimateZones
+    from ph_baseliner.codes.options import ClimateZones, PF_Groups, Use_Groups
     from ph_baseliner.phpp.areas import set_baseline_envelope_constructions
     from ph_baseliner.phpp.windows import (
         set_baseline_window_construction,
@@ -54,7 +54,8 @@ except Exception as e:
 
 SEPARATOR = "- " * 50
 
-def print_error(_msg: str, _e: Optional[Exception]=None):
+
+def print_error(_msg: str, _e: Optional[Exception] = None):
     """Print an error message to the console."""
     print("\n")
     print(SEPARATOR)
@@ -127,7 +128,7 @@ class WorkerReadProjectData(qtc.QObject):
     def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
         print(SEPARATOR)
         self.logger.excel("Reading Project Team and Site data from Excel.")
-        
+
         try:
             self.logger.excel(f"Connecting to excel document: {_filepath}")
             xl = xl_app.XLConnection(
@@ -160,9 +161,7 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
         try:
             self.logger.excel("Connecting to excel...")
             xl = xl_app.XLConnection(
-                xl_framework=xw, 
-                output=self.logger.excel,
-                xl_file_path=_filepath
+                xl_framework=xw, output=self.logger.excel, xl_file_path=_filepath
             )
             phpp_conn = phpp_app.PHPPConnection(xl)
         except Exception as e:
@@ -198,9 +197,7 @@ class WorkerReadProposedSegmentData(qtc.QObject):
         try:
             self.logger.excel("Connecting to excel...")
             xl = xl_app.XLConnection(
-                xl_framework=xw, 
-                output=self.logger.excel, 
-                xl_file_path=_filepath
+                xl_framework=xw, output=self.logger.excel, xl_file_path=_filepath
             )
             phpp_conn = phpp_app.PHPPConnection(xl)
         except Exception as e:
@@ -234,10 +231,7 @@ class WorkerWriteExcelReport(qtc.QObject):
 
         try:
             self.logger.info("Connecting to excel...")
-            xl = xl_app.XLConnection(
-                            xl_framework=xw, 
-                            output=self.logger.info
-                        )
+            xl = xl_app.XLConnection(xl_framework=xw, output=self.logger.info)
             output_report = report.OutputReport(_xl=xl, _autofit=True, _hide_groups=False)
         except Exception as e:
             msg = f"Error connecting to Excel?"
@@ -282,15 +276,21 @@ class WorkerSetPHPPBaseline(qtc.QObject):
     def run(
         self, _filepath: pathlib.Path, _baseline_code: BaselineCode, _options: Dict
     ) -> None:
+        """Set the Baseline values in the PHPP.
+
+        Args:
+            * _filepath (pathlib.Path): Path to the PHPP file.
+            * _baseline_code (BaselineCode): The Baseline Code to use.
+            * _options (Dict[str, Any]): Options to use when setting the Baseline values.
+        """
+
         print(SEPARATOR)
         self.logger.info(f"Setting Baseline values on the PHPP: '{_filepath}'.")
 
         try:
             self.logger.excel("Connecting to excel...")
             xl = xl_app.XLConnection(
-                xl_framework=xw, 
-                output=self.logger.excel, 
-                xl_file_path=_filepath
+                xl_framework=xw, output=self.logger.excel, xl_file_path=_filepath
             )
             phpp_conn = phpp_app.PHPPConnection(xl)
         except Exception as e:
@@ -299,22 +299,30 @@ class WorkerSetPHPPBaseline(qtc.QObject):
             self.logger.error(msg, e, exc_info=True)
             return None
 
-        # --
+        # -- Pull out the user-provided options.
         climate_zone = ClimateZones(_options.get("baseline_code_climate_zone", False))
-        self.logger.excel(f"Using climate-zone: '{climate_zone.value}' for baseline model.")
+        pf_group = PF_Groups(_options.get("baseline_code_pf_group", False))
+        use_group = Use_Groups(_options.get("baseline_code_use_group", False))
 
+        self.logger.excel(f"Using climate-zone: '{climate_zone.value}' for baseline.")
+        self.logger.excel(f"Using PF-Group: '{pf_group.value}' for baseline.")
+        self.logger.excel(f"Using Use-Group: '{use_group.value}' for baseline.")
+
+        # -- Set the Baseline values in the PHPP
         with phpp_conn.xl.in_silent_mode():
             self.logger.excel("Setting Baseline values...")
 
             if _options.get("set_envelope_u_values", False):
                 self.logger.excel("Setting Baseline opaque envelope U-values.")
                 set_baseline_envelope_constructions(
-                    phpp_conn, _baseline_code, climate_zone
+                    phpp_conn, _baseline_code, climate_zone, use_group
                 )
 
             if _options.get("set_window_u_values", False):
                 self.logger.excel("Setting Baseline window U-values.")
-                set_baseline_window_construction(phpp_conn, _baseline_code, climate_zone)
+                set_baseline_window_construction(
+                    phpp_conn, _baseline_code, climate_zone, pf_group, use_group
+                )
 
             if _options.get("set_win_areas", False):
                 self.logger.excel("Setting Baseline window areas.")

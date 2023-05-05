@@ -38,7 +38,12 @@ except Exception as e:
 
 try:
     from ph_baseliner.codes.model import BaselineCode
-    from ph_baseliner.codes.options import ClimateZones, BaselineCodes
+    from ph_baseliner.codes.options import (
+        ClimateZones,
+        BaselineCodes,
+        Use_Groups,
+        PF_Groups,
+    )
 except Exception as e:
     raise Exception("Error importing ph_baseliner library?", e)
 
@@ -155,7 +160,9 @@ class CCModel(qtw.QWidget):
     write_excel_report = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
     write_PHPP_baseline = qtc.pyqtSignal(pathlib.Path, BaselineCode, dict)
 
-    def __init__(self, _output_format: ModuleType, _application_path: pathlib.Path, *args, **kwargs) -> None:
+    def __init__(
+        self, _output_format: ModuleType, _application_path: pathlib.Path, *args, **kwargs
+    ) -> None:
         super().__init__(*args, **kwargs)
         self.logger = logging.getLogger(__name__)
         self.logger.debug("Initializing CCModel.")
@@ -168,10 +175,7 @@ class CCModel(qtw.QWidget):
     @property
     def worker_threads(self) -> Generator[qtc.QThread, None, None]:
         """Return a Generator which yields each of the worker threads."""
-        return (
-            attr for attr in vars(self).values()
-            if isinstance(attr, qtc.QThread)
-        )
+        return (attr for attr in vars(self).values() if isinstance(attr, qtc.QThread))
 
     def _configure_worker_threads(self):
         """Configure and start up all the worker threads for read/write."""
@@ -185,29 +189,37 @@ class CCModel(qtw.QWidget):
         self.logger.debug("Creating worker threads.")
 
         self.worker_read_proj_data = WorkerReadProjectData()
-        self.worker_read_proj_data.setObjectName('Worker: Read Project Data')
+        self.worker_read_proj_data.setObjectName("Worker: Read Project Data")
         self.worker_read_proj_data_thread = qtc.QThread()
-        self.worker_read_proj_data_thread.setObjectName('Worker Thread: Read Project Data')
+        self.worker_read_proj_data_thread.setObjectName(
+            "Worker Thread: Read Project Data"
+        )
 
         self.worker_read_baseline_seg_data = WorkerReadBaselineSegmentData()
-        self.worker_read_proj_data.setObjectName('Worker: Read Baseline Seg Data')
+        self.worker_read_proj_data.setObjectName("Worker: Read Baseline Seg Data")
         self.worker_read_baseline_seg_data_thread = qtc.QThread()
-        self.worker_read_baseline_seg_data_thread.setObjectName('Worker Thread: Read Baseline Seg Data')
+        self.worker_read_baseline_seg_data_thread.setObjectName(
+            "Worker Thread: Read Baseline Seg Data"
+        )
 
         self.worker_read_prop_seg_data = WorkerReadProposedSegmentData()
-        self.worker_read_proj_data.setObjectName('Worker: Read Proposed Seg. Data')
+        self.worker_read_proj_data.setObjectName("Worker: Read Proposed Seg. Data")
         self.worker_read_prop_seg_data_thread = qtc.QThread()
-        self.worker_read_prop_seg_data_thread.setObjectName('Worker Thread: Read Proposed Seg. Data')
+        self.worker_read_prop_seg_data_thread.setObjectName(
+            "Worker Thread: Read Proposed Seg. Data"
+        )
 
         self.worker_write_report = WorkerWriteExcelReport()
-        self.worker_read_proj_data.setObjectName('Worker: Write Excel Report')
+        self.worker_read_proj_data.setObjectName("Worker: Write Excel Report")
         self.worker_write_report_thread = qtc.QThread()
-        self.worker_write_report_thread.setObjectName('Worker Thread: Write Excel Report')
+        self.worker_write_report_thread.setObjectName("Worker Thread: Write Excel Report")
 
         self.worker_set_baseline_phpp = WorkerSetPHPPBaseline()
-        self.worker_read_proj_data.setObjectName('Worker: Set PHPP Baseline')
+        self.worker_read_proj_data.setObjectName("Worker: Set PHPP Baseline")
         self.worker_set_baseline_phpp_thread = qtc.QThread()
-        self.worker_set_baseline_phpp_thread.setObjectName('Worker Thread: Set PHPP Baseline')
+        self.worker_set_baseline_phpp_thread.setObjectName(
+            "Worker Thread: Set PHPP Baseline"
+        )
 
     def _start_worker_threads(self):
         """Start all the worker threads."""
@@ -262,7 +274,7 @@ class CCModel(qtw.QWidget):
     def create_tree_data(self, _obj: Any) -> Dict[str, Any]:
         """Recursively build up a dict of string values for the Project Data TreeView."""
         # Note: cannot use dataclasses.fields() 'cus __future__ annotations
-        # breaks it and all .type comes as str.        
+        # breaks it and all .type comes as str.
         d = {}
         for field_name, field_type in get_type_hints(_obj.__class__).items():
             # -- Exclude the Variants from the Project data view.
@@ -307,7 +319,7 @@ class CCModel(qtw.QWidget):
     def update_treeview_team(self):
         """Build the treeView data dict from the Project and pass back to the view."""
         self.logger.debug("Updating treeView team data.")
-        
+
         tree_project_data = {}
         tree_project_data.update(self.create_tree_data(self.NBDM_project.team))
         tree_project_data.update(self.create_tree_data(self.NBDM_project.site))
@@ -316,7 +328,7 @@ class CCModel(qtw.QWidget):
     def update_treeview_baseline(self):
         """Build the treeView data dict from the Project and pass back to the view."""
         self.logger.debug("Updating treeView baseline data.")
-        
+
         baseline_segment_dict = {}
         for segment in self.NBDM_project.variants.baseline.building_segments:
             seg_name = f"BUILDING SEGMENT: {segment.segment_name}"
@@ -356,7 +368,7 @@ class CCModel(qtw.QWidget):
 
             with open(_filepath, "r") as read_file:
                 return json.load(read_file)
-            
+
         except Exception as e:
             self.logger.error(f"Error trying to read in JSON file: {_filepath}")
             self.logger.error(e, exc_info=True)
@@ -407,7 +419,9 @@ class CCModel(qtw.QWidget):
         """Set the self.NBDM_project.variants.proposed from the data in the treeView"""
         self.logger.info("Updating the Project Proposed Segments data.")
         if not _data:
-            self.logger.error("No data passed to set_project_proposed_segments_from_treeView_data()")
+            self.logger.error(
+                "No data passed to set_project_proposed_segments_from_treeView_data()"
+            )
             return
 
         self.NBDM_project.variants.proposed.clear_variant_building_segments()
@@ -424,7 +438,9 @@ class CCModel(qtw.QWidget):
         """Set the self.NBDM_project.variants.baseline from the data in the treeView"""
         self.logger.info("Updating the Project Baseline Segments data.")
         if not _data:
-            self.logger.error("No data passed to set_project_baseline_segments_from_treeView_data()")
+            self.logger.error(
+                "No data passed to set_project_baseline_segments_from_treeView_data()"
+            )
             return
 
         self.NBDM_project.variants.baseline.clear_variant_building_segments()
@@ -465,9 +481,13 @@ class CCModel(qtw.QWidget):
             baseline_code_file_path = pathlib.Path(
                 p, "ph_baseliner", "codes", baseline_code_file_name
             )
-            self.logger.debug(f"Checking for baseline code file: {baseline_code_file_path}")
+            self.logger.debug(
+                f"Checking for baseline code file: {baseline_code_file_path}"
+            )
             if baseline_code_file_path.exists():
-                self.logger.info(f"Loading the Baseline Code file: '{baseline_code_file_path}'")
+                self.logger.info(
+                    f"Loading the Baseline Code file: '{baseline_code_file_path}'"
+                )
                 break
         else:
             self.logger.info(
@@ -486,3 +506,11 @@ class CCModel(qtw.QWidget):
     def get_allowable_climate_zone_names(self) -> List[str]:
         """Return a list of allowable climate zone names."""
         return ClimateZones.as_list()
+
+    def get_allowable_use_type_names(self) -> List[str]:
+        """Return a list of allowable use type names."""
+        return Use_Groups.as_list()
+
+    def get_allowable_pf_group_names(self) -> List[str]:
+        """Return a list of allowable use Projection-Factor Group names."""
+        return PF_Groups.as_list()

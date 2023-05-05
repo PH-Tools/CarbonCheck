@@ -28,7 +28,12 @@ except Exception as e:
     raise Exception("Error importing App library?", e)
 
 try:
-    from ph_baseliner.codes.options import BaselineCodes, ClimateZones
+    from ph_baseliner.codes.options import (
+        BaselineCodes,
+        ClimateZones,
+        Use_Groups,
+        PF_Groups,
+    )
 except Exception as e:
     raise Exception("Error importing App library?", e)
 
@@ -233,10 +238,14 @@ class CCTabPHPPBaseline:
         self.view = _view
         self.populate_dropdown_codes()
         self.populate_dropdown_climate_zones()
+        self.populate_dropdown_use_types()
+        self.populate_dropdown_pf_groups()
 
     def populate_dropdown_codes(self):
         """Populate the dropdown menu with the available Baseline Segments."""
-        self.logger.debug("Populating dropdown menu with available Baseline Segments")
+        self.logger.debug(
+            "Populating dropdown menu with available Baseline Building Codes"
+        )
         self.view.ui.comboBox_projBaselineCode.clear()
         self.view.ui.comboBox_projBaselineCode.addItems(
             self.model.get_allowable_code_names()
@@ -244,10 +253,26 @@ class CCTabPHPPBaseline:
 
     def populate_dropdown_climate_zones(self):
         """Populate the dropdown menu with the available Baseline Segments."""
-        self.logger.debug("Populating dropdown menu with available Baseline Segments")
+        self.logger.debug("Populating dropdown menu with available Climate Zones")
         self.view.ui.comboBox_projASHRAEClimateZone.clear()
         self.view.ui.comboBox_projASHRAEClimateZone.addItems(
             self.model.get_allowable_climate_zone_names()
+        )
+
+    def populate_dropdown_use_types(self):
+        """Populate the dropdown menu with the available Baseline Segments."""
+        self.logger.debug("Populating dropdown menu with available Use-Types")
+        self.view.ui.comboBox_projUseGroup.clear()
+        self.view.ui.comboBox_projUseGroup.addItems(
+            self.model.get_allowable_use_type_names()
+        )
+
+    def populate_dropdown_pf_groups(self):
+        """Populate the dropdown menu with the available Baseline Segments."""
+        self.logger.debug("Populating dropdown menu with available PF Groups")
+        self.view.ui.comboBox_projPFGroup.clear()
+        self.view.ui.comboBox_projPFGroup.addItems(
+            self.model.get_allowable_pf_group_names()
         )
 
     def set_source_phpp_file_path(self) -> None:
@@ -278,6 +303,14 @@ class CCTabPHPPBaseline:
         """Get the Baseline Code Climate Zone as an Enum."""
         return ClimateZones(self.view.ui.comboBox_projASHRAEClimateZone.currentText())
 
+    def get_baseline_use_group_as_enum(self) -> Use_Groups:
+        """Get the Baseline Code Use Group as an Enum."""
+        return Use_Groups(self.view.ui.comboBox_projUseGroup.currentText())
+
+    def get_baseline_pf_group_as_enum(self) -> PF_Groups:
+        """Get the Baseline Code PF Group as an Enum."""
+        return PF_Groups(self.view.ui.comboBox_projPFGroup.currentText())
+
     def collect_baseline_options(self) -> Dict:
         """Collect the Baseline options from the GUI into a Dict"""
         self.logger.debug("Collecting Baseline options from the GUI into a Dict")
@@ -290,6 +323,8 @@ class CCTabPHPPBaseline:
             "set_win_areas": self.view.ui.checkBox_baseliner_setWindowAreas.isChecked(),
             "set_skylight_areas": self.view.ui.checkBox_baseliner_setSkylightAreas.isChecked(),
             "set_lighting": self.view.ui.checkBox_baseliner_setSpaceLightingLPD.isChecked(),
+            "baseline_code_pf_group": self.get_baseline_pf_group_as_enum(),
+            "baseline_code_use_group": self.get_baseline_use_group_as_enum(),
         }
 
     def write_baseline_phpp(self) -> None:

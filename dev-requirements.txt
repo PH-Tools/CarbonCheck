@@ -1,5 +1,6 @@
 black==23.1.0
 pytest
 coverage
+cx_Freeze
 pyinstaller
 pyinstaller-hooks-contrib

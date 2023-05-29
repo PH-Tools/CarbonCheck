@@ -19,7 +19,7 @@ except Exception as e:
     raise Exception("Error importing PyQt6 library?", e)
 
 try:
-    from App.cc_workers import (
+    from CC_GUI.cc_workers import (
         WorkerReadProjectData,
         WorkerReadBaselineSegmentData,
         WorkerReadProposedSegmentData,

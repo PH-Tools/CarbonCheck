@@ -13,7 +13,7 @@ from PyQt6 import QtWidgets as qtw
 from PyQt6 import QtCore as qtc
 
 # -- Layout from QtDesigner
-from App.views.ui_files.layout_app import Ui_MainWindow
+from CC_GUI.views.ui_files.layout_app import Ui_MainWindow
 
 
 def get_treeView_model_as_dict(

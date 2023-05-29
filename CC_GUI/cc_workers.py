@@ -75,11 +75,11 @@ class WriteStream(object):
 
     def __init__(self, queue: Queue):
         self.queue = queue
-        self.stdout = sys.stdout
+        self._stdout = sys.stdout
 
     def write(self, text: str):
         self.queue.put(text)
-        self.stdout.write(text)
+        self._stdout.write(text)
 
     def flush(self, *args, **kwargs):
         pass

@@ -75,6 +75,10 @@ def find_log_file_path() -> pathlib.Path:
     return log_file_path
 
 
+def find_stylesheet_path() -> pathlib.Path:
+    return find_application_path() / "cc_styles.qss"
+
+
 def add_logging_level(levelName, levelNum, methodName=None):
     """Utility function to add a new logging level to the logging module."""
     # Adopted from https://stackoverflow.com/a/35804945/1691778

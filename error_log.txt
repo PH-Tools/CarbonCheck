@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/em/Dropbox/bldgtyp-00/00_PH_Tools/CarbonCheck/CC_GUI/cc_workers.py", line 255, in run
+    row_num = output_report.write_log(_log_path)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/em/Dropbox/bldgtyp-00/00_PH_Tools/CarbonCheck/NBDM/to_Excel/report.py", line 175, in write_log
+    with open(_logfile_path, "r") as log_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '.'

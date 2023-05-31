@@ -142,23 +142,23 @@ class CCModel(qtw.QWidget):
     """CarbonCheck Model Class."""
 
     # -- Signals for passing data back to treeViews
-    load_team_data = qtc.pyqtSignal(dict)
-    load_site_data = qtc.pyqtSignal(dict)
-    load_baseline_segments_data = qtc.pyqtSignal(dict)
-    load_proposed_segments_data = qtc.pyqtSignal(dict)
+    sig_load_team_data = qtc.pyqtSignal(dict)
+    sig_load_site_data = qtc.pyqtSignal(dict)
+    sig_load_baseline_segments_data = qtc.pyqtSignal(dict)
+    sig_load_proposed_segments_data = qtc.pyqtSignal(dict)
 
     # -- Signals for reading data from the GUI treeViews
-    read_treeView_team = qtc.pyqtSignal()
-    read_treeView_site = qtc.pyqtSignal()
-    read_treeView_proposed_segments = qtc.pyqtSignal()
-    read_treeView_baseline_segments = qtc.pyqtSignal()
+    sig_read_treeView_team = qtc.pyqtSignal()
+    sig_read_treeView_site = qtc.pyqtSignal()
+    sig_read_treeView_proposed_segments = qtc.pyqtSignal()
+    sig_read_treeView_baseline_segments = qtc.pyqtSignal()
 
     # -- Thread workers for reading / writing PHPP data
-    read_project_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
-    read_baseline_seg_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
-    read_proposed_seg_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
-    write_excel_report = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
-    write_PHPP_baseline = qtc.pyqtSignal(pathlib.Path, BaselineCode, dict)
+    sig_read_project_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
+    sig_read_baseline_seg_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
+    sig_read_proposed_seg_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
+    sig_write_excel_report = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
+    sig_write_PHPP_baseline = qtc.pyqtSignal(pathlib.Path, BaselineCode, dict)
 
     def __init__(
         self, _output_format: ModuleType, _application_path: pathlib.Path, *args, **kwargs
@@ -247,20 +247,22 @@ class CCModel(qtw.QWidget):
         self.logger.debug("Connecting worker signals.")
 
         self.worker_read_proj_data.loaded.connect(self.set_NBDM_project)
-        self.read_project_data_from_file.connect(self.worker_read_proj_data.run)
+        self.sig_read_project_data_from_file.connect(self.worker_read_proj_data.run)
 
         self.worker_read_baseline_seg_data.loaded.connect(self.set_NBDM_project)
-        self.read_baseline_seg_data_from_file.connect(
+        self.sig_read_baseline_seg_data_from_file.connect(
             self.worker_read_baseline_seg_data.run
         )
 
         self.worker_read_prop_seg_data.loaded.connect(self.set_NBDM_project)
-        self.read_proposed_seg_data_from_file.connect(self.worker_read_prop_seg_data.run)
+        self.sig_read_proposed_seg_data_from_file.connect(
+            self.worker_read_prop_seg_data.run
+        )
 
         self.worker_write_report.written.connect(self.set_NBDM_project)
-        self.write_excel_report.connect(self.worker_write_report.run)
+        self.sig_write_excel_report.connect(self.worker_write_report.run)
 
-        self.write_PHPP_baseline.connect(self.worker_set_baseline_phpp.run)
+        self.sig_write_PHPP_baseline.connect(self.worker_set_baseline_phpp.run)
 
     def set_NBDM_project(self, _project: NBDM_Project) -> None:
         """Set the NBDM_Project object and update the treeViews."""
@@ -323,7 +325,7 @@ class CCModel(qtw.QWidget):
         tree_project_data = {}
         tree_project_data.update(self.create_tree_data(self.NBDM_project.team))
         tree_project_data.update(self.create_tree_data(self.NBDM_project.site))
-        self.load_team_data.emit(tree_project_data)
+        self.sig_load_team_data.emit(tree_project_data)
 
     def update_treeview_baseline(self):
         """Build the treeView data dict from the Project and pass back to the view."""
@@ -333,7 +335,7 @@ class CCModel(qtw.QWidget):
         for segment in self.NBDM_project.variants.baseline.building_segments:
             seg_name = f"BUILDING SEGMENT: {segment.segment_name}"
             baseline_segment_dict[seg_name] = self.create_tree_data(segment)
-        self.load_baseline_segments_data.emit(baseline_segment_dict)
+        self.sig_load_baseline_segments_data.emit(baseline_segment_dict)
 
     def update_treeview_proposed(self):
         """Build the treeView data dict from the Project and pass back to the view."""
@@ -343,9 +345,26 @@ class CCModel(qtw.QWidget):
         for segment in self.NBDM_project.variants.proposed.building_segments:
             seg_name = f"BUILDING SEGMENT: {segment.segment_name}"
             proposed_segment_dict[seg_name] = self.create_tree_data(segment)
-        self.load_proposed_segments_data.emit(proposed_segment_dict)
+        self.sig_load_proposed_segments_data.emit(proposed_segment_dict)
 
-    def load_cc_project_from_file(self, _filepath: pathlib.Path):
+    # -------------------------------------------------------------------------
+    # -- Menu Commands
+
+    def update_cc_software(self, _application_path: pathlib.Path) -> None:
+        """Update the CarbonCheck software."""
+        self.logger.info("Updating CarbonCheck software.")
+        # TODO:
+        # -- Figure out the OS version being used
+
+        # -- Download the new CarbonCheck package
+
+        # -- Unzip the package to the application path
+
+        # -- will that work? Can I replace the exe while its running?
+
+        print("_application_path=", _application_path)
+
+    def load_cc_project_from_file(self, _filepath: pathlib.Path) -> None:
         """Build up an NBDM_Project from a save file and set as the active."""
         self.logger.info(f"Loading CarbonCheck data from file: {_filepath}")
 
@@ -374,19 +393,21 @@ class CCModel(qtw.QWidget):
             self.logger.error(e, exc_info=True)
             return {}
 
-    def write_json_file(self, _filepath: pathlib.Path):
+    def write_json_file(self, _filepath: pathlib.Path) -> None:
         self.logger.info(f"Writing out JSON file: {_filepath}")
         self.set_project_from_gui()
         NBDM_Project_to_json_file(self.NBDM_project, _filepath)
 
-    def set_project_from_gui(self):
-        """Read in all the data in the GUI fields and build a new project."""
+    def set_project_from_gui(self) -> None:
+        """Read in all the data in the GUI fields and build a new NBDM project."""
         print("- " * 50)
         self.logger.info("Updating all Project data.")
-        self.read_treeView_team.emit()
-        self.read_treeView_site.emit()
-        self.read_treeView_proposed_segments.emit()
-        self.read_treeView_baseline_segments.emit()
+        self.sig_read_treeView_team.emit()
+        self.sig_read_treeView_site.emit()
+        self.sig_read_treeView_proposed_segments.emit()
+        self.sig_read_treeView_baseline_segments.emit()
+
+    # -------------------------------------------------------------------------
 
     @qtc.pyqtSlot(dict)
     def set_project_team_from_treeView_data(self, _data: Dict[str, str]) -> None:
@@ -449,6 +470,8 @@ class CCModel(qtw.QWidget):
                 self.output_format, segment_data, building.NBDM_BuildingSegment
             )
             self.NBDM_project.add_new_baseline_segment(new_segment)
+
+    # -------------------------------------------------------------------------
 
     def remove_baseline_segment_by_name(self, _segment_name: str):
         """Remove a baseline building-segment from the project."""

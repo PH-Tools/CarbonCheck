@@ -31,8 +31,6 @@ def group(start_offset: int, end_offset: int):
             bound = sig.bind(*args, **kwargs)
             bound.apply_defaults()
 
-            print(bound.arguments.keys())
-
             # -- Pull out the arguments
             report_obj: OutputReport = bound.arguments["self"]
             nbdm_project: NBDM_Project = bound.arguments["_nbdm_object"]

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>935</width>
-    <height>1018</height>
+    <height>843</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -176,7 +176,7 @@
                   </sizepolicy>
                  </property>
                  <property name="title">
-                  <string>1. Source PHPP</string>
+                  <string>1. Model Source File (PHPP / WUFI-XML)</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -206,7 +206,7 @@
                      </sizepolicy>
                     </property>
                     <property name="text">
-                     <string>Select the 'source' PHPP file. The values of this file will be reset to the code-require 'baseline' settings.</string>
+                     <string>Select the 'source' PHPP or WUFI-XML file. The values of this model file will be reset to the code-require 'baseline' settings.</string>
                     </property>
                     <property name="wordWrap">
                      <bool>true</bool>
@@ -537,7 +537,7 @@ p, li { white-space: pre-wrap; }
                   <item>
                    <widget class="QLabel" name="label_baselinerRunNote">
                     <property name="text">
-                     <string>Click the 'Write Baseline PHPP' button to run the Baseline builder. This will modify the 'source' PHPP file specified above and set the specified values in that file to the code-required baseline inputs. NOTE: Be sure that you have made copy of the source PHPP BEFORE running this baseline builder. </string>
+                     <string>Click the 'Create Baseline Model' button to run the Baseline builder. This will modify the 'source' PHPP/WUFI file specified above and set the specified values in that file to the code-required baseline inputs. NOTE: Be sure that you have made copy of the source PHPP/WUFI BEFORE running this baseline builder. </string>
                     </property>
                     <property name="wordWrap">
                      <bool>true</bool>
@@ -582,7 +582,7 @@ p, li { white-space: pre-wrap; }
                       </widget>
                      </item>
                      <item>
-                      <widget class="QPushButton" name="btn_writeBaselinePHPP">
+                      <widget class="QPushButton" name="btn_createBaselinePhModel">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
                          <horstretch>0</horstretch>
@@ -590,7 +590,7 @@ p, li { white-space: pre-wrap; }
                         </sizepolicy>
                        </property>
                        <property name="text">
-                        <string>Write Baseline PHPP</string>
+                        <string>Create Baseline Model</string>
                        </property>
                       </widget>
                      </item>
@@ -999,7 +999,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>935</width>
-     <height>24</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

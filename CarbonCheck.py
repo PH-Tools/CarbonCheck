@@ -24,7 +24,6 @@ if __name__ == "__main__":
     log_file_path = find_log_file_path()
     error_log_path = log_file_path / "stdout.log"
     stylesheet_path = find_stylesheet_path()
-    print(stylesheet_path)
     with open(error_log_path, "w") as f:
         sys.stdout = f
 

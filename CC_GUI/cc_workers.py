@@ -2,6 +2,8 @@
 
 """Thread Workers called by Model and App processes."""
 
+import io
+import traceback
 import logging
 import pathlib
 from queue import Queue
@@ -21,9 +23,16 @@ except Exception as e:
     raise Exception("Error importing PyQt6 library?", e)
 
 try:
+    # -- PHX-PHPP Modules
     from PHX.xl import xl_app
     from PHX.PHPP import phpp_app
     from PHX.PHPP.sheet_io.io_exceptions import PHPPDataMissingException
+
+    # -- PHX-WUFI Modules
+    from PHX.from_WUFI_XML.read_WUFI_XML_file import get_WUFI_XML_file_as_dict
+    from PHX.from_WUFI_XML.phx_converter import convert_WUFI_XML_to_PHX_project
+    from PHX.to_WUFI_XML import xml_builder, xml_txt_to_file
+    from PHX.from_WUFI_XML.wufi_file_schema import WUFIplusProject
 except Exception as e:
     raise Exception("Error importing PHX library?", e)
 
@@ -41,13 +50,12 @@ except Exception as e:
 try:
     from ph_baseliner.codes.model import BaselineCode
     from ph_baseliner.codes.options import ClimateZones, PF_Groups, Use_Groups
-    from ph_baseliner.phpp.areas import set_baseline_envelope_constructions
-    from ph_baseliner.phpp.windows import (
-        set_baseline_window_construction,
-        set_baseline_window_area,
-        set_baseline_skylight_area,
-    )
-    from ph_baseliner.phpp.lighting import set_baseline_lighting_installed_power_density
+    from ph_baseliner.phpp import areas as phpp_areas
+    from ph_baseliner.phpp import windows as phpp_windows
+    from ph_baseliner.phpp import lighting as phpp_lighting
+    from ph_baseliner.phx import areas as phx_areas
+    from ph_baseliner.phx import windows as phx_windows
+    from ph_baseliner.phx import lighting as phx_lighting
 except Exception as e:
     raise Exception("Error importing ph_baseliner library?", e)
 
@@ -295,6 +303,7 @@ class WorkerSetPHPPBaseline(qtc.QObject):
         self.output = self.logger.excel  # type: ignore
         self.output(f"Setting Baseline values on the PHPP: '{_filepath}'.")
 
+        # -- Connect to Excel and the Specified PHPP file.
         try:
             self.logger.info(f"Connecting to excel document: {_filepath}")
             xl = xl_app.XLConnection(
@@ -322,24 +331,137 @@ class WorkerSetPHPPBaseline(qtc.QObject):
 
             if _options.get("set_envelope_u_values", False):
                 self.output("Setting Baseline opaque envelope U-values.")
-                set_baseline_envelope_constructions(
+                phpp_areas.set_baseline_envelope_constructions(
                     phpp_conn, _baseline_code, climate_zone, use_group
                 )
 
             if _options.get("set_window_u_values", False):
                 self.output("Setting Baseline window U-values.")
-                set_baseline_window_construction(
+                phpp_windows.set_baseline_window_construction(
                     phpp_conn, _baseline_code, climate_zone, pf_group, use_group
                 )
 
             if _options.get("set_win_areas", False):
                 self.output("Setting Baseline window areas.")
-                set_baseline_window_area(phpp_conn, _baseline_code)
+                phpp_windows.set_baseline_window_area(phpp_conn, _baseline_code)
 
             if _options.get("set_skylight_areas", False):
                 self.output("Setting Baseline skylight areas.")
-                set_baseline_skylight_area(phpp_conn, _baseline_code)
+                phpp_windows.set_baseline_skylight_area(phpp_conn, _baseline_code)
 
             if _options.get("set_lighting", False):
                 self.output("Setting Baseline Lighting installed power density.")
-                set_baseline_lighting_installed_power_density(phpp_conn, _baseline_code)
+                phpp_lighting.set_baseline_lighting_installed_power_density(
+                    phpp_conn, _baseline_code
+                )
+
+
+class WorkerSetWUFIBaseline(qtc.QObject):
+    """Thread Worker for setting the Baseline values in PHPP."""
+
+    written = qtc.pyqtSignal()
+    logger = logging.getLogger()
+
+    @qtc.pyqtSlot(pathlib.Path, BaselineCode, dict)
+    def run(
+        self, _filepath: pathlib.Path, _baseline_code: BaselineCode, _options: Dict
+    ) -> None:
+        """Set the Baseline values in a WUFI XML file.
+
+        Args:
+            * _filepath (pathlib.Path): Path to the WUFI-XML file.
+            * _baseline_code (BaselineCode): The Baseline Code to use.
+            * _options (Dict[str, Any]): Options to use when setting the Baseline values.
+        """
+        print(SEPARATOR)
+        self.output = self.logger.wufi  # type: ignore
+        self.output(f"Setting Baseline values on the WUFI File: '{_filepath}'.")
+
+        # ---------------------------------------------------------------------
+        # -- Load the specified WUFI-XML file
+        self.output(f"Reading in the WUFI-XML document: {_filepath}")
+        wufi_xml_data = get_WUFI_XML_file_as_dict(_filepath)
+
+        self.output(f"Converting WUFI-XML file to a new PHX Model")
+        try:
+            wufi_xml_model = WUFIplusProject.parse_obj(wufi_xml_data)
+            phx_project = convert_WUFI_XML_to_PHX_project(wufi_xml_model)
+        except Exception as e:
+            msg = (
+                "Error: Something went wrong converting the WUFI-XML file to a PHX-Model?"
+            )
+            output = io.StringIO()
+            traceback.print_exc(file=output)
+            error_message = output.getvalue()
+            print_error(error_message, e)
+            return None
+
+        # ---------------------------------------------------------------------
+        # -- Pull out the user-provided options.
+        climate_zone = ClimateZones(_options.get("baseline_code_climate_zone", False))
+        pf_group = PF_Groups(_options.get("baseline_code_pf_group", False))
+        use_group = Use_Groups(_options.get("baseline_code_use_group", False))
+
+        self.output(f"Using climate-zone: '{climate_zone.value}' for baseline.")
+        self.output(f"Using PF-Group: '{pf_group.value}' for baseline.")
+        self.output(f"Using Use-Group: '{use_group.value}' for baseline.")
+
+        # ---------------------------------------------------------------------
+        # -- Baseline the PHX Model
+        self.output("Setting Baseline values...")
+
+        if _options.get("set_envelope_u_values", False):
+            self.output("Setting Baseline opaque envelope U-values.")
+            phx_project = phx_areas.set_baseline_envelope_constructions(
+                phx_project, _baseline_code, climate_zone, use_group, self.output
+            )
+
+        if _options.get("set_window_u_values", False):
+            self.output("Setting Baseline window U-values.")
+            phx_project = phx_windows.set_baseline_window_construction(
+                phx_project,
+                _baseline_code,
+                climate_zone,
+                pf_group,
+                use_group,
+                self.output,
+            )
+
+        if _options.get("set_win_areas", False):
+            self.output("Setting Baseline window areas.")
+            phx_project = phx_windows.set_baseline_window_area(
+                phx_project, _baseline_code, self.output
+            )
+
+        if _options.get("set_skylight_areas", False):
+            self.output("Setting Baseline skylight areas.")
+            phx_project = phx_windows.set_baseline_skylight_area(
+                phx_project, _baseline_code, self.output
+            )
+
+        if _options.get("set_lighting", False):
+            self.output("Setting Baseline Lighting installed power density.")
+            phx_project = phx_lighting.set_baseline_lighting_installed_power_density(
+                phx_project, _baseline_code, self.output
+            )
+
+        # ---------------------------------------------------------------------
+        # -- Output the XMl model back to the original file location
+        try:
+            xml_txt = xml_builder.generate_WUFI_XML_from_object(phx_project)
+        except Exception as e:
+            msg = "Error: Something went wrong trying to generate the XML file from PHX-Project?"
+            output = io.StringIO()
+            traceback.print_exc(file=output)
+            error_message = output.getvalue()
+            print_error(error_message, e)
+            return None
+
+        output_filpath = pathlib.Path(_filepath.parent, f"{_filepath.stem}_baseline.xml")
+        self.output(f"Saving the XML file to: '{output_filpath}'")
+        try:
+            xml_txt_to_file.write_XML_text_file(output_filpath, xml_txt, False)
+        except Exception as e:
+            msg = f"Error writing the XML file to: '{output_filpath}'"
+            print_error(msg, e)
+            return None

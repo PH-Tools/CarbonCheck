@@ -33,7 +33,6 @@ try:
     )
 except Exception as e:
     raise Exception("Error importing CC_GUI library?", e)
-
 try:
     from ph_baseliner.codes.options import (
         BaselineCodes,
@@ -41,6 +40,7 @@ try:
         Use_Groups,
         PF_Groups,
     )
+    from ph_baseliner.codes.model import BaselineCode
 except Exception as e:
     raise Exception("Error importing App library?", e)
 
@@ -88,7 +88,7 @@ class Tab_Report:
 
     def add_project_info_from_file(self) -> None:
         """Load 'Project' information from a single PHPP file (Team, Climate, Site...)"""
-        filepath = self.view.get_file_path(filter=file_type.XL)
+        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
 
         if not filepath or not filepath.exists():
             return None
@@ -98,7 +98,7 @@ class Tab_Report:
 
     def add_baseline_seg_from_file(self) -> None:
         """Load a new Baseline Segment's data from a single PHPP file."""
-        filepath = self.view.get_file_path(filter=file_type.XL)
+        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
 
         if not filepath or not filepath.exists():
             return None
@@ -110,7 +110,7 @@ class Tab_Report:
 
     def add_proposed_seg_from_file(self) -> None:
         """Load a new Proposed Segment's data from a single PHPP file."""
-        filepath = self.view.get_file_path(filter=file_type.XL)
+        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
 
         if not filepath or not filepath.exists():
             return None
@@ -224,8 +224,8 @@ class BaselinerOptionsData:
             setattr(self, key, value)
 
 
-class Tab_PHPPBaseline:
-    """The PHPP Baseline Configuration tab."""
+class Tab_Baseline:
+    """The PH-Model Baseline Configuration tab."""
 
     def __init__(self, _model: CCModel, _view: CCMainWindow):
         self.logger = logging.getLogger(__name__)
@@ -254,7 +254,7 @@ class Tab_PHPPBaseline:
         self.view.ui.btn_selectSourcePHPPforBaseliner.clicked.connect(
             self.set_source_phpp_file_path
         )
-        self.view.ui.btn_writeBaselinePHPP.clicked.connect(self.write_baseline_phpp)
+        self.view.ui.btn_createBaselinePhModel.clicked.connect(self.create_baseline)
 
         # -- Tab Buttons: PHPP Baseline Options Window
         self.window_baseline_options.ui.btn_OK.clicked.connect(
@@ -304,7 +304,7 @@ class Tab_PHPPBaseline:
 
     def set_source_phpp_file_path(self) -> None:
         """Set the path to the PHPP file to be used as the Baseline."""
-        filepath = self.view.get_file_path(filter=file_type.XL)
+        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
         self.logger.debug(f"Setting source PHPP file path to {filepath}")
 
         if not filepath or not filepath.exists():
@@ -313,7 +313,7 @@ class Tab_PHPPBaseline:
 
         self.view.ui.lineEdit_selectSourcePHPPforBaseliner.setText(str(filepath))
 
-    def get_source_phpp_file_path(self) -> Path:
+    def get_ph_model_source_file_path(self) -> Path:
         """Get the path to the PHPP file to be used as the Baseline."""
         self.logger.debug("Getting source PHPP file path")
 
@@ -354,7 +354,36 @@ class Tab_PHPPBaseline:
             "baseline_code_use_group": self.get_baseline_use_group_as_enum(),
         }
 
-    def write_baseline_phpp(self) -> None:
+    def create_baseline(self) -> None:
+        self.logger.debug("Creating Baseline PH Model")
+
+        # -- Load the Source File specified by the user
+        source_file = self.get_ph_model_source_file_path()
+        if not source_file:
+            self.logger.debug(f"Could not find PH-Model file: {source_file}")
+            return None
+
+        # -- Load the Baseline Code file
+        baseline_code_option = self.get_baseline_code_standard_as_enum()
+        baseline_model = self.model.load_baseline_code_file(baseline_code_option)
+        if not baseline_model:
+            return None
+
+        # get the extension of the source file
+        file_extension = source_file.suffix
+        if file_extension in [".xml"]:
+            self.create_baseline_wufi(source_file, baseline_model)
+        elif file_extension in [".xls", ".xlsx", ".xlsm"]:
+            self.create_baseline_phpp(source_file, baseline_model)
+        else:
+            self.logger.info(
+                f"File type '{file_extension}' not supported. Please specify a PHPP or WUFI-XML file."
+            )
+            return None
+
+    def create_baseline_phpp(
+        self, _source_file: Path, _baseline_model: BaselineCode
+    ) -> None:
         """Load the BaselineCode file, and set the PHPP values."""
         self.logger.debug("Writing Baseline PHPP file")
 
@@ -366,21 +395,20 @@ class Tab_PHPPBaseline:
             self.logger.debug("User cancelled Baseline PHPP file write")
             return None
 
-        # -- Load the PHPP file
-        phpp_filepath = self.get_source_phpp_file_path()
-        if not phpp_filepath:
-            self.logger.debug(f"Could not find PHPP file: {phpp_filepath}")
-            return None
-
-        # -- Load the Baseline Code file
-        baseline_code_option = self.get_baseline_code_standard_as_enum()
-        baseline_model = self.model.load_baseline_code_file(baseline_code_option)
-        if not baseline_model:
-            return None
-
         baseline_options = self.collect_baseline_options()
         self.model.sig_write_PHPP_baseline.emit(
-            phpp_filepath, baseline_model, baseline_options
+            _source_file, _baseline_model, baseline_options
+        )
+
+    def create_baseline_wufi(
+        self, _source_file: Path, _baseline_model: BaselineCode
+    ) -> None:
+        """Load the BaselineCode file, and set the WUFI values."""
+        self.logger.debug("Writing Baseline WUFI-XML file")
+
+        baseline_options = self.collect_baseline_options()
+        self.model.sig_write_WUFI_baseline.emit(
+            _source_file, _baseline_model, baseline_options
         )
 
     # @qtc.pyqtSlot(dict)
@@ -420,7 +448,7 @@ class CCApp(qtw.QApplication):
         self.view = CCMainWindow()
         self.model = CCModel(_output_format, self.application_path)
         self.tab_report = Tab_Report(self.model, self.view, self.excel_log_filepath)
-        self.tab_phpp_baseline = Tab_PHPPBaseline(self.model, self.view)
+        self.tab_baseline = Tab_Baseline(self.model, self.view)
 
         self._connect_menu_actions()
         self._connect_all_button_signals()
@@ -461,8 +489,9 @@ class CCApp(qtw.QApplication):
         # -- Error Log for backup
         sys.excepthook = log_exception
 
-        # -- Be sure to add the excel custom log level
+        # -- Be sure to add the excel and wufi custom log level
         add_logging_level("EXCEL", logging.INFO + 5)
+        add_logging_level("WUFI", logging.INFO + 5)
 
         # -- Find the logging configuration YAML file
         config_file = Path(self.application_path, "__logging_config__.yaml")
@@ -557,14 +586,14 @@ class CCApp(qtw.QApplication):
         # ---------------------------------------------------------------------
         # -- Connect the Tab Buttons and signals
         self.tab_report._connect_buttons_and_signals()
-        self.tab_phpp_baseline._connect_buttons_and_signals()
+        self.tab_baseline._connect_buttons_and_signals()
 
     def _connect_button_loggers(self):
         """Connect all the QButtons to the click_logger method for debugging."""
         for button in self.view.buttons:
             button.clicked.connect(self.click_logger)
 
-        for button in self.tab_phpp_baseline.window_baseline_options.buttons:
+        for button in self.tab_baseline.window_baseline_options.buttons:
             button.clicked.connect(self.click_logger)
 
         for button in self.tab_report.window_team_and_site.buttons:

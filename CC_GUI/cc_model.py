@@ -25,6 +25,7 @@ try:
         WorkerReadProposedSegmentData,
         WorkerWriteExcelReport,
         WorkerSetPHPPBaseline,
+        WorkerSetWUFIBaseline,
     )
 except Exception as e:
     raise Exception("Error importing App library?", e)
@@ -153,12 +154,15 @@ class CCModel(qtw.QWidget):
     sig_read_treeView_proposed_segments = qtc.pyqtSignal()
     sig_read_treeView_baseline_segments = qtc.pyqtSignal()
 
-    # -- Thread workers for reading / writing PHPP data
+    # -- Thread workers for reading / writing PHPP and WUFI data
     sig_read_project_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
     sig_read_baseline_seg_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
     sig_read_proposed_seg_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
     sig_write_excel_report = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
+
+    sig_write_baseline = qtc.pyqtSignal(pathlib.Path, BaselineCode, dict)
     sig_write_PHPP_baseline = qtc.pyqtSignal(pathlib.Path, BaselineCode, dict)
+    sig_write_WUFI_baseline = qtc.pyqtSignal(pathlib.Path, BaselineCode, dict)
 
     def __init__(
         self, _output_format: ModuleType, _application_path: pathlib.Path, *args, **kwargs
@@ -214,11 +218,18 @@ class CCModel(qtw.QWidget):
         self.worker_write_report_thread = qtc.QThread()
         self.worker_write_report_thread.setObjectName("Worker Thread: Write Excel Report")
 
-        self.worker_set_baseline_phpp = WorkerSetPHPPBaseline()
+        self.worker_set_baseline_PHPP = WorkerSetPHPPBaseline()
         self.worker_read_proj_data.setObjectName("Worker: Set PHPP Baseline")
         self.worker_set_baseline_phpp_thread = qtc.QThread()
         self.worker_set_baseline_phpp_thread.setObjectName(
             "Worker Thread: Set PHPP Baseline"
+        )
+
+        self.worker_set_baseline_WUFI = WorkerSetWUFIBaseline()
+        self.worker_read_proj_data.setObjectName("Worker: Set WUFI Baseline")
+        self.worker_set_baseline_WUFI_thread = qtc.QThread()
+        self.worker_set_baseline_WUFI_thread.setObjectName(
+            "Worker Thread: Set WUFI Baseline"
         )
 
     def _start_worker_threads(self):
@@ -239,8 +250,11 @@ class CCModel(qtw.QWidget):
         self.worker_write_report.moveToThread(self.worker_write_report_thread)
         self.worker_write_report_thread.start()
 
-        self.worker_set_baseline_phpp.moveToThread(self.worker_set_baseline_phpp_thread)
+        self.worker_set_baseline_PHPP.moveToThread(self.worker_set_baseline_phpp_thread)
         self.worker_set_baseline_phpp_thread.start()
+
+        self.worker_set_baseline_WUFI.moveToThread(self.worker_set_baseline_WUFI_thread)
+        self.worker_set_baseline_WUFI_thread.start()
 
     def _connect_worker_signals(self):
         """Connect all the worker signals."""
@@ -262,7 +276,8 @@ class CCModel(qtw.QWidget):
         self.worker_write_report.written.connect(self.set_NBDM_project)
         self.sig_write_excel_report.connect(self.worker_write_report.run)
 
-        self.sig_write_PHPP_baseline.connect(self.worker_set_baseline_phpp.run)
+        self.sig_write_PHPP_baseline.connect(self.worker_set_baseline_PHPP.run)
+        self.sig_write_WUFI_baseline.connect(self.worker_set_baseline_WUFI.run)
 
     def set_NBDM_project(self, _project: NBDM_Project) -> None:
         """Set the NBDM_Project object and update the treeViews."""

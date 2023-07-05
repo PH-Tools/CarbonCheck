@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/Users/em/Dropbox/bldgtyp-00/00_PH_Tools/CarbonCheck/CC_GUI/cc_workers.py", line 420, in run
-    phx_project = phx_windows.set_baseline_window_area(
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/em/Dropbox/bldgtyp-00/00_PH_Tools/CarbonCheck/.venv/lib/python3.11/site-packages/ph_baseliner/phx/windows.py", line 80, in set_baseline_window_area
-    current_wwr = current_window_area / (current_wall_area + current_window_area)
-                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ZeroDivisionError: float division by zero

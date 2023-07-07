@@ -35,7 +35,7 @@ class CCMainWindow(qtw.QMainWindow):
     sig_got_proposed_building_data = qtc.pyqtSignal(dict)
     sig_got_baseline_building_data = qtc.pyqtSignal(dict)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, _icon_path: pathlib.Path, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.logger = logging.getLogger(__name__)
 
@@ -43,6 +43,12 @@ class CCMainWindow(qtw.QMainWindow):
         self.logger.debug("Loading UI Layout from QtDesigner.")
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        # -- Setup the Application Icon
+        try:
+            self.setWindowIcon(qtg.QIcon(str(_icon_path.resolve())))
+        except Exception as e:
+            self.logger.error(f"Error setting window icon: {e}")
 
     @property
     def buttons(self) -> List[qtw.QPushButton]:

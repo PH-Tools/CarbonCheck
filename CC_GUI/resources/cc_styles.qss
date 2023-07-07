@@ -1,0 +1,21 @@
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 0 3px;
+    margin-top: 20px;
+}
+
+QGroupBox {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 46px;
+}
+
+QLabel#label_Questions {
+    font-size: 12px;
+}
+
+QLabel#label_HomePageLink {
+    font-size: 12px;
+    font-weight: bold;
+}

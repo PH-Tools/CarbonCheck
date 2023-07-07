@@ -33,6 +33,7 @@ try:
     )
 except Exception as e:
     raise Exception("Error importing CC_GUI library?", e)
+
 try:
     from ph_baseliner.codes.options import (
         BaselineCodes,
@@ -427,13 +428,19 @@ class CCApp(qtw.QApplication):
     def __init__(
         self,
         _output_format: ModuleType,
-        _stylesheet_path: Path,
         _log_file_path: Path,
+        _resources_path: Path,
         *args,
         **kwargs,
     ) -> None:
         super().__init__(*args, **kwargs)
-        self.load_style_sheet(_stylesheet_path)
+        self.styles_sheet_path = _resources_path / "cc_styles.qss"
+        self.path_logo_cc = _resources_path / "logo_CarbonCheck.ico"
+        self.path_logo_nyserda = _resources_path / "logo_NYSERDA.png"
+        self.path_logo_pha = _resources_path / "logo_PHA.png"
+        self.path_logging_config = _resources_path / "__logging_config__.yaml"
+
+        self.load_style_sheet(self.styles_sheet_path)
         self.application_path = find_application_path()
         self._startup_preview_panel()  # -- Connect preview panel to stdout
         self.app_log_filepath, self.excel_log_filepath = self.startup_logging(
@@ -445,11 +452,12 @@ class CCApp(qtw.QApplication):
         self.logger.debug(f"application_path: {self.application_path}")
         self.logger.debug(f"log_path: {self.app_log_filepath}")
 
-        self.view = CCMainWindow()
+        self.view = CCMainWindow(self.path_logo_cc)
         self.model = CCModel(_output_format, self.application_path)
         self.tab_report = Tab_Report(self.model, self.view, self.excel_log_filepath)
         self.tab_baseline = Tab_Baseline(self.model, self.view)
 
+        self.set_logo_paths()
         self._connect_menu_actions()
         self._connect_all_button_signals()
         self._connect_button_loggers()
@@ -457,6 +465,15 @@ class CCApp(qtw.QApplication):
 
         # Set up to terminate the QThread when we exit
         self.aboutToQuit.connect(self.force_quit)
+
+    def set_logo_paths(self) -> None:
+        # -- NYSERDA
+        self.view.ui.labelPHALogo.setPixmap(
+            qtg.QPixmap(str(self.path_logo_pha.resolve()))
+        )
+        self.view.ui.labelNYSERDALogo.setPixmap(
+            qtg.QPixmap(str(self.path_logo_nyserda.resolve()))
+        )
 
     def load_style_sheet(self, _stylesheet_path: Path) -> None:
         style_file = qtc.QFile(str(_stylesheet_path.resolve()))
@@ -494,16 +511,17 @@ class CCApp(qtw.QApplication):
         add_logging_level("WUFI", logging.INFO + 5)
 
         # -- Find the logging configuration YAML file
-        config_file = Path(self.application_path, "__logging_config__.yaml")
-        if not config_file.exists():
-            msg = f"ERROR: Logging configuration file not found: {config_file}"
+        if not self.path_logging_config.exists():
+            msg = (
+                f"ERROR: Logging configuration file not found: {self.path_logging_config}"
+            )
             qtw.QMessageBox(
                 qtw.QMessageBox.Icon.Warning, "Missing Configuration File", msg
             ).exec()
             return (Path(), Path())
 
         # -- Load logging configuration from YAML file
-        with open(config_file, "rt") as f:
+        with open(self.path_logging_config, "rt") as f:
             config = yaml.safe_load(f.read())
 
         # -- Setup the log file paths

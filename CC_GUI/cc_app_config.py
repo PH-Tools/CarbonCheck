@@ -75,8 +75,9 @@ def find_log_file_path() -> pathlib.Path:
     return log_file_path
 
 
-def find_stylesheet_path() -> pathlib.Path:
-    return find_application_path() / "cc_styles.qss"
+def find_resources_path() -> pathlib.Path:
+    """Returns the path to the application log file location."""
+    return find_application_path() / "resources"
 
 
 def add_logging_level(levelName, levelNum, methodName=None):

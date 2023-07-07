@@ -1,6 +1,8 @@
 # CarbonCheck
-Automatically create New York State energy-code baseline versions of your PHPP or WUFI-Passive projects.
+An application to automatically create New York State energy-code baseline versions of your PHPP or WUFI-Passive projects.
 Automate and standardize the data reporting to easily evaluate the difference between model versions.
+
+<img width="957" alt="image" src="https://github.com/PH-Tools/CarbonCheck/assets/69652712/c61a988a-b544-4921-aeff-87618fac250a">
 
 # Installers (Windows and MacOS):
 - [All Installers](https://github.com/PH-Tools/CarbonCheck/tree/main/Installers)

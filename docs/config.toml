@@ -1,16 +1,16 @@
-baseURL = "https://ph-tools.github.io/honeybee_grasshopper_ph/"
-title = "PH-Tools.honeybee-grasshopper-ph"
+baseURL = "https://ph-tools.github.io/CarbonCheck/"
+title = "PH-Tools.CarbonCheck"
 theme = "ph_tools"
 
 [Params]
-  author = "PH-Tools"
+  author = "PH-Tools + Passive House Accelerator"
   copyright = "bldgtyp, llc"
-  contact = "phtools@bldgtyp.com"
+  contact = "CarbonCheck@PassiveHouseAccelerator.com"
   ph_tools_home_url = "http://www.passivehousetools.com/"
-  github_url = "https://github.com/PH-Tools/honeybee_grasshopper_ph"
+  github_url = "https://github.com/PH-Tools/CarbonCheck"
   youtube_url = "https://www.youtube.com/channel/UCADxgnNCFNZ3uhaSvezReQA/playlists"
-  package_name = "PHX"
-  gh_pages_name = "honeybee_grasshopper_ph"
+  package_name = "CarbonCheck"
+  gh_pages_name = "CarbonCheck"
   installer_download_url = "https://github.com/PH-Tools/honeybee_grasshopper_ph/raw/main/hbph_installer.gh"
   youtube_SF_souce_files = "https://github.com/PH-Tools/honeybee_grasshopper_ph/raw/main/docs/static/downloads/Single_Family_Home_Source_Files.zip"
 

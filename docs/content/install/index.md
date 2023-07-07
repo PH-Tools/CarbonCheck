@@ -5,8 +5,9 @@ weight: 10
 CarbonCheck is free and open-source, created to help the Passive House Community in New York State. Feel free download and give it a try.
 
 ## Download the CarbonCheck Installer
-- [For Windows OS](https://youtu.be/DvH_Wxf1D8A)
-- [For Mac OS](https://youtu.be/DvH_Wxf1D8A)
+- [For Windows OS v0.1](https://github.com/PH-Tools/CarbonCheck/raw/main/Installers/CarbonCheck-0.1-win64.msi)
+- [For Mac OS v0.1](https://github.com/PH-Tools/CarbonCheck/raw/main/Installers/CarbonCheck-0.1-macos.dmg)
+
 
 ## Watch a YouTube Walk Through
 Watch a detailed step-by-step walk through:

@@ -5,7 +5,10 @@
 
 from typing import Dict, Optional, List, Tuple
 from collections import defaultdict
+from functools import reduce
 from enum import Enum
+
+from ph_units.unit_type import Unit
 
 from PHX.PHPP import phpp_app
 
@@ -31,19 +34,19 @@ GENERATION_USES = ["ENERGY_GENERATION"]
 # -- Site Energy
 
 
-def get_consumption_uses(_data: Dict[str, Dict[str, Optional[float]]]) -> Dict:
+def get_consumption_uses(_data: Dict[str, Dict[str, Unit]]) -> dict[str, Dict[str, Unit]]:
     """Return the Energy Consumption use-types (heating, cooling etc..)"""
     return {k: v for k, v in _data.items() if k.upper().strip() in CONSUMPTION_USES}
 
 
-def get_production_uses(_data: Dict[str, Dict[str, Optional[float]]]) -> Dict:
+def get_production_uses(_data: Dict[str, Dict[str, Unit]]) -> dict[str, Dict[str, Unit]]:
     """Return the Energy Production use types (Energy Generation)"""
     return {k: v for k, v in _data.items() if k.upper().strip() not in CONSUMPTION_USES}
 
 
 def organize_energy_by_fuel_type(
-    _data: Dict[str, Dict[str, Optional[float]]]
-) -> Dict[str, List[Tuple[str, float]]]:
+    _data: Dict[str, Dict[str, Unit]]
+) -> Dict[str, List[Tuple[str, Unit]]]:
     """Reorganize the data so energy use is grouped by fuel-type.
     ie: -> {
             "ELECTRICITY": [(k,v), (k,v)...],
@@ -52,7 +55,7 @@ def organize_energy_by_fuel_type(
             }"
     """
 
-    d: Dict[str, List[Tuple[str, float]]] = defaultdict(list)
+    d: Dict[str, List[Tuple[str, Unit]]] = defaultdict(list)
     for use_type_name, energy_usage_dict in _data.items():
         for k, v in energy_usage_dict.items():
             # -- Note: 'PV-Electricity' has to come before 'Electricity' for it to work.
@@ -75,14 +78,16 @@ def organize_energy_by_fuel_type(
     return d
 
 
-def sum_energy_values(_data: Dict[str, List[Tuple[str, float]]], _key: str):
+def sum_energy_values(_data: Dict[str, List[Tuple[str, Unit]]], _key: str) -> Unit:
     """Return a single total value for energy consumption/production by the specified type."""
-    return sum([_[1] for _ in _data.get(_key, [])])
+    data_list: List[Unit] = [tpl[1] for tpl in _data.get(_key, [])]
+    if not data_list:
+        return Unit(0.0, "-")
+
+    return reduce(lambda x, y: x + y, data_list)
 
 
-def build_site_energy(
-    _data: Dict[str, Dict[str, Optional[float]]]
-) -> performance.NBDM_SiteEnergy:
+def build_site_energy(_data: Dict[str, Dict[str, Unit]]) -> performance.NBDM_SiteEnergy:
     # -- Energy Use Data
     consumption = organize_energy_by_fuel_type(get_consumption_uses(_data))
     production = organize_energy_by_fuel_type(get_production_uses(_data))
@@ -99,7 +104,7 @@ def build_site_energy(
 
 
 def build_source_energy(
-    _data: Dict[str, Dict[str, Optional[float]]]
+    _data: Dict[str, Dict[str, Unit]]
 ) -> performance.NBDM_SourceEnergy:
     # -- Energy Use Data
     consumption = organize_energy_by_fuel_type(get_consumption_uses(_data))
@@ -121,15 +126,15 @@ def build_source_energy(
 
 
 def build_annual_heating_demand(
-    _data: Dict,
+    _data: Dict[str, Unit],
 ) -> performance.NBDM_AnnualHeatingDemandEnergy:
-    return performance.NBDM_AnnualHeatingDemandEnergy.from_dict(_data)
+    return performance.NBDM_AnnualHeatingDemandEnergy.from_phpp_data(_data)
 
 
 def build_annual_cooling_demand(
-    _data: Dict,
+    _data: Dict[str, Unit],
 ) -> performance.NBDM_AnnualCoolingDemandEnergy:
-    return performance.NBDM_AnnualCoolingDemandEnergy.from_dict(_data)
+    return performance.NBDM_AnnualCoolingDemandEnergy.from_phpp_data(_data)
 
 
 # -----------------------------------------------------------------------------
@@ -137,12 +142,12 @@ def build_annual_cooling_demand(
 
 
 def largest_peak_heating_load(
-    _phpp_data_load_1: Dict, _phpp_data_load_2: Dict
-) -> Dict[str, float]:
+    _phpp_data_load_1: Dict[str, Unit], _phpp_data_load_2: Dict[str, Unit]
+) -> Dict[str, Unit]:
     """Return the largest peak heating load data-set."""
 
-    peak_load_1 = float(_phpp_data_load_1["peak_heating_load"])
-    peak_load_2 = float(_phpp_data_load_2["peak_heating_load"])
+    peak_load_1 = _phpp_data_load_1["peak_heating_load"]
+    peak_load_2 = _phpp_data_load_2["peak_heating_load"]
 
     if peak_load_1 > peak_load_2:
         return _phpp_data_load_1
@@ -151,14 +156,14 @@ def largest_peak_heating_load(
 
 
 def largest_peak_cooling_load(
-    _phpp_data_load_1: Dict, _phpp_data_load_2: Dict
-) -> Dict[str, float]:
+    _phpp_data_load_1: Dict[str, Unit], _phpp_data_load_2: Dict[str, Unit]
+) -> Dict[str, Unit]:
     """Return the largest total (sensible + latent) cooling peak load data-set."""
 
-    peak_sensible_load_1 = float(_phpp_data_load_1["peak_sensible_cooling_load"])
-    peak_sensible_load_2 = float(_phpp_data_load_2["peak_sensible_cooling_load"])
-    peak_latent_load_1 = float(_phpp_data_load_1["peak_latent_cooling_load"])
-    peak_latent_load_2 = float(_phpp_data_load_2["peak_latent_cooling_load"])
+    peak_sensible_load_1 = _phpp_data_load_1["peak_sensible_cooling_load"]
+    peak_sensible_load_2 = _phpp_data_load_2["peak_sensible_cooling_load"]
+    peak_latent_load_1 = _phpp_data_load_1["peak_latent_cooling_load"]
+    peak_latent_load_2 = _phpp_data_load_2["peak_latent_cooling_load"]
 
     total_load_1 = peak_sensible_load_1 + peak_latent_load_1
     total_load_2 = peak_sensible_load_2 + peak_latent_load_2
@@ -170,21 +175,21 @@ def largest_peak_cooling_load(
 
 
 def build_peak_head_load(
-    _phpp_data_load_1: Dict, _phpp_data_load_2: Dict
+    _phpp_data_load_1: Dict[str, Unit], _phpp_data_load_2: Dict[str, Unit]
 ) -> performance.NBDM_PeakHeatingLoad:
     """Return a new NBDM.PeakHeatingLoad object based on data from a PHPP."""
 
     data = largest_peak_heating_load(_phpp_data_load_1, _phpp_data_load_2)
-    return performance.NBDM_PeakHeatingLoad.from_dict(data)
+    return performance.NBDM_PeakHeatingLoad.from_phpp_data(data)
 
 
 def build_peak_cooling_load(
-    _phpp_data_load_1: Dict, _phpp_data_load_2: Dict
+    _phpp_data_load_1: Dict[str, Unit], _phpp_data_load_2: Dict[str, Unit]
 ) -> performance.NBDM_PeakCoolingLoad:
     """Return a new NBDM.PeakCoolingLoad object based on data from a PHPP."""
 
     data = largest_peak_cooling_load(_phpp_data_load_1, _phpp_data_load_2)
-    return performance.NBDM_PeakCoolingLoad.from_dict(data)
+    return performance.NBDM_PeakCoolingLoad.from_phpp_data(data)
 
 
 # -----------------------------------------------------------------------------
@@ -194,20 +199,22 @@ def build_peak_cooling_load(
 def build_NBDM_performance(_phpp_conn: phpp_app.PHPPConnection):
     """Read in data from a PHPP document and create a new NBDM_Performance Object."""
 
-    # -- Peak Loads
+    # # -- Peak Loads
     peak_heating_load = build_peak_head_load(
-        _phpp_conn.heating_load.get_load_W1(), _phpp_conn.heating_load.get_load_W2()
+        _phpp_conn.heating_load.get_peak_load_1_data(),
+        _phpp_conn.heating_load.get_peak_load_2_data(),
     )
     peak_cooling_load = build_peak_cooling_load(
-        _phpp_conn.cooling_load.get_load_W1(), _phpp_conn.cooling_load.get_load_W2()
+        _phpp_conn.cooling_load.get_peak_load_1_data(),
+        _phpp_conn.cooling_load.get_peak_load_2_data(),
     )
 
-    # -- Annual Demands
+    # # -- Annual Demands
     annual_heating_energy_demand = build_annual_heating_demand(
-        _phpp_conn.heating.get_demand_kWh_year()
+        _phpp_conn.heating.get_annual_demand()
     )
     annual_cooling_energy_demand = build_annual_cooling_demand(
-        _phpp_conn.cooling.get_demand_kWh_year()
+        _phpp_conn.cooling.get_annual_demand()
     )
 
     # -- Site and Source Energy

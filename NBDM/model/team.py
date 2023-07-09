@@ -24,8 +24,7 @@ class NBDM_TeamContactInfo:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_TeamContactInfo:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
 
 @dataclass
@@ -37,8 +36,7 @@ class NBDM_TeamMember:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_TeamMember:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
 
 @dataclass
@@ -52,5 +50,4 @@ class NBDM_Team:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Team:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)

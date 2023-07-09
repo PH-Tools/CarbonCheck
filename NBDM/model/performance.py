@@ -6,24 +6,26 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict
+
+from ph_units.unit_type import Unit
+
 from NBDM.model import serialization
 from NBDM.model import operations
 
 
 @dataclass
 class NBDM_SiteEnergy:
-    consumption_gas: float = 0.0
-    consumption_electricity: float = 0.0
-    consumption_district_heat: float = 0.0
-    consumption_other: float = 0.0
-    production_solar_photovoltaic: float = 0.0
-    production_solar_thermal: float = 0.0
-    production_other: float = 0.0
+    consumption_gas: Unit = field(default_factory=Unit)
+    consumption_electricity: Unit = field(default_factory=Unit)
+    consumption_district_heat: Unit = field(default_factory=Unit)
+    consumption_other: Unit = field(default_factory=Unit)
+    production_solar_photovoltaic: Unit = field(default_factory=Unit)
+    production_solar_thermal: Unit = field(default_factory=Unit)
+    production_other: Unit = field(default_factory=Unit)
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> NBDM_SiteEnergy:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+    def from_dict(cls, _d: Dict[str, Unit]) -> NBDM_SiteEnergy:
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
     def __sub__(self, other: NBDM_SiteEnergy) -> NBDM_SiteEnergy:
         return operations.subtract_NBDM_Objects(self, other)
@@ -34,18 +36,17 @@ class NBDM_SiteEnergy:
 
 @dataclass
 class NBDM_SourceEnergy:
-    consumption_gas: float = 0.0
-    consumption_electricity: float = 0.0
-    consumption_district_heat: float = 0.0
-    consumption_other: float = 0.0
-    production_solar_photovoltaic: float = 0.0
-    production_solar_thermal: float = 0.0
-    production_other: float = 0.0
+    consumption_gas: Unit = field(default_factory=Unit)
+    consumption_electricity: Unit = field(default_factory=Unit)
+    consumption_district_heat: Unit = field(default_factory=Unit)
+    consumption_other: Unit = field(default_factory=Unit)
+    production_solar_photovoltaic: Unit = field(default_factory=Unit)
+    production_solar_thermal: Unit = field(default_factory=Unit)
+    production_other: Unit = field(default_factory=Unit)
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> NBDM_SourceEnergy:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+    def from_dict(cls, _d: Dict[str, Unit]) -> NBDM_SourceEnergy:
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
     def __sub__(self, other: NBDM_SourceEnergy) -> NBDM_SourceEnergy:
         return operations.subtract_NBDM_Objects(self, other)
@@ -56,25 +57,31 @@ class NBDM_SourceEnergy:
 
 @dataclass
 class NBDM_AnnualHeatingDemandEnergy:
-    heating_demand: float = 0.0
-    losses_transmission: float = 0.0
-    losses_ventilation: float = 0.0
-    gains_solar: float = 0.0
-    gains_internal: float = 0.0
-    utilization_factor: float = 0.0
+    heating_demand: Unit = field(default_factory=Unit)
+    losses_transmission: Unit = field(default_factory=Unit)
+    losses_ventilation: Unit = field(default_factory=Unit)
+    gains_solar: Unit = field(default_factory=Unit)
+    gains_internal: Unit = field(default_factory=Unit)
+    utilization_factor: Unit = field(default_factory=Unit)
 
     @property
-    def losses_total(self) -> float:
+    def losses_total(self) -> Unit:
         return self.losses_transmission + self.losses_ventilation
 
     @property
-    def gains_total(self) -> float:
+    def gains_total(self) -> Unit:
         return (self.gains_internal + self.gains_solar) * self.utilization_factor
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> NBDM_AnnualHeatingDemandEnergy:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+    def from_dict(cls, _d: Dict[str, Unit]) -> NBDM_AnnualHeatingDemandEnergy:
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
+
+    @classmethod
+    def from_phpp_data(cls, _d: Dict[str, Unit]) -> NBDM_AnnualHeatingDemandEnergy:
+        nbdm_obj = NBDM_AnnualHeatingDemandEnergy()
+        for field_name in nbdm_obj.__dataclass_fields__.keys():
+            nbdm_obj.__setattr__(field_name, _d[field_name])
+        return nbdm_obj
 
     def __sub__(
         self, other: NBDM_AnnualHeatingDemandEnergy
@@ -89,33 +96,39 @@ class NBDM_AnnualHeatingDemandEnergy:
 
 @dataclass
 class NBDM_AnnualCoolingDemandEnergy:
-    sensible_cooling_demand: float = 0.0
-    latent_cooling_demand: float = 0.0
-    losses_transmission: float = 0.0
-    losses_ventilation: float = 0.0
-    utilization_factor: float = 0.0
-    gains_solar: float = 0.0
-    gains_internal: float = 0.0
+    sensible_cooling_demand: Unit = field(default_factory=Unit)
+    latent_cooling_demand: Unit = field(default_factory=Unit)
+    losses_transmission: Unit = field(default_factory=Unit)
+    losses_ventilation: Unit = field(default_factory=Unit)
+    utilization_factor: Unit = field(default_factory=Unit)
+    gains_solar: Unit = field(default_factory=Unit)
+    gains_internal: Unit = field(default_factory=Unit)
 
     @property
-    def total_cooling_demand(self) -> float:
+    def total_cooling_demand(self) -> Unit:
         """Total cooling demand (sensible + latent)."""
         return self.sensible_cooling_demand + self.latent_cooling_demand
 
     @property
-    def losses_total(self) -> float:
+    def losses_total(self) -> Unit:
         return (
             self.losses_transmission + self.losses_ventilation
         ) * self.utilization_factor
 
     @property
-    def gains_total(self) -> float:
+    def gains_total(self) -> Unit:
         return self.gains_solar + self.gains_internal
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> NBDM_AnnualCoolingDemandEnergy:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+    def from_dict(cls, _d: Dict[str, Unit]) -> NBDM_AnnualCoolingDemandEnergy:
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
+
+    @classmethod
+    def from_phpp_data(cls, _d: Dict[str, Unit]) -> NBDM_AnnualCoolingDemandEnergy:
+        nbdm_obj = NBDM_AnnualCoolingDemandEnergy()
+        for field_name in nbdm_obj.__dataclass_fields__.keys():
+            nbdm_obj.__setattr__(field_name, _d[field_name])
+        return nbdm_obj
 
     def __sub__(
         self, other: NBDM_AnnualCoolingDemandEnergy
@@ -130,24 +143,30 @@ class NBDM_AnnualCoolingDemandEnergy:
 
 @dataclass
 class NBDM_PeakHeatingLoad:
-    peak_heating_load: float = 0.0
-    losses_transmission: float = 0.0
-    losses_ventilation: float = 0.0
-    gains_solar: float = 0.0
-    gains_internal: float = 0.0
+    peak_heating_load: Unit = field(default_factory=Unit)
+    losses_transmission: Unit = field(default_factory=Unit)
+    losses_ventilation: Unit = field(default_factory=Unit)
+    gains_solar: Unit = field(default_factory=Unit)
+    gains_internal: Unit = field(default_factory=Unit)
 
     @property
-    def losses_total(self) -> float:
+    def losses_total(self) -> Unit:
         return self.losses_transmission + self.losses_ventilation
 
     @property
-    def gains_total(self) -> float:
+    def gains_total(self) -> Unit:
         return self.gains_solar + self.gains_internal
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_PeakHeatingLoad:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
+
+    @classmethod
+    def from_phpp_data(cls, _d: Dict[str, Unit]) -> NBDM_PeakHeatingLoad:
+        nbdm_obj = NBDM_PeakHeatingLoad()
+        for field_name in nbdm_obj.__dataclass_fields__.keys():
+            nbdm_obj.__setattr__(field_name, _d[field_name])
+        return nbdm_obj
 
     def __sub__(self, other: NBDM_PeakHeatingLoad) -> NBDM_PeakHeatingLoad:
         return operations.subtract_NBDM_Objects(self, other)
@@ -158,25 +177,31 @@ class NBDM_PeakHeatingLoad:
 
 @dataclass
 class NBDM_PeakCoolingLoad:
-    peak_sensible_cooling_load: float = 0.0
-    peak_latent_cooling_load: float = 0.0
-    losses_transmission: float = 0.0
-    losses_ventilation: float = 0.0
-    gains_solar: float = 0.0
-    gains_internal: float = 0.0
+    peak_sensible_cooling_load: Unit = field(default_factory=Unit)
+    peak_latent_cooling_load: Unit = field(default_factory=Unit)
+    losses_transmission: Unit = field(default_factory=Unit)
+    losses_ventilation: Unit = field(default_factory=Unit)
+    gains_solar: Unit = field(default_factory=Unit)
+    gains_internal: Unit = field(default_factory=Unit)
 
     @property
-    def losses_total(self) -> float:
+    def losses_total(self) -> Unit:
         return self.losses_transmission + self.losses_ventilation
 
     @property
-    def gains_total(self) -> float:
+    def gains_total(self) -> Unit:
         return self.gains_solar + self.gains_internal
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> NBDM_PeakCoolingLoad:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+    def from_dict(cls, _d: Dict[str, Unit]) -> NBDM_PeakCoolingLoad:
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
+
+    @classmethod
+    def from_phpp_data(cls, _d: Dict[str, Unit]) -> NBDM_PeakCoolingLoad:
+        nbdm_obj = NBDM_PeakCoolingLoad()
+        for field_name in nbdm_obj.__dataclass_fields__.keys():
+            nbdm_obj.__setattr__(field_name, _d[field_name])
+        return nbdm_obj
 
     def __sub__(self, other: NBDM_PeakCoolingLoad) -> NBDM_PeakCoolingLoad:
         return operations.subtract_NBDM_Objects(self, other)
@@ -193,16 +218,17 @@ class NBDM_BuildingSegmentPerformance:
         default_factory=NBDM_AnnualHeatingDemandEnergy
     )
     annual_cooling_energy_demand: NBDM_AnnualCoolingDemandEnergy = field(
-        default_factory=NBDM_AnnualCoolingDemandEnergy)
-    
+        default_factory=NBDM_AnnualCoolingDemandEnergy
+    )
+
     peak_heating_load: NBDM_PeakHeatingLoad = field(default_factory=NBDM_PeakHeatingLoad)
     peak_sensible_cooling_load: NBDM_PeakCoolingLoad = field(
-        default_factory=NBDM_PeakCoolingLoad)
+        default_factory=NBDM_PeakCoolingLoad
+    )
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentPerformance:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
     def __sub__(
         self, other: NBDM_BuildingSegmentPerformance

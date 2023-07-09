@@ -8,8 +8,9 @@ import logging
 import os
 import pathlib
 import sys
-from typing import Dict, get_type_hints, Any, Optional, List, Generator
+from typing import Dict, get_type_hints, Any, Optional, List, Generator, Union
 from types import ModuleType
+
 
 try:
     from PyQt6 import QtGui as qtg
@@ -34,6 +35,7 @@ try:
     from NBDM.model import project, team, site, building
     from NBDM.model.project import NBDM_Project
     from NBDM.to_JSON.write import NBDM_Project_to_json_file
+    from NBDM.model.serialization import build_NBDM_obj_from_treeView
 except Exception as e:
     raise Exception("Error importing NBDM library?", e)
 
@@ -86,19 +88,19 @@ def get_formatted_field_name(
 
 
 def replace_key_names(
-    _data: Dict[str, str], _output_format: ModuleType, _obj: Any
-) -> Dict[str, str]:
+    _data: Dict[str, Any], _output_format: ModuleType, _obj: Any
+) -> Dict[str, Dict[str, str]]:
     """Replace the user-facing keys in a treeView dict with the actual field names.
 
     Arguments:
     ----------
-        * _data: (Dict[str, Any]) The dict to replace the keys in.
+        * _data: (Dict[str, Dict[str, str]]) The dict to replace the keys in.
         * _output_format: (ModuleType) The module containing the user-facing names.
         * _obj: (Any) The NBDM Object to get the field names from.
 
     Returns:
     --------
-        * (Dict[str, Any]) The dict with the user-facing keys replaced with the actual field names.
+        * (Dict[str, Dict[str, str]]) The dict with the user-facing keys replaced with the actual field names.
     """
     format_type = getattr(_output_format, f"Format_{_obj.__name__}")
 
@@ -122,7 +124,7 @@ def replace_key_names(
 
 def NBDM_Object_from_treeView(
     _output_format: ModuleType, _data: Dict[str, Any], _obj: Any
-):
+) -> Any:
     """Create a NBDM_Team object from treeView dict data.
 
     Arguments:
@@ -135,7 +137,12 @@ def NBDM_Object_from_treeView(
     --------
         * (Any) The NBDM object created from the dict.
     """
-    new_NBDM_obj = _obj.from_dict(replace_key_names(_data, _output_format, _obj))
+    with open("NBDM_Object_from_treeView.txt", "w") as f:
+        json.dump(_data, f)
+
+    new_NBDM_obj = build_NBDM_obj_from_treeView(
+        _obj, replace_key_names(_data, _output_format, _obj)
+    )
     return new_NBDM_obj
 
 
@@ -181,14 +188,14 @@ class CCModel(qtw.QWidget):
         """Return a Generator which yields each of the worker threads."""
         return (attr for attr in vars(self).values() if isinstance(attr, qtc.QThread))
 
-    def _configure_worker_threads(self):
+    def _configure_worker_threads(self) -> None:
         """Configure and start up all the worker threads for read/write."""
         self.logger.debug("Configuring worker threads.")
         self._create_workers()
         self._start_worker_threads()
         self._connect_worker_signals()
 
-    def _create_workers(self):
+    def _create_workers(self) -> None:
         """Create all the worker threads."""
         self.logger.debug("Creating worker threads.")
 
@@ -232,7 +239,7 @@ class CCModel(qtw.QWidget):
             "Worker Thread: Set WUFI Baseline"
         )
 
-    def _start_worker_threads(self):
+    def _start_worker_threads(self) -> None:
         """Start all the worker threads."""
         self.logger.debug("Starting worker threads.")
 
@@ -256,7 +263,7 @@ class CCModel(qtw.QWidget):
         self.worker_set_baseline_WUFI.moveToThread(self.worker_set_baseline_WUFI_thread)
         self.worker_set_baseline_WUFI_thread.start()
 
-    def _connect_worker_signals(self):
+    def _connect_worker_signals(self) -> None:
         """Connect all the worker signals."""
         self.logger.debug("Connecting worker signals.")
 
@@ -333,7 +340,7 @@ class CCModel(qtw.QWidget):
             self.logger.error(ex, exc_info=True)
             return
 
-    def update_treeview_team(self):
+    def update_treeview_team(self) -> None:
         """Build the treeView data dict from the Project and pass back to the view."""
         self.logger.debug("Updating treeView team data.")
 
@@ -342,7 +349,7 @@ class CCModel(qtw.QWidget):
         tree_project_data.update(self.create_tree_data(self.NBDM_project.site))
         self.sig_load_team_data.emit(tree_project_data)
 
-    def update_treeview_baseline(self):
+    def update_treeview_baseline(self) -> None:
         """Build the treeView data dict from the Project and pass back to the view."""
         self.logger.debug("Updating treeView baseline data.")
 
@@ -352,7 +359,7 @@ class CCModel(qtw.QWidget):
             baseline_segment_dict[seg_name] = self.create_tree_data(segment)
         self.sig_load_baseline_segments_data.emit(baseline_segment_dict)
 
-    def update_treeview_proposed(self):
+    def update_treeview_proposed(self) -> None:
         """Build the treeView data dict from the Project and pass back to the view."""
         self.logger.debug("Updating treeView proposed data.")
 
@@ -428,6 +435,7 @@ class CCModel(qtw.QWidget):
     def set_project_team_from_treeView_data(self, _data: Dict[str, str]) -> None:
         """Set the self.NBDM_project.team from the data in the treeView"""
         self.logger.info("Updating the Project Team data.")
+
         if not _data:
             self.logger.error("No data passed to set_project_team_from_treeView_data()")
             return

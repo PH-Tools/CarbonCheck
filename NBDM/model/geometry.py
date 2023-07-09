@@ -4,22 +4,24 @@
 """NBDM Building Geometry Classes."""
 
 from __future__ import annotations
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict
+
+from ph_units.unit_type import Unit
+
 from NBDM.model import serialization
 from NBDM.model import operations
 
 
 @dataclass
 class NBDM_BuildingSegmentGeometry:
-    area_envelope: float = 0.0
-    area_floor_area_net_interior_weighted: float = 0.0
-    volume_net_interior: float = 0.0
+    area_envelope: Unit = field(default_factory=Unit)
+    area_floor_area_net_interior_weighted: Unit = field(default_factory=Unit)
+    volume_net_interior: Unit = field(default_factory=Unit)
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentGeometry:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
     def __sub__(
         self, other: NBDM_BuildingSegmentGeometry

@@ -12,7 +12,6 @@ from NBDM.model.site import NBDM_Site
 from NBDM.model.building import NBDM_BuildingSegment
 from NBDM.model.team import NBDM_Team
 from NBDM.model import serialization
-from NBDM.model import enums
 
 
 @dataclass
@@ -28,7 +27,7 @@ class NBDM_Variant:
 
     def add_building_segment(self, _bldg_segment: NBDM_BuildingSegment) -> None:
         self.building.add_building_segment(_bldg_segment)
-    
+
     def clear_variant_building_segments(self) -> None:
         """Clear all the Building-Segments"""
         self.building.clear_building_segments()
@@ -46,15 +45,14 @@ class NBDM_Variant:
     def building_segment_names(self) -> List[str]:
         """Return a list of all the Building-Segment names in alphabetical order."""
         return self.building.building_segment_names
-    
+
     @property
     def has_building_segments(self) -> bool:
         return False if not self.building._building_segments else True
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Variant:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
     def __sub__(self, other: NBDM_Variant) -> NBDM_Variant:
         return self.__class__(
@@ -155,8 +153,7 @@ class NBDM_Variants:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Variants:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
     def __iter__(self):
         for _ in (self.proposed, self.baseline):
@@ -222,8 +219,7 @@ class NBDM_Project:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Project:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
     @classmethod
     def default_with_one_segment(cls) -> NBDM_Project:

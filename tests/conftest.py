@@ -3,6 +3,8 @@
 
 import pytest
 
+from ph_units.unit_type import Unit
+
 from NBDM.model.building import NBDM_Building, NBDM_BuildingSegment
 from NBDM.model.geometry import NBDM_BuildingSegmentGeometry
 from NBDM.model.occupancy import NBDM_BuildingSegmentOccupancy
@@ -78,9 +80,9 @@ def sample_NBDM_BuildingSegmentOccupancy() -> NBDM_BuildingSegmentOccupancy:
 
 
 sample_BuildingSegmentGeometry = NBDM_BuildingSegmentGeometry(
-    area_envelope=100.0,
-    area_floor_area_net_interior_weighted=113.0,
-    volume_net_interior=116.0,
+    area_envelope=Unit(100.0, "M2"),
+    area_floor_area_net_interior_weighted=Unit(113.0, "M2"),
+    volume_net_interior=Unit(116.0, "M2"),
 )
 
 
@@ -93,60 +95,60 @@ def sample_NBDM_BuildingSegmentGeometry() -> NBDM_BuildingSegmentGeometry:
 
 
 sample_SiteEnergy = NBDM_SiteEnergy(
-    consumption_gas=0.0,
-    consumption_electricity=0.0,
-    consumption_district_heat=0.0,
-    consumption_other=0.0,
-    production_solar_photovoltaic=0.0,
-    production_solar_thermal=0.0,
-    production_other=0.0,
+    consumption_gas=Unit(0.0, "KWH"),
+    consumption_electricity=Unit(0.0, "KWH"),
+    consumption_district_heat=Unit(0.0, "KWH"),
+    consumption_other=Unit(0.0, "KWH"),
+    production_solar_photovoltaic=Unit(0.0, "KWH"),
+    production_solar_thermal=Unit(0.0, "KWH"),
+    production_other=Unit(0.0, "KWH"),
 )
 
 sample_SourceEnergy = NBDM_SourceEnergy(
-    consumption_gas=0.0,
-    consumption_electricity=0.0,
-    consumption_district_heat=0.0,
-    consumption_other=0.0,
-    production_solar_photovoltaic=0.0,
-    production_solar_thermal=0.0,
-    production_other=0.0,
+    consumption_gas=Unit(0.0, "KWH"),
+    consumption_electricity=Unit(0.0, "KWH"),
+    consumption_district_heat=Unit(0.0, "KWH"),
+    consumption_other=Unit(0.0, "KWH"),
+    production_solar_photovoltaic=Unit(0.0, "KWH"),
+    production_solar_thermal=Unit(0.0, "KWH"),
+    production_other=Unit(0.0, "KWH"),
 )
 
 
 sample_AnnualHeatingDemand = NBDM_AnnualHeatingDemandEnergy(
-    heating_demand=0.0,
-    losses_transmission=0.0,
-    losses_ventilation=0.0,
-    gains_solar=0.0,
-    gains_internal=0.0,
-    utilization_factor=0.0,
+    heating_demand=Unit(0.0, "KWH"),
+    losses_transmission=Unit(0.0, "KWH"),
+    losses_ventilation=Unit(0.0, "KWH"),
+    gains_solar=Unit(0.0, "KWH"),
+    gains_internal=Unit(0.0, "KWH"),
+    utilization_factor=Unit(0.0, "KWH"),
 )
 
 sample_AnnualCoolingDemand = NBDM_AnnualCoolingDemandEnergy(
-    sensible_cooling_demand=0.0,
-    latent_cooling_demand=0.0,
-    losses_transmission=0.0,
-    losses_ventilation=0.0,
-    utilization_factor=0.0,
-    gains_solar=0.0,
-    gains_internal=0.0,
+    sensible_cooling_demand=Unit(0.0, "KWH"),
+    latent_cooling_demand=Unit(0.0, "KWH"),
+    losses_transmission=Unit(0.0, "KWH"),
+    losses_ventilation=Unit(0.0, "KWH"),
+    utilization_factor=Unit(0.0, "KWH"),
+    gains_solar=Unit(0.0, "KWH"),
+    gains_internal=Unit(0.0, "KWH"),
 )
 
 sample_PeakHeatingLoad = NBDM_PeakHeatingLoad(
-    peak_heating_load=0.0,
-    losses_transmission=0.0,
-    losses_ventilation=0.0,
-    gains_solar=0.0,
-    gains_internal=0.0,
+    peak_heating_load=Unit(0.0, "W"),
+    losses_transmission=Unit(0.0, "W"),
+    losses_ventilation=Unit(0.0, "W"),
+    gains_solar=Unit(0.0, "W"),
+    gains_internal=Unit(0.0, "W"),
 )
 
 sample_PeakSensibleCoolingLoad = NBDM_PeakCoolingLoad(
-    peak_sensible_cooling_load=0.0,
-    peak_latent_cooling_load=0.0,
-    losses_transmission=0.0,
-    losses_ventilation=0.0,
-    gains_solar=0.0,
-    gains_internal=0.0,
+    peak_sensible_cooling_load=Unit(0.0, "W"),
+    peak_latent_cooling_load=Unit(0.0, "W"),
+    losses_transmission=Unit(0.0, "W"),
+    losses_ventilation=Unit(0.0, "W"),
+    gains_solar=Unit(0.0, "W"),
+    gains_internal=Unit(0.0, "W"),
 )
 
 sample_BuildingSegmentPerformance = NBDM_BuildingSegmentPerformance(

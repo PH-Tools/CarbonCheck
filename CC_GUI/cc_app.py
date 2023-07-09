@@ -60,7 +60,7 @@ class Tab_Report:
         # -- Connect the Baseline Options Button and Data
         self.window_team_and_site = Window_TeamAndSiteData()
 
-    def _connect_buttons_and_signals(self):
+    def _connect_buttons_and_signals(self) -> None:
         """Connect the buttons and signals for the 'Report' tab."""
         # -- Connect the Model and View
         self.window_team_and_site.got_team_data.connect(
@@ -162,13 +162,14 @@ class Tab_Report:
         print(f"Removing Proposed Segment '{bldg_segment_name}' from the Project.")
         self.model.remove_proposed_segment_by_name(bldg_segment_name)
 
-    def write_report(self):
+    def write_report(self) -> None:
         """Write the report to the log file."""
         self.write_report_to_file(self.excel_log_path)
 
     def write_report_to_file(self, _log_path: Path) -> None:
         """Write out the data to a new Excel report"""
         self.logger.debug("Writing report to file")
+        self.logger.debug("Rebuilding NBDM Project from GUI data")
         self.model.set_project_from_gui()
         self.model.sig_write_excel_report.emit(self.model.NBDM_project, _log_path)
 

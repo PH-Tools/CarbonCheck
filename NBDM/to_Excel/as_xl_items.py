@@ -6,6 +6,8 @@
 from dataclasses import dataclass
 from typing import Optional, List, Union, Tuple
 
+from ph_units.unit_type import Unit
+
 from PHX.xl import xl_data
 from NBDM.to_Excel import report_styles
 from NBDM.model import output_format, project, building
@@ -16,8 +18,9 @@ class RowData:
     """Temp row-data class."""
 
     row_number: int
-    display_name: Optional[str]
-    value_baseline: Optional[Union[str, float, int]]
+    display_name: Optional[str] = None
+    unit_type: Optional[Union[str, float, int]] = None
+    value_baseline: Optional[Union[str, float, int]] = None
     value_proposed: Optional[Union[str, float, int]] = None
     value_change: Optional[Union[str, float, int]] = None
     level: int = 0
@@ -34,6 +37,7 @@ class RowData:
         cls,
         _row_number: int,
         _heading_display_name: Optional[str] = None,
+        _heading_unit_type: Optional[str] = None,
         _heading_baseline: Optional[str] = None,
         _heading_proposed: Optional[str] = None,
         _heading_change: Optional[str] = None,
@@ -42,6 +46,7 @@ class RowData:
         row = cls(
             _row_number,
             _heading_display_name,
+            _heading_unit_type,
             _heading_baseline,
             _heading_proposed,
             _heading_change,
@@ -55,6 +60,7 @@ class RowData:
         cls,
         _row_number: int,
         _heading_display_name: Optional[str] = None,
+        _heading_unit_type: Optional[str] = None,
         _heading_baseline: Optional[str] = None,
         _heading_proposed: Optional[str] = None,
         _heading_change: Optional[str] = None,
@@ -63,6 +69,7 @@ class RowData:
         row = cls(
             _row_number,
             _heading_display_name,
+            _heading_unit_type,
             _heading_baseline,
             _heading_proposed,
             _heading_change,
@@ -82,12 +89,19 @@ def build_row_data(
 
     row_data = []
 
-    def _get_attr(_obj, _attr_name: str):
-        """Handle Enum .value when getting a field's value."""
+    def _get_attr_value(_obj, _attr_name: str):
+        """Handle Unit or Enum .value when getting a field's value."""
         try:
             return getattr(_obj, _attr_name).value
         except AttributeError:
             return getattr(_obj, _attr_name, None)
+
+    def _get_attr_unit_type(_obj, _attr_name: str) -> Optional[str]:
+        """Handle 'Unit' when getting a field's unit-type."""
+        try:
+            return getattr(_obj, _attr_name).unit
+        except AttributeError:
+            return None
 
     def _are_xl_writables(_baseline_obj, _proposed_obj, _change_obj):
         """Return True if all the input objects are XL-Writable"""
@@ -123,9 +137,10 @@ def build_row_data(
 
             # -----------------------------------------------------------------
             # -- Get the Attributes from each object
-            attr_bsln = _get_attr(_baseline_obj, attr_name)
-            attr_prpsd = _get_attr(_proposed_obj, attr_name)
-            attr_change = _get_attr(_change_obj, attr_name)
+            attr_bsln = _get_attr_value(_baseline_obj, attr_name)
+            attr_prpsd = _get_attr_value(_proposed_obj, attr_name)
+            attr_change = _get_attr_value(_change_obj, attr_name)
+            attr_unit_type = _get_attr_unit_type(_baseline_obj, attr_name)
 
             if _are_xl_writables(attr_bsln, attr_prpsd, attr_change):
                 # -------------------------------------------------------------
@@ -135,6 +150,7 @@ def build_row_data(
                     RowData(
                         row_number=row_num,
                         display_name=attr_display_name,
+                        unit_type=attr_unit_type,
                         value_baseline=attr_bsln,
                         value_proposed=attr_prpsd,
                         value_change=attr_change,
@@ -172,7 +188,7 @@ def build_row_data(
 
 
 def Project(
-    _sheet_name: str, _start_row: int, _p: project.NBDM_Project
+    _sheet_name: str, _start_row: int, _nbdm_project: project.NBDM_Project
 ) -> List[xl_data.XlItem]:
     """Return the NBDM_Project's data as a list of XLItems."""
 
@@ -184,7 +200,7 @@ def Project(
     # -- Get all the row-data from the NBDM Objects
     row_data_list.extend(
         build_row_data(
-            _baseline_obj=_p,
+            _baseline_obj=_nbdm_project,
             _proposed_obj=None,
             _change_obj=None,
             _start_row=_start_row,
@@ -201,6 +217,7 @@ def Project(
                 xl_range=f"A{row_data.row_number}",
                 write_value=[
                     row_data.display_name,
+                    row_data.unit_type,
                     row_data.value_baseline,
                     row_data.value_proposed,
                     row_data.value_change,
@@ -226,7 +243,7 @@ def Building(
 
     # -------------------------------------------------------------------------
     # -- Add a Top-Level Heading row
-    heading = ("WHOLE BUILDING", "BASELINE", "PROPOSED", "CHANGE")
+    heading = ("WHOLE BUILDING", "UNIT", "BASELINE", "PROPOSED", "CHANGE")
     row_data_list.append(RowData.heading_2_line(_start_row, *heading))
     _start_row += 1
 
@@ -250,6 +267,7 @@ def Building(
                 f"A{row_data.row_number}",
                 [
                     row_data.display_name,
+                    row_data.unit_type,
                     row_data.value_baseline,
                     row_data.value_proposed,
                     row_data.value_change,
@@ -274,7 +292,7 @@ def BuildingSegment(
 
     # -------------------------------------------------------------------------
     # -- Add a Top-Level Heading row
-    heading = ("BUILDING SEGMENT", "BASELINE", "PROPOSED", "CHANGE")
+    heading = ("BUILDING SEGMENT", "UNIT", "BASELINE", "PROPOSED", "CHANGE")
     row_data_list.append(RowData.heading_2_line(_start_row, *heading))
     _start_row += 1
 
@@ -298,6 +316,7 @@ def BuildingSegment(
                 xl_range=f"A{row_data.row_number}",
                 write_value=[
                     row_data.display_name,
+                    row_data.unit_type,
                     row_data.value_baseline,
                     row_data.value_proposed,
                     row_data.value_change,
@@ -315,11 +334,15 @@ def Log(_sheet_name: str, _start_row: int, _log_data: List[str]) -> xl_data.XLIt
         if row.startswith("Reading:"):
             return False
         return True
-    
+
     return xl_data.XLItem_List(
         [
-            xl_data.XlItem(sheet_name=_sheet_name, xl_range=f"A{_start_row}", write_value=row,) 
-            for row in _log_data if _include_data(row)
+            xl_data.XlItem(
+                sheet_name=_sheet_name,
+                xl_range=f"A{_start_row}",
+                write_value=row,
+            )
+            for row in _log_data
+            if _include_data(row)
         ]
     )
-

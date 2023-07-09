@@ -1,6 +1,7 @@
 from dataclasses import asdict
 from copy import copy
 from NBDM.model.geometry import NBDM_BuildingSegmentGeometry
+from ph_units.unit_type import Unit
 
 
 def test_building_segment_geometry(sample_NBDM_BuildingSegmentGeometry):
@@ -24,6 +25,6 @@ def test_subtract_segment_geometry(
     g2 = copy(sample_NBDM_BuildingSegmentGeometry)
     g3 = g1 - g2
 
-    assert g3.area_envelope == 0
-    assert g3.area_floor_area_net_interior_weighted == 0
-    assert g3.volume_net_interior == 0
+    assert g3.area_envelope == Unit(0.0, "M2")
+    assert g3.area_floor_area_net_interior_weighted == Unit(0.0, "M2")
+    assert g3.volume_net_interior == Unit(0.0, "M2")

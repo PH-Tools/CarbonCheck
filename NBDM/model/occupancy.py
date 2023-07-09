@@ -17,8 +17,7 @@ class NBDM_BuildingSegmentOccupancy:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentOccupancy:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
     def __sub__(
         self, other: NBDM_BuildingSegmentOccupancy

@@ -19,8 +19,7 @@ class NBDM_ProjectAddress:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_ProjectAddress:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
 
 @dataclass
@@ -32,8 +31,7 @@ class NBDM_Climate:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Climate:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
 
 @dataclass
@@ -44,8 +42,7 @@ class NBDM_Location:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Location:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)
 
 
 @dataclass
@@ -55,5 +52,4 @@ class NBDM_Site:
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Site:
-        attr_dict = serialization.build_attr_dict(cls, _d)
-        return cls(**attr_dict)
+        return serialization.build_NBDM_obj_from_dict(cls, _d)

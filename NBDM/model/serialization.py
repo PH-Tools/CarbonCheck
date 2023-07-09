@@ -4,9 +4,12 @@
 """Functions used for Serialization / Deserialization of NBDM Objects."""
 
 from __future__ import annotations
+
 from typing import Dict, Any, get_type_hints
 from enum import Enum
-from dataclasses import fields
+from dataclasses import fields, is_dataclass
+
+from ph_units.unit_type import Unit
 
 
 class FromDictException(Exception):
@@ -19,8 +22,52 @@ class FromDictException(Exception):
         super().__init__(self.message)
 
 
-def build_attr_dict(_cls: Any, _d: Dict) -> Dict:
+def build_NBDM_obj_from_treeView(_cls: Any, _d: Dict) -> Any:
+    """Return a Dict of NBDM objects based on an input Dict of treeView data.
+
+    This method is called when building an NBDM object from a treeView.
+    """
+    d = {}
+
+    # -- Note: can't just use dataclasses.fields(_cls) 'cus of
+    # -- from __future__ import annotations breaks fields().
+    for field_name, field_type in get_type_hints(_cls).items():
+        if field_name not in _d.keys():
+            raise FromDictException(_cls.__name__, field_name, _d.keys())
+
+        val = _d[field_name]
+        if isinstance(val, tuple) and field_type == Unit:
+            # # -- It is a treeView tuple with the value and unit
+            # -- clean up the value
+            try:
+                value = float(str(val.row_value).replace("-", "").replace(",", ""))
+                d[field_name] = Unit(value, val.row_unit)
+            except ValueError as e:
+                msg = f"Error: the input value for '{field_name}' of '{val.row_value}' is not valid. Only numbers are allowed."
+                print("- " * 45)
+                print(msg)
+                print(e)
+                print("- " * 45)
+        elif is_dataclass(field_type) and isinstance(val, Dict):
+            # -- Its another NBDM object that needs to be built.
+            d[field_name] = build_NBDM_obj_from_treeView(field_type, val)
+        else:
+            # -- It is a regular str, float, int value
+            try:
+                d[field_name] = field_type(val.row_value)
+            except Exception as e:
+                msg = f"Error setting the attribute '{_cls.__name__}.{field_name}' to '{val.row_value}'"
+                print("- " * 45)
+                print(msg)
+                print(e)
+                print("- " * 45)
+
+    return _cls(**d)
+
+
+def build_NBDM_obj_from_dict(_cls: Any, _d: Dict) -> Any:
     """Return a Dict of NBDM objects based on an input Dict.
+
 
     This method is called during an NBDM object's 'from_dict' method and used
     to build up the object's attributes from a Dict.
@@ -32,22 +79,16 @@ def build_attr_dict(_cls: Any, _d: Dict) -> Dict:
     for field_name, field_type in get_type_hints(_cls).items():
         if field_name not in _d.keys():
             raise FromDictException(_cls.__name__, field_name, _d.keys())
-        try:
-            # -- If it is an object with a 'from_dict' method, call
-            # -- the 'from_dict' method and pass along the data-dict
-            d[field_name] = field_type.from_dict(_d[field_name])
-        except AttributeError:
-            # -- otherwise, just create a normal object
-            try:
-                d[field_name] = field_type(_d[field_name])
-            except TypeError as e:
-                msg = (
-                    f"\n\tError: cannot use '{_d[field_name]}' for attribute "
-                    f"'{field_name}'? Expected value of type: {field_type} ?\n"
-                )
-                raise TypeError(msg + str(e))
 
-    return d
+        field_data = _d[field_name]
+        if field_type == Unit:
+            d[field_name] = Unit.from_dict(field_data)
+        elif hasattr(field_type, "from_dict"):
+            d[field_name] = field_type.from_dict(field_data)
+        else:
+            d[field_name] = field_type(field_data)
+
+    return _cls(**d)
 
 
 def to_dict(obj) -> Dict:
@@ -75,6 +116,8 @@ def to_dict(obj) -> Dict:
                 d[field_name][k] = to_dict(v)
         elif isinstance(field_value, Enum):
             d[field_name] = field_value.value
+        elif isinstance(field_value, Unit):
+            d[field_name] = field_value.to_dict()
         else:
             d[field_name] = field_value
 

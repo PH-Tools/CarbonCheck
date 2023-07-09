@@ -116,5 +116,7 @@ def log_exception(
     seems to set sys.stdout to None by default? That causes problems, so this
     is used as s fallback.
     """
-    with open("error_log.txt", "w") as f:
+    log_path = find_log_file_path()
+    error_file = pathlib.Path(log_path, "error_log.txt")
+    with open(error_file, "w") as f:
         traceback.print_exception(exc_type, value, tb, file=f)

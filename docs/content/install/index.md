@@ -2,7 +2,9 @@
 title: "Install"
 weight: 10
 ---
-CarbonCheck is free and open-source, created to help the Passive House Community in New York State. Feel free download and give it a try.
+Demonstrating how well your proposed building design performs compared to a 'baseline' is common practice for many teams, in particular those seeking public funding to help offset the costs of the high performance components. For modeling teams, constructing this baseline model can be a time-consuming and error-prone process. CarbonCheck is a new tool which is designer to automate the process of creating a baseline model for Passive House projects. CarbonCheck is designed to work with both PHPP and WUFI-Passive.
+
+</br>CarbonCheck is free and open-source, created to help the Passive House Community in New York State. Feel free download and give it a try.
 
 ## Download the CarbonCheck Installer
 - [For Windows OS v0.1](https://github.com/PH-Tools/CarbonCheck/raw/main/Installers/CarbonCheck-0.1-win64.msi)
@@ -21,7 +23,7 @@ In order to successfully install CarbonCheck, please make sure that your system 
 - [PHPP v10](https://passivehouse.com/04_phpp/04_phpp.htm) (For PHPP users)
 - [WUFI-Passive](https://wufi.de/en/software/wufi-passive/) (for WUFI users)
 
-### Operting Systems
+### Operating Systems
 While CarbonCheck itself runs on both Windows and MacOS, note that WUFI-Passive itself is only compatible with Windows at this time.
 
 {{< raw_html >}}
@@ -32,6 +34,6 @@ While CarbonCheck itself runs on both Windows and MacOS, note that WUFI-Passive 
 
 ## Install Trouble?
 If you run into any errors or trouble during install.
-- Make sure you are using the most up-to-date CarbonCheck insaller version.
-- On Windows, be sure that you are installing the application to a folder that you have permission to add to. If you are having trouble installing to your "C:\ProgramFiles" directory, try installing to your root "C:\" directory intead.
+- Make sure you are using the most up-to-date CarbonCheck installer version.
+- On Windows, be sure that you are installing the application to a folder that you have permission to add to. If you are having trouble installing to your "C:\ProgramFiles" directory, try installing to your root "C:\" directory instead.
 - Still having trouble? Check out the [Contact](/{{< gh_pages_name >}}/contact/) page for additional resources.

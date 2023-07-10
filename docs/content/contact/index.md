@@ -4,7 +4,7 @@ weight: 40
 ---
 
 ## PH-Tools?
-[PH-Tools](http://www.passivehousetools.com/) is the umbrella project encompassing all of the various software tools we've been building to make Passive House energy modeling faster, easier and more fun. In the past we've made plugins for DesignPH, and standalone tools like Honeybee-PH. We are happy to include CarbonCheck in the toolkit to help New York State Passive House teams automatically generate baseline variants and easily output building data. If you have questions on CarbonCheck, or any of the other [PH-Tools](http://www.passivehousetools.com/), check out the links and references below.
+[PH-Tools](http://www.passivehousetools.com/) is the umbrella project encompassing all of the various software tools we've been building to make Passive House energy modeling faster, easier and more fun. In the past we've made plugins for [DesignPH](https://designph.org/), and tool-kits like [Honeybee-PH](https://ph-tools.github.io/honeybee_grasshopper_ph/) for [Rhino](https://www.rhino3d.com/) and Honeybee modeling. We are happy to include CarbonCheck in the roster, with the goal of helping New York State Passive House teams automatically generate baseline variants and easily output building data. If you have questions on CarbonCheck, or any of the other [PH-Tools](http://www.passivehousetools.com/), check out the links and references below.
 ## Contact us
 If you want to contact us regarding any aspect of the PH-Tools toolkit or CarbonCheck, email us at: CarbonCheck@PassiveHouseAccelerator.com
 

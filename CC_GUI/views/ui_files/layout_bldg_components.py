@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file './CC_GUI/views/ui_files/layout_team_and_site.ui'
+# Form implementation generated from reading ui file './CC_GUI/views/ui_files/layout_bldg_components.ui'
 #
 # Created by: PyQt6 UI code generator 6.5.0
 #
@@ -21,20 +21,20 @@ class Ui_Form(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.frame)
         self.verticalLayout.setContentsMargins(2, 2, 2, 2)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.tree_view_team_info = QtWidgets.QTreeView(parent=self.frame)
-        self.tree_view_team_info.setUniformRowHeights(False)
-        self.tree_view_team_info.setHeaderHidden(True)
-        self.tree_view_team_info.setObjectName("tree_view_team_info")
-        self.verticalLayout.addWidget(self.tree_view_team_info)
+        self.tree_view_bldg_component_info = QtWidgets.QTreeView(parent=self.frame)
+        self.tree_view_bldg_component_info.setUniformRowHeights(False)
+        self.tree_view_bldg_component_info.setHeaderHidden(True)
+        self.tree_view_bldg_component_info.setObjectName("tree_view_bldg_component_info")
+        self.verticalLayout.addWidget(self.tree_view_bldg_component_info)
         self.frame_3 = QtWidgets.QFrame(parent=self.frame)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_3.setObjectName("frame_3")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_3)
         self.horizontalLayout_2.setContentsMargins(2, 2, 2, 2)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.btn_add_team_info = QtWidgets.QPushButton(parent=self.frame_3)
-        self.btn_add_team_info.setObjectName("btn_add_team_info")
-        self.horizontalLayout_2.addWidget(self.btn_add_team_info)
+        self.btn_add_bldg_component_info = QtWidgets.QPushButton(parent=self.frame_3)
+        self.btn_add_bldg_component_info.setObjectName("btn_add_bldg_component_info")
+        self.horizontalLayout_2.addWidget(self.btn_add_bldg_component_info)
         self.verticalLayout.addWidget(self.frame_3)
         self.frame_2 = QtWidgets.QFrame(parent=self.frame)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -56,7 +56,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Project Team and Site Data"))
-        self.btn_add_team_info.setText(_translate("Form", "Import Data from PHPP File"))
+        Form.setWindowTitle(_translate("Form", "Building Components"))
+        self.btn_add_bldg_component_info.setText(_translate("Form", "Import Component Data from PH Model..."))
         self.btn_Cancel.setText(_translate("Form", "Cancel"))
         self.btn_OK.setText(_translate("Form", "OK"))

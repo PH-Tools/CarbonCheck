@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 850)
+        MainWindow.resize(894, 871)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -331,6 +331,9 @@ class Ui_MainWindow(object):
         self.btn_show_team_info = QtWidgets.QPushButton(parent=self.frame)
         self.btn_show_team_info.setObjectName("btn_show_team_info")
         self.gridLayout_3.addWidget(self.btn_show_team_info, 0, 0, 1, 1)
+        self.btn_show_bldg_components = QtWidgets.QPushButton(parent=self.frame)
+        self.btn_show_bldg_components.setObjectName("btn_show_bldg_components")
+        self.gridLayout_3.addWidget(self.btn_show_bldg_components, 0, 1, 1, 1)
         self.verticalLayout_12.addWidget(self.frame)
         self.verticalLayout_9.addWidget(self.groupBox_Proj_Info)
         self.groupBox_Bldg_Data = QtWidgets.QGroupBox(parent=self.frame_main)
@@ -569,7 +572,7 @@ class Ui_MainWindow(object):
         self.gridLayout_5.addWidget(self.frame_5, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.container_body)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 24))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 894, 24))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(parent=self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -600,7 +603,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabs.setCurrentIndex(0)
+        self.tabs.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -629,7 +632,8 @@ class Ui_MainWindow(object):
         self.btn_createBaselinePhModel.setText(_translate("MainWindow", "Create Baseline Model"))
         self.tabs.setTabText(self.tabs.indexOf(self.tab_CreateBaseline), _translate("MainWindow", "Create Baseline Model"))
         self.groupBox_Proj_Info.setTitle(_translate("MainWindow", "1. Project Data"))
-        self.btn_show_team_info.setText(_translate("MainWindow", "Project Data (Team / Site)"))
+        self.btn_show_team_info.setText(_translate("MainWindow", "Team and Site"))
+        self.btn_show_bldg_components.setText(_translate("MainWindow", "Building Components"))
         self.groupBox_Bldg_Data.setTitle(_translate("MainWindow", "2. Building Segment Data"))
         self.label_5.setText(_translate("MainWindow", "Add or remove Building-Segments for the Baseline and the Proposed variants below. Each Building-Segment should correspond to a singe PH Model file (WUFI or PHPP) and describe one thermal-zone of the building."))
         self.label_2.setText(_translate("MainWindow", "PROPOSED"))

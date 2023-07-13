@@ -3,6 +3,9 @@
 
 """Model formatting for user-facing (Excel, GUI, etc) and object field ordering."""
 
+# ------------------------------------------------------------
+# -- Project
+
 
 class Format_NBDM_Project:
     project_name = "Project Name"
@@ -10,6 +13,17 @@ class Format_NBDM_Project:
     report_date = "Report Date"
     site = "Site"
     team = "Team"
+    # --
+    # envelope = "Envelope"
+    # appliances = "Appliances"
+    # heating_systems = "Heating Systems"
+    # cooling_systems = "Cooling Systems"
+    # dhw_systems = "Domestic Hot Water Systems"
+    # ventilation_systems = "Ventilation Systems"
+
+
+# ------------------------------------------------------------
+# -- Project Data (Site, Climate)
 
 
 class Format_NBDM_Site:
@@ -67,6 +81,10 @@ class Format_NBDM_Building:
     geometry = "Geometry"
     occupancy = "Occupancy"
     performance = "Performance"
+
+
+# ------------------------------------------------------------
+# -- Building Segments
 
 
 class Format_NBDM_BuildingSegment:
@@ -161,3 +179,19 @@ class Format_NBDM_PeakCoolingLoad:
     gains_internal = "Peak Internal Heat Gains"
     losses_total = "Total Peak Sensible Cooling Losses"
     gains_total = "Total Peak Sensible Cooling Gains"
+
+
+# ------------------------------------------------------------
+# -- Building Specifications
+
+
+class Format_NBDM_EnvelopeAssembly:
+    name = "Name"
+    u_value = "U-Value"
+    r_value = "R-Value"
+    ext_exposure = "Exterior Exposure"
+    int_exposure = "Interior Exposure"
+
+
+class Format_NBDM_BuildingSegmentAppliances:
+    test = "This is a Test"

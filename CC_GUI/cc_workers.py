@@ -43,6 +43,13 @@ try:
         create_NBDM_BuildingSegment,
         create_NBDM_Team,
         create_NBDM_Site,
+        create_NBDM_Envelope,
+        create_NBDM_Appliances,
+        create_NBDM_Cooling_Systems,
+        create_NBDM_Heating_Systems,
+        create_NBDM_Ventilation_Systems,
+        create_NBDM_Renewable_Systems,
+        create_NBDM_DHW_Systems,
     )
 except Exception as e:
     raise Exception("Error importing NBDM library?", e)
@@ -457,11 +464,48 @@ class WorkerSetWUFIBaseline(qtc.QObject):
             print_error(error_message, e)
             return None
 
-        output_filpath = pathlib.Path(_filepath.parent, f"{_filepath.stem}_baseline.xml")
-        self.output(f"Saving the XML file to: '{output_filpath}'")
+        output_filepath = pathlib.Path(_filepath.parent, f"{_filepath.stem}_baseline.xml")
+        self.output(f"Saving the XML file to: '{output_filepath}'")
         try:
-            xml_txt_to_file.write_XML_text_file(output_filpath, xml_txt, False)
+            xml_txt_to_file.write_XML_text_file(output_filepath, xml_txt, False)
         except Exception as e:
-            msg = f"Error writing the XML file to: '{output_filpath}'"
+            msg = f"Error writing the XML file to: '{output_filepath}'"
             print_error(msg, e)
             return None
+
+
+class WorkerReadBldgComponentData(qtc.QObject):
+    """Thread Worker for loading Building Component Data from PHPP."""
+
+    loaded = qtc.pyqtSignal(NBDM_Project)
+    logger = logging.getLogger()
+
+    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
+    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
+        print(SEPARATOR)
+        self.output = self.logger.excel  # type: ignore
+        self.output("Reading Building Component data from Excel.")
+
+        try:
+            self.logger.info(f"Connecting to excel document: {_filepath}")
+            xl = xl_app.XLConnection(
+                xl_framework=xw, output=self.output, xl_file_path=_filepath
+            )
+            phpp_conn = phpp_app.PHPPConnection(xl)
+        except Exception as e:
+            msg = f"Error connecting to the PHPP: '{_filepath}'"
+            print_error(msg, e)
+            self.logger.error(msg, e, exc_info=True)
+            return None
+
+        with phpp_conn.xl.in_silent_mode():
+            _project.envelope = create_NBDM_Envelope(phpp_conn)
+            _project.appliances = create_NBDM_Appliances(phpp_conn)
+            # TODO:
+            # _project.heating_systems = create_NBDM_Heating_Systems(phpp_conn)
+            # _project.cooling_systems =create_NBDM_Cooling_Systems(phpp_conn)
+            # _project.ventilation_systems =create_NBDM_Ventilation_Systems(phpp_conn)
+            # _project.renewable_systems =create_NBDM_Renewable_Systems(phpp_conn)
+            # _project.dhw_systems =create_NBDM_DHW_Systems(phpp_conn)
+
+        self.loaded.emit(_project)

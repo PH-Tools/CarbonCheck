@@ -7,11 +7,17 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Optional
 
-from NBDM.model.building import NBDM_Building
+from NBDM.model.building import NBDM_Building, NBDM_BuildingSegment
 from NBDM.model.site import NBDM_Site
-from NBDM.model.building import NBDM_BuildingSegment
 from NBDM.model.team import NBDM_Team
 from NBDM.model import serialization
+from NBDM.model.envelope import NBDM_BuildingSegmentEnvelope
+from NBDM.model.appliances import NBDM_BuildingSegmentAppliances
+from NBDM.model.cooling_systems import NBDM_BuildingSegmentCoolingSystems
+from NBDM.model.heating_systems import NBDM_BuildingSegmentHeatingSystems
+from NBDM.model.ventilation_systems import NBDM_BuildingSegmentVentilationSystems
+from NBDM.model.dhw_systems import NBDM_BuildingSegmentDHWSystems
+from NBDM.model.renewable_systems import NBDM_BuildingSegmentRenewableSystems
 
 
 @dataclass
@@ -170,6 +176,29 @@ class NBDM_Project:
     team: NBDM_Team = field(default_factory=NBDM_Team)
     site: NBDM_Site = field(default_factory=NBDM_Site)
     variants: NBDM_Variants = field(default_factory=NBDM_Variants)
+
+    # --
+    envelope: NBDM_BuildingSegmentEnvelope = field(
+        default_factory=NBDM_BuildingSegmentEnvelope
+    )
+    appliances: NBDM_BuildingSegmentAppliances = field(
+        default_factory=NBDM_BuildingSegmentAppliances
+    )
+    heating_systems: NBDM_BuildingSegmentHeatingSystems = field(
+        default_factory=NBDM_BuildingSegmentHeatingSystems
+    )
+    cooling_systems: NBDM_BuildingSegmentCoolingSystems = field(
+        default_factory=NBDM_BuildingSegmentCoolingSystems
+    )
+    dhw_systems: NBDM_BuildingSegmentDHWSystems = field(
+        default_factory=NBDM_BuildingSegmentDHWSystems
+    )
+    ventilation_systems: NBDM_BuildingSegmentVentilationSystems = field(
+        default_factory=NBDM_BuildingSegmentVentilationSystems
+    )
+    renewable_systems: NBDM_BuildingSegmentRenewableSystems = field(
+        default_factory=NBDM_BuildingSegmentRenewableSystems
+    )
 
     @property
     def building_segment_names_baseline(self) -> List[str]:

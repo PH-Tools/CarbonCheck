@@ -16,21 +16,21 @@ from CC_GUI.views.tree_view_tools import (
 )
 
 # -- Layout from QtDesigner
-from CC_GUI.views.ui_files.layout_team_and_site import Ui_Form
+from CC_GUI.views.ui_files.layout_bldg_components import Ui_Form
 
 
-class Window_TeamAndSiteData(qtw.QWidget):
-    """Team and Site Window View."""
+class Window_BuildingComponents(qtw.QWidget):
+    """Building Components Window View."""
 
-    got_team_data = qtc.pyqtSignal(dict)
-    got_site_data = qtc.pyqtSignal(dict)
+    got_envelope_data = qtc.pyqtSignal(dict)
+    got_appliance_data = qtc.pyqtSignal(dict)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.logger = logging.getLogger(__name__)
 
         # -- UI Layout from QtDesigner
-        self.logger.debug("Loading Team/Site UI Layout from QtDesigner.")
+        self.logger.debug("Loading Bldg-Component UI Layout from QtDesigner.")
         self.ui = Ui_Form()
         self.ui.setupUi(self)
 
@@ -45,38 +45,39 @@ class Window_TeamAndSiteData(qtw.QWidget):
         return self.findChildren(qtg.QAction)  # type: ignore
 
     def close_window(self) -> None:
-        self.logger.debug("Closing Team/Site Window.")
+        """Close the Window."""
+        self.logger.debug("Closing Bldg-Component Window.")
         self.close()
 
     # -------------------------------------------------------------------------
     # treeView Getters
 
     @qtc.pyqtSlot()
-    def get_treeView_data_team(self):
-        """Return the 'Team' treeView data as a dict."""
-        self.logger.info("Getting Project Team data from the GUI.")
-        _treeview_model = getattr(self.ui, "tree_view_model_team_info", None)
+    def get_treeView_data_envelope(self) -> None:
+        """Return the 'Envelope' treeView data as a dict."""
+        self.logger.info("Getting Project Envelope data from the GUI.")
+        _treeview_model = getattr(self.ui, "tree_view_model_compo_info", None)
         data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
-        self.got_team_data.emit(data)
+        self.got_envelope_data.emit(data)
 
     @qtc.pyqtSlot()
-    def get_treeView_data_site(self):
-        """Return the 'Site' treeView data as a dict."""
-        self.logger.info("Getting Project Site data from the GUI.")
-        _treeview_model = getattr(self.ui, "tree_view_model_team_info", None)
+    def get_treeView_data_appliances(self) -> None:
+        """Return the 'Appliances' treeView data as a dict."""
+        self.logger.info("Getting Project Appliance data from the GUI.")
+        _treeview_model = getattr(self.ui, "tree_view_model_compo_info", None)
         data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
-        self.got_site_data.emit(data)
+        self.got_appliance_data.emit(data)
 
     # -------------------------------------------------------------------------
     # treView Setters
 
     @qtc.pyqtSlot(dict)
-    def set_treeView_data_team(self, _data: Dict[str, Any]) -> qtw.QTreeView:
-        """Create the TreeView objects for the Project's Team Information."""
-        model, tree_view = build_treeView(_data, self.ui.tree_view_team_info)
+    def set_treeView_bldg_components(self, _data: Dict[str, Any]) -> qtw.QTreeView:
+        """Create the TreeView objects for the Project's Building-Component Information."""
+        model, tree_view = build_treeView(_data, self.ui.tree_view_bldg_component_info)
 
         # -- I don't know why the normal .model() always returns 'None'? So
         # -- for now I guess lets just store this someplace we can be sure that
         # -- we can access it easily enough.
-        setattr(self.ui, "tree_view_model_team_info", model)
+        setattr(self.ui, "tree_view_model_compo_info", model)
         return tree_view

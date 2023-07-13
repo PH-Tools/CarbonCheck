@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Project Team and Site Data</string>
+   <string>Building Components</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -33,7 +33,7 @@
        <number>2</number>
       </property>
       <item>
-       <widget class="QTreeView" name="tree_view_team_info">
+       <widget class="QTreeView" name="tree_view_bldg_component_info">
         <property name="uniformRowHeights">
          <bool>false</bool>
         </property>
@@ -61,9 +61,9 @@
           <number>2</number>
          </property>
          <item>
-          <widget class="QPushButton" name="btn_add_team_info">
+          <widget class="QPushButton" name="btn_add_bldg_component_info">
            <property name="text">
-            <string>Import Data from PHPP File</string>
+            <string>Import Component Data from PH Model...</string>
            </property>
           </widget>
          </item>

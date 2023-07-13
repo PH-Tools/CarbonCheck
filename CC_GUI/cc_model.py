@@ -296,10 +296,6 @@ class CCModel(qtw.QWidget):
         """Build the treeView data dict from the Project, and pass the dict back to the view."""
         self.logger.debug("Updating treeView building-component data.")
 
-        self.logger.debug("- " * 25)
-        self.logger.debug("Updating treeView baseline data.")
-        self.logger.debug("- " * 25)
-
         # -- In this case, we want to iterate over all the assemblies and display each one
         tree_bldg_component_data = {"ASSEMBLIES": {}}
         for assembly in self.NBDM_project.envelope.assemblies.values():
@@ -307,6 +303,7 @@ class CCModel(qtw.QWidget):
                 self.output_format, assembly
             )
 
+        # -- TODO:
         tree_bldg_component_data.update(
             create_tree_data(self.output_format, self.NBDM_project.appliances)
         )

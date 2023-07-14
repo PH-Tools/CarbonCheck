@@ -161,6 +161,7 @@ class WorkerReadProjectData(qtc.QObject):
             _project.team = create_NBDM_Team(phpp_conn)
             _project.site = create_NBDM_Site(phpp_conn)
 
+        self.output("Done reading from PHPP.")
         self.loaded.emit(_project)
 
 
@@ -199,6 +200,7 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
 
             _project.add_new_baseline_segment(new_seg)
 
+        self.output("Done reading from PHPP.")
         self.loaded.emit(_project)
 
 
@@ -230,6 +232,7 @@ class WorkerReadProposedSegmentData(qtc.QObject):
             new_seg = create_NBDM_BuildingSegment(phpp_conn)
             _project.add_new_proposed_segment(new_seg)
 
+        self.output("Done reading from PHPP.")
         self.loaded.emit(_project)
 
 
@@ -286,6 +289,7 @@ class WorkerWriteExcelReport(qtc.QObject):
             row_num = output_report.write_log(_log_path)
             output_report.remove_sheet_1()
 
+        self.output("Done writing to Excel.")
         self.written.emit(_project)
 
 
@@ -362,6 +366,8 @@ class WorkerSetPHPPBaseline(qtc.QObject):
                 phpp_lighting.set_baseline_lighting_installed_power_density(
                     phpp_conn, _baseline_code
                 )
+
+        self.output("Done setting baseline values in the PHPP.")
 
 
 class WorkerSetWUFIBaseline(qtc.QObject):
@@ -453,6 +459,8 @@ class WorkerSetWUFIBaseline(qtc.QObject):
                 phx_project, _baseline_code, self.output
             )
 
+        self.output("Done setting baseline values in the WUFI Model.")
+
         # ---------------------------------------------------------------------
         # -- Output the XMl model back to the original file location
         try:
@@ -473,6 +481,8 @@ class WorkerSetWUFIBaseline(qtc.QObject):
             msg = f"Error writing the XML file to: '{output_filepath}'"
             print_error(msg, e)
             return None
+
+        self.output("Done writing the new WUFI Baseline file.")
 
 
 class WorkerReadBldgComponentData(qtc.QObject):
@@ -509,4 +519,5 @@ class WorkerReadBldgComponentData(qtc.QObject):
             # _project.renewable_systems =create_NBDM_Renewable_Systems(phpp_conn)
             # _project.dhw_systems =create_NBDM_DHW_Systems(phpp_conn)
 
+        self.output("Done reading from PHPP.")
         self.loaded.emit(_project)

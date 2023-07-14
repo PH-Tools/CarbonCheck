@@ -5,57 +5,12 @@
 
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import (
-    Dict,
-    Optional,
-    List,
-    Iterator,
-    Any,
-    TypeVar,
-    ItemsView,
-    ValuesView,
-    KeysView,
-)
+from typing import Dict
 
 from ph_units.unit_type import Unit
 
-from NBDM.model import serialization
 from NBDM.model import operations
-
-
-class Collection:
-    def __init__(self) -> None:
-        self._data: Dict[str, Any] = {}
-
-    def __getitem__(self, key: str):
-        return self._data[key]
-
-    def __setitem__(self, key: str, value: Any) -> None:
-        self._data[key] = value
-
-    def items(self) -> ItemsView[str, Any]:
-        return self._data.items()
-
-    def keys(self) -> KeysView[str]:
-        return self._data.keys()
-
-    def values(self) -> ValuesView[Any]:
-        return self._data.values()
-
-    def __iter__(self) -> Iterator[Any]:
-        return iter(self._data.values())
-
-    def __len__(self) -> int:
-        return len(self._data)
-
-    def __contains__(self, key: str) -> bool:
-        return key in self._data
-
-    def __repr__(self) -> str:
-        return repr(self._data)
-
-    def __str__(self) -> str:
-        return str(self._data)
+from NBDM.model.collections import Collection
 
 
 @dataclass
@@ -65,6 +20,21 @@ class NBDM_EnvelopeAssembly:
     r_value: Unit
     ext_exposure: str
     int_exposure: str
+
+    @property
+    def key(self) -> str:
+        return self.name
+
+    @classmethod
+    def from_dict(cls, _d: Dict) -> NBDM_EnvelopeAssembly:
+        """Custom from_dict method to handle the Unit type."""
+        d = {}
+        for k, v in _d.items():
+            if isinstance(v, dict):
+                d[k] = Unit.from_dict(v)
+            else:
+                d[k] = v
+        return cls(**d)
 
 
 @dataclass
@@ -78,8 +48,8 @@ class NBDM_BuildingSegmentEnvelope:
     @assemblies.setter
     def assemblies(self, value: Dict[str, NBDM_EnvelopeAssembly]) -> None:
         self._assemblies = Collection()
-        for k, v in value.items():
-            self._assemblies[k] = v
+        for v in value.values():
+            self._assemblies.add_item(v)
 
     def clear_envelope_assemblies(self) -> None:
         """Clear all envelope assemblies from the building segment."""
@@ -87,12 +57,18 @@ class NBDM_BuildingSegmentEnvelope:
 
     def add_envelope_assembly(self, assembly: NBDM_EnvelopeAssembly) -> None:
         """Add an envelope assembly to the building segment."""
-        self._assemblies[assembly.name] = assembly
+        self._assemblies.add_item(assembly)
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentEnvelope:
         """Custom from_dict method to walk over all the assemblies."""
         obj = cls()
+
+        # -- Build all the Assemblies and add them to the object.
+        for assembly_dict in _d.get("_assemblies", {}).values():
+            new_assembly = NBDM_EnvelopeAssembly.from_dict(assembly_dict)
+            obj.add_envelope_assembly(new_assembly)
+
         return obj
 
     def __sub__(

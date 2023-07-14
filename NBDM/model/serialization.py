@@ -9,6 +9,8 @@ from typing import Dict, Any, get_type_hints
 from enum import Enum
 from dataclasses import fields, is_dataclass
 
+from NBDM.model.collections import Collection
+
 from ph_units.unit_type import Unit
 
 
@@ -104,20 +106,44 @@ def to_dict(obj) -> Dict:
         field_name = field.name
         field_type = field.type
         field_value = getattr(obj, field_name)
-        if hasattr(field_value, "__dataclass_fields__"):
+
+        # ------------------------------------------------------------
+        # -- A Collection object. Call to_dict() on it.
+        if isinstance(field_value, Collection):
+            _d = {}
+            for collection_item in field_value:
+                _d[collection_item.key] = to_dict(collection_item)
+            d[field_name] = _d
+
+        # ------------------------------------------------------------
+        # -- A Dataclass / NBM Object. Just call to_dict() on it.
+        elif hasattr(field_value, "__dataclass_fields__"):
             d[field_name] = to_dict(field_value)
+
+        # ------------------------------------------------------------
+        # -- A list of objects, call to_dict() on each one.
         elif isinstance(field_value, (list, tuple)):
             d[field_name] = []
             for _ in field_value:
                 d[field_name].append(to_dict(field_value))
+
+        # ------------------------------------------------------------
+        # -- A dict object, call to_dict() on each value in the dict
         elif isinstance(field_value, dict):
             d[field_name] = {}
             for k, v in field_value.items():
                 d[field_name][k] = to_dict(v)
+
+        # ------------------------------------------------------------
+        # -- An Enum object, just get the value of it.
         elif isinstance(field_value, Enum):
             d[field_name] = field_value.value
+
+        # ------------------------------------------------------------
+        # -- A Unit object with a value, call to_dict() on it.
         elif isinstance(field_value, Unit):
             d[field_name] = field_value.to_dict()
+
         else:
             d[field_name] = field_value
 

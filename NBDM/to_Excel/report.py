@@ -159,6 +159,27 @@ class OutputReport:
             )
         return _row_num
 
+    @group(start_offset=10, end_offset=1)
+    def write_NBDM_Building_Components(
+        self,
+        *,
+        _nbdm_object: NBDM_Project,
+        _row_num: int = 1,
+        _worksheet_name: str = "Building Components",
+    ) -> row_num:
+        """Write out all of then Building Component data (Envelope, Systems, etc)."""
+        # -- _segment: Tuple[baseline, proposed, change]
+        worksheet = self.get_worksheet(_worksheet_name)
+        xl_items = as_xl_items.BuildingComponents(worksheet.name, _row_num, _nbdm_object)
+        for xl_item in xl_items:
+            self.xl.write_xl_item(xl_item)
+            _row_num += 1
+
+        self.autofit_columns(worksheet.name)
+        self.hide_group_details(_worksheet_name)
+
+        return _row_num
+
     def write_log(self, _logfile_path: pathlib.Path):
         """Add a worksheet to the workbook and write the excel-log file to it."""
         # -- temporarily redirect the output o silence it.

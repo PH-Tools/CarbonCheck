@@ -239,22 +239,6 @@ class CCModel(qtw.QWidget):
         self.update_treeview_proposed()
         self.update_treeview_bldg_components()
 
-    def output_dict_to_JSON_file(
-        self, _filepath: pathlib.Path, config_data: Dict[str, Any]
-    ) -> None:
-        """Write out a dict to a JSON file."""
-        self.logger.debug(f"Writing out to JSON file: {_filepath}")
-
-        try:
-            with open(_filepath, "w") as write_file:
-                json.dump(config_data, write_file, indent=2)
-                return
-        except Exception as ex:
-            msg = f"Error trying to write out to JSON file: {_filepath}"
-            self.logger.error(msg)
-            self.logger.error(ex, exc_info=True)
-            return
-
     def update_treeview_team(self) -> None:
         """Build the treeView data dict from the Project and pass back to the view."""
         self.logger.debug("Updating treeView team data.")
@@ -295,18 +279,29 @@ class CCModel(qtw.QWidget):
     def update_treeview_bldg_components(self) -> None:
         """Build the treeView data dict from the Project, and pass the dict back to the view."""
         self.logger.debug("Updating treeView building-component data.")
+        tree_bldg_component_data = {
+            "ASSEMBLIES": {},
+            "APPLIANCES": {},
+            "HEATING": {},
+            "COOLING": {},
+            "HOT WATER": {},
+            "VENTILATION": {},
+            "RENEWABLE ENERGY": {},
+        }
 
         # -- In this case, we want to iterate over all the assemblies and display each one
-        tree_bldg_component_data = {"ASSEMBLIES": {}}
         for assembly in self.NBDM_project.envelope.assemblies.values():
-            tree_bldg_component_data["ASSEMBLIES"][assembly.name] = create_tree_data(
+            tree_bldg_component_data["ASSEMBLIES"][assembly.key] = create_tree_data(
                 self.output_format, assembly
             )
 
+        for appliance in self.NBDM_project.appliances.appliances.values():
+            tree_bldg_component_data["APPLIANCES"][appliance.key] = create_tree_data(
+                self.output_format, appliance
+            )
+
         # -- TODO:
-        tree_bldg_component_data.update(
-            create_tree_data(self.output_format, self.NBDM_project.appliances)
-        )
+        # Systems
 
         # -- Pass the dict back to the treeView
         self.sig_load_bldg_components_data.emit(tree_bldg_component_data)
@@ -338,6 +333,7 @@ class CCModel(qtw.QWidget):
         self.update_treeview_team()
         self.update_treeview_baseline()
         self.update_treeview_proposed()
+        self.update_treeview_bldg_components()
         self.logger.info("Successfully loaded data from file.")
 
     def load_json_file_as_dict(self, _filepath: pathlib.Path) -> Dict:
@@ -375,6 +371,20 @@ class CCModel(qtw.QWidget):
 
     # -------------------------------------------------------------------------
     # Slots
+
+    def _get_treeViewData_as_dict(self, _key: str, _data: Dict) -> Dict[str, Any]:
+        """Return the data from the treeView_data dict for the given key as a dict.
+
+        Safely get the treeView_data. If there are no user-entries in the treeView, it will
+        return a treeView_dataItem instead of a dict.
+        """
+        treeView_data = _data.get(_key, {})
+        if not isinstance(treeView_data, dict):
+            self.logger.debug(
+                f"No '{_key}' data found in the treeView_data passed to set_project_envelope_from_treeView_data()"
+            )
+            return {}
+        return treeView_data
 
     @qtc.pyqtSlot(dict)
     def set_project_team_from_treeView_data(self, _data: Dict[str, str]) -> None:
@@ -452,7 +462,8 @@ class CCModel(qtw.QWidget):
             return
 
         self.NBDM_project.envelope.clear_envelope_assemblies()
-        for assembly_data in _data.get("ASSEMBLIES", {}).values():
+        treeView_data_dict = self._get_treeViewData_as_dict("ASSEMBLIES", _data)
+        for assembly_data in treeView_data_dict.values():
             self.NBDM_project.envelope.add_envelope_assembly(
                 NBDM_Object_from_treeView(
                     self.output_format, assembly_data, envelope.NBDM_EnvelopeAssembly
@@ -460,7 +471,7 @@ class CCModel(qtw.QWidget):
             )
 
     @qtc.pyqtSlot(dict)
-    def set_project_appliances_from_treeView_data(self, _data: Dict[str, str]) -> None:
+    def set_project_appliances_from_treeView_data(self, _data: Dict[str, Any]) -> None:
         """Set the self.NBDM_project.appliances from the data in the treeView"""
         self.logger.info("Updating the Project Appliance data.")
         if not _data:
@@ -469,9 +480,14 @@ class CCModel(qtw.QWidget):
             )
             return
 
-        self.NBDM_project.appliances = NBDM_Object_from_treeView(
-            self.output_format, _data, appliances.NBDM_BuildingSegmentAppliances()
-        )
+        self.NBDM_project.appliances.clear_appliances()
+        treeView_data_dict = self._get_treeViewData_as_dict("APPLIANCES", _data)
+        for appliance_data in treeView_data_dict.values():
+            self.NBDM_project.appliances.add_appliance(
+                NBDM_Object_from_treeView(
+                    self.output_format, appliance_data, appliances.NBDM_Appliance
+                )
+            )
 
     # -------------------------------------------------------------------------
 

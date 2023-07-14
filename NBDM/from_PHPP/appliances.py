@@ -5,13 +5,16 @@
 
 from PHX.PHPP.phpp_app import PHPPConnection
 
-from NBDM.model.appliances import NBDM_BuildingSegmentAppliances
+from NBDM.model.appliances import NBDM_BuildingSegmentAppliances, NBDM_Appliance
+from NBDM.model.enums import appliance_type
 
 
 def create_NBDM_Appliances(_phpp_conn: PHPPConnection) -> NBDM_BuildingSegmentAppliances:
     """Read in data from a PHPP document and create a new NBDM_BuildingSegmentAppliances Object."""
-    # area_appliances = _phpp_conn.overview.get_area_appliances()
-    # area_tfa = _phpp_conn.overview.get_area_tfa()
-    # vol_vn50 = _phpp_conn.overview.get_net_interior_volume()
+    new_obj = NBDM_BuildingSegmentAppliances()
 
-    return NBDM_BuildingSegmentAppliances()
+    # for phpp_appliance_data in _phpp_conn.electricity.get_all_appliances():
+    #     new_appliance = NBDM_Appliance()
+    #     new_obj.add_appliance(new_appliance)
+
+    return new_obj

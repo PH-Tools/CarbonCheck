@@ -15,7 +15,7 @@ from NBDM.model import operations
 
 @dataclass
 class NBDM_BuildingSegmentDHWSystems:
-    a: Optional[int] = None
+    a: int = 1
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentDHWSystems:

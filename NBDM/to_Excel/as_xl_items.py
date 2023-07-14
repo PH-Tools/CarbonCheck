@@ -4,7 +4,7 @@
 """Functions to convert NBDM Project/Building/Segment objects into Excel Report writable items."""
 
 from dataclasses import dataclass
-from typing import Optional, List, Union, Tuple
+from typing import Optional, List, Union, Tuple, Any
 
 from ph_units.unit_type import Unit
 
@@ -89,7 +89,7 @@ def build_row_data(
 
     row_data = []
 
-    def _get_attr_value(_obj, _attr_name: str):
+    def _get_attr_value(_obj, _attr_name: str) -> Any | None:
         """Handle Unit or Enum .value when getting a field's value."""
         try:
             return getattr(_obj, _attr_name).value
@@ -116,7 +116,7 @@ def build_row_data(
 
         return True
 
-    def _get_object_format(_object):
+    def _get_object_format(_object) -> object:
         return getattr(output_format, f"Format_{_object.__class__.__name__}")
 
     # -------------------------------------------------------------------------
@@ -137,12 +137,12 @@ def build_row_data(
 
             # -----------------------------------------------------------------
             # -- Get the Attributes from each object
-            attr_bsln = _get_attr_value(_baseline_obj, attr_name)
-            attr_prpsd = _get_attr_value(_proposed_obj, attr_name)
+            attr_baseline = _get_attr_value(_baseline_obj, attr_name)
+            attr_proposed = _get_attr_value(_proposed_obj, attr_name)
             attr_change = _get_attr_value(_change_obj, attr_name)
             attr_unit_type = _get_attr_unit_type(_baseline_obj, attr_name)
 
-            if _are_xl_writables(attr_bsln, attr_prpsd, attr_change):
+            if _are_xl_writables(attr_baseline, attr_proposed, attr_change):
                 # -------------------------------------------------------------
                 # -- The Attribute's value is writable to Excel directly (int, float, etc...)
                 row_num += 1
@@ -151,8 +151,8 @@ def build_row_data(
                         row_number=row_num,
                         display_name=attr_display_name,
                         unit_type=attr_unit_type,
-                        value_baseline=attr_bsln,
-                        value_proposed=attr_prpsd,
+                        value_baseline=attr_baseline,
+                        value_proposed=attr_proposed,
                         value_change=attr_change,
                         level=0,
                     )
@@ -171,7 +171,7 @@ def build_row_data(
                 level += 1
                 row_data.append(RowData.heading_1_line(row_num, attr_display_name))
                 row_num, level = walk_object(
-                    attr_bsln, attr_prpsd, attr_change, row_num, level
+                    attr_baseline, attr_proposed, attr_change, row_num, level
                 )
 
         return row_num, level
@@ -181,6 +181,31 @@ def build_row_data(
     walk_object(_baseline_obj, _proposed_obj, _change_obj, _start_row, _level=0)
 
     return row_data
+
+
+def build_xl_items_from_row_data(
+    _row_data_list: List[RowData], _sheet_name: str
+) -> List[xl_data.XlItem]:
+    """Return a list of XlItems for writing to output worksheet, created from the RowData."""
+
+    xl_items = []
+    for row_data in _row_data_list:
+        xl_items.append(
+            xl_data.XlItem(
+                sheet_name=_sheet_name,
+                xl_range=f"A{row_data.row_number}",
+                write_value=[
+                    row_data.display_name,
+                    row_data.unit_type,
+                    row_data.value_baseline,
+                    row_data.value_proposed,
+                    row_data.value_change,
+                ],
+                range_color=row_data.range_color,
+                font_color=row_data.font_color,
+            )
+        )
+    return xl_items
 
 
 # -----------------------------------------------------------------------------
@@ -208,26 +233,7 @@ def Project(
     )
 
     # -------------------------------------------------------------------------
-    # -- Build the Excel items from all of the row-data collected
-    xl_items = []
-    for row_data in row_data_list:
-        xl_items.append(
-            xl_data.XlItem(
-                sheet_name=_sheet_name,
-                xl_range=f"A{row_data.row_number}",
-                write_value=[
-                    row_data.display_name,
-                    row_data.unit_type,
-                    row_data.value_baseline,
-                    row_data.value_proposed,
-                    row_data.value_change,
-                ],
-                range_color=row_data.range_color,
-                font_color=row_data.font_color,
-            )
-        )
-
-    return xl_items
+    return build_xl_items_from_row_data(row_data_list, _sheet_name)
 
 
 def Building(
@@ -258,25 +264,7 @@ def Building(
     row_data_list.extend(object_row_data)
 
     # -------------------------------------------------------------------------
-    # -- Create XL-Items from the Row-Data
-    xl_items = []
-    for row_data in row_data_list:
-        xl_items.append(
-            xl_data.XlItem(
-                _sheet_name,
-                f"A{row_data.row_number}",
-                [
-                    row_data.display_name,
-                    row_data.unit_type,
-                    row_data.value_baseline,
-                    row_data.value_proposed,
-                    row_data.value_change,
-                ],
-                range_color=row_data.range_color,
-                font_color=row_data.font_color,
-            )
-        )
-    return xl_items
+    return build_xl_items_from_row_data(row_data_list, _sheet_name)
 
 
 def BuildingSegment(
@@ -307,26 +295,54 @@ def BuildingSegment(
     row_data_list.extend(object_row_data)
 
     # -------------------------------------------------------------------------
-    # -- Create XL-Items from the Row-Data
-    xl_items = []
-    for row_data in row_data_list:
-        xl_items.append(
-            xl_data.XlItem(
-                sheet_name=_sheet_name,
-                xl_range=f"A{row_data.row_number}",
-                write_value=[
-                    row_data.display_name,
-                    row_data.unit_type,
-                    row_data.value_baseline,
-                    row_data.value_proposed,
-                    row_data.value_change,
-                ],
-                range_color=row_data.range_color,
-                font_color=row_data.font_color,
-            )
-        )
+    return build_xl_items_from_row_data(row_data_list, _sheet_name)
 
-    return xl_items
+
+def BuildingComponents(
+    _sheet_name: str, _start_row: int, _nbdm_project: project.NBDM_Project
+) -> List[xl_data.XlItem]:
+    """Return all of the Building-Component data (Envelope, Systems, etc) as a List of XLItems."""
+
+    # -- Add a Top-Level Heading row
+    row_data_list = [RowData.heading_2_line(_start_row, "BUILDING COMPONENTS", "UNIT")]
+    _start_row += 1
+    row_data_list.append(RowData.blank_line(_start_row))
+    _start_row += 1
+
+    # -------------------------------------------------------------------------
+    # -- Get all the row-data from the NBDM Envelope Objects
+    row_data_list.append(RowData.heading_1_line(_start_row, "ASSEMBLIES"))
+    _start_row += 1
+    for assembly in _nbdm_project.envelope.assemblies.values():
+        assembly_rows = build_row_data(
+            _baseline_obj=assembly,
+            _proposed_obj=None,
+            _change_obj=None,
+            _start_row=_start_row,
+        )
+        row_data_list.extend(assembly_rows)
+        _start_row += len(assembly_rows) + 1
+    row_data_list.append(RowData.blank_line(_start_row))
+    _start_row += 1
+
+    # -------------------------------------------------------------------------
+    # -- Get all the row-data from the NBDM Appliance Objects
+    row_data_list.append(RowData.heading_1_line(_start_row, "APPLIANCES"))
+    _start_row += 1
+    for appliance in _nbdm_project.appliances.appliances.values():
+        appliance_rows = build_row_data(
+            _baseline_obj=appliance,
+            _proposed_obj=None,
+            _change_obj=None,
+            _start_row=_start_row,
+        )
+        row_data_list.extend(appliance_rows)
+        _start_row += len(appliance_rows) + 1
+    row_data_list.append(RowData.blank_line(_start_row))
+    _start_row += 1
+
+    # -------------------------------------------------------------------------
+    return build_xl_items_from_row_data(row_data_list, _sheet_name)
 
 
 def Log(_sheet_name: str, _start_row: int, _log_data: List[str]) -> xl_data.XLItem_List:

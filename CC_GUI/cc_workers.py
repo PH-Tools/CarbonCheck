@@ -239,6 +239,22 @@ class WorkerWriteExcelReport(qtc.QObject):
     written = qtc.pyqtSignal(NBDM_Project)
     logger = logging.getLogger()
 
+    def valid_project(self, _project: NBDM_Project) -> bool:
+        """Return True if it a valid Project with data that can be written to the report."""
+        if not _project.variants.baseline.has_building_segments:
+            msg = "Error: 'Baseline' Building Segment data missing. Cannot generate report yet."
+            print_error(msg)
+            self.logger.error(msg)
+            return False
+
+        if not _project.variants.proposed.has_building_segments:
+            msg = "Error: 'Proposed' Building Segment data missing. Cannot generate report yet."
+            print_error(msg)
+            self.logger.error(msg)
+            return False
+
+        return True
+
     @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
     def run(self, _project: NBDM_Project, _log_path: pathlib.Path) -> None:
         print(SEPARATOR)
@@ -264,28 +280,13 @@ class WorkerWriteExcelReport(qtc.QObject):
         with xl.in_silent_mode():
             xl.activate_new_workbook()
             row_num = output_report.write_NBDM_Project(_nbdm_object=_project)
+            row_num = output_report.write_NBDM_Building_Components(_nbdm_object=_project)
             row_num = output_report.write_NBDM_WholeBuilding(_nbdm_object=_project)
             row_num = output_report.write_NBDM_BuildingSegments(_nbdm_object=_project)
             row_num = output_report.write_log(_log_path)
             output_report.remove_sheet_1()
 
         self.written.emit(_project)
-
-    def valid_project(self, _project: NBDM_Project) -> bool:
-        """Return True if it a valid Project with data that can be written to the report."""
-        if not _project.variants.baseline.has_building_segments:
-            msg = "Error: 'Baseline' Building Segment data missing. Cannot generate report yet."
-            print_error(msg)
-            self.logger.error(msg)
-            return False
-
-        if not _project.variants.proposed.has_building_segments:
-            msg = "Error: 'Proposed' Building Segment data missing. Cannot generate report yet."
-            print_error(msg)
-            self.logger.error(msg)
-            return False
-
-        return True
 
 
 class WorkerSetPHPPBaseline(qtc.QObject):

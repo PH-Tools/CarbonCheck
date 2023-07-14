@@ -193,5 +193,7 @@ class Format_NBDM_EnvelopeAssembly:
     int_exposure = "Interior Exposure"
 
 
-class Format_NBDM_BuildingSegmentAppliances:
-    test = "This is a Test"
+class Format_NBDM_Appliance:
+    appliance_type = "Type"
+    quantity = "Num."
+    annual_energy_use = "Energy Use"

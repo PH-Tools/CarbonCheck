@@ -103,7 +103,14 @@ def set_treeView_model_data(
 
         if isinstance(data_item_value, Dict):
             # -- If there is more child data, call this function again
-            rootNode.appendRow(set_treeView_model_data(q_tree_item, data_item_value))
+            # -- Pad with two empty columns for the value and unit
+            rootNode.appendRow(
+                [
+                    set_treeView_model_data(q_tree_item, data_item_value),
+                    qtg.QStandardItem(),
+                    qtg.QStandardItem(),
+                ]
+            )
 
         elif isinstance(data_item_value, List):
             continue
@@ -132,6 +139,15 @@ def build_treeView_model(_data: Dict[str, Any]) -> qtg.QStandardItemModel:
     return treeModel
 
 
+class RightAlignedDelegate(qtw.QStyledItemDelegate):
+    def initStyleOption(self, option, index):
+        super().initStyleOption(option, index)
+        if index.column() == 1:
+            option.displayAlignment = (
+                qtc.Qt.AlignmentFlag.AlignRight | qtc.Qt.AlignmentFlag.AlignVCenter
+            )
+
+
 def build_treeView(
     _data: Dict[str, Any], _tree_view: qtw.QTreeView
 ) -> Tuple[qtg.QStandardItemModel, qtw.QTreeView]:
@@ -147,6 +163,10 @@ def build_treeView(
     _tree_view.setModel(_model)
     _tree_view.setHeaderHidden(False)
     _tree_view.header().setStretchLastSection(True)
+
+    # Set a delegate for the second column to right-align the text
+    delegate = RightAlignedDelegate()
+    _tree_view.setItemDelegateForColumn(1, delegate)
 
     # -- Configure the treeView's rows
     _tree_view.expandAll()  # Expand before setting column width

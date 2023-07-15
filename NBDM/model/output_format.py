@@ -194,6 +194,7 @@ class Format_NBDM_EnvelopeAssembly:
 
 
 class Format_NBDM_Appliance:
-    appliance_type = "Type"
-    quantity = "Num."
-    annual_energy_use = "Energy Use"
+    display_name = "Name"
+    appliance_type = "Type Number"
+    quantity = "Quantity"
+    annual_energy_use = "Annual Energy Use"

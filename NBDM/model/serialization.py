@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from typing import Dict, Any, get_type_hints
 from enum import Enum
+from uuid import UUID
 from dataclasses import fields, is_dataclass
 
 from NBDM.model.collections import Collection
@@ -143,6 +144,11 @@ def to_dict(obj) -> Dict:
         # -- A Unit object with a value, call to_dict() on it.
         elif isinstance(field_value, Unit):
             d[field_name] = field_value.to_dict()
+
+        # ------------------------------------------------------------
+        # -- A UUID, just convert it to a string.
+        elif isinstance(field_value, UUID):
+            d[field_name] = str(field_value)
 
         else:
             d[field_name] = field_value

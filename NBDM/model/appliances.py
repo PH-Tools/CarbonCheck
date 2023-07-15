@@ -21,6 +21,7 @@ class NBDM_Appliance:
     appliance_type: appliance_type = field(default=appliance_type.CUSTOM)
     quantity: int = 1
     annual_energy_use: Unit = field(default_factory=Unit)
+    display_name: str = str(appliance_type.name)
 
     @property
     def key(self) -> str:

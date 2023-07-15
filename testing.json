@@ -1,0 +1,618 @@
+{
+    "project_name": "-",
+    "client": "-",
+    "report_date": "-",
+    "team": {
+        "site_owner": {
+            "name": "Hollis Montessori School",
+            "contact_info": {
+                "building_number": "-",
+                "street_name": "None",
+                "city": "None",
+                "state": "None",
+                "country": "None",
+                "post_code": "None",
+                "phone": "-",
+                "email": "-"
+            }
+        },
+        "designer": {
+            "name": "Windy Hill Associates",
+            "contact_info": {
+                "building_number": "-",
+                "street_name": "243 Clark Hill Road",
+                "city": "New Boston",
+                "state": "NH",
+                "country": "US-United States of America",
+                "post_code": "03049",
+                "phone": "-",
+                "email": "-"
+            }
+        },
+        "contractor": {
+            "name": "-",
+            "contact_info": {
+                "building_number": "-",
+                "street_name": "-",
+                "city": "-",
+                "state": "-",
+                "country": "-",
+                "post_code": "-",
+                "phone": "-",
+                "email": "-"
+            }
+        },
+        "primary_energy_consultant": {
+            "name": "Example Energy Consultant",
+            "contact_info": {
+                "building_number": "-",
+                "street_name": "Example Street 99",
+                "city": "Example City",
+                "state": "Example Province",
+                "country": "DE-Germany",
+                "post_code": "99999.0",
+                "phone": "-",
+                "email": "-"
+            }
+        }
+    },
+    "site": {
+        "climate": {
+            "zone_passive_house": "-",
+            "country": "US-United States of America",
+            "region": "All",
+            "data_set": "US0035a-Boston"
+        },
+        "location": {
+            "address": {
+                "building_number": "-",
+                "street_name": "South Merrimack Road",
+                "city": "Hollis",
+                "state": "NH",
+                "post_code": "03049"
+            },
+            "longitude": -71.07,
+            "latitude": 42.33
+        }
+    },
+    "variants": {
+        "proposed": {
+            "variant_name": "-",
+            "building": {
+                "building_name": "-",
+                "building_type": "Multi-Family",
+                "_building_segments": {
+                    "Hollis Montessori School": {
+                        "segment_name": "Hollis Montessori School",
+                        "construction_type": "New Construction",
+                        "construction_method": "Method A",
+                        "geometry": {
+                            "area_envelope": {
+                                "value": 25309.5,
+                                "unit": "FT2"
+                            },
+                            "area_floor_area_net_interior_weighted": {
+                                "value": 9057.7,
+                                "unit": "FT2"
+                            },
+                            "volume_net_interior": {
+                                "value": 121871.0,
+                                "unit": "FT3"
+                            }
+                        },
+                        "occupancy": {
+                            "total_dwelling_units": 1,
+                            "total_occupants": 128.0
+                        },
+                        "performance": {
+                            "site_energy": {
+                                "consumption_gas": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "consumption_electricity": {
+                                    "value": 49100.2,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_district_heat": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_photovoltaic": {
+                                    "value": 191468.7,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_thermal": {
+                                    "value": 10230.7,
+                                    "unit": "KBTU"
+                                },
+                                "production_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                }
+                            },
+                            "source_energy": {
+                                "consumption_gas": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "consumption_electricity": {
+                                    "value": 127660.5,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_district_heat": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_photovoltaic": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_thermal": {
+                                    "value": 26599.8,
+                                    "unit": "KBTU"
+                                },
+                                "production_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                }
+                            },
+                            "annual_heating_energy_demand": {
+                                "heating_demand": {
+                                    "value": 15374.5,
+                                    "unit": "KBTU"
+                                },
+                                "losses_transmission": {
+                                    "value": 65776.4,
+                                    "unit": "KBTU"
+                                },
+                                "losses_ventilation": {
+                                    "value": 15285.4,
+                                    "unit": "KBTU"
+                                },
+                                "gains_solar": {
+                                    "value": 34368.1,
+                                    "unit": "KBTU"
+                                },
+                                "gains_internal": {
+                                    "value": 34924.1,
+                                    "unit": "KBTU"
+                                },
+                                "utilization_factor": {
+                                    "value": 0.948,
+                                    "unit": "%"
+                                }
+                            },
+                            "annual_cooling_energy_demand": {
+                                "sensible_cooling_demand": {
+                                    "value": 24239.7,
+                                    "unit": "KBTU"
+                                },
+                                "latent_cooling_demand": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "losses_transmission": {
+                                    "value": 49818.8,
+                                    "unit": "KBTU"
+                                },
+                                "losses_ventilation": {
+                                    "value": 16434.6,
+                                    "unit": "KBTU"
+                                },
+                                "utilization_factor": {
+                                    "value": 0.918,
+                                    "unit": "KBTU"
+                                },
+                                "gains_solar": {
+                                    "value": 43761.2,
+                                    "unit": "KBTU"
+                                },
+                                "gains_internal": {
+                                    "value": 41291.5,
+                                    "unit": "KBTU"
+                                }
+                            },
+                            "peak_heating_load": {
+                                "peak_heating_load": {
+                                    "value": 24959.8,
+                                    "unit": "BTU/HR"
+                                },
+                                "losses_transmission": {
+                                    "value": 22947.5,
+                                    "unit": "BTU/HR"
+                                },
+                                "losses_ventilation": {
+                                    "value": 11485.2,
+                                    "unit": "BTU/HR"
+                                },
+                                "gains_solar": {
+                                    "value": 2869.0,
+                                    "unit": "BTU/HR"
+                                },
+                                "gains_internal": {
+                                    "value": 6604.0,
+                                    "unit": "BTU/HR"
+                                }
+                            },
+                            "peak_sensible_cooling_load": {
+                                "peak_sensible_cooling_load": {
+                                    "value": 21853.3,
+                                    "unit": "BTU/HR"
+                                },
+                                "peak_latent_cooling_load": {
+                                    "value": 4686.2,
+                                    "unit": "BTU/HR"
+                                },
+                                "losses_transmission": {
+                                    "value": 1348.0,
+                                    "unit": "BTU/HR"
+                                },
+                                "losses_ventilation": {
+                                    "value": 1745.5,
+                                    "unit": "BTU/HR"
+                                },
+                                "gains_solar": {
+                                    "value": 13416.1,
+                                    "unit": "BTU/HR"
+                                },
+                                "gains_internal": {
+                                    "value": 8039.6,
+                                    "unit": "BTU/HR"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "baseline": {
+            "variant_name": "-",
+            "building": {
+                "building_name": "-",
+                "building_type": "Multi-Family",
+                "_building_segments": {
+                    "Hollis Montessori School": {
+                        "segment_name": "Hollis Montessori School",
+                        "construction_type": "New Construction",
+                        "construction_method": "Method A",
+                        "geometry": {
+                            "area_envelope": {
+                                "value": 25309.5,
+                                "unit": "FT2"
+                            },
+                            "area_floor_area_net_interior_weighted": {
+                                "value": 9057.7,
+                                "unit": "FT2"
+                            },
+                            "volume_net_interior": {
+                                "value": 121871.0,
+                                "unit": "FT3"
+                            }
+                        },
+                        "occupancy": {
+                            "total_dwelling_units": 1,
+                            "total_occupants": 128.0
+                        },
+                        "performance": {
+                            "site_energy": {
+                                "consumption_gas": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "consumption_electricity": {
+                                    "value": 184580.4,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_district_heat": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_photovoltaic": {
+                                    "value": 191468.7,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_thermal": {
+                                    "value": 10230.7,
+                                    "unit": "KBTU"
+                                },
+                                "production_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                }
+                            },
+                            "source_energy": {
+                                "consumption_gas": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "consumption_electricity": {
+                                    "value": 479909.0,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_district_heat": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_photovoltaic": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_thermal": {
+                                    "value": 26599.8,
+                                    "unit": "KBTU"
+                                },
+                                "production_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                }
+                            },
+                            "annual_heating_energy_demand": {
+                                "heating_demand": {
+                                    "value": 204523.5,
+                                    "unit": "KBTU"
+                                },
+                                "losses_transmission": {
+                                    "value": 310031.6,
+                                    "unit": "KBTU"
+                                },
+                                "losses_ventilation": {
+                                    "value": 18566.9,
+                                    "unit": "KBTU"
+                                },
+                                "gains_solar": {
+                                    "value": 72515.7,
+                                    "unit": "KBTU"
+                                },
+                                "gains_internal": {
+                                    "value": 58464.1,
+                                    "unit": "KBTU"
+                                },
+                                "utilization_factor": {
+                                    "value": 0.947,
+                                    "unit": "%"
+                                }
+                            },
+                            "annual_cooling_energy_demand": {
+                                "sensible_cooling_demand": {
+                                    "value": 7530.6,
+                                    "unit": "KBTU"
+                                },
+                                "latent_cooling_demand": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "losses_transmission": {
+                                    "value": 167616.7,
+                                    "unit": "KBTU"
+                                },
+                                "losses_ventilation": {
+                                    "value": 16434.6,
+                                    "unit": "KBTU"
+                                },
+                                "utilization_factor": {
+                                    "value": 0.5,
+                                    "unit": "KBTU"
+                                },
+                                "gains_solar": {
+                                    "value": 58231.6,
+                                    "unit": "KBTU"
+                                },
+                                "gains_internal": {
+                                    "value": 41291.5,
+                                    "unit": "KBTU"
+                                }
+                            },
+                            "peak_heating_load": {
+                                "peak_heating_load": {
+                                    "value": 83041.7,
+                                    "unit": "BTU/HR"
+                                },
+                                "losses_transmission": {
+                                    "value": 80919.3,
+                                    "unit": "BTU/HR"
+                                },
+                                "losses_ventilation": {
+                                    "value": 11773.5,
+                                    "unit": "BTU/HR"
+                                },
+                                "gains_solar": {
+                                    "value": 3047.2,
+                                    "unit": "BTU/HR"
+                                },
+                                "gains_internal": {
+                                    "value": 6604.0,
+                                    "unit": "BTU/HR"
+                                }
+                            },
+                            "peak_sensible_cooling_load": {
+                                "peak_sensible_cooling_load": {
+                                    "value": 22579.7,
+                                    "unit": "BTU/HR"
+                                },
+                                "peak_latent_cooling_load": {
+                                    "value": 4686.2,
+                                    "unit": "BTU/HR"
+                                },
+                                "losses_transmission": {
+                                    "value": 5371.8,
+                                    "unit": "BTU/HR"
+                                },
+                                "losses_ventilation": {
+                                    "value": 1745.5,
+                                    "unit": "BTU/HR"
+                                },
+                                "gains_solar": {
+                                    "value": 18166.3,
+                                    "unit": "BTU/HR"
+                                },
+                                "gains_internal": {
+                                    "value": 8039.6,
+                                    "unit": "BTU/HR"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "envelope": {
+        "_assemblies": {
+            "Basement ceiling": {
+                "name": "Basement ceiling",
+                "u_value": {
+                    "value": 0.017,
+                    "unit": "BTU/HR-FT2-F"
+                },
+                "r_value": {
+                    "value": 58.8,
+                    "unit": "HR-FT2-F/BTU"
+                },
+                "ext_exposure": "2-Ground",
+                "int_exposure": "3-Floor"
+            },
+            "Externl wall": {
+                "name": "Externl wall",
+                "u_value": {
+                    "value": 0.024,
+                    "unit": "BTU/HR-FT2-F"
+                },
+                "r_value": {
+                    "value": 41.6,
+                    "unit": "HR-FT2-F/BTU"
+                },
+                "ext_exposure": "1-Outdoor air",
+                "int_exposure": "2-Wall"
+            },
+            "Roof": {
+                "name": "Roof",
+                "u_value": {
+                    "value": 0.009,
+                    "unit": "BTU/HR-FT2-F"
+                },
+                "r_value": {
+                    "value": 110.5,
+                    "unit": "HR-FT2-F/BTU"
+                },
+                "ext_exposure": "1-Outdoor air",
+                "int_exposure": "1-Roof"
+            }
+        }
+    },
+    "appliances": {
+        "_appliances": {
+            "5440912f-801f-447d-b7c5-ee440a8310cc": {
+                "id_num": "5440912f-801f-447d-b7c5-ee440a8310cc",
+                "appliance_type": 1,
+                "quantity": 1.0,
+                "annual_energy_use": {
+                    "value": 5121.29,
+                    "unit": "KWH"
+                },
+                "display_name": "Kitchen Dishwasher"
+            },
+            "9ed26157-611c-4c99-914a-779941825625": {
+                "id_num": "9ed26157-611c-4c99-914a-779941825625",
+                "appliance_type": 2,
+                "quantity": 1.0,
+                "annual_energy_use": {
+                    "value": 4405.000080000001,
+                    "unit": "KWH"
+                },
+                "display_name": "Laundry - washer"
+            },
+            "ce92c391-23aa-4df8-8955-0669580a73a2": {
+                "id_num": "ce92c391-23aa-4df8-8955-0669580a73a2",
+                "appliance_type": 3,
+                "quantity": 1.0,
+                "annual_energy_use": {
+                    "value": 22334.349119999995,
+                    "unit": "KWH"
+                },
+                "display_name": "Laundry - dryer"
+            },
+            "af2799a7-1161-4492-aef9-a7fe3ff39923": {
+                "id_num": "af2799a7-1161-4492-aef9-a7fe3ff39923",
+                "appliance_type": 4,
+                "quantity": 1.0,
+                "annual_energy_use": {
+                    "value": 284.7,
+                    "unit": "KWH"
+                },
+                "display_name": "Kitchen refrigerator"
+            },
+            "08ac922a-09df-4df2-bdaf-ea3d3c1a253c": {
+                "id_num": "08ac922a-09df-4df2-bdaf-ea3d3c1a253c",
+                "appliance_type": 5,
+                "quantity": 1.0,
+                "annual_energy_use": {
+                    "value": 289.08,
+                    "unit": "KWH"
+                },
+                "display_name": "kitchen freezer"
+            },
+            "06c79d21-d2ae-4f55-a4c1-42660b6447db": {
+                "id_num": "06c79d21-d2ae-4f55-a4c1-42660b6447db",
+                "appliance_type": 7,
+                "quantity": 1.0,
+                "annual_energy_use": {
+                    "value": 0.0,
+                    "unit": "KWH"
+                },
+                "display_name": "Kitchen cooking"
+            },
+            "ed5ead31-d282-4b35-a32f-d20a2dcd69a7": {
+                "id_num": "ed5ead31-d282-4b35-a32f-d20a2dcd69a7",
+                "appliance_type": 13,
+                "quantity": 1.0,
+                "annual_energy_use": {
+                    "value": 23596.808650000003,
+                    "unit": "KWH"
+                },
+                "display_name": "PHIUS+ MELS"
+            },
+            "0c6a9eda-acbe-496b-b9da-0b604ed0db28": {
+                "id_num": "0c6a9eda-acbe-496b-b9da-0b604ed0db28",
+                "appliance_type": 14,
+                "quantity": 1.0,
+                "annual_energy_use": {
+                    "value": 38707.2,
+                    "unit": "KWH"
+                },
+                "display_name": "PHIUS+ Interior Lighting"
+            }
+        }
+    },
+    "heating_systems": {
+        "a": 1
+    },
+    "cooling_systems": {
+        "a": 1
+    },
+    "dhw_systems": {
+        "a": 1
+    },
+    "ventilation_systems": {
+        "a": 1
+    },
+    "renewable_systems": {
+        "a": 1
+    }
+}

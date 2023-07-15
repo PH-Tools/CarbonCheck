@@ -296,9 +296,9 @@ class CCModel(qtw.QWidget):
             )
 
         for appliance in self.NBDM_project.appliances.appliances.values():
-            tree_bldg_component_data["APPLIANCES"][appliance.key] = create_tree_data(
-                self.output_format, appliance
-            )
+            tree_bldg_component_data["APPLIANCES"][
+                appliance.display_name
+            ] = create_tree_data(self.output_format, appliance)
 
         # -- TODO:
         # Systems

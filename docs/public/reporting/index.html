@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Reporting | PH-Tools.CarbonCheck</title>
+    <link rel="stylesheet" href="/CarbonCheck/css/style.css" type="text/css" media="all" />
+
+    </head>
+
+<body>
+	<div class="container">
+		<header class="header">
+			<div class="header-block">
+  
+
+  
+  <a id="cat_homelogo" class="site-logo" href="http://www.passivehousetools.com/">
+    <img src="/CarbonCheck/img/PHT_Logo_28x28_circle.svg">
+  </a>
+  <a id="cat_homelink" class="site-title" href="http://www.passivehousetools.com/">PH-Tools.</a>
+  <a id="cat_homelink" class="site-title" href="/CarbonCheck/" style="margin-left:0px;">CarbonCheck</a>
+
+  <nav class="site-nav">
+
+    <img class="menu-icon" src="/CarbonCheck/img/burger.svg" />
+
+    <div class="trigger">
+      
+      
+      
+      
+      <a id="cat_quick_start" class="page-link" href="/CarbonCheck/install/">Install</a>
+      
+      
+      
+      <a id="cat_quick_start" class="page-link" href="/CarbonCheck/baselines/">Baselines</a>
+      
+      
+      
+      <a id="cat_quick_start" class="page-link-active" href="/CarbonCheck/reporting/">Reporting</a>
+      
+      
+      
+      <a id="cat_quick_start" class="page-link" href="/CarbonCheck/faq/">FAQ</a>
+      
+      
+      
+      <a id="cat_quick_start" class="page-link" href="/CarbonCheck/contact/">Contact</a>
+      
+      
+
+      <a class="extern-link" href="https://www.youtube.com/channel/UCADxgnNCFNZ3uhaSvezReQA/playlists" target="_blank" title="YouTube Channel">
+        <span class="img-button-title">YouTube</span>
+        <img class="img-extern-link" id="youtube-link" width="28" height="28" src="/CarbonCheck/img/youtube.svg" />
+      </a>
+
+      <a class="extern-link" href="https://github.com/PH-Tools/CarbonCheck" target="_blank"
+        title="Source Code Repository on Github">
+        <span class="img-button-title">Github</span>
+        <img class="img-extern-link" id="github-link" width="28" height="28" src="/CarbonCheck/img/github.svg" />
+      </a>
+
+    </div>
+
+  </nav>
+</div>
+		</header>
+	</div>
+
+<div class="container">
+    <main class="content">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                
+                <nav class="sidebar">
+                    
+
+<ul class="nav scrollbar">
+    <a class="sidebar-section-head" href="https://ph-tools.github.io/CarbonCheck/reporting/">Reporting</a>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#step-1-load-project-data">Step 1. Load Project Data</a></li>
+    <li><a href="#step-2-load-the-baseline-design-data">Step 2. Load the &lsquo;Baseline&rsquo; Design Data</a></li>
+    <li><a href="#step-3-load-the-proposed-design-data">Step 3. Load the &lsquo;Proposed&rsquo; Design Data</a></li>
+    <li><a href="#step-4-generate-the-output-report">Step 4. Generate the Output Report</a></li>
+  </ul>
+</nav>
+</ul>
+                </nav>
+
+                
+                <div class="side-content">
+                    <h1 id="creating-output-reports">Creating Output Reports</h1>
+<p>CarbonCheck includes tools for creating automatic output reports with the data from both a &lsquo;baseline&rsquo; design and your proposed design side by side for easy comparison. For more details on creating baseline models, see the <a href="/CarbonCheck/baselines/">Baselines</a> page.</p>
+<h2 id="step-1-load-project-data">Step 1. Load Project Data</h2>
+<p>The first step is to open the CarbonCheck Application and read in the basic project data from your Passive House model. This will read in things like the project address, client information, and other basic data about the site and climate.
+<img src="/CarbonCheck/img/reporting/reporting_1_read_proj_data.png" alt="Basic honeybee-model preview"></p>
+<p><img src="/CarbonCheck/img/reporting/reporting_2_proj_data.png" alt="Basic honeybee-model preview"></p>
+<h2 id="step-2-load-the-baseline-design-data">Step 2. Load the &lsquo;Baseline&rsquo; Design Data</h2>
+<p>Once the project data is loaded, you can begin adding the &lsquo;baseline&rsquo; building-segments. For more information on using CarbonCheck to create automatic baselines, check out the <a href="/CarbonCheck/baselines/">Baselines</a> page. Each building-segment should correspond to one PHPP/WUFI file. In many situations where you have significantly different internal loads (for instance: a commercial podium vs. a residential tower) you will break up your Passive House model into various segments. Not every building requires this however, and if your building only includes a single building-segment, CarbonCheck will work fine in that case. For the example here, we are including only a single baseline segment.
+<img src="/CarbonCheck/img/reporting/add_baseline_segment.png" alt="Basic honeybee-model preview"></p>
+<p>Once CarbonCheck has read in the model data, you will see preview of the data in the baseline window pane.
+<img src="/CarbonCheck/img/reporting/add_baseline_segment_done.png" alt="Basic honeybee-model preview"></p>
+<h2 id="step-3-load-the-proposed-design-data">Step 3. Load the &lsquo;Proposed&rsquo; Design Data</h2>
+<p>As with the baseline segments, add one or more &lsquo;proposed&rsquo; building segments. Each building-segment should correspond to one PHPP/WUFI file.
+<img src="/CarbonCheck/img/reporting/add_proposed_segment.png" alt="Basic honeybee-model preview"></p>
+<h2 id="step-4-generate-the-output-report">Step 4. Generate the Output Report</h2>
+<p>Last, once you are happy with the data included, simply click &ldquo;Create Report&rdquo; and CarbonCheck will collect all the data and write it out to a new Excel report file. This file can be saved to your computer and submitted to your project reviewer.
+<img src="/CarbonCheck/img/reporting/create_report.png" alt="Basic honeybee-model preview"></p>
+
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<div class="container">
+	<footer class="footer">
+		<p>&copy;2021-2023 bldgtyp, llc</p>
+		<p>PH-Tools and CarbonCheck are projects of bldgtyp, llc
+			If you'd like to contribute or talk more about CarbonCheck,
+			contact: CarbonCheck@PassiveHouseAccelerator.com, or check out the <a target="_blank"
+				href="https://github.com/PH-Tools/CarbonCheck">github repository.</a>
+			PH-Tools are free under the terms of the
+			<a target="_blank" href="https://www.gnu.org/licenses/">GNU General Public License</a>
+			as published by the Free Software Foundation.
+		</p>
+	</footer>
+</div>
+
+</body>
+
+</html>

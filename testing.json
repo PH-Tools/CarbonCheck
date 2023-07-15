@@ -474,7 +474,7 @@
         }
     },
     "envelope": {
-        "_assemblies": {
+        "_assembly_types": {
             "Basement ceiling": {
                 "name": "Basement ceiling",
                 "u_value": {
@@ -514,22 +514,35 @@
                 "ext_exposure": "1-Outdoor air",
                 "int_exposure": "1-Roof"
             }
+        },
+        "_glazing_types": {
+            "Climatop Ultra N": {
+                "display_name": "Climatop Ultra N",
+                "u_value": {
+                    "value": 0.093,
+                    "unit": "BTU/HR-FT2-F"
+                },
+                "g_value": {
+                    "value": 0.5,
+                    "unit": "-"
+                }
+            }
         }
     },
     "appliances": {
         "_appliances": {
-            "5440912f-801f-447d-b7c5-ee440a8310cc": {
-                "id_num": "5440912f-801f-447d-b7c5-ee440a8310cc",
+            "ed309b2d-fc42-423f-ab64-05497fb21028": {
+                "id_num": "ed309b2d-fc42-423f-ab64-05497fb21028",
                 "appliance_type": 1,
                 "quantity": 1.0,
                 "annual_energy_use": {
-                    "value": 5121.29,
+                    "value": 4563.85,
                     "unit": "KWH"
                 },
                 "display_name": "Kitchen Dishwasher"
             },
-            "9ed26157-611c-4c99-914a-779941825625": {
-                "id_num": "9ed26157-611c-4c99-914a-779941825625",
+            "38c78b1c-8fa3-4c40-8a05-ed7c64950980": {
+                "id_num": "38c78b1c-8fa3-4c40-8a05-ed7c64950980",
                 "appliance_type": 2,
                 "quantity": 1.0,
                 "annual_energy_use": {
@@ -538,8 +551,8 @@
                 },
                 "display_name": "Laundry - washer"
             },
-            "ce92c391-23aa-4df8-8955-0669580a73a2": {
-                "id_num": "ce92c391-23aa-4df8-8955-0669580a73a2",
+            "fb1359a2-6e9b-4196-b455-dcdd5433c348": {
+                "id_num": "fb1359a2-6e9b-4196-b455-dcdd5433c348",
                 "appliance_type": 3,
                 "quantity": 1.0,
                 "annual_energy_use": {
@@ -548,8 +561,8 @@
                 },
                 "display_name": "Laundry - dryer"
             },
-            "af2799a7-1161-4492-aef9-a7fe3ff39923": {
-                "id_num": "af2799a7-1161-4492-aef9-a7fe3ff39923",
+            "70833668-6489-4867-82ee-6b002d594cc0": {
+                "id_num": "70833668-6489-4867-82ee-6b002d594cc0",
                 "appliance_type": 4,
                 "quantity": 1.0,
                 "annual_energy_use": {
@@ -558,8 +571,8 @@
                 },
                 "display_name": "Kitchen refrigerator"
             },
-            "08ac922a-09df-4df2-bdaf-ea3d3c1a253c": {
-                "id_num": "08ac922a-09df-4df2-bdaf-ea3d3c1a253c",
+            "6b03916e-7ad6-4245-93ee-d78df5760299": {
+                "id_num": "6b03916e-7ad6-4245-93ee-d78df5760299",
                 "appliance_type": 5,
                 "quantity": 1.0,
                 "annual_energy_use": {
@@ -568,8 +581,8 @@
                 },
                 "display_name": "kitchen freezer"
             },
-            "06c79d21-d2ae-4f55-a4c1-42660b6447db": {
-                "id_num": "06c79d21-d2ae-4f55-a4c1-42660b6447db",
+            "995a33fd-93bc-4c9d-bc11-a90870369dfb": {
+                "id_num": "995a33fd-93bc-4c9d-bc11-a90870369dfb",
                 "appliance_type": 7,
                 "quantity": 1.0,
                 "annual_energy_use": {
@@ -578,8 +591,8 @@
                 },
                 "display_name": "Kitchen cooking"
             },
-            "ed5ead31-d282-4b35-a32f-d20a2dcd69a7": {
-                "id_num": "ed5ead31-d282-4b35-a32f-d20a2dcd69a7",
+            "ec6812a7-005a-4551-b410-ae01ab9d014f": {
+                "id_num": "ec6812a7-005a-4551-b410-ae01ab9d014f",
                 "appliance_type": 13,
                 "quantity": 1.0,
                 "annual_energy_use": {
@@ -588,8 +601,8 @@
                 },
                 "display_name": "PHIUS+ MELS"
             },
-            "0c6a9eda-acbe-496b-b9da-0b604ed0db28": {
-                "id_num": "0c6a9eda-acbe-496b-b9da-0b604ed0db28",
+            "7223d9f5-688e-4343-a05d-fa29c8766830": {
+                "id_num": "7223d9f5-688e-4343-a05d-fa29c8766830",
                 "appliance_type": 14,
                 "quantity": 1.0,
                 "annual_energy_use": {

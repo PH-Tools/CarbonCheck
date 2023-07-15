@@ -310,10 +310,10 @@ def BuildingComponents(
     _start_row += 1
 
     # -------------------------------------------------------------------------
-    # -- Get all the row-data from the NBDM Envelope Objects
+    # -- Get all the row-data from the NBDM Assembly-Type Objects
     row_data_list.append(RowData.heading_1_line(_start_row, "ASSEMBLIES"))
     _start_row += 1
-    for assembly in _nbdm_project.envelope.assemblies.values():
+    for assembly in _nbdm_project.envelope.assembly_types.values():
         assembly_rows = build_row_data(
             _baseline_obj=assembly,
             _proposed_obj=None,
@@ -322,6 +322,22 @@ def BuildingComponents(
         )
         row_data_list.extend(assembly_rows)
         _start_row += len(assembly_rows) + 1
+    row_data_list.append(RowData.blank_line(_start_row))
+    _start_row += 1
+
+    # -------------------------------------------------------------------------
+    # -- Get all the row-data from the NBDM Glazing-Type Objects
+    row_data_list.append(RowData.heading_1_line(_start_row, "GLAZING"))
+    _start_row += 1
+    for glazing in _nbdm_project.envelope.glazing_types.values():
+        glazing_rows = build_row_data(
+            _baseline_obj=glazing,
+            _proposed_obj=None,
+            _change_obj=None,
+            _start_row=_start_row,
+        )
+        row_data_list.extend(glazing_rows)
+        _start_row += len(glazing_rows) + 1
     row_data_list.append(RowData.blank_line(_start_row))
     _start_row += 1
 

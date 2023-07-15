@@ -64,15 +64,17 @@ def find_log_file_path() -> pathlib.Path:
     """Returns the path to the application log file location."""
     log_file_path = find_application_path() / "Logs"
 
-    # -- Get the Logging file path
     if not log_file_path.exists():
         os.makedirs(log_file_path)
-    else:
-        # -- Remove old log files
-        for file in log_file_path.glob("*.log"):
-            file.unlink()
 
     return log_file_path
+
+
+def remove_old_log_files(_log_file_path: pathlib.Path) -> None:
+    """Remove old log files from the log file path."""
+    if _log_file_path.exists():
+        for file in _log_file_path.glob("*.log"):
+            file.unlink()
 
 
 def find_resources_path() -> pathlib.Path:
@@ -117,6 +119,6 @@ def log_exception(
     is used as s fallback.
     """
     log_path = find_log_file_path()
-    error_file = pathlib.Path(log_path, "error_log.txt")
+    error_file = pathlib.Path(log_path, "ERROR.log")
     with open(error_file, "w") as f:
         traceback.print_exception(exc_type, value, tb, file=f)

@@ -185,16 +185,27 @@ class Format_NBDM_PeakCoolingLoad:
 # -- Building Specifications
 
 
-class Format_NBDM_EnvelopeAssembly:
-    name = "Name"
+class Format_NBDM_AssemblyType:
+    name = "Assembly Type"
     u_value = "U-Value"
     r_value = "R-Value"
     ext_exposure = "Exterior Exposure"
     int_exposure = "Interior Exposure"
 
 
+class Format_NBDM_ApertureType:
+    name = "Window Type"
+    u_value = "U-Value"
+
+
+class Format_NBDM_GlazingType:
+    display_name = "Glazing Type"
+    u_value = "U-Value"
+    g_value = "SHGC"
+
+
 class Format_NBDM_Appliance:
-    display_name = "Name"
+    display_name = "Device"
     appliance_type = "Type Number"
     quantity = "Quantity"
     annual_energy_use = "Annual Energy Use"

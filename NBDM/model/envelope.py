@@ -14,7 +14,29 @@ from NBDM.model.collections import Collection
 
 
 @dataclass
-class NBDM_EnvelopeAssembly:
+class NBDM_GlazingType:
+    display_name: str
+    u_value: Unit
+    g_value: Unit
+
+    @property
+    def key(self) -> str:
+        return self.display_name
+
+    @classmethod
+    def from_dict(cls, _d: Dict) -> NBDM_GlazingType:
+        """Custom from_dict method to handle the Unit type."""
+        d = {}
+        for k, v in _d.items():
+            if isinstance(v, dict):
+                d[k] = Unit.from_dict(v)
+            else:
+                d[k] = v
+        return cls(**d)
+
+
+@dataclass
+class NBDM_AssemblyType:
     name: str
     u_value: Unit
     r_value: Unit
@@ -26,7 +48,7 @@ class NBDM_EnvelopeAssembly:
         return self.name
 
     @classmethod
-    def from_dict(cls, _d: Dict) -> NBDM_EnvelopeAssembly:
+    def from_dict(cls, _d: Dict) -> NBDM_AssemblyType:
         """Custom from_dict method to handle the Unit type."""
         d = {}
         for k, v in _d.items():
@@ -39,25 +61,44 @@ class NBDM_EnvelopeAssembly:
 
 @dataclass
 class NBDM_BuildingSegmentEnvelope:
-    _assemblies: Collection = field(default_factory=Collection)
+    _assembly_types: Collection = field(default_factory=Collection)
+    _glazing_types: Collection = field(default_factory=Collection)
 
     @property
-    def assemblies(self) -> Dict[str, NBDM_EnvelopeAssembly]:
-        return {k: self._assemblies[k] for k in sorted(self._assemblies.keys())}
+    def assembly_types(self) -> Dict[str, NBDM_AssemblyType]:
+        return {k: self._assembly_types[k] for k in sorted(self._assembly_types.keys())}
 
-    @assemblies.setter
-    def assemblies(self, value: Dict[str, NBDM_EnvelopeAssembly]) -> None:
-        self._assemblies = Collection()
+    @assembly_types.setter
+    def assembly_types(self, value: Dict[str, NBDM_AssemblyType]) -> None:
+        self._assembly_types = Collection()
         for v in value.values():
-            self._assemblies.add_item(v)
+            self.add_assembly_type(v)
 
-    def clear_envelope_assemblies(self) -> None:
+    @property
+    def glazing_types(self) -> Dict[str, NBDM_GlazingType]:
+        return {k: self._glazing_types[k] for k in sorted(self._glazing_types.keys())}
+
+    @glazing_types.setter
+    def glazing_types(self, value: Dict[str, NBDM_GlazingType]) -> None:
+        self._glazing_types = Collection()
+        for v in value.values():
+            self.add_glazing_type(v)
+
+    def clear_assembly_types(self) -> None:
         """Clear all envelope assemblies from the building segment."""
-        self._assemblies = Collection()
+        self._assembly_types = Collection()
 
-    def add_envelope_assembly(self, assembly: NBDM_EnvelopeAssembly) -> None:
+    def clear_glazing_types(self) -> None:
+        """Clear all glazing types from the building segment."""
+        self._glazing_types = Collection()
+
+    def add_assembly_type(self, assembly_type: NBDM_AssemblyType) -> None:
         """Add an envelope assembly to the building segment."""
-        self._assemblies.add_item(assembly)
+        self._assembly_types.add_item(assembly_type)
+
+    def add_glazing_type(self, glazing_type: NBDM_GlazingType) -> None:
+        """Add a new glazing type to the building segment."""
+        self._glazing_types.add_item(glazing_type)
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentEnvelope:
@@ -65,9 +106,14 @@ class NBDM_BuildingSegmentEnvelope:
         obj = cls()
 
         # -- Build all the Assemblies and add them to the object.
-        for assembly_dict in _d.get("_assemblies", {}).values():
-            new_assembly = NBDM_EnvelopeAssembly.from_dict(assembly_dict)
-            obj.add_envelope_assembly(new_assembly)
+        for assembly_dict in _d.get("_assembly_types", {}).values():
+            new_assembly_type = NBDM_AssemblyType.from_dict(assembly_dict)
+            obj.add_assembly_type(new_assembly_type)
+
+        # -- Build all the Glazing Types and add them to the object.
+        for glazing_dict in _d.get("_glazing_types", {}).values():
+            new_glazing_type = NBDM_GlazingType.from_dict(glazing_dict)
+            obj.add_glazing_type(new_glazing_type)
 
         return obj
 

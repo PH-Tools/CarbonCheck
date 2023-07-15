@@ -105,9 +105,13 @@ class CCModel(qtw.QWidget):
         self.logger.debug("Initializing CCModel.")
 
         self.output_format = _output_format
+        self.application_path = _application_path
         self.NBDM_project = NBDM_Project()
         self._configure_worker_threads()
-        self.application_path = _application_path
+
+        self.logger.debug("CCModel successfully initialized.")
+        self.logger.debug(f"CCModel.output_format={self.output_format.__file__}.")
+        self.logger.debug(f"CCModel.application_path={self.application_path}.")
 
     @property
     def worker_threads(self) -> Generator[qtc.QThread, None, None]:
@@ -231,9 +235,10 @@ class CCModel(qtw.QWidget):
 
     def set_NBDM_project(self, _project: NBDM_Project) -> None:
         """Set the NBDM_Project object and update the treeViews."""
-        self.logger.debug("Setting NBDM_Project object.")
-
+        self.logger.debug("Setting self.NBDM_project object.")
         self.NBDM_project = _project
+
+        self.logger.debug("Updating treeView with new self.NBDM_project data.")
         self.update_treeview_team()
         self.update_treeview_baseline()
         self.update_treeview_proposed()
@@ -281,6 +286,7 @@ class CCModel(qtw.QWidget):
         self.logger.debug("Updating treeView building-component data.")
         tree_bldg_component_data = {
             "ASSEMBLIES": {},
+            "GLAZING": {},
             "APPLIANCES": {},
             "HEATING": {},
             "COOLING": {},
@@ -289,12 +295,19 @@ class CCModel(qtw.QWidget):
             "RENEWABLE ENERGY": {},
         }
 
-        # -- In this case, we want to iterate over all the assemblies and display each one
-        for assembly in self.NBDM_project.envelope.assemblies.values():
-            tree_bldg_component_data["ASSEMBLIES"][assembly.key] = create_tree_data(
-                self.output_format, assembly
+        self.logger.debug("Updating treeView Assemblies from the Project.")
+        for assembly_type in self.NBDM_project.envelope.assembly_types.values():
+            tree_bldg_component_data["ASSEMBLIES"][assembly_type.key] = create_tree_data(
+                self.output_format, assembly_type
             )
 
+        self.logger.debug("Updating treeView Glazings from the Project.")
+        for glazing_type in self.NBDM_project.envelope.glazing_types.values():
+            tree_bldg_component_data["GLAZING"][glazing_type.key] = create_tree_data(
+                self.output_format, glazing_type
+            )
+
+        self.logger.debug("Updating treeView Appliances from the Project.")
         for appliance in self.NBDM_project.appliances.appliances.values():
             tree_bldg_component_data["APPLIANCES"][
                 appliance.display_name
@@ -328,8 +341,11 @@ class CCModel(qtw.QWidget):
         self.logger.info(f"Loading CarbonCheck data from file: {_filepath}")
 
         data = self.load_json_file_as_dict(_filepath)
+
+        self.logger.debug("Building NBDM_project object from file data.")
         self.NBDM_project = project.NBDM_Project.from_dict(data)
 
+        self.logger.debug("Updating treeViews with new NBDM Project data.")
         self.update_treeview_team()
         self.update_treeview_baseline()
         self.update_treeview_proposed()
@@ -355,7 +371,11 @@ class CCModel(qtw.QWidget):
 
     def write_json_file(self, _filepath: pathlib.Path) -> None:
         self.logger.info(f"Writing out JSON file: {_filepath}")
+        self.logger.debug("Call: self.set_project_from_gui()")
         self.set_project_from_gui()
+        self.logger.debug(
+            f"Call: self.write_NBDM_Project_to_json_file(self.NBDM_project, {_filepath})"
+        )
         NBDM_Project_to_json_file(self.NBDM_project, _filepath)
 
     def set_project_from_gui(self) -> None:
@@ -461,12 +481,23 @@ class CCModel(qtw.QWidget):
             )
             return
 
-        self.NBDM_project.envelope.clear_envelope_assemblies()
-        treeView_data_dict = self._get_treeViewData_as_dict("ASSEMBLIES", _data)
-        for assembly_data in treeView_data_dict.values():
-            self.NBDM_project.envelope.add_envelope_assembly(
+        self.logger.debug("Building NBDM Project.envelope.assemblies from treeView data")
+        self.NBDM_project.envelope.clear_assembly_types()
+        treeView_assembly_data = self._get_treeViewData_as_dict("ASSEMBLIES", _data)
+        for assembly_data in treeView_assembly_data.values():
+            self.NBDM_project.envelope.add_assembly_type(
                 NBDM_Object_from_treeView(
-                    self.output_format, assembly_data, envelope.NBDM_EnvelopeAssembly
+                    self.output_format, assembly_data, envelope.NBDM_AssemblyType
+                )
+            )
+
+        self.logger.debug("Building NBDM Project.envelope.glazing from treeView data")
+        self.NBDM_project.envelope.clear_glazing_types()
+        treeView_glazing_data = self._get_treeViewData_as_dict("GLAZING", _data)
+        for glazing_data in treeView_glazing_data.values():
+            self.NBDM_project.envelope.add_glazing_type(
+                NBDM_Object_from_treeView(
+                    self.output_format, glazing_data, envelope.NBDM_GlazingType
                 )
             )
 
@@ -480,6 +511,7 @@ class CCModel(qtw.QWidget):
             )
             return
 
+        self.logger.debug("Building NBDM Project.appliances from treeView data")
         self.NBDM_project.appliances.clear_appliances()
         treeView_data_dict = self._get_treeViewData_as_dict("APPLIANCES", _data)
         for appliance_data in treeView_data_dict.values():

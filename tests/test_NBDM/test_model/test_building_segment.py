@@ -1,14 +1,14 @@
-from dataclasses import asdict
 from copy import copy
 from NBDM.model.building import NBDM_Building, NBDM_BuildingSegment
 from NBDM.model import enums
+from NBDM.model import serialization
 
 
 def test_building_segment_to_dict(sample_NBDM_Building: NBDM_Building):
     for seg in sample_NBDM_Building.building_segments:
-        d1 = asdict(seg)
+        d1 = serialization.to_dict(seg)
         obj = NBDM_BuildingSegment.from_dict(d1)
-        d2 = asdict(obj)
+        d2 = serialization.to_dict(obj)
 
         assert d1 == d2
 

@@ -1,5 +1,5 @@
-from dataclasses import asdict
 from NBDM.model.project import NBDM_Project
+from NBDM.model import serialization
 
 
 def test_project(sample_NBDM_Project: NBDM_Project):
@@ -7,9 +7,9 @@ def test_project(sample_NBDM_Project: NBDM_Project):
 
 
 def test_project_to_dict(sample_NBDM_Project: NBDM_Project):
-    d1 = asdict(sample_NBDM_Project)
+    d1 = serialization.to_dict(sample_NBDM_Project)
     obj = NBDM_Project.from_dict(d1)
-    d2 = asdict(obj)
+    d2 = serialization.to_dict(obj)
 
     assert d1 == d2
 

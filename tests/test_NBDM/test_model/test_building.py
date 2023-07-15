@@ -1,6 +1,7 @@
 from dataclasses import asdict
 from copy import copy
 from NBDM.model.building import NBDM_Building
+from NBDM.model import serialization
 
 
 def test_building(sample_NBDM_Building):
@@ -8,9 +9,9 @@ def test_building(sample_NBDM_Building):
 
 
 def test_building_to_dict(sample_NBDM_Building: NBDM_Building):
-    d1 = asdict(sample_NBDM_Building)
+    d1 = serialization.to_dict(sample_NBDM_Building)
     obj = NBDM_Building.from_dict(d1)
-    d2 = asdict(obj)
+    d2 = serialization.to_dict(obj)
 
     assert d1 == d2
     assert len(sample_NBDM_Building.building_segments) == len(obj.building_segments)

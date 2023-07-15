@@ -1,18 +1,18 @@
-from dataclasses import asdict
+from NBDM.model import serialization
 from NBDM.model.project import NBDM_Project, NBDM_Variants, NBDM_Variant
 
 
 def test_variants_to_dict(sample_NBDM_Project: NBDM_Project):
-    d1 = asdict(sample_NBDM_Project.variants)
+    d1 = serialization.to_dict(sample_NBDM_Project.variants)
     obj = NBDM_Variants.from_dict(d1)
-    d2 = asdict(obj)
+    d2 = serialization.to_dict(obj)
 
     assert d1 == d2
 
     for variant in sample_NBDM_Project.variants:
-        d1 = asdict(variant)
+        d1 = serialization.to_dict(variant)
         obj = NBDM_Variant.from_dict(d1)
-        d2 = asdict(obj)
+        d2 = serialization.to_dict(obj)
 
     assert d1 == d2
 

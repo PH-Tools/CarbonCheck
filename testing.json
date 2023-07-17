@@ -531,8 +531,8 @@
     },
     "appliances": {
         "_appliances": {
-            "f353fb5e-05be-4fee-b6ad-d7847db739a4": {
-                "id_num": "f353fb5e-05be-4fee-b6ad-d7847db739a4",
+            "bf489937-dfc9-4630-af20-196104794d44": {
+                "id_num": "bf489937-dfc9-4630-af20-196104794d44",
                 "appliance_type": "Dishwasher",
                 "quantity": 1,
                 "annual_energy_use": {
@@ -541,8 +541,8 @@
                 },
                 "display_name": "Kitchen Dishwasher"
             },
-            "18c36d93-a956-46dd-a6be-fa15da63d31f": {
-                "id_num": "18c36d93-a956-46dd-a6be-fa15da63d31f",
+            "7fa60c83-b596-48b2-afe6-d093ffc93964": {
+                "id_num": "7fa60c83-b596-48b2-afe6-d093ffc93964",
                 "appliance_type": "Cooking",
                 "quantity": 1,
                 "annual_energy_use": {
@@ -551,8 +551,8 @@
                 },
                 "display_name": "Kitchen cooking"
             },
-            "a0c62d68-ee41-4e68-82cc-947754800294": {
-                "id_num": "a0c62d68-ee41-4e68-82cc-947754800294",
+            "c9091efe-c877-4401-b5d8-10bca16edbc8": {
+                "id_num": "c9091efe-c877-4401-b5d8-10bca16edbc8",
                 "appliance_type": "Refrigerator",
                 "quantity": 1,
                 "annual_energy_use": {
@@ -561,8 +561,8 @@
                 },
                 "display_name": "Kitchen refrigerator"
             },
-            "49fcfbe7-9817-40bb-877f-be6b62717781": {
-                "id_num": "49fcfbe7-9817-40bb-877f-be6b62717781",
+            "6150794b-e09c-480a-9ff9-f5563a076cd3": {
+                "id_num": "6150794b-e09c-480a-9ff9-f5563a076cd3",
                 "appliance_type": "Clothes Dryer",
                 "quantity": 1,
                 "annual_energy_use": {
@@ -571,8 +571,8 @@
                 },
                 "display_name": "Laundry - dryer"
             },
-            "4e98f06d-6f17-4778-80e1-4ffda4809fb6": {
-                "id_num": "4e98f06d-6f17-4778-80e1-4ffda4809fb6",
+            "c12a23c4-cce9-4643-b3cd-eb2e17e4c8f4": {
+                "id_num": "c12a23c4-cce9-4643-b3cd-eb2e17e4c8f4",
                 "appliance_type": "Clothes Washer",
                 "quantity": 1,
                 "annual_energy_use": {
@@ -581,8 +581,8 @@
                 },
                 "display_name": "Laundry - washer"
             },
-            "887db64d-8358-4806-8c0a-44886de722e1": {
-                "id_num": "887db64d-8358-4806-8c0a-44886de722e1",
+            "038eb9e2-e73e-422a-aea1-6d15b16cef3a": {
+                "id_num": "038eb9e2-e73e-422a-aea1-6d15b16cef3a",
                 "appliance_type": "Interior Lighting",
                 "quantity": 1,
                 "annual_energy_use": {
@@ -591,8 +591,8 @@
                 },
                 "display_name": "PHIUS+ Interior Lighting"
             },
-            "a784c087-bf7c-41b5-b665-efd6dc1403c6": {
-                "id_num": "a784c087-bf7c-41b5-b665-efd6dc1403c6",
+            "2c657004-4f5b-423c-8a7d-06ec73005ebd": {
+                "id_num": "2c657004-4f5b-423c-8a7d-06ec73005ebd",
                 "appliance_type": "Misc. Electric Loads",
                 "quantity": 1,
                 "annual_energy_use": {
@@ -601,8 +601,8 @@
                 },
                 "display_name": "PHIUS+ MELS"
             },
-            "86554be2-fcd4-4216-b6c0-d1738ed5a58b": {
-                "id_num": "86554be2-fcd4-4216-b6c0-d1738ed5a58b",
+            "b20c980c-1e3d-4700-b481-2e2abe27359f": {
+                "id_num": "b20c980c-1e3d-4700-b481-2e2abe27359f",
                 "appliance_type": "Freezer",
                 "quantity": 1,
                 "annual_energy_use": {
@@ -647,7 +647,19 @@
                 }
             }
         },
-        "_tank_devices": {}
+        "_tank_devices": {
+            "Tank 1": {
+                "display_name": "Tank 1",
+                "heat_loss_rate": {
+                    "value": 6.0,
+                    "unit": "BTU/HR-F"
+                },
+                "volume": {
+                    "value": 100.0,
+                    "unit": "GA"
+                }
+            }
+        }
     },
     "ventilation_systems": {
         "_devices": {
@@ -719,7 +731,46 @@
         }
     },
     "renewable_systems": {
-        "_solar_dhw_devices": {},
-        "_solar_pv_devices": {}
+        "_solar_dhw_devices": {
+            "Solar Hot-Water: 60.000 (FT2)": {
+                "footprint": {
+                    "value": 60.0,
+                    "unit": "FT2"
+                },
+                "annual_dhw_energy": {
+                    "value": 10230.7,
+                    "unit": "KBTU"
+                },
+                "annual_dhw_contribution": {
+                    "value": 0.549,
+                    "unit": "-"
+                },
+                "annual_heating_energy": {
+                    "value": 0.0,
+                    "unit": "KBTU"
+                },
+                "annual_heating_contribution": {
+                    "value": 0.0,
+                    "unit": "-"
+                }
+            }
+        },
+        "_solar_pv_devices": {
+            "Solar PV: System 1": {
+                "display_name": "System 1",
+                "footprint": {
+                    "value": 3547.9,
+                    "unit": "FT2"
+                },
+                "size": {
+                    "value": 47.0,
+                    "unit": "KW"
+                },
+                "annual_pv_energy": {
+                    "value": 56114.0,
+                    "unit": "KWH"
+                }
+            }
+        }
     }
 }

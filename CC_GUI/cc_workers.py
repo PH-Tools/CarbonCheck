@@ -510,11 +510,11 @@ class WorkerReadBldgComponentData(qtc.QObject):
             return None
 
         with phpp_conn.xl.in_silent_mode():
-            # _project.envelope = create_NBDM_Envelope(phpp_conn)
-            # _project.appliances = create_NBDM_Appliances(phpp_conn)
-            # _project.heating_systems = create_NBDM_Heating_Systems(phpp_conn)
-            # _project.cooling_systems = create_NBDM_Cooling_Systems(phpp_conn)
-            # _project.ventilation_systems = create_NBDM_Ventilation_Systems(phpp_conn)
+            _project.envelope = create_NBDM_Envelope(phpp_conn)
+            _project.appliances = create_NBDM_Appliances(phpp_conn)
+            _project.heating_systems = create_NBDM_Heating_Systems(phpp_conn)
+            _project.cooling_systems = create_NBDM_Cooling_Systems(phpp_conn)
+            _project.ventilation_systems = create_NBDM_Ventilation_Systems(phpp_conn)
             _project.dhw_systems = create_NBDM_DHW_Systems(phpp_conn)
             _project.renewable_systems = create_NBDM_Renewable_Systems(phpp_conn)
 

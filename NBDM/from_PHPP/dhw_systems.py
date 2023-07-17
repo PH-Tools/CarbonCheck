@@ -5,7 +5,11 @@
 
 from PHX.PHPP.phpp_app import PHPPConnection
 
-from NBDM.model.dhw_systems import NBDM_BuildingSegmentDHWSystems, NBDM_DHWHeatingDevice
+from NBDM.model.dhw_systems import (
+    NBDM_BuildingSegmentDHWSystems,
+    NBDM_DHWHeatingDevice,
+    NBDM_DHWTankDevice,
+)
 from NBDM.model.enums import heating_device_type
 
 
@@ -38,5 +42,18 @@ def create_NBDM_DHW_Systems(
                 coverage_segment_hot_water=heating_device.device_dhw_percentage,
             )
         )
+
+    for i, tank_device in enumerate(_phpp_conn.hot_water.get_all_tank_device_data()):
+        print(">", tank_device.type)
+
+        if str(tank_device.type).startswith("0"):
+            continue
+
+        tank = NBDM_DHWTankDevice()
+        tank.display_name = f"Tank {i+1}"
+        tank.heat_loss_rate = tank_device.heat_loss_rate
+        tank.volume = tank_device.volume
+
+        obj.add_tank_device(tank)
 
     return obj

@@ -230,9 +230,9 @@ class Format_NBDM_DHWHeatingDevice:
 
 
 class Format_NBDM_DHWTankDevice:
-    device_type = "Device Type"
-    # capacity = "Size"
-    # quantity = "Quantity"
+    display_name = "Name"
+    heat_loss_rate = "Heat Loss Rate"
+    volume = "Volume"
 
 
 class Format_NBDM_SolarDHWDevice:

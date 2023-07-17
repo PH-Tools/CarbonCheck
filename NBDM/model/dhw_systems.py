@@ -39,21 +39,22 @@ class NBDM_DHWHeatingDevice:
 
 @dataclass
 class NBDM_DHWTankDevice:
-    device_type: dhw_tank_device_type = field(default=dhw_tank_device_type.NONE)
-    coverage_segment_hot_water: Unit = field(default_factory=Unit)
-
-    @property
-    def display_name(self) -> str:
-        return str(self.device_type.name).title().replace("_", " ")
+    display_name: str = ""
+    heat_loss_rate: Unit = field(default_factory=Unit)
+    volume: Unit = field(default_factory=Unit)
 
     @property
     def key(self) -> str:
-        return self.device_type.name
+        return self.display_name
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_DHWTankDevice:
         """Custom from_dict method to handle the Unit type."""
-        return cls(dhw_tank_device_type(_d["type_name"]))
+        return cls(
+            _d["display_name"],
+            Unit.from_dict(_d["heat_loss_rate"]),
+            Unit.from_dict(_d["volume"]),
+        )
 
 
 @dataclass

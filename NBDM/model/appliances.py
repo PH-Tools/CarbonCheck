@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Dict, get_type_hints
+from typing import Dict, get_type_hints, Generator, Any
 from uuid import uuid4, UUID
 
 from ph_units.unit_type import Unit
@@ -33,7 +33,7 @@ class NBDM_Appliance:
         d = {}
 
         for field_name, field_type in get_type_hints(cls).items():
-            if field_name not in _d.keys():
+            if field_name not in _d.keys() and field_name != "id_num":
                 msg = f"Error: Missing Key  {field_name} in {cls.__name__} from_dict method."
                 raise KeyError(msg)
 
@@ -49,11 +49,14 @@ class NBDM_Appliance:
 
 @dataclass
 class NBDM_BuildingSegmentAppliances:
-    _appliances: Collection = field(default_factory=Collection)
+    _appliances: Collection[NBDM_Appliance] = field(default_factory=Collection)
 
     @property
-    def appliances(self) -> Dict[str, NBDM_Appliance]:
-        return {k: self._appliances[k] for k in sorted(self._appliances.keys())}
+    def appliances(self) -> Generator[NBDM_Appliance, None, None]:
+        return (
+            self._appliances[a.key]
+            for a in sorted(self._appliances.values(), key=lambda a: a.display_name)
+        )
 
     @appliances.setter
     def appliances(self, value: Dict[str, NBDM_Appliance]) -> None:
@@ -83,9 +86,9 @@ class NBDM_BuildingSegmentAppliances:
     def __sub__(
         self, other: NBDM_BuildingSegmentAppliances
     ) -> NBDM_BuildingSegmentAppliances:
-        return operations.subtract_NBDM_Objects(self, other)
+        raise NotImplementedError()
 
     def __add__(
         self, other: NBDM_BuildingSegmentAppliances
     ) -> NBDM_BuildingSegmentAppliances:
-        return operations.add_NBDM_Objects(self, other)
+        raise NotImplementedError()

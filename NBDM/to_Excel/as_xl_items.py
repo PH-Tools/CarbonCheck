@@ -4,7 +4,7 @@
 """Functions to convert NBDM Project/Building/Segment objects into Excel Report writable items."""
 
 from dataclasses import dataclass
-from typing import Optional, List, Union, Tuple, Any
+from typing import Optional, List, Union, Tuple, Any, Iterable
 
 from ph_units.unit_type import Unit
 
@@ -298,6 +298,28 @@ def BuildingSegment(
     return build_xl_items_from_row_data(row_data_list, _sheet_name)
 
 
+def _building_component(
+    _name: str, _row_data_list: List[RowData], _start_row: int, _items: Iterable
+) -> tuple[List[RowData], int]:
+    """Add the Building Component's data to the row_data_list."""
+
+    _row_data_list.append(RowData.heading_1_line(_start_row, _name))
+    _start_row += 1
+    for item in _items:
+        item_rows = build_row_data(
+            _baseline_obj=item,
+            _proposed_obj=None,
+            _change_obj=None,
+            _start_row=_start_row,
+        )
+        _row_data_list.extend(item_rows)
+        _start_row += len(item_rows) + 1
+    _row_data_list.append(RowData.blank_line(_start_row))
+    _start_row += 1
+
+    return _row_data_list, _start_row
+
+
 def BuildingComponents(
     _sheet_name: str, _start_row: int, _nbdm_project: project.NBDM_Project
 ) -> List[xl_data.XlItem]:
@@ -310,52 +332,46 @@ def BuildingComponents(
     _start_row += 1
 
     # -------------------------------------------------------------------------
-    # -- Get all the row-data from the NBDM Assembly-Type Objects
-    row_data_list.append(RowData.heading_1_line(_start_row, "ASSEMBLIES"))
-    _start_row += 1
-    for assembly in _nbdm_project.envelope.assembly_types.values():
-        assembly_rows = build_row_data(
-            _baseline_obj=assembly,
-            _proposed_obj=None,
-            _change_obj=None,
-            _start_row=_start_row,
-        )
-        row_data_list.extend(assembly_rows)
-        _start_row += len(assembly_rows) + 1
-    row_data_list.append(RowData.blank_line(_start_row))
-    _start_row += 1
-
-    # -------------------------------------------------------------------------
-    # -- Get all the row-data from the NBDM Glazing-Type Objects
-    row_data_list.append(RowData.heading_1_line(_start_row, "GLAZING"))
-    _start_row += 1
-    for glazing in _nbdm_project.envelope.glazing_types.values():
-        glazing_rows = build_row_data(
-            _baseline_obj=glazing,
-            _proposed_obj=None,
-            _change_obj=None,
-            _start_row=_start_row,
-        )
-        row_data_list.extend(glazing_rows)
-        _start_row += len(glazing_rows) + 1
-    row_data_list.append(RowData.blank_line(_start_row))
-    _start_row += 1
-
-    # -------------------------------------------------------------------------
-    # -- Get all the row-data from the NBDM Appliance Objects
-    row_data_list.append(RowData.heading_1_line(_start_row, "APPLIANCES"))
-    _start_row += 1
-    for appliance in _nbdm_project.appliances.appliances.values():
-        appliance_rows = build_row_data(
-            _baseline_obj=appliance,
-            _proposed_obj=None,
-            _change_obj=None,
-            _start_row=_start_row,
-        )
-        row_data_list.extend(appliance_rows)
-        _start_row += len(appliance_rows) + 1
-    row_data_list.append(RowData.blank_line(_start_row))
-    _start_row += 1
+    # -- Get all the detailed data from the NBDM Objects
+    row_data_list, _start_row = _building_component(
+        "ASSEMBLIES", row_data_list, _start_row, _nbdm_project.envelope.assembly_types
+    )
+    row_data_list, _start_row = _building_component(
+        "GLAZING", row_data_list, _start_row, _nbdm_project.envelope.glazing_types
+    )
+    row_data_list, _start_row = _building_component(
+        "APPLIANCES", row_data_list, _start_row, _nbdm_project.appliances.appliances
+    )
+    row_data_list, _start_row = _building_component(
+        "HEATING", row_data_list, _start_row, _nbdm_project.heating_systems.devices
+    )
+    row_data_list, _start_row = _building_component(
+        "COOLING", row_data_list, _start_row, _nbdm_project.cooling_systems.devices
+    )
+    row_data_list, _start_row = _building_component(
+        "VENTILATION",
+        row_data_list,
+        _start_row,
+        _nbdm_project.ventilation_systems.devices,
+    )
+    row_data_list, _start_row = _building_component(
+        "HOT WATER HEATERS",
+        row_data_list,
+        _start_row,
+        _nbdm_project.dhw_systems.heating_devices,
+    )
+    row_data_list, _start_row = _building_component(
+        "HOT WATER TANKS",
+        row_data_list,
+        _start_row,
+        _nbdm_project.dhw_systems.tank_devices,
+    )
+    row_data_list, _start_row = _building_component(
+        "RENEWABLE ENERGY",
+        row_data_list,
+        _start_row,
+        _nbdm_project.renewable_systems.devices,
+    )
 
     # -------------------------------------------------------------------------
     return build_xl_items_from_row_data(row_data_list, _sheet_name)

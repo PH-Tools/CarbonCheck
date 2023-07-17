@@ -5,7 +5,7 @@
 
 import enum
 import json
-from typing import List, Dict, Any, Optional, Tuple, Union, get_type_hints
+from typing import List, Dict, Any, Optional, Tuple, Union, get_type_hints, Type
 from types import ModuleType
 from collections import namedtuple
 from PyQt6 import QtGui as qtg
@@ -205,9 +205,13 @@ def is_NBDM_class(_class: type) -> bool:
     return True
 
 
-def is_enum(_class: type) -> bool:
+def is_enum(_class: Type) -> bool:
     """Return True if the class provided is an enum.Enum"""
-    return issubclass(_class, enum.Enum)
+    try:
+        return issubclass(_class, enum.Enum)
+    except TypeError as e:
+        msg = f"Error: Cannot evaluate '{_class}', type('{type(_class)}') using issubclass()?"
+        raise TypeError(msg, e)
 
 
 def get_formatted_field_name(
@@ -258,43 +262,28 @@ def create_tree_data(_output_format, _obj: Any) -> Dict[str, Any]:
     # Note: cannot use dataclasses.fields() 'cus __future__ annotations
     # breaks it and all .type comes as str.
 
-    # with open(f"{_obj.__class__.__name__}.txt", "w") as f:
-    #     f.write(str(_obj))
-    #     f.write("\n")
-    #     f.write(
-    #         f"get_type_hints(_obj.__class__).keys()={str(get_type_hints(_obj.__class__).keys())}"
-    #     )
-    #     f.write("\n")
-
     d = {}
     for field_name, field_type in get_type_hints(_obj.__class__).items():
-        # f.write(f"    {field_name}=type: {field_type}\n")
         # -- Exclude the Variants and Envelope from the Project data view.
         if field_name in ["variants", "envelope"]:
-            # f.write(f"        '{field_name}' excluded. skipping....\n")
             continue
 
         # -- Exclude whatever this is
         if is_dict_field(field_type):
-            # f.write(f"        '{field_name}' is dict field. skipping....\n")
             continue
 
         # -- Figure out the right view-name to use
         field_view_name = get_formatted_field_name(_output_format, _obj, field_name)
-        # f.write(f"        '{field_name}' field_view_name: {field_view_name}\n")
         if not field_view_name:
             continue
 
         if is_NBDM_class(field_type):
-            # f.write(f"        '{field_type}' is_NBDM_class. recursing....\n")
             d[field_view_name] = create_tree_data(
                 _output_format, getattr(_obj, field_name)
             )
         elif is_enum(field_type):
-            # f.write(f"        '{field_type}' is_enum. getting value....\n")
             d[field_view_name] = getattr(_obj, field_name).value
         else:
-            # f.write(f"        '{field_type}' is simple type. getting value....\n")
             d[field_view_name] = getattr(_obj, field_name)
     return d
 

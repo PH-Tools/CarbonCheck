@@ -22,10 +22,9 @@ from CC_GUI.views.ui_files.layout_bldg_components import Ui_Form
 class Window_BuildingComponents(qtw.QWidget):
     """Building Components Window View."""
 
-    got_envelope_data = qtc.pyqtSignal(dict)
-    got_appliance_data = qtc.pyqtSignal(dict)
+    got_building_component_data = qtc.pyqtSignal(dict)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.logger = logging.getLogger(__name__)
 
@@ -53,20 +52,12 @@ class Window_BuildingComponents(qtw.QWidget):
     # treeView Getters
 
     @qtc.pyqtSlot()
-    def get_treeView_data_envelope(self) -> None:
+    def get_treeView_data_building_components(self) -> None:
         """Return the 'Envelope' treeView data as a dict."""
-        self.logger.info("Getting Project Envelope data from the GUI.")
+        self.logger.info("Getting Project Building Component data from the GUI.")
         _treeview_model = getattr(self.ui, "tree_view_model_compo_info", None)
         data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
-        self.got_envelope_data.emit(data)
-
-    @qtc.pyqtSlot()
-    def get_treeView_data_appliances(self) -> None:
-        """Return the 'Appliances' treeView data as a dict."""
-        self.logger.info("Getting Project Appliance data from the GUI.")
-        _treeview_model = getattr(self.ui, "tree_view_model_compo_info", None)
-        data = get_treeView_model_as_dict(_treeview_model) if _treeview_model else {}
-        self.got_appliance_data.emit(data)
+        self.got_building_component_data.emit(data)
 
     # -------------------------------------------------------------------------
     # treView Setters

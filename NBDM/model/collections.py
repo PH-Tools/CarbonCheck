@@ -13,41 +13,48 @@ from typing import (
     ValuesView,
     KeysView,
     Protocol,
+    TypeVar,
+    Generic,
 )
 
 
 class CollectionItem(Protocol):
+    """Minimum Protocol for Collection Items."""
+
     key: Any
 
     def from_dict(self, _d: Dict) -> CollectionItem:
         ...
 
 
-class Collection:
+T = TypeVar("T", bound=CollectionItem)
+
+
+class Collection(Generic[T]):
     def __init__(self) -> None:
-        self._data: Dict[str, Any] = {}
+        self._data: Dict[str, T] = {}
 
     def __getitem__(self, key: str) -> Any:
         return self._data[key]
 
-    def __setitem__(self, key: str, value: CollectionItem) -> None:
+    def __setitem__(self, key: str, value: T) -> None:
         msg = "Please use the 'add_item' method to add items to the Collection."
         raise NotImplementedError(msg)
 
-    def add_item(self, _item: CollectionItem) -> None:
+    def add_item(self, _item: T) -> None:
         """Add an item to the collection."""
         self._data[_item.key] = _item
 
-    def items(self) -> ItemsView[str, Any]:
+    def items(self) -> ItemsView[str, T]:
         return self._data.items()
 
     def keys(self) -> KeysView[str]:
         return self._data.keys()
 
-    def values(self) -> ValuesView[Any]:
+    def values(self) -> ValuesView[T]:
         return self._data.values()
 
-    def __iter__(self) -> Iterator[Any]:
+    def __iter__(self) -> Iterator[T]:
         return iter(self._data.values())
 
     def __len__(self) -> int:

@@ -24,17 +24,43 @@ class construction_method(Enum):
 
 
 class appliance_type(Enum):
-    DISHWASHER = 1
-    CLOTHES_WASHER = 2
-    CLOTHES_DRYER = 3
-    REFRIGERATOR = 4
-    FREEZER = 5
-    FRIDGE_FREEZER = 6
-    COOKING = 7
-    CUSTOM = 11
-    MEL = 13
-    LIGHTING_INTERIOR = 14
-    LIGHTING_EXTERIOR = 15
-    LIGHTING_GARAGE = 16
-    CUSTOM_LIGHTING = 17
-    CUSTOM_MEL = 18
+    DISHWASHER = "Dishwasher"
+    CLOTHES_WASHER = "Clothes Washer"
+    CLOTHES_DRYER = "Clothes Dryer"
+    REFRIGERATOR = "Refrigerator"
+    FREEZER = "Freezer"
+    FRIDGE_FREEZER = "Fridge / Freezer"
+    COOKING = "Cooking"
+    CUSTOM = "Custom"
+    MEL = "Misc. Electric Loads"
+    LIGHTING_INTERIOR = "Interior Lighting"
+    LIGHTING_EXTERIOR = "Exterior Lighting"
+    LIGHTING_GARAGE = "Garage Lighting"
+    CUSTOM_LIGHTING = "Custom Lighting"
+    CUSTOM_MEL = "Custom MEL"
+
+
+class heating_device_type(Enum):
+    NONE = "None"
+    COMPACT_HEAT_PUMP = "Compact Heat Pumps"
+    HEAT_PUMP = "Heat Pumps"
+    DISTRICT_HEATING = "District Heating"
+    BOILER = "Boilers"
+    DIRECT_ELECTRIC = "Direct Electric"
+    OTHER = "Other"
+
+
+class cooling_device_type(Enum):
+    NONE = "None"
+    SUPPLY_AIR = "Ventilation Supply Air"
+    RECIRCULATION_AIR = "Recirculation Air"
+    DEHUMIDIFICATION = "Dedicated Dehumidification"
+    PANEL = "Panel Cooling"
+
+
+class renewable_device_type(Enum):
+    NONE = "None"
+
+
+class dhw_tank_device_type(Enum):
+    NONE = "None"

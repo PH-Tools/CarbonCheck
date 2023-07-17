@@ -253,7 +253,7 @@
                                     "unit": "BTU/HR"
                                 },
                                 "losses_transmission": {
-                                    "value": 1348.0,
+                                    "value": -1348.0,
                                     "unit": "BTU/HR"
                                 },
                                 "losses_ventilation": {
@@ -451,7 +451,7 @@
                                     "unit": "BTU/HR"
                                 },
                                 "losses_transmission": {
-                                    "value": 5371.8,
+                                    "value": -5371.8,
                                     "unit": "BTU/HR"
                                 },
                                 "losses_ventilation": {
@@ -531,101 +531,194 @@
     },
     "appliances": {
         "_appliances": {
-            "ed309b2d-fc42-423f-ab64-05497fb21028": {
-                "id_num": "ed309b2d-fc42-423f-ab64-05497fb21028",
-                "appliance_type": 1,
-                "quantity": 1.0,
+            "f353fb5e-05be-4fee-b6ad-d7847db739a4": {
+                "id_num": "f353fb5e-05be-4fee-b6ad-d7847db739a4",
+                "appliance_type": "Dishwasher",
+                "quantity": 1,
                 "annual_energy_use": {
-                    "value": 4563.85,
+                    "value": 4563.9,
                     "unit": "KWH"
                 },
                 "display_name": "Kitchen Dishwasher"
             },
-            "38c78b1c-8fa3-4c40-8a05-ed7c64950980": {
-                "id_num": "38c78b1c-8fa3-4c40-8a05-ed7c64950980",
-                "appliance_type": 2,
-                "quantity": 1.0,
-                "annual_energy_use": {
-                    "value": 4405.000080000001,
-                    "unit": "KWH"
-                },
-                "display_name": "Laundry - washer"
-            },
-            "fb1359a2-6e9b-4196-b455-dcdd5433c348": {
-                "id_num": "fb1359a2-6e9b-4196-b455-dcdd5433c348",
-                "appliance_type": 3,
-                "quantity": 1.0,
-                "annual_energy_use": {
-                    "value": 22334.349119999995,
-                    "unit": "KWH"
-                },
-                "display_name": "Laundry - dryer"
-            },
-            "70833668-6489-4867-82ee-6b002d594cc0": {
-                "id_num": "70833668-6489-4867-82ee-6b002d594cc0",
-                "appliance_type": 4,
-                "quantity": 1.0,
-                "annual_energy_use": {
-                    "value": 284.7,
-                    "unit": "KWH"
-                },
-                "display_name": "Kitchen refrigerator"
-            },
-            "6b03916e-7ad6-4245-93ee-d78df5760299": {
-                "id_num": "6b03916e-7ad6-4245-93ee-d78df5760299",
-                "appliance_type": 5,
-                "quantity": 1.0,
-                "annual_energy_use": {
-                    "value": 289.08,
-                    "unit": "KWH"
-                },
-                "display_name": "kitchen freezer"
-            },
-            "995a33fd-93bc-4c9d-bc11-a90870369dfb": {
-                "id_num": "995a33fd-93bc-4c9d-bc11-a90870369dfb",
-                "appliance_type": 7,
-                "quantity": 1.0,
+            "18c36d93-a956-46dd-a6be-fa15da63d31f": {
+                "id_num": "18c36d93-a956-46dd-a6be-fa15da63d31f",
+                "appliance_type": "Cooking",
+                "quantity": 1,
                 "annual_energy_use": {
                     "value": 0.0,
                     "unit": "KWH"
                 },
                 "display_name": "Kitchen cooking"
             },
-            "ec6812a7-005a-4551-b410-ae01ab9d014f": {
-                "id_num": "ec6812a7-005a-4551-b410-ae01ab9d014f",
-                "appliance_type": 13,
-                "quantity": 1.0,
+            "a0c62d68-ee41-4e68-82cc-947754800294": {
+                "id_num": "a0c62d68-ee41-4e68-82cc-947754800294",
+                "appliance_type": "Refrigerator",
+                "quantity": 1,
                 "annual_energy_use": {
-                    "value": 23596.808650000003,
+                    "value": 284.7,
                     "unit": "KWH"
                 },
-                "display_name": "PHIUS+ MELS"
+                "display_name": "Kitchen refrigerator"
             },
-            "7223d9f5-688e-4343-a05d-fa29c8766830": {
-                "id_num": "7223d9f5-688e-4343-a05d-fa29c8766830",
-                "appliance_type": 14,
-                "quantity": 1.0,
+            "49fcfbe7-9817-40bb-877f-be6b62717781": {
+                "id_num": "49fcfbe7-9817-40bb-877f-be6b62717781",
+                "appliance_type": "Clothes Dryer",
+                "quantity": 1,
+                "annual_energy_use": {
+                    "value": 22334.3,
+                    "unit": "KWH"
+                },
+                "display_name": "Laundry - dryer"
+            },
+            "4e98f06d-6f17-4778-80e1-4ffda4809fb6": {
+                "id_num": "4e98f06d-6f17-4778-80e1-4ffda4809fb6",
+                "appliance_type": "Clothes Washer",
+                "quantity": 1,
+                "annual_energy_use": {
+                    "value": 4405.0,
+                    "unit": "KWH"
+                },
+                "display_name": "Laundry - washer"
+            },
+            "887db64d-8358-4806-8c0a-44886de722e1": {
+                "id_num": "887db64d-8358-4806-8c0a-44886de722e1",
+                "appliance_type": "Interior Lighting",
+                "quantity": 1,
                 "annual_energy_use": {
                     "value": 38707.2,
                     "unit": "KWH"
                 },
                 "display_name": "PHIUS+ Interior Lighting"
+            },
+            "a784c087-bf7c-41b5-b665-efd6dc1403c6": {
+                "id_num": "a784c087-bf7c-41b5-b665-efd6dc1403c6",
+                "appliance_type": "Misc. Electric Loads",
+                "quantity": 1,
+                "annual_energy_use": {
+                    "value": 23596.8,
+                    "unit": "KWH"
+                },
+                "display_name": "PHIUS+ MELS"
+            },
+            "86554be2-fcd4-4216-b6c0-d1738ed5a58b": {
+                "id_num": "86554be2-fcd4-4216-b6c0-d1738ed5a58b",
+                "appliance_type": "Freezer",
+                "quantity": 1,
+                "annual_energy_use": {
+                    "value": 289.1,
+                    "unit": "KWH"
+                },
+                "display_name": "kitchen freezer"
             }
         }
     },
     "heating_systems": {
-        "a": 1
+        "_devices": {
+            "HEAT_PUMP": {
+                "device_type": "Heat Pumps",
+                "coverage_segment_heating": {
+                    "value": 1.0,
+                    "unit": "-"
+                }
+            }
+        }
     },
     "cooling_systems": {
-        "a": 1
+        "_devices": {
+            "RECIRCULATION_AIR": {
+                "device_type": "Recirculation Air",
+                "cooling_device_name": "Minisplit classroom",
+                "SEER": {
+                    "value": 11.2,
+                    "unit": "BTUH/W"
+                },
+                "num_units": 12
+            }
+        }
     },
     "dhw_systems": {
-        "a": 1
+        "_heating_devices": {
+            "DIRECT_ELECTRIC": {
+                "device_type": "Direct Electric",
+                "coverage_segment_hot_water": {
+                    "value": 1.0,
+                    "unit": "-"
+                }
+            }
+        },
+        "_tank_devices": {}
     },
     "ventilation_systems": {
-        "a": 1
+        "_devices": {
+            "HRV-1": {
+                "display_name": "HRV-1",
+                "vent_unit_type_name": "Comfoair 550",
+                "quantity": 1,
+                "hr_efficiency": {
+                    "value": 0.84,
+                    "unit": "-"
+                },
+                "mr_efficiency": {
+                    "value": 0.0,
+                    "unit": "-"
+                }
+            },
+            "HRV-2": {
+                "display_name": "HRV-2",
+                "vent_unit_type_name": "Comfoair 550",
+                "quantity": 1,
+                "hr_efficiency": {
+                    "value": 0.84,
+                    "unit": "-"
+                },
+                "mr_efficiency": {
+                    "value": 0.0,
+                    "unit": "-"
+                }
+            },
+            "HRV-3": {
+                "display_name": "HRV-3",
+                "vent_unit_type_name": "Comfoair 550",
+                "quantity": 1,
+                "hr_efficiency": {
+                    "value": 0.84,
+                    "unit": "-"
+                },
+                "mr_efficiency": {
+                    "value": 0.0,
+                    "unit": "-"
+                }
+            },
+            "HRV-4": {
+                "display_name": "HRV-4",
+                "vent_unit_type_name": "Comfoair 550",
+                "quantity": 1,
+                "hr_efficiency": {
+                    "value": 0.84,
+                    "unit": "-"
+                },
+                "mr_efficiency": {
+                    "value": 0.0,
+                    "unit": "-"
+                }
+            },
+            "HRV-5": {
+                "display_name": "HRV-5",
+                "vent_unit_type_name": "Comfoair 550",
+                "quantity": 1,
+                "hr_efficiency": {
+                    "value": 0.84,
+                    "unit": "-"
+                },
+                "mr_efficiency": {
+                    "value": 0.0,
+                    "unit": "-"
+                }
+            }
+        }
     },
     "renewable_systems": {
-        "a": 1
+        "_devices": {}
     }
 }

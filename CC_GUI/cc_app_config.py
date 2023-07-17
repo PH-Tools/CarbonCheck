@@ -82,7 +82,7 @@ def find_resources_path() -> pathlib.Path:
     return find_application_path() / "resources"
 
 
-def add_logging_level(levelName, levelNum, methodName=None):
+def add_logging_level(levelName, levelNum, methodName=None) -> None:
     """Utility function to add a new logging level to the logging module."""
     # Adopted from https://stackoverflow.com/a/35804945/1691778
     # Adds a new logging method to the logging module

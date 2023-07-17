@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Dict
+from typing import Dict, Generator
 
 from ph_units.unit_type import Unit
 
@@ -61,12 +61,15 @@ class NBDM_AssemblyType:
 
 @dataclass
 class NBDM_BuildingSegmentEnvelope:
-    _assembly_types: Collection = field(default_factory=Collection)
-    _glazing_types: Collection = field(default_factory=Collection)
+    _assembly_types: Collection[NBDM_AssemblyType] = field(default_factory=Collection)
+    _glazing_types: Collection[NBDM_GlazingType] = field(default_factory=Collection)
 
     @property
-    def assembly_types(self) -> Dict[str, NBDM_AssemblyType]:
-        return {k: self._assembly_types[k] for k in sorted(self._assembly_types.keys())}
+    def assembly_types(self) -> Generator[NBDM_GlazingType, None, None]:
+        return (
+            self._assembly_types[a.key]
+            for a in sorted(self._assembly_types.values(), key=lambda a: a.name)
+        )
 
     @assembly_types.setter
     def assembly_types(self, value: Dict[str, NBDM_AssemblyType]) -> None:
@@ -75,8 +78,11 @@ class NBDM_BuildingSegmentEnvelope:
             self.add_assembly_type(v)
 
     @property
-    def glazing_types(self) -> Dict[str, NBDM_GlazingType]:
-        return {k: self._glazing_types[k] for k in sorted(self._glazing_types.keys())}
+    def glazing_types(self) -> Generator[NBDM_GlazingType, None, None]:
+        return (
+            self._glazing_types[g.key]
+            for g in sorted(self._glazing_types.values(), key=lambda g: g.display_name)
+        )
 
     @glazing_types.setter
     def glazing_types(self, value: Dict[str, NBDM_GlazingType]) -> None:

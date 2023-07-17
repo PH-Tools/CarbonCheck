@@ -67,18 +67,16 @@ class Tab_Report:
 
     def _connect_buttons_and_signals(self) -> None:
         """Connect the buttons and signals for the 'Report' tab."""
-        # -- Connect the Model and View
+        # -- Hook up the [ View ]--Signals->  - - - >-Slots--[ Model ]
         self.window_team_and_site.got_team_data.connect(
             self.model.set_project_team_from_treeView_data
         )
         self.window_team_and_site.got_site_data.connect(
             self.model.set_project_site_from_treeView_data
         )
-        self.window_bldg_components.got_envelope_data.connect(
-            self.model.set_project_envelope_from_treeView_data
-        )
 
-        # -- Base Tab Buttons
+        # -- Hook up the [ View ]--Signals->  - - - >-Methods--[ Self ]
+        # -- Tab Buttons
         self.view.ui.btn_add_baseline_seg.clicked.connect(self.add_baseline_seg_from_file)
         self.view.ui.btn_add_proposed_seg.clicked.connect(self.add_proposed_seg_from_file)
         self.view.ui.btn_create_report.clicked.connect(self.write_report)
@@ -87,7 +85,7 @@ class Tab_Report:
         self.view.ui.btn_show_team_info.clicked.connect(self.team_and_site_show)
         self.view.ui.btn_show_bldg_components.clicked.connect(self.bldg_component_show)
 
-        # -- Team and Site Info Window
+        # -- Team and Site Info Window and Buttons
         self.window_team_and_site.got_team_data.connect(self.model.update_treeview_team)
         self.window_team_and_site.got_site_data.connect(self.model.update_treeview_team)
         self.window_team_and_site.ui.btn_add_team_info.clicked.connect(
@@ -96,11 +94,11 @@ class Tab_Report:
         self.window_team_and_site.ui.btn_OK.clicked.connect(self.team_and_site_ok)
         self.window_team_and_site.ui.btn_Cancel.clicked.connect(self.team_and_site_cancel)
 
-        # -- Building Component Window
-        self.window_bldg_components.got_envelope_data.connect(
-            self.model.update_treeview_bldg_components
+        # -- Building Component Window and Buttons
+        self.window_bldg_components.got_building_component_data.connect(
+            self.model.set_project_bldg_components_from_treeView_data
         )
-        self.window_bldg_components.got_appliance_data.connect(
+        self.window_bldg_components.got_building_component_data.connect(
             self.model.update_treeview_bldg_components
         )
         self.window_bldg_components.ui.btn_add_bldg_component_info.clicked.connect(
@@ -112,7 +110,7 @@ class Tab_Report:
         )
 
     # -------------------------------------------------------------------------
-    # -- Building Segments
+    # -- Building Segments Window and Buttons
 
     def add_baseline_seg_from_file(self) -> None:
         """Load a new Baseline Segment's data from a single PHPP file."""
@@ -171,7 +169,7 @@ class Tab_Report:
         self.model.remove_proposed_segment_by_name(bldg_segment_name)
 
     # -------------------------------------------------------------------------
-    # -- Team and Site Window
+    # -- Team and Site Window and Buttons
 
     def add_project_info_from_file(self) -> None:
         """Load 'Project' information from a single PHPP file (Team, Climate, Site...)"""
@@ -198,7 +196,7 @@ class Tab_Report:
         self.window_team_and_site.close_window()
 
     # -------------------------------------------------------------------------
-    # -- Building Component Window
+    # -- Building Component Window and Buttons
 
     def add_bldg_component_info_from_file(self) -> None:
         """Load 'Bldg-Component' information from a single PHPP file (Envelope, Appliances, etc..)"""
@@ -227,7 +225,7 @@ class Tab_Report:
         self.window_bldg_components.close_window()
 
     # -------------------------------------------------------------------------
-    # -- Write Report
+    # -- Write Report Buttons
 
     def write_report(self) -> None:
         """Write the report to the log file."""
@@ -616,8 +614,9 @@ class CCApp(qtw.QApplication):
         self.logger.debug("Connecting signals and slots.")
 
         # ---------------------------------------------------------------------
-        # -- Hook up the Model-->View signals
-        # -- Set the treeView Data
+        # -- Hook up the [ Model ]--Signals->  - - - >-Slots--[ View ]
+
+        # -- Set the [View] treeView Data
         self.model.sig_load_team_data.connect(
             self.tab_report.window_team_and_site.set_treeView_data_team
         )
@@ -634,7 +633,7 @@ class CCApp(qtw.QApplication):
             self.tab_report.window_bldg_components.set_treeView_bldg_components
         )
 
-        # -- Read data fom treeView
+        # -- Read data form [View] treeView
         self.model.sig_read_treeView_team.connect(
             self.tab_report.window_team_and_site.get_treeView_data_team
         )
@@ -647,12 +646,12 @@ class CCApp(qtw.QApplication):
         self.model.sig_read_treeView_proposed_segments.connect(
             self.view.sig_get_treeView_data_proposed_building
         )
-        self.model.sig_read_treeView_envelope.connect(
-            self.tab_report.window_bldg_components.get_treeView_data_envelope
+        self.model.sig_read_treeView_bldg_components.connect(
+            self.tab_report.window_bldg_components.get_treeView_data_building_components
         )
 
         # ---------------------------------------------------------------------
-        # -- Hook up the View-->Model signals
+        # -- Hook up the [ View ]--Signals->  - - - >-Slots--[ Model ]
         self.view.sig_got_baseline_building_data.connect(
             self.model.set_project_baseline_segments_from_treeView_data
         )
@@ -665,7 +664,7 @@ class CCApp(qtw.QApplication):
         self.tab_report._connect_buttons_and_signals()
         self.tab_baseline._connect_buttons_and_signals()
 
-    def _connect_button_loggers(self):
+    def _connect_button_loggers(self) -> None:
         """Connect all the QButtons to the click_logger method for debugging."""
         for button in self.view.buttons:
             button.clicked.connect(self.click_logger)
@@ -679,7 +678,7 @@ class CCApp(qtw.QApplication):
         for button in self.tab_report.window_bldg_components.buttons:
             button.clicked.connect(self.click_logger)
 
-    def _connect_action_loggers(self):
+    def _connect_action_loggers(self) -> None:
         """Connect all the QActions to the click_logger method for debugging."""
         for action in self.view.actions:
             action.triggered.connect(self.click_logger)
@@ -687,7 +686,7 @@ class CCApp(qtw.QApplication):
     # -------------------------------------------------------------------------
     # -- GUI Preview Panel internal methods
 
-    def _startup_preview_panel(self):
+    def _startup_preview_panel(self) -> None:
         # -- Setup the Queue for capturing stdout to the GUI's preview panel, as shown in:
         # https://stackoverflow.com/questions/21071448/redirecting-stdout-and-stderr-to-a-pyqt4-qtextedit-from-a-secondary-thread
         # https://stackoverflow.com/questions/616645/how-to-duplicate-sys-stdout-to-a-log-file
@@ -695,23 +694,23 @@ class CCApp(qtw.QApplication):
         sys.stdout = WriteStream(self.queue)
         self._configure_worker_threads()
 
-    def _configure_worker_threads(self):
+    def _configure_worker_threads(self) -> None:
         """Configure and start up all the worker threads for stdout stream."""
         self._create_workers()
         self._start_worker_threads()
         self._connect_worker_signals()
 
-    def _create_workers(self):
+    def _create_workers(self) -> None:
         self.mutex = qtc.QMutex()
         self.worker_txt_receiver = WorkerReceiveText(self.queue, self.mutex)
         self.worker_txt_receiver_thread = qtc.QThread()
 
-    def _start_worker_threads(self):
+    def _start_worker_threads(self) -> None:
         self.worker_txt_receiver.moveToThread(self.worker_txt_receiver_thread)
         self.worker_txt_receiver_thread.start()
 
     @qtc.pyqtSlot(str)
-    def _append_text(self, text):
+    def _append_text(self, text: str) -> None:
         self.view.ui.textEdit_output.moveCursor(qtg.QTextCursor.MoveOperation.End)
         self.view.ui.textEdit_output.insertPlainText(text)
 

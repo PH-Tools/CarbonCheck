@@ -209,3 +209,38 @@ class Format_NBDM_Appliance:
     appliance_type = "Type Number"
     quantity = "Quantity"
     annual_energy_use = "Annual Energy Use"
+
+
+class Format_NBDM_HeatingDevice:
+    device_type = "Device Type"
+    coverage_segment_heating = "Heating % Covered"
+
+
+class Format_NBDM_CoolingDevice:
+    device_type = "Device Type"
+    cooling_device_name = "Device"
+    SEER = "SEER"
+    num_units = "Quantity"
+
+
+class Format_NBDM_VentilationDevice:
+    display_name = "Device Name"
+    vent_unit_type_name = "Ventilator Unit Type"
+    quantity = "Quantity"
+    hr_efficiency = "Heat Recovery Efficiency"
+    mr_efficiency = "Moisture Recovery Efficiency"
+
+
+class Format_NBDM_DHWHeatingDevice:
+    device_type = "Device Type"
+    coverage_segment_hot_water = "Hot Water % Covered"
+
+
+class Format_NBDM_DHWTankDevice:
+    device_type = "Device Type"
+    # capacity = "Size"
+    # quantity = "Quantity"
+
+
+class Format_NBDM_RenewableDevice:
+    device_type = "Device Type"

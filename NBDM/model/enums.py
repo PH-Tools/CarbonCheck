@@ -57,10 +57,5 @@ class cooling_device_type(Enum):
     DEHUMIDIFICATION = "Dedicated Dehumidification"
     PANEL = "Panel Cooling"
 
-
-class renewable_device_type(Enum):
-    NONE = "None"
-
-
 class dhw_tank_device_type(Enum):
     NONE = "None"

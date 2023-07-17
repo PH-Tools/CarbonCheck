@@ -719,6 +719,7 @@
         }
     },
     "renewable_systems": {
-        "_devices": {}
+        "_solar_dhw_devices": {},
+        "_solar_pv_devices": {}
     }
 }

@@ -292,7 +292,8 @@ class CCModel(qtw.QWidget):
             "HOT WATER HEATERS": {},
             "HOT WATER TANKS": {},
             "VENTILATION": {},
-            "RENEWABLE ENERGY": {},
+            "SOLAR HOT WATER": {},
+            "SOLAR PV": {},
         }
 
         self.logger.debug("Updating treeView Assemblies from the Project.")
@@ -344,8 +345,14 @@ class CCModel(qtw.QWidget):
             )
 
         self.logger.debug("Updating treeView Renewable Energy Devices from the Project.")
-        for device in self.NBDM_project.renewable_systems.devices:
-            tree_bldg_component_data["RENEWABLE ENERGY"][device.key] = create_tree_data(
+        for device in self.NBDM_project.renewable_systems.solar_dhw_devices:
+            tree_bldg_component_data["SOLAR HOT WATER"][device.key] = create_tree_data(
+                self.output_format, device
+            )
+
+        self.logger.debug("Updating treeView Renewable Energy Devices from the Project.")
+        for device in self.NBDM_project.renewable_systems.solar_pv_devices:
+            tree_bldg_component_data["SOLAR PV"][device.key] = create_tree_data(
                 self.output_format, device
             )
 
@@ -603,15 +610,31 @@ class CCModel(qtw.QWidget):
                 )
             )
 
-        self.logger.debug("Building NBDM Project.renewable_systems from treeView data")
-        self.NBDM_project.renewable_systems.clear_devices()
-        treeView_data_dict = self._get_treeViewData_as_dict("RENEWABLE ENERGY", _data)
+        self.logger.debug(
+            "Building NBDM Project.renewable_systems.solar_dhw from treeView data"
+        )
+        self.NBDM_project.renewable_systems.clear_dhw_devices()
+        treeView_data_dict = self._get_treeViewData_as_dict("SOLAR HOT WATER", _data)
         for appliance_data in treeView_data_dict.values():
-            self.NBDM_project.renewable_systems.add_device(
+            self.NBDM_project.renewable_systems.add_solar_dhw_device(
                 NBDM_Object_from_treeView(
                     self.output_format,
                     appliance_data,
-                    renewable_systems.NBDM_RenewableDevice,
+                    renewable_systems.NBDM_SolarDHWDevice,
+                )
+            )
+
+        self.logger.debug(
+            "Building NBDM Project.renewable_systems.solar_pv from treeView data"
+        )
+        self.NBDM_project.renewable_systems.clear_pv_devices()
+        treeView_data_dict = self._get_treeViewData_as_dict("SOLAR PV", _data)
+        for appliance_data in treeView_data_dict.values():
+            self.NBDM_project.renewable_systems.add_solar_pv_device(
+                NBDM_Object_from_treeView(
+                    self.output_format,
+                    appliance_data,
+                    renewable_systems.NBDM_SolarPVDevice,
                 )
             )
 

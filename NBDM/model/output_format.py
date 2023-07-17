@@ -13,13 +13,6 @@ class Format_NBDM_Project:
     report_date = "Report Date"
     site = "Site"
     team = "Team"
-    # --
-    # envelope = "Envelope"
-    # appliances = "Appliances"
-    # heating_systems = "Heating Systems"
-    # cooling_systems = "Cooling Systems"
-    # dhw_systems = "Domestic Hot Water Systems"
-    # ventilation_systems = "Ventilation Systems"
 
 
 # ------------------------------------------------------------
@@ -242,5 +235,16 @@ class Format_NBDM_DHWTankDevice:
     # quantity = "Quantity"
 
 
-class Format_NBDM_RenewableDevice:
-    device_type = "Device Type"
+class Format_NBDM_SolarDHWDevice:
+    footprint = "Footprint"
+    annual_dhw_energy = "Hot-Water Energy"
+    annual_dhw_contribution = "How Water Contribution"
+    annual_heating_energy = "Heating Energy"
+    annual_heating_contribution = "Heating Contribution"
+
+
+class Format_NBDM_SolarPVDevice:
+    display_name = "Name"
+    footprint = "Footprint"
+    size = "Array Size"
+    annual_pv_energy = "PV Energy"

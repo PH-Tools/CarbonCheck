@@ -367,10 +367,16 @@ def BuildingComponents(
         _nbdm_project.dhw_systems.tank_devices,
     )
     row_data_list, _start_row = _building_component(
-        "RENEWABLE ENERGY",
+        "SOLAR HOT WATER",
         row_data_list,
         _start_row,
-        _nbdm_project.renewable_systems.devices,
+        _nbdm_project.renewable_systems.solar_dhw_devices,
+    )
+    row_data_list, _start_row = _building_component(
+        "SOLAR PV",
+        row_data_list,
+        _start_row,
+        _nbdm_project.renewable_systems.solar_pv_devices,
     )
 
     # -------------------------------------------------------------------------

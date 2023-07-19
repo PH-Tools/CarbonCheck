@@ -56,7 +56,7 @@ class Tab_Report:
     ) -> None:
         self.excel_log_path = _excel_log_path
         self.logger = logging.getLogger(__name__)
-        self.logger.debug("Creating Tab_Report")
+        self.logger.debug("Creating Tab_Report...")
 
         self.model = _model
         self.view = _view
@@ -64,6 +64,7 @@ class Tab_Report:
         # -- Connect the Baseline Options Button and Data
         self.window_team_and_site = Window_TeamAndSiteData()
         self.window_bldg_components = Window_BuildingComponents()
+        self.logger.debug("Tab_Report successfully setup.")
 
     def _connect_buttons_and_signals(self) -> None:
         """Connect the buttons and signals for the 'Report' tab."""
@@ -280,7 +281,7 @@ class Tab_Baseline:
 
     def __init__(self, _model: CCModel, _view: CCMainWindow):
         self.logger = logging.getLogger(__name__)
-        self.logger.debug("Creating Tab_PHPPBaseline")
+        self.logger.debug("Creating Tab_PHPPBaseline...")
 
         self.model = _model
         self.view = _view
@@ -298,6 +299,7 @@ class Tab_Baseline:
         self.populate_dropdown_climate_zones()
         self.populate_dropdown_use_types()
         self.populate_dropdown_pf_groups()
+        self.logger.debug("Tab_PHPPBaseline successfully setup.")
 
     def _connect_buttons_and_signals(self):
         """Connect the buttons and signals for this tab."""
@@ -515,6 +517,7 @@ class CCApp(qtw.QApplication):
 
         # Set up to terminate the QThread when we exit
         self.aboutToQuit.connect(self.force_quit)
+        self.logger.info("Finished starting up Application.")
 
     def set_logo_paths(self) -> None:
         # -- NYSERDA
@@ -611,7 +614,7 @@ class CCApp(qtw.QApplication):
 
     def _connect_all_button_signals(self) -> None:
         """Hook up all the Buttons signals to the appropriate slot."""
-        self.logger.debug("Connecting signals and slots.")
+        self.logger.debug("Connecting signals and slots...")
 
         # ---------------------------------------------------------------------
         # -- Hook up the [ Model ]--Signals->  - - - >-Slots--[ View ]
@@ -663,9 +666,12 @@ class CCApp(qtw.QApplication):
         # -- Connect the Tab Buttons and signals
         self.tab_report._connect_buttons_and_signals()
         self.tab_baseline._connect_buttons_and_signals()
+        self.logger.debug("Done connecting signals and slots.")
 
     def _connect_button_loggers(self) -> None:
         """Connect all the QButtons to the click_logger method for debugging."""
+        self.logger.debug("Connecting button loggers...")
+
         for button in self.view.buttons:
             button.clicked.connect(self.click_logger)
 
@@ -680,6 +686,8 @@ class CCApp(qtw.QApplication):
 
     def _connect_action_loggers(self) -> None:
         """Connect all the QActions to the click_logger method for debugging."""
+        self.logger.debug("Connecting action loggers...")
+
         for action in self.view.actions:
             action.triggered.connect(self.click_logger)
 

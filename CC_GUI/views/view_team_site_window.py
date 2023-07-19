@@ -25,12 +25,12 @@ class Window_TeamAndSiteData(qtw.QWidget):
     got_team_data = qtc.pyqtSignal(dict)
     got_site_data = qtc.pyqtSignal(dict)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.logger = logging.getLogger(__name__)
 
         # -- UI Layout from QtDesigner
-        self.logger.debug("Loading UI Layout from QtDesigner.")
+        self.logger.debug("Loading Team/Site UI Layout from QtDesigner.")
         self.ui = Ui_Form()
         self.ui.setupUi(self)
 
@@ -45,13 +45,14 @@ class Window_TeamAndSiteData(qtw.QWidget):
         return self.findChildren(qtg.QAction)  # type: ignore
 
     def close_window(self) -> None:
+        self.logger.debug("Closing Team/Site Window.")
         self.close()
 
     # -------------------------------------------------------------------------
     # treeView Getters
 
     @qtc.pyqtSlot()
-    def get_treeView_data_team(self):
+    def get_treeView_data_team(self) -> None:
         """Return the 'Team' treeView data as a dict."""
         self.logger.info("Getting Project Team data from the GUI.")
         _treeview_model = getattr(self.ui, "tree_view_model_team_info", None)
@@ -59,7 +60,7 @@ class Window_TeamAndSiteData(qtw.QWidget):
         self.got_team_data.emit(data)
 
     @qtc.pyqtSlot()
-    def get_treeView_data_site(self):
+    def get_treeView_data_site(self) -> None:
         """Return the 'Site' treeView data as a dict."""
         self.logger.info("Getting Project Site data from the GUI.")
         _treeview_model = getattr(self.ui, "tree_view_model_team_info", None)

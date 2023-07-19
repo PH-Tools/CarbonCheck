@@ -62,12 +62,12 @@ def sample_NBDM_Site() -> NBDM_Site:
 
 sample_BuildingSegmentOccupancy_A = NBDM_BuildingSegmentOccupancy(
     total_dwelling_units=2,
-    total_occupants=10,
+    total_occupants=10.0,
 )
 
 sample_BuildingSegmentOccupancy_B = NBDM_BuildingSegmentOccupancy(
     total_dwelling_units=1,
-    total_occupants=23,
+    total_occupants=23.0,
 )
 
 

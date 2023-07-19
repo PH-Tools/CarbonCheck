@@ -19,7 +19,7 @@ class Window_BaselineOptions(qtw.QWidget):
 
     options_data = qtc.pyqtSignal(dict)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.logger = logging.getLogger(__name__)
 

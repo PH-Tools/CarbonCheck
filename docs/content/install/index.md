@@ -2,9 +2,9 @@
 title: "Install"
 weight: 10
 ---
-Demonstrating how well your proposed building design performs compared to a 'baseline' is common practice for many teams, in particular those seeking public funding to help offset the costs of the high performance components. For modeling teams, constructing this baseline model can be a time-consuming and error-prone process. CarbonCheck is a new tool which is designer to automate the process of creating a baseline model for Passive House projects. CarbonCheck is designed to work with both PHPP and WUFI-Passive.
+Comparing the performance of your proposed building design to a standard 'baseline' is a common practice among many energy-modeling workflows. This is especially true for any project seeking public funding to offset the costs of high-performance building components. However, constructing this 'baseline' model can be a time-consuming and error-prone task for modeling teams. This is where CarbonCheck comes in: a new tool specifically designed for New York State Passive House projects, designed to streamline the process of creating baseline models. CarbonCheck seamlessly integrates with both PHPP and WUFI-Passive software, ensuring compatibility and ease of use for any Passive House team.
 
-</br>CarbonCheck is free and open-source, created to help the Passive House Community in New York State. Feel free download and give it a try.
+</br>CarbonCheck is an open-source tool, provided free of charge, created to support the Passive House Community in New York State. We encourage you to download and try it out for yourself.
 
 ## Download the CarbonCheck Installer
 - [For Windows OS v0.1](https://github.com/PH-Tools/CarbonCheck/raw/main/Installers/CarbonCheck-0.1-win64.msi)

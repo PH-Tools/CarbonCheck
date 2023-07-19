@@ -35,7 +35,7 @@ class CCMainWindow(qtw.QMainWindow):
     sig_got_proposed_building_data = qtc.pyqtSignal(dict)
     sig_got_baseline_building_data = qtc.pyqtSignal(dict)
 
-    def __init__(self, _icon_path: pathlib.Path, *args, **kwargs):
+    def __init__(self, _icon_path: pathlib.Path, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.logger = logging.getLogger(__name__)
 
@@ -93,7 +93,7 @@ class CCMainWindow(qtw.QMainWindow):
     # treeView Getters
 
     @qtc.pyqtSlot()
-    def sig_get_treeView_data_proposed_building(self):
+    def sig_get_treeView_data_proposed_building(self) -> None:
         """Return the Proposed Building treeView data as a dict."""
         self.logger.info("Getting Proposed Building Segment data from the GUI.")
         _treeview_model = getattr(self.ui, "tree_view_model_proposed", None)
@@ -101,7 +101,7 @@ class CCMainWindow(qtw.QMainWindow):
         self.sig_got_proposed_building_data.emit(data)
 
     @qtc.pyqtSlot()
-    def get_treeView_data_baseline_building(self):
+    def get_treeView_data_baseline_building(self) -> None:
         """Return the Baseline Building treeView data as a dict."""
         self.logger.info("Getting Baseline Building Segment data from the GUI.")
         _treeview_model = getattr(self.ui, "tree_view_model_baseline", None)

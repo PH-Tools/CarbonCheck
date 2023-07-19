@@ -2,7 +2,6 @@
 
 """Main Application Model."""
 
-import enum
 import json
 import logging
 import os
@@ -27,12 +26,30 @@ try:
         WorkerWriteExcelReport,
         WorkerSetPHPPBaseline,
         WorkerSetWUFIBaseline,
+        WorkerReadBldgComponentData,
+    )
+    from CC_GUI.views.tree_view_tools import (
+        create_tree_data,
+        build_NBDM_obj_from_treeView,
+        NBDM_Object_from_treeView,
     )
 except Exception as e:
     raise Exception("Error importing App library?", e)
 
 try:
-    from NBDM.model import project, team, site, building
+    from NBDM.model import (
+        project,
+        team,
+        site,
+        building,
+        envelope,
+        appliances,
+        dhw_systems,
+        heating_systems,
+        cooling_systems,
+        renewable_systems,
+        ventilation_systems,
+    )
     from NBDM.model.project import NBDM_Project
     from NBDM.to_JSON.write import NBDM_Project_to_json_file
     from NBDM.model.serialization import build_NBDM_obj_from_treeView
@@ -51,122 +68,35 @@ except Exception as e:
     raise Exception("Error importing ph_baseliner library?", e)
 
 
-def is_dict_field(_class: type) -> bool:
-    """Return True if the class provided is a dataclass Dict field (has __origin__ attr)."""
-    if getattr(_class, "__origin__", None) == dict:
-        return True
-    return False
-
-
-def is_dataclass_type(_class: type) -> bool:
-    """Return True if the class provided is a dataclass."""
-    if not hasattr(_class, "__dataclass_fields__"):
-        return False
-    return True
-
-
-def is_NBDM_class(_class: type) -> bool:
-    """Return True if the class provided is an NBDM Type."""
-    if not is_dataclass_type(_class):
-        return False
-    if "NBDM" not in _class.__name__.upper():
-        return False
-    return True
-
-
-def is_enum(_class: type) -> bool:
-    """Return True if the class provided is an enum.Enum"""
-    return issubclass(_class, enum.Enum)
-
-
-def get_formatted_field_name(
-    _output_format: ModuleType, _obj: Any, _field_name: str
-) -> Optional[str]:
-    """Return an NBDM Object field_name in a user-facing format (nice)."""
-    format_class = getattr(_output_format, f"Format_{_obj.__class__.__name__}")
-    return getattr(format_class, _field_name, None)
-
-
-def replace_key_names(
-    _data: Dict[str, Any], _output_format: ModuleType, _obj: Any
-) -> Dict[str, Dict[str, str]]:
-    """Replace the user-facing keys in a treeView dict with the actual field names.
-
-    Arguments:
-    ----------
-        * _data: (Dict[str, Dict[str, str]]) The dict to replace the keys in.
-        * _output_format: (ModuleType) The module containing the user-facing names.
-        * _obj: (Any) The NBDM Object to get the field names from.
-
-    Returns:
-    --------
-        * (Dict[str, Dict[str, str]]) The dict with the user-facing keys replaced with the actual field names.
-    """
-    format_type = getattr(_output_format, f"Format_{_obj.__name__}")
-
-    d_ = {}
-    for k, v in _data.items():
-        # -- Got through all the items in the source dict
-        for dict_field_name, formatted_name in vars(format_type).items():
-            if k != formatted_name:
-                # -- Not not a valid NBDM object field, ignore...
-                continue
-
-            if isinstance(v, dict):
-                # -- Is an NBDM field, get the type and recurse
-                obj = get_type_hints(_obj)[dict_field_name]
-                d_[dict_field_name] = replace_key_names(v, _output_format, obj)
-            else:
-                # -- Is an valid NBDM object field, add it to the new dict
-                d_[dict_field_name] = v
-    return d_
-
-
-def NBDM_Object_from_treeView(
-    _output_format: ModuleType, _data: Dict[str, Any], _obj: Any
-) -> Any:
-    """Create a NBDM_Team object from treeView dict data.
-
-    Arguments:
-    ----------
-        * _output_format: (ModuleType) The module containing the user-facing names.
-        * _data: (Dict[str, Any]) The dict to create the NBDM_Team from.
-        * _obj: (Any) The NBDM Object to create.
-
-    Returns:
-    --------
-        * (Any) The NBDM object created from the dict.
-    """
-    with open("NBDM_Object_from_treeView.txt", "w") as f:
-        json.dump(_data, f)
-
-    new_NBDM_obj = build_NBDM_obj_from_treeView(
-        _obj, replace_key_names(_data, _output_format, _obj)
-    )
-    return new_NBDM_obj
-
-
 class CCModel(qtw.QWidget):
     """CarbonCheck Model Class."""
 
+    # -------------------------------------------------------------------------
     # -- Signals for passing data back to treeViews
     sig_load_team_data = qtc.pyqtSignal(dict)
     sig_load_site_data = qtc.pyqtSignal(dict)
     sig_load_baseline_segments_data = qtc.pyqtSignal(dict)
     sig_load_proposed_segments_data = qtc.pyqtSignal(dict)
+    sig_load_bldg_components_data = qtc.pyqtSignal(dict)
 
+    # -------------------------------------------------------------------------
     # -- Signals for reading data from the GUI treeViews
     sig_read_treeView_team = qtc.pyqtSignal()
     sig_read_treeView_site = qtc.pyqtSignal()
     sig_read_treeView_proposed_segments = qtc.pyqtSignal()
     sig_read_treeView_baseline_segments = qtc.pyqtSignal()
+    sig_read_treeView_bldg_components = qtc.pyqtSignal()
 
+    # -------------------------------------------------------------------------
     # -- Thread workers for reading / writing PHPP and WUFI data
     sig_read_project_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
     sig_read_baseline_seg_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
     sig_read_proposed_seg_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
-    sig_write_excel_report = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
+    sig_read_bldg_component_data_from_file = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
 
+    # -------------------------------------------------------------------------
+    # -- Thread workers for writing NBDM data to Excel report
+    sig_write_excel_report = qtc.pyqtSignal(NBDM_Project, pathlib.Path)
     sig_write_baseline = qtc.pyqtSignal(pathlib.Path, BaselineCode, dict)
     sig_write_PHPP_baseline = qtc.pyqtSignal(pathlib.Path, BaselineCode, dict)
     sig_write_WUFI_baseline = qtc.pyqtSignal(pathlib.Path, BaselineCode, dict)
@@ -179,9 +109,16 @@ class CCModel(qtw.QWidget):
         self.logger.debug("Initializing CCModel.")
 
         self.output_format = _output_format
+        self.application_path = _application_path
         self.NBDM_project = NBDM_Project()
         self._configure_worker_threads()
-        self.application_path = _application_path
+
+        self.logger.debug("CCModel successfully initialized.")
+        self.logger.debug(f"CCModel.output_format={self.output_format.__file__}.")
+        self.logger.debug(f"CCModel.application_path={self.application_path}.")
+
+    # -------------------------------------------------------------------------
+    # -- Manage the Worker Threads
 
     @property
     def worker_threads(self) -> Generator[qtc.QThread, None, None]:
@@ -207,36 +144,43 @@ class CCModel(qtw.QWidget):
         )
 
         self.worker_read_baseline_seg_data = WorkerReadBaselineSegmentData()
-        self.worker_read_proj_data.setObjectName("Worker: Read Baseline Seg Data")
+        self.worker_read_baseline_seg_data.setObjectName("Worker: Read Baseline Seg Data")
         self.worker_read_baseline_seg_data_thread = qtc.QThread()
         self.worker_read_baseline_seg_data_thread.setObjectName(
             "Worker Thread: Read Baseline Seg Data"
         )
 
         self.worker_read_prop_seg_data = WorkerReadProposedSegmentData()
-        self.worker_read_proj_data.setObjectName("Worker: Read Proposed Seg. Data")
+        self.worker_read_prop_seg_data.setObjectName("Worker: Read Proposed Seg. Data")
         self.worker_read_prop_seg_data_thread = qtc.QThread()
         self.worker_read_prop_seg_data_thread.setObjectName(
             "Worker Thread: Read Proposed Seg. Data"
         )
 
         self.worker_write_report = WorkerWriteExcelReport()
-        self.worker_read_proj_data.setObjectName("Worker: Write Excel Report")
+        self.worker_write_report.setObjectName("Worker: Write Excel Report")
         self.worker_write_report_thread = qtc.QThread()
         self.worker_write_report_thread.setObjectName("Worker Thread: Write Excel Report")
 
         self.worker_set_baseline_PHPP = WorkerSetPHPPBaseline()
-        self.worker_read_proj_data.setObjectName("Worker: Set PHPP Baseline")
+        self.worker_set_baseline_PHPP.setObjectName("Worker: Set PHPP Baseline")
         self.worker_set_baseline_phpp_thread = qtc.QThread()
         self.worker_set_baseline_phpp_thread.setObjectName(
             "Worker Thread: Set PHPP Baseline"
         )
 
         self.worker_set_baseline_WUFI = WorkerSetWUFIBaseline()
-        self.worker_read_proj_data.setObjectName("Worker: Set WUFI Baseline")
+        self.worker_set_baseline_WUFI.setObjectName("Worker: Set WUFI Baseline")
         self.worker_set_baseline_WUFI_thread = qtc.QThread()
         self.worker_set_baseline_WUFI_thread.setObjectName(
             "Worker Thread: Set WUFI Baseline"
+        )
+
+        self.worker_read_bldg_compo_data = WorkerReadBldgComponentData()
+        self.worker_read_bldg_compo_data.setObjectName("Worker: Read Bldg. Compo. Data")
+        self.worker_read_bldg_compo_data_thread = qtc.QThread()
+        self.worker_read_bldg_compo_data_thread.setObjectName(
+            "Worker Thread: Read Bldg. Compo. Data"
         )
 
     def _start_worker_threads(self) -> None:
@@ -263,6 +207,11 @@ class CCModel(qtw.QWidget):
         self.worker_set_baseline_WUFI.moveToThread(self.worker_set_baseline_WUFI_thread)
         self.worker_set_baseline_WUFI_thread.start()
 
+        self.worker_read_bldg_compo_data.moveToThread(
+            self.worker_read_bldg_compo_data_thread
+        )
+        self.worker_read_bldg_compo_data_thread.start()
+
     def _connect_worker_signals(self) -> None:
         """Connect all the worker signals."""
         self.logger.debug("Connecting worker signals.")
@@ -286,67 +235,25 @@ class CCModel(qtw.QWidget):
         self.sig_write_PHPP_baseline.connect(self.worker_set_baseline_PHPP.run)
         self.sig_write_WUFI_baseline.connect(self.worker_set_baseline_WUFI.run)
 
-    def set_NBDM_project(self, _project: NBDM_Project) -> None:
-        """Set the NBDM_Project object and update the treeViews."""
-        self.logger.debug("Setting NBDM_Project object.")
+        self.worker_read_bldg_compo_data.loaded.connect(self.set_NBDM_project)
+        self.sig_read_bldg_component_data_from_file.connect(
+            self.worker_read_bldg_compo_data.run
+        )
 
-        self.NBDM_project = _project
-        self.update_treeview_team()
-        self.update_treeview_baseline()
-        self.update_treeview_proposed()
-
-    def create_tree_data(self, _obj: Any) -> Dict[str, Any]:
-        """Recursively build up a dict of string values for the Project Data TreeView."""
-        # Note: cannot use dataclasses.fields() 'cus __future__ annotations
-        # breaks it and all .type comes as str.
-        d = {}
-        for field_name, field_type in get_type_hints(_obj.__class__).items():
-            # -- Exclude the Variants from the Project data view.
-            if field_name == "variants":
-                continue
-
-            # -- Exclude whatever this is
-            if is_dict_field(field_type):
-                continue
-
-            # -- Figure out the right view-name to use
-            field_view_name = get_formatted_field_name(
-                self.output_format, _obj, field_name
-            )
-            if not field_view_name:
-                continue
-
-            if is_NBDM_class(field_type):
-                d[field_view_name] = self.create_tree_data(getattr(_obj, field_name))
-            elif is_enum(field_type):
-                d[field_view_name] = getattr(_obj, field_name).value
-            else:
-                d[field_view_name] = getattr(_obj, field_name)
-        return d
-
-    def output_dict_to_JSON_file(
-        self, _filepath: pathlib.Path, config_data: Dict[str, Any]
-    ) -> None:
-        """Write out a dict to a JSON file."""
-        self.logger.debug(f"Writing out to JSON file: {_filepath}")
-
-        try:
-            with open(_filepath, "w") as write_file:
-                json.dump(config_data, write_file, indent=2)
-                return
-        except Exception as ex:
-            msg = f"Error trying to write out to JSON file: {_filepath}"
-            self.logger.error(msg)
-            self.logger.error(ex, exc_info=True)
-            return
+    # -------------------------------------------------------------------------
+    # -- Updating the GUI treeViews
 
     def update_treeview_team(self) -> None:
         """Build the treeView data dict from the Project and pass back to the view."""
         self.logger.debug("Updating treeView team data.")
 
         tree_project_data = {}
-        tree_project_data.update(self.create_tree_data(self.NBDM_project.team))
-        tree_project_data.update(self.create_tree_data(self.NBDM_project.site))
+        tree_project_data.update(
+            create_tree_data(self.output_format, self.NBDM_project.team)
+        )
+        tree_project_data.update(
+            create_tree_data(self.output_format, self.NBDM_project.site)
+        )
         self.sig_load_team_data.emit(tree_project_data)
 
     def update_treeview_baseline(self) -> None:
@@ -356,7 +263,9 @@ class CCModel(qtw.QWidget):
         baseline_segment_dict = {}
         for segment in self.NBDM_project.variants.baseline.building_segments:
             seg_name = f"BUILDING SEGMENT: {segment.segment_name}"
-            baseline_segment_dict[seg_name] = self.create_tree_data(segment)
+            baseline_segment_dict[seg_name] = create_tree_data(
+                self.output_format, segment
+            )
         self.sig_load_baseline_segments_data.emit(baseline_segment_dict)
 
     def update_treeview_proposed(self) -> None:
@@ -366,8 +275,89 @@ class CCModel(qtw.QWidget):
         proposed_segment_dict = {}
         for segment in self.NBDM_project.variants.proposed.building_segments:
             seg_name = f"BUILDING SEGMENT: {segment.segment_name}"
-            proposed_segment_dict[seg_name] = self.create_tree_data(segment)
+            proposed_segment_dict[seg_name] = create_tree_data(
+                self.output_format, segment
+            )
         self.sig_load_proposed_segments_data.emit(proposed_segment_dict)
+
+    def update_treeview_bldg_components(self) -> None:
+        """Build the treeView data dict from the Project, and pass the dict back to the view."""
+        self.logger.debug("Updating treeView building-component data.")
+        tree_bldg_component_data = {
+            "ASSEMBLIES": {},
+            "GLAZING": {},
+            "APPLIANCES": {},
+            "HEATING": {},
+            "COOLING": {},
+            "HOT WATER HEATERS": {},
+            "HOT WATER TANKS": {},
+            "VENTILATION": {},
+            "SOLAR HOT WATER": {},
+            "SOLAR PV": {},
+        }
+
+        self.logger.debug("Updating treeView Assemblies from the Project.")
+        for assembly_type in self.NBDM_project.envelope.assembly_types:
+            tree_bldg_component_data["ASSEMBLIES"][assembly_type.key] = create_tree_data(
+                self.output_format, assembly_type
+            )
+
+        self.logger.debug("Updating treeView Glazings from the Project.")
+        for glazing_type in self.NBDM_project.envelope.glazing_types:
+            tree_bldg_component_data["GLAZING"][glazing_type.key] = create_tree_data(
+                self.output_format, glazing_type
+            )
+
+        self.logger.debug("Updating treeView Appliances from the Project.")
+        for appliance in self.NBDM_project.appliances.appliances:
+            tree_bldg_component_data["APPLIANCES"][
+                appliance.display_name
+            ] = create_tree_data(self.output_format, appliance)
+
+        self.logger.debug("Updating treeView Heating Devices from the Project.")
+        for device in self.NBDM_project.heating_systems.devices:
+            tree_bldg_component_data["HEATING"][device.key] = create_tree_data(
+                self.output_format, device
+            )
+
+        self.logger.debug("Updating treeView Cooling Devices from the Project.")
+        for device in self.NBDM_project.cooling_systems.devices:
+            tree_bldg_component_data["COOLING"][device.key] = create_tree_data(
+                self.output_format, device
+            )
+
+        self.logger.debug("Updating treeView Ventilation Devices from the Project.")
+        for device in self.NBDM_project.ventilation_systems.devices:
+            tree_bldg_component_data["VENTILATION"][device.key] = create_tree_data(
+                self.output_format, device
+            )
+
+        self.logger.debug("Updating treeView DHW Heater Devices from the Project.")
+        for device in self.NBDM_project.dhw_systems.heating_devices:
+            tree_bldg_component_data["HOT WATER HEATERS"][device.key] = create_tree_data(
+                self.output_format, device
+            )
+
+        self.logger.debug("Updating treeView DHW Tank Devices from the Project.")
+        for device in self.NBDM_project.dhw_systems.tank_devices:
+            tree_bldg_component_data["HOT WATER TANKS"][device.key] = create_tree_data(
+                self.output_format, device
+            )
+
+        self.logger.debug("Updating treeView Renewable Energy Devices from the Project.")
+        for device in self.NBDM_project.renewable_systems.solar_dhw_devices:
+            tree_bldg_component_data["SOLAR HOT WATER"][device.key] = create_tree_data(
+                self.output_format, device
+            )
+
+        self.logger.debug("Updating treeView Renewable Energy Devices from the Project.")
+        for device in self.NBDM_project.renewable_systems.solar_pv_devices:
+            tree_bldg_component_data["SOLAR PV"][device.key] = create_tree_data(
+                self.output_format, device
+            )
+
+        # -- Pass the dict back to the treeView
+        self.sig_load_bldg_components_data.emit(tree_bldg_component_data)
 
     # -------------------------------------------------------------------------
     # -- Menu Commands
@@ -391,11 +381,15 @@ class CCModel(qtw.QWidget):
         self.logger.info(f"Loading CarbonCheck data from file: {_filepath}")
 
         data = self.load_json_file_as_dict(_filepath)
+
+        self.logger.debug("Building NBDM_project object from file data.")
         self.NBDM_project = project.NBDM_Project.from_dict(data)
 
+        self.logger.debug("Updating treeViews with new NBDM Project data.")
         self.update_treeview_team()
         self.update_treeview_baseline()
         self.update_treeview_proposed()
+        self.update_treeview_bldg_components()
         self.logger.info("Successfully loaded data from file.")
 
     def load_json_file_as_dict(self, _filepath: pathlib.Path) -> Dict:
@@ -417,7 +411,11 @@ class CCModel(qtw.QWidget):
 
     def write_json_file(self, _filepath: pathlib.Path) -> None:
         self.logger.info(f"Writing out JSON file: {_filepath}")
+        self.logger.debug("Call: self.set_project_from_gui()")
         self.set_project_from_gui()
+        self.logger.debug(
+            f"Call: self.write_NBDM_Project_to_json_file(self.NBDM_project, {_filepath})"
+        )
         NBDM_Project_to_json_file(self.NBDM_project, _filepath)
 
     def set_project_from_gui(self) -> None:
@@ -428,8 +426,24 @@ class CCModel(qtw.QWidget):
         self.sig_read_treeView_site.emit()
         self.sig_read_treeView_proposed_segments.emit()
         self.sig_read_treeView_baseline_segments.emit()
+        self.sig_read_treeView_bldg_components.emit()
 
     # -------------------------------------------------------------------------
+    # -- Slots for executing treeView get/set data calls
+
+    def _get_treeViewData_as_dict(self, _key: str, _data: Dict) -> Dict[str, Any]:
+        """Return the data from the treeView_data dict for the given key as a dict.
+
+        Safely get the treeView_data. If there are no user-entries in the treeView, it will
+        return a treeView_dataItem instead of a dict.
+        """
+        treeView_data = _data.get(_key, {})
+        if not isinstance(treeView_data, dict):
+            self.logger.debug(
+                f"No '{_key}' data found in the treeView_data passed to set_project_envelope_from_treeView_data()"
+            )
+            return {}
+        return treeView_data
 
     @qtc.pyqtSlot(dict)
     def set_project_team_from_treeView_data(self, _data: Dict[str, str]) -> None:
@@ -494,7 +508,138 @@ class CCModel(qtw.QWidget):
             )
             self.NBDM_project.add_new_baseline_segment(new_segment)
 
+    @qtc.pyqtSlot(dict)
+    def set_project_bldg_components_from_treeView_data(
+        self, _data: Dict[str, Dict[str, Any]]
+    ) -> None:
+        """Set the self.NBDM_project.envelope from the data in the treeView"""
+        self.logger.info("Updating the Project Envelope data.")
+        if not _data:
+            self.logger.error(
+                "No data passed to set_project_envelope_from_treeView_data()"
+            )
+            return
+
+        self.logger.debug("Building NBDM Project.envelope.assemblies from treeView data")
+        self.NBDM_project.envelope.clear_assembly_types()
+        treeView_assembly_data = self._get_treeViewData_as_dict("ASSEMBLIES", _data)
+        for assembly_data in treeView_assembly_data.values():
+            self.NBDM_project.envelope.add_assembly_type(
+                NBDM_Object_from_treeView(
+                    self.output_format, assembly_data, envelope.NBDM_AssemblyType
+                )
+            )
+
+        self.logger.debug("Building NBDM Project.envelope.glazing from treeView data")
+        self.NBDM_project.envelope.clear_glazing_types()
+        treeView_glazing_data = self._get_treeViewData_as_dict("GLAZING", _data)
+        for glazing_data in treeView_glazing_data.values():
+            self.NBDM_project.envelope.add_glazing_type(
+                NBDM_Object_from_treeView(
+                    self.output_format, glazing_data, envelope.NBDM_GlazingType
+                )
+            )
+
+        self.logger.debug("Building NBDM Project.appliances from treeView data")
+        self.NBDM_project.appliances.clear_appliances()
+        treeView_data_dict = self._get_treeViewData_as_dict("APPLIANCES", _data)
+        for appliance_data in treeView_data_dict.values():
+            self.NBDM_project.appliances.add_appliance(
+                NBDM_Object_from_treeView(
+                    self.output_format, appliance_data, appliances.NBDM_Appliance
+                )
+            )
+
+        self.logger.debug("Building NBDM Project.heating_systems from treeView data")
+        self.NBDM_project.heating_systems.clear_devices()
+        treeView_data_dict = self._get_treeViewData_as_dict("HEATING", _data)
+        for appliance_data in treeView_data_dict.values():
+            self.NBDM_project.heating_systems.add_device(
+                NBDM_Object_from_treeView(
+                    self.output_format, appliance_data, heating_systems.NBDM_HeatingDevice
+                )
+            )
+
+        self.logger.debug("Building NBDM Project.cooling_systems from treeView data")
+        self.NBDM_project.cooling_systems.clear_devices()
+        treeView_data_dict = self._get_treeViewData_as_dict("COOLING", _data)
+        for appliance_data in treeView_data_dict.values():
+            self.NBDM_project.cooling_systems.add_device(
+                NBDM_Object_from_treeView(
+                    self.output_format, appliance_data, cooling_systems.NBDM_CoolingDevice
+                )
+            )
+
+        self.logger.debug("Building NBDM Project.ventilation_systems from treeView data")
+        self.NBDM_project.ventilation_systems.clear_devices()
+        treeView_data_dict = self._get_treeViewData_as_dict("VENTILATION", _data)
+        for appliance_data in treeView_data_dict.values():
+            self.NBDM_project.ventilation_systems.add_device(
+                NBDM_Object_from_treeView(
+                    self.output_format,
+                    appliance_data,
+                    ventilation_systems.NBDM_VentilationDevice,
+                )
+            )
+
+        self.logger.debug(
+            "Building NBDM Project.dhw_systems.heating_devices from treeView data"
+        )
+        self.NBDM_project.dhw_systems.clear_heating_devices()
+        treeView_data_dict = self._get_treeViewData_as_dict("HOT WATER HEATERS", _data)
+        for appliance_data in treeView_data_dict.values():
+            self.NBDM_project.dhw_systems.add_heating_device(
+                NBDM_Object_from_treeView(
+                    self.output_format,
+                    appliance_data,
+                    dhw_systems.NBDM_DHWHeatingDevice,
+                )
+            )
+
+        self.logger.debug(
+            "Building NBDM Project.dhw_systems.tank_devices from treeView data"
+        )
+        self.NBDM_project.dhw_systems.clear_tank_devices()
+        treeView_data_dict = self._get_treeViewData_as_dict("HOT WATER TANKS", _data)
+        for appliance_data in treeView_data_dict.values():
+            self.NBDM_project.dhw_systems.add_tank_device(
+                NBDM_Object_from_treeView(
+                    self.output_format,
+                    appliance_data,
+                    dhw_systems.NBDM_DHWTankDevice,
+                )
+            )
+
+        self.logger.debug(
+            "Building NBDM Project.renewable_systems.solar_dhw from treeView data"
+        )
+        self.NBDM_project.renewable_systems.clear_dhw_devices()
+        treeView_data_dict = self._get_treeViewData_as_dict("SOLAR HOT WATER", _data)
+        for appliance_data in treeView_data_dict.values():
+            self.NBDM_project.renewable_systems.add_solar_dhw_device(
+                NBDM_Object_from_treeView(
+                    self.output_format,
+                    appliance_data,
+                    renewable_systems.NBDM_SolarDHWDevice,
+                )
+            )
+
+        self.logger.debug(
+            "Building NBDM Project.renewable_systems.solar_pv from treeView data"
+        )
+        self.NBDM_project.renewable_systems.clear_pv_devices()
+        treeView_data_dict = self._get_treeViewData_as_dict("SOLAR PV", _data)
+        for appliance_data in treeView_data_dict.values():
+            self.NBDM_project.renewable_systems.add_solar_pv_device(
+                NBDM_Object_from_treeView(
+                    self.output_format,
+                    appliance_data,
+                    renewable_systems.NBDM_SolarPVDevice,
+                )
+            )
+
     # -------------------------------------------------------------------------
+    # --
 
     def remove_baseline_segment_by_name(self, _segment_name: str):
         """Remove a baseline building-segment from the project."""
@@ -560,3 +705,14 @@ class CCModel(qtw.QWidget):
     def get_allowable_pf_group_names(self) -> List[str]:
         """Return a list of allowable use Projection-Factor Group names."""
         return PF_Groups.as_list()
+
+    def set_NBDM_project(self, _project: NBDM_Project) -> None:
+        """Set the NBDM_Project object and update the treeViews."""
+        self.logger.debug("Setting self.NBDM_project object.")
+        self.NBDM_project = _project
+
+        self.logger.debug("Updating treeView with new self.NBDM_project data.")
+        self.update_treeview_team()
+        self.update_treeview_baseline()
+        self.update_treeview_proposed()
+        self.update_treeview_bldg_components()

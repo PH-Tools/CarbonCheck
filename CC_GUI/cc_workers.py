@@ -43,6 +43,13 @@ try:
         create_NBDM_BuildingSegment,
         create_NBDM_Team,
         create_NBDM_Site,
+        create_NBDM_Envelope,
+        create_NBDM_Appliances,
+        create_NBDM_Cooling_Systems,
+        create_NBDM_Heating_Systems,
+        create_NBDM_Ventilation_Systems,
+        create_NBDM_Renewable_Systems,
+        create_NBDM_DHW_Systems,
     )
 except Exception as e:
     raise Exception("Error importing NBDM library?", e)
@@ -154,6 +161,7 @@ class WorkerReadProjectData(qtc.QObject):
             _project.team = create_NBDM_Team(phpp_conn)
             _project.site = create_NBDM_Site(phpp_conn)
 
+        self.output("Done reading from PHPP.")
         self.loaded.emit(_project)
 
 
@@ -192,6 +200,7 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
 
             _project.add_new_baseline_segment(new_seg)
 
+        self.output("Done reading from PHPP.")
         self.loaded.emit(_project)
 
 
@@ -223,6 +232,7 @@ class WorkerReadProposedSegmentData(qtc.QObject):
             new_seg = create_NBDM_BuildingSegment(phpp_conn)
             _project.add_new_proposed_segment(new_seg)
 
+        self.output("Done reading from PHPP.")
         self.loaded.emit(_project)
 
 
@@ -231,6 +241,22 @@ class WorkerWriteExcelReport(qtc.QObject):
 
     written = qtc.pyqtSignal(NBDM_Project)
     logger = logging.getLogger()
+
+    def valid_project(self, _project: NBDM_Project) -> bool:
+        """Return True if it a valid Project with data that can be written to the report."""
+        if not _project.variants.baseline.has_building_segments:
+            msg = "Error: 'Baseline' Building Segment data missing. Cannot generate report yet."
+            print_error(msg)
+            self.logger.error(msg)
+            return False
+
+        if not _project.variants.proposed.has_building_segments:
+            msg = "Error: 'Proposed' Building Segment data missing. Cannot generate report yet."
+            print_error(msg)
+            self.logger.error(msg)
+            return False
+
+        return True
 
     @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
     def run(self, _project: NBDM_Project, _log_path: pathlib.Path) -> None:
@@ -257,28 +283,14 @@ class WorkerWriteExcelReport(qtc.QObject):
         with xl.in_silent_mode():
             xl.activate_new_workbook()
             row_num = output_report.write_NBDM_Project(_nbdm_object=_project)
+            row_num = output_report.write_NBDM_Building_Components(_nbdm_object=_project)
             row_num = output_report.write_NBDM_WholeBuilding(_nbdm_object=_project)
             row_num = output_report.write_NBDM_BuildingSegments(_nbdm_object=_project)
             row_num = output_report.write_log(_log_path)
             output_report.remove_sheet_1()
 
+        self.output("Done writing to Excel.")
         self.written.emit(_project)
-
-    def valid_project(self, _project: NBDM_Project) -> bool:
-        """Return True if it a valid Project with data that can be written to the report."""
-        if not _project.variants.baseline.has_building_segments:
-            msg = "Error: 'Baseline' Building Segment data missing. Cannot generate report yet."
-            print_error(msg)
-            self.logger.error(msg)
-            return False
-
-        if not _project.variants.proposed.has_building_segments:
-            msg = "Error: 'Proposed' Building Segment data missing. Cannot generate report yet."
-            print_error(msg)
-            self.logger.error(msg)
-            return False
-
-        return True
 
 
 class WorkerSetPHPPBaseline(qtc.QObject):
@@ -354,6 +366,8 @@ class WorkerSetPHPPBaseline(qtc.QObject):
                 phpp_lighting.set_baseline_lighting_installed_power_density(
                     phpp_conn, _baseline_code
                 )
+
+        self.output("Done setting baseline values in the PHPP.")
 
 
 class WorkerSetWUFIBaseline(qtc.QObject):
@@ -445,6 +459,8 @@ class WorkerSetWUFIBaseline(qtc.QObject):
                 phx_project, _baseline_code, self.output
             )
 
+        self.output("Done setting baseline values in the WUFI Model.")
+
         # ---------------------------------------------------------------------
         # -- Output the XMl model back to the original file location
         try:
@@ -457,11 +473,50 @@ class WorkerSetWUFIBaseline(qtc.QObject):
             print_error(error_message, e)
             return None
 
-        output_filpath = pathlib.Path(_filepath.parent, f"{_filepath.stem}_baseline.xml")
-        self.output(f"Saving the XML file to: '{output_filpath}'")
+        output_filepath = pathlib.Path(_filepath.parent, f"{_filepath.stem}_baseline.xml")
+        self.output(f"Saving the XML file to: '{output_filepath}'")
         try:
-            xml_txt_to_file.write_XML_text_file(output_filpath, xml_txt, False)
+            xml_txt_to_file.write_XML_text_file(output_filepath, xml_txt, False)
         except Exception as e:
-            msg = f"Error writing the XML file to: '{output_filpath}'"
+            msg = f"Error writing the XML file to: '{output_filepath}'"
             print_error(msg, e)
             return None
+
+        self.output("Done writing the new WUFI Baseline file.")
+
+
+class WorkerReadBldgComponentData(qtc.QObject):
+    """Thread Worker for loading Building Component Data from PHPP."""
+
+    loaded = qtc.pyqtSignal(NBDM_Project)
+    logger = logging.getLogger()
+
+    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
+    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
+        print(SEPARATOR)
+        self.output = self.logger.excel  # type: ignore
+        self.output("Reading Building Component data from Excel.")
+
+        try:
+            self.logger.info(f"Connecting to excel document: {_filepath}")
+            xl = xl_app.XLConnection(
+                xl_framework=xw, output=self.output, xl_file_path=_filepath
+            )
+            phpp_conn = phpp_app.PHPPConnection(xl)
+        except Exception as e:
+            msg = f"Error connecting to the PHPP: '{_filepath}'"
+            print_error(msg, e)
+            self.logger.error(msg, e, exc_info=True)
+            return None
+
+        with phpp_conn.xl.in_silent_mode():
+            _project.envelope = create_NBDM_Envelope(phpp_conn)
+            _project.appliances = create_NBDM_Appliances(phpp_conn)
+            _project.heating_systems = create_NBDM_Heating_Systems(phpp_conn)
+            _project.cooling_systems = create_NBDM_Cooling_Systems(phpp_conn)
+            _project.ventilation_systems = create_NBDM_Ventilation_Systems(phpp_conn)
+            _project.dhw_systems = create_NBDM_DHW_Systems(phpp_conn)
+            _project.renewable_systems = create_NBDM_Renewable_Systems(phpp_conn)
+
+        self.output("Done reading from PHPP.")
+        self.loaded.emit(_project)

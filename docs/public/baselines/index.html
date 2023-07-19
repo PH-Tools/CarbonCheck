@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Baselines | PH-Tools.CarbonCheck</title>
+    <link rel="stylesheet" href="/CarbonCheck/css/style.css" type="text/css" media="all" />
+
+    </head>
+
+<body>
+	<div class="container">
+		<header class="header">
+			<div class="header-block">
+  
+
+  
+  <a id="cat_homelogo" class="site-logo" href="http://www.passivehousetools.com/">
+    <img src="/CarbonCheck/img/PHT_Logo_28x28_circle.svg">
+  </a>
+  <a id="cat_homelink" class="site-title" href="http://www.passivehousetools.com/">PH-Tools.</a>
+  <a id="cat_homelink" class="site-title" href="/CarbonCheck/" style="margin-left:0px;">CarbonCheck</a>
+
+  <nav class="site-nav">
+
+    <img class="menu-icon" src="/CarbonCheck/img/burger.svg" />
+
+    <div class="trigger">
+      
+      
+      
+      
+      <a id="cat_quick_start" class="page-link" href="/CarbonCheck/install/">Install</a>
+      
+      
+      
+      <a id="cat_quick_start" class="page-link-active" href="/CarbonCheck/baselines/">Baselines</a>
+      
+      
+      
+      <a id="cat_quick_start" class="page-link" href="/CarbonCheck/reporting/">Reporting</a>
+      
+      
+      
+      <a id="cat_quick_start" class="page-link" href="/CarbonCheck/faq/">FAQ</a>
+      
+      
+      
+      <a id="cat_quick_start" class="page-link" href="/CarbonCheck/contact/">Contact</a>
+      
+      
+
+      <a class="extern-link" href="https://www.youtube.com/channel/UCADxgnNCFNZ3uhaSvezReQA/playlists" target="_blank" title="YouTube Channel">
+        <span class="img-button-title">YouTube</span>
+        <img class="img-extern-link" id="youtube-link" width="28" height="28" src="/CarbonCheck/img/youtube.svg" />
+      </a>
+
+      <a class="extern-link" href="https://github.com/PH-Tools/CarbonCheck" target="_blank"
+        title="Source Code Repository on Github">
+        <span class="img-button-title">Github</span>
+        <img class="img-extern-link" id="github-link" width="28" height="28" src="/CarbonCheck/img/github.svg" />
+      </a>
+
+    </div>
+
+  </nav>
+</div>
+		</header>
+	</div>
+
+<div class="container">
+    <main class="content">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                
+                <nav class="sidebar">
+                    
+
+<ul class="nav scrollbar">
+    <a class="sidebar-section-head" href="https://ph-tools.github.io/CarbonCheck/baselines/">Baselines</a>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-wufi-baselines">1. WUFI Baselines</a>
+      <ul>
+        <li><a href="#wufi-step-1-save-your-model-as-an-xml-file">[WUFI] Step 1: Save your model as an XML File</a></li>
+        <li><a href="#wufi-step-2-read-in-the-xml-file">[WUFI] Step 2: Read in the XML File</a></li>
+        <li><a href="#wufi-step-3-specify-the-baseline-configuration">[WUFI] Step 3: Specify the Baseline Configuration</a></li>
+        <li><a href="#wufi-step-4-create-the-baseline-model">[WUFI] Step 4: Create the Baseline Model</a></li>
+        <li><a href="#wufi-step-5-open-the-new-wufi-baseline-model">[WUFI] Step 5: Open the new WUFI-Baseline Model</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-phpp-baselines">2. PHPP Baselines</a>
+      <ul>
+        <li><a href="#phpp-step-1-specify-the-source-phpp-file">[PHPP] Step 1: Specify the &lsquo;Source&rsquo; PHPP File</a></li>
+        <li><a href="#phpp-step-2-specify-the-baseline-configuration">[PHPP] Step 2: Specify the Baseline Configuration</a></li>
+        <li><a href="#phpp-step-3-create-the-baseline-model">[PHPP] Step 3: Create the Baseline Model</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</ul>
+                </nav>
+
+                
+                <div class="side-content">
+                    <h1 id="creating-baseline-models">Creating Baseline Models</h1>
+<p>CarbonCheck includes tools to create automatic baseline versions of your PHPP or WUFI-Passive energy models. These features allow you to specify a &lsquo;source&rsquo; model which describes your proposed design, and then CarbonCheck will modify this model to match the requirements of the New York State Energy Conservation Code baseline configuration. The exact baseline specifications used will vary depending on the climate zone and other building attributes. For more information on the baseline settings required, see the <a href="https://up.codes/viewer/new_york/ny-energy-conservation-code-2020/chapter/CE_4/ce-commercial-energy-efficiency#C407.5.1">NYS Energy Code | Section C407.5.1</a></p>
+<p>The basic usage steps for both WUFI-Passive and PHPP are shown below.</p>
+<h2 id="1-wufi-baselines">1. WUFI Baselines</h2>
+<h3 id="wufi-step-1-save-your-model-as-an-xml-file">[WUFI] Step 1: Save your model as an XML File</h3>
+<p>To get started, you will need a valid WUFI-Passive model with your proposed building design. In order to let CarbonCheck read in this model data, first export your WUFI-Model as an xml file, and save the file to your computer someplace that you will be able to find it.
+<img src="/CarbonCheck/img/baseline/WUFI_save_as_XML_1.png" alt="Basic honeybee-model grasshopper">
+<img src="/CarbonCheck/img/baseline/WUFI_save_as_XML_2.png" alt="Basic honeybee-model grasshopper"></p>
+<h3 id="wufi-step-2-read-in-the-xml-file">[WUFI] Step 2: Read in the XML File</h3>
+<p>Open up CarbonCheck and navigate to the &lsquo;Create Baseline Model&rsquo; tab, if it is not already open. At the top, you will see an option to specify the source file. This WUFI-XML file is the &lsquo;source&rsquo; file you want CarbonCheck to read in. Simply navigate to the folder where you save the XML file, and select it.
+<img src="/CarbonCheck/img/baseline/WUFI_specify_xml.png" alt="Basic honeybee-model preview"></p>
+<h3 id="wufi-step-3-specify-the-baseline-configuration">[WUFI] Step 3: Specify the Baseline Configuration</h3>
+<p>Using the options in the dropdown menus, select the appropriate configuration settings for your project&rsquo;s climate zone and type. For questions on the correct options to specify for your project, take a look at the <a href="https://up.codes/viewer/new_york/ny-energy-conservation-code-2020/chapter/CE_4/ce-commercial-energy-efficiency#C407.5.1">NYS Energy Code | Section C407.5.1</a>
+<img src="/CarbonCheck/img/baseline/WUFI_options.png" alt="Basic honeybee-model preview"></p>
+<h3 id="wufi-step-4-create-the-baseline-model">[WUFI] Step 4: Create the Baseline Model</h3>
+<p>Once the source model and options are specified, generate the baseline model. CarbonCheck will read in the XML file, modify attributes such as window U-Values and wall R-Values in line with the baseline configurations specified, and then save out a brand new WUFI-XML file.
+<img src="/CarbonCheck/img/baseline/WUFI_run.png" alt="Basic honeybee-model preview"></p>
+<h3 id="wufi-step-5-open-the-new-wufi-baseline-model">[WUFI] Step 5: Open the new WUFI-Baseline Model</h3>
+<p>Using WUFI-Passive, open the newly generated XML file as you would any other WUFI-Passive file. Once it opens, you will see that the specifications for the project have been adjusted to match the code-required baseline levels throughout.
+<img src="/CarbonCheck/img/baseline/WUFI_open_xml_1.png" alt="Basic honeybee-model preview">
+Note: if you don&rsquo;t see your new baseline file at first, be sure to select &lsquo;XML&rsquo; from the Open dialog window&rsquo;s filter.
+<img src="/CarbonCheck/img/baseline/WUFI_open_xml_2.png" alt="Basic honeybee-model preview"></p>
+<p>Success. You now have a properly baseline&rsquo;d energy model you can use for comparing your proposed design to.</p>
+<h2 id="2-phpp-baselines">2. PHPP Baselines</h2>
+<h3 id="phpp-step-1-specify-the-source-phpp-file">[PHPP] Step 1: Specify the &lsquo;Source&rsquo; PHPP File</h3>
+<p>Using CarbonCheck, specify the &lsquo;source&rsquo; PHPP file which describes your proposed design. It is best practice to make a backup copy of this PHPP file before proceeding to ensure that CarbonCheck doesn&rsquo;t overwrite anything critical to your design model. If this file is not already open, CarbonCheck should open this file using Microsoft Excel automatically.
+<img src="/CarbonCheck/img/baseline/PHPP_specify_phpp.png" alt="Basic honeybee-model preview"></p>
+<h3 id="phpp-step-2-specify-the-baseline-configuration">[PHPP] Step 2: Specify the Baseline Configuration</h3>
+<p>Using the options in the dropdown menus, select the appropriate configuration settings for your project&rsquo;s climate zone and type. For questions on the correct options to specify for your project, take a look at the <a href="https://up.codes/viewer/new_york/ny-energy-conservation-code-2020/chapter/CE_4/ce-commercial-energy-efficiency#C407.5.1">NYS Energy Code | Section C407.5.1</a>
+<img src="/CarbonCheck/img/baseline/WUFI_options.png" alt="Basic honeybee-model preview"></p>
+<h3 id="phpp-step-3-create-the-baseline-model">[PHPP] Step 3: Create the Baseline Model</h3>
+<p>Once the source model and options are specified, generate the baseline model. CarbonCheck will walk through the PHPP file, modifying attributes such as window U-Values and wall R-Values in line with the baseline configurations specified. Once this is complete, you an save or save-as the PHPP file to your hard drive.
+<img src="/CarbonCheck/img/baseline/WUFI_run.png" alt="Basic honeybee-model preview"></p>
+<p>Success. You now have a properly baseline&rsquo;d energy model you can use for comparing your proposed design to.</p>
+
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<div class="container">
+	<footer class="footer">
+		<p>&copy;2021-2023 bldgtyp, llc</p>
+		<p>PH-Tools and CarbonCheck are projects of bldgtyp, llc
+			If you'd like to contribute or talk more about CarbonCheck,
+			contact: CarbonCheck@PassiveHouseAccelerator.com, or check out the <a target="_blank"
+				href="https://github.com/PH-Tools/CarbonCheck">github repository.</a>
+			PH-Tools are free under the terms of the
+			<a target="_blank" href="https://www.gnu.org/licenses/">GNU General Public License</a>
+			as published by the Free Software Foundation.
+		</p>
+	</footer>
+</div>
+
+</body>
+
+</html>

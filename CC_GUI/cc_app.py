@@ -24,6 +24,8 @@ try:
     from CC_GUI.views.view_main_window import CCMainWindow, file_type
     from CC_GUI.views.view_baseline_options_window import Window_BaselineOptions
     from CC_GUI.views.view_team_site_window import Window_TeamAndSiteData
+    from CC_GUI.views.view_building_components import Window_BuildingComponents
+    from CC_GUI.views.tree_view_tools import find_parent_treeView_index
     from CC_GUI.cc_model import CCModel
     from CC_GUI.cc_workers import WorkerReceiveText, WriteStream
     from CC_GUI.cc_app_config import (
@@ -49,20 +51,24 @@ except Exception as e:
 class Tab_Report:
     """The 'Report' tab of the CarbonCheck application."""
 
-    def __init__(self, _model: CCModel, _view: CCMainWindow, _excel_log_path: Path):
+    def __init__(
+        self, _model: CCModel, _view: CCMainWindow, _excel_log_path: Path
+    ) -> None:
         self.excel_log_path = _excel_log_path
         self.logger = logging.getLogger(__name__)
-        self.logger.debug("Creating Tab_Report")
+        self.logger.debug("Creating Tab_Report...")
 
         self.model = _model
         self.view = _view
 
         # -- Connect the Baseline Options Button and Data
         self.window_team_and_site = Window_TeamAndSiteData()
+        self.window_bldg_components = Window_BuildingComponents()
+        self.logger.debug("Tab_Report successfully setup.")
 
     def _connect_buttons_and_signals(self) -> None:
         """Connect the buttons and signals for the 'Report' tab."""
-        # -- Connect the Model and View
+        # -- Hook up the [ View ]--Signals->  - - - >-Slots--[ Model ]
         self.window_team_and_site.got_team_data.connect(
             self.model.set_project_team_from_treeView_data
         )
@@ -70,15 +76,17 @@ class Tab_Report:
             self.model.set_project_site_from_treeView_data
         )
 
-        # -- Base Tab Buttons
+        # -- Hook up the [ View ]--Signals->  - - - >-Methods--[ Self ]
+        # -- Tab Buttons
         self.view.ui.btn_add_baseline_seg.clicked.connect(self.add_baseline_seg_from_file)
         self.view.ui.btn_add_proposed_seg.clicked.connect(self.add_proposed_seg_from_file)
         self.view.ui.btn_create_report.clicked.connect(self.write_report)
         self.view.ui.btn_del_baseline_seg.clicked.connect(self.delete_baseline_seg)
         self.view.ui.btn_del_proposed_seg.clicked.connect(self.delete_proposed_seg)
         self.view.ui.btn_show_team_info.clicked.connect(self.team_and_site_show)
+        self.view.ui.btn_show_bldg_components.clicked.connect(self.bldg_component_show)
 
-        # -- Team and Site Info Window
+        # -- Team and Site Info Window and Buttons
         self.window_team_and_site.got_team_data.connect(self.model.update_treeview_team)
         self.window_team_and_site.got_site_data.connect(self.model.update_treeview_team)
         self.window_team_and_site.ui.btn_add_team_info.clicked.connect(
@@ -87,15 +95,23 @@ class Tab_Report:
         self.window_team_and_site.ui.btn_OK.clicked.connect(self.team_and_site_ok)
         self.window_team_and_site.ui.btn_Cancel.clicked.connect(self.team_and_site_cancel)
 
-    def add_project_info_from_file(self) -> None:
-        """Load 'Project' information from a single PHPP file (Team, Climate, Site...)"""
-        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
+        # -- Building Component Window and Buttons
+        self.window_bldg_components.got_building_component_data.connect(
+            self.model.set_project_bldg_components_from_treeView_data
+        )
+        self.window_bldg_components.got_building_component_data.connect(
+            self.model.update_treeview_bldg_components
+        )
+        self.window_bldg_components.ui.btn_add_bldg_component_info.clicked.connect(
+            self.add_bldg_component_info_from_file
+        )
+        self.window_bldg_components.ui.btn_OK.clicked.connect(self.bldg_component_ok)
+        self.window_bldg_components.ui.btn_Cancel.clicked.connect(
+            self.bldg_component_cancel
+        )
 
-        if not filepath or not filepath.exists():
-            return None
-
-        # -- Send the signal to the Model to run the reader
-        self.model.sig_read_project_data_from_file.emit(self.model.NBDM_project, filepath)
+    # -------------------------------------------------------------------------
+    # -- Building Segments Window and Buttons
 
     def add_baseline_seg_from_file(self) -> None:
         """Load a new Baseline Segment's data from a single PHPP file."""
@@ -121,15 +137,6 @@ class Tab_Report:
             self.model.NBDM_project, filepath
         )
 
-    def find_parent_treeView_index(self, _index: qtc.QModelIndex) -> qtc.QModelIndex:
-        """Given a starting treeView index, walk up the tree to find the parent index."""
-        if not _index.parent().data():
-            # -- If the .parent().data() of the index is 'None', this index is the top node
-            return _index
-        else:
-            # -- If not, climb up one level and try again
-            return self.find_parent_treeView_index(_index.parent())
-
     def delete_baseline_seg(self) -> None:
         """Remove a baseline segment from the treeView."""
 
@@ -139,7 +146,7 @@ class Tab_Report:
 
         # -- Find the Building Segment Name selected in the treeView
         starting_idx = selected_indexes[0]
-        parent_idx = self.find_parent_treeView_index(starting_idx)
+        parent_idx = find_parent_treeView_index(starting_idx)
         bldg_segment_name = parent_idx.data().split(":")[-1].strip()
 
         # -- Remove it
@@ -155,12 +162,71 @@ class Tab_Report:
 
         # -- Find the Building Segment Name selected in the treeView
         starting_idx = selected_indexes[0]
-        parent_idx = self.find_parent_treeView_index(starting_idx)
+        parent_idx = find_parent_treeView_index(starting_idx)
         bldg_segment_name = parent_idx.data().split(":")[-1].strip()
 
         # -- Remove it
         print(f"Removing Proposed Segment '{bldg_segment_name}' from the Project.")
         self.model.remove_proposed_segment_by_name(bldg_segment_name)
+
+    # -------------------------------------------------------------------------
+    # -- Team and Site Window and Buttons
+
+    def add_project_info_from_file(self) -> None:
+        """Load 'Project' information from a single PHPP file (Team, Climate, Site...)"""
+        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
+
+        if not filepath or not filepath.exists():
+            return None
+
+        # -- Send the signal to the Model to run the reader
+        self.model.sig_read_project_data_from_file.emit(self.model.NBDM_project, filepath)
+
+    def team_and_site_show(self) -> None:
+        """Show the Team/Site Data input Window."""
+        self.window_team_and_site.show()
+        self.model.update_treeview_team()
+
+    def team_and_site_ok(self) -> None:
+        """Run on 'OK' click from the Team and Site Info Window."""
+        self.model.set_project_from_gui()
+        self.window_team_and_site.close_window()
+
+    def team_and_site_cancel(self) -> None:
+        """Run on 'Cancel' click from the Team and Site Info Window."""
+        self.window_team_and_site.close_window()
+
+    # -------------------------------------------------------------------------
+    # -- Building Component Window and Buttons
+
+    def add_bldg_component_info_from_file(self) -> None:
+        """Load 'Bldg-Component' information from a single PHPP file (Envelope, Appliances, etc..)"""
+        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
+
+        if not filepath or not filepath.exists():
+            return None
+
+        # -- Send the signal to the Model to run the reader
+        self.model.sig_read_bldg_component_data_from_file.emit(
+            self.model.NBDM_project, filepath
+        )
+
+    def bldg_component_show(self) -> None:
+        """Show the Building-Components Data input Window."""
+        self.window_bldg_components.show()
+        self.model.update_treeview_bldg_components()
+
+    def bldg_component_ok(self) -> None:
+        """Run on 'OK' click from the Building-Components Info Window."""
+        self.model.set_project_from_gui()
+        self.window_bldg_components.close_window()
+
+    def bldg_component_cancel(self) -> None:
+        """Run on 'Cancel' click from the Building-Components Info Window."""
+        self.window_bldg_components.close_window()
+
+    # -------------------------------------------------------------------------
+    # -- Write Report Buttons
 
     def write_report(self) -> None:
         """Write the report to the log file."""
@@ -172,22 +238,6 @@ class Tab_Report:
         self.logger.debug("Rebuilding NBDM Project from GUI data")
         self.model.set_project_from_gui()
         self.model.sig_write_excel_report.emit(self.model.NBDM_project, _log_path)
-
-    # -------------------------------------------------------------------------
-    # -- Team and Site Window
-    def team_and_site_show(self) -> None:
-        """Show the Team/Site Data input Window."""
-        self.window_team_and_site.show()
-        self.model.update_treeview_team()
-
-    def team_and_site_ok(self):
-        """Run on 'OK' click from the Team and Site Info Window."""
-        self.model.set_project_from_gui()
-        self.window_team_and_site.close_window()
-
-    def team_and_site_cancel(self):
-        """Run on 'Cancel' click from the Team and Site Info Window."""
-        self.window_team_and_site.close_window
 
 
 class Dialog_PHPPBaselineConfirmation(qtw.QMessageBox):
@@ -231,7 +281,7 @@ class Tab_Baseline:
 
     def __init__(self, _model: CCModel, _view: CCMainWindow):
         self.logger = logging.getLogger(__name__)
-        self.logger.debug("Creating Tab_PHPPBaseline")
+        self.logger.debug("Creating Tab_PHPPBaseline...")
 
         self.model = _model
         self.view = _view
@@ -249,6 +299,7 @@ class Tab_Baseline:
         self.populate_dropdown_climate_zones()
         self.populate_dropdown_use_types()
         self.populate_dropdown_pf_groups()
+        self.logger.debug("Tab_PHPPBaseline successfully setup.")
 
     def _connect_buttons_and_signals(self):
         """Connect the buttons and signals for this tab."""
@@ -466,6 +517,7 @@ class CCApp(qtw.QApplication):
 
         # Set up to terminate the QThread when we exit
         self.aboutToQuit.connect(self.force_quit)
+        self.logger.info("Finished starting up Application.")
 
     def set_logo_paths(self) -> None:
         # -- NYSERDA
@@ -562,24 +614,29 @@ class CCApp(qtw.QApplication):
 
     def _connect_all_button_signals(self) -> None:
         """Hook up all the Buttons signals to the appropriate slot."""
-        self.logger.debug("Connecting signals and slots.")
+        self.logger.debug("Connecting signals and slots...")
 
         # ---------------------------------------------------------------------
-        # -- Hook up the Model-->View signals
+        # -- Hook up the [ Model ]--Signals->  - - - >-Slots--[ View ]
+
+        # -- Set the [View] treeView Data
         self.model.sig_load_team_data.connect(
             self.tab_report.window_team_and_site.set_treeView_data_team
         )
         self.model.sig_load_site_data.connect(
             self.tab_report.window_team_and_site.set_treeView_data_team
         )
-
         self.model.sig_load_baseline_segments_data.connect(
             self.view.set_treeView_data_baseline
         )
         self.model.sig_load_proposed_segments_data.connect(
             self.view.set_treeView_data_proposed
         )
+        self.model.sig_load_bldg_components_data.connect(
+            self.tab_report.window_bldg_components.set_treeView_bldg_components
+        )
 
+        # -- Read data form [View] treeView
         self.model.sig_read_treeView_team.connect(
             self.tab_report.window_team_and_site.get_treeView_data_team
         )
@@ -592,9 +649,12 @@ class CCApp(qtw.QApplication):
         self.model.sig_read_treeView_proposed_segments.connect(
             self.view.sig_get_treeView_data_proposed_building
         )
+        self.model.sig_read_treeView_bldg_components.connect(
+            self.tab_report.window_bldg_components.get_treeView_data_building_components
+        )
 
         # ---------------------------------------------------------------------
-        # -- Hook up the View-->Model signals
+        # -- Hook up the [ View ]--Signals->  - - - >-Slots--[ Model ]
         self.view.sig_got_baseline_building_data.connect(
             self.model.set_project_baseline_segments_from_treeView_data
         )
@@ -606,9 +666,12 @@ class CCApp(qtw.QApplication):
         # -- Connect the Tab Buttons and signals
         self.tab_report._connect_buttons_and_signals()
         self.tab_baseline._connect_buttons_and_signals()
+        self.logger.debug("Done connecting signals and slots.")
 
-    def _connect_button_loggers(self):
+    def _connect_button_loggers(self) -> None:
         """Connect all the QButtons to the click_logger method for debugging."""
+        self.logger.debug("Connecting button loggers...")
+
         for button in self.view.buttons:
             button.clicked.connect(self.click_logger)
 
@@ -618,15 +681,20 @@ class CCApp(qtw.QApplication):
         for button in self.tab_report.window_team_and_site.buttons:
             button.clicked.connect(self.click_logger)
 
-    def _connect_action_loggers(self):
+        for button in self.tab_report.window_bldg_components.buttons:
+            button.clicked.connect(self.click_logger)
+
+    def _connect_action_loggers(self) -> None:
         """Connect all the QActions to the click_logger method for debugging."""
+        self.logger.debug("Connecting action loggers...")
+
         for action in self.view.actions:
             action.triggered.connect(self.click_logger)
 
     # -------------------------------------------------------------------------
     # -- GUI Preview Panel internal methods
 
-    def _startup_preview_panel(self):
+    def _startup_preview_panel(self) -> None:
         # -- Setup the Queue for capturing stdout to the GUI's preview panel, as shown in:
         # https://stackoverflow.com/questions/21071448/redirecting-stdout-and-stderr-to-a-pyqt4-qtextedit-from-a-secondary-thread
         # https://stackoverflow.com/questions/616645/how-to-duplicate-sys-stdout-to-a-log-file
@@ -634,23 +702,23 @@ class CCApp(qtw.QApplication):
         sys.stdout = WriteStream(self.queue)
         self._configure_worker_threads()
 
-    def _configure_worker_threads(self):
+    def _configure_worker_threads(self) -> None:
         """Configure and start up all the worker threads for stdout stream."""
         self._create_workers()
         self._start_worker_threads()
         self._connect_worker_signals()
 
-    def _create_workers(self):
+    def _create_workers(self) -> None:
         self.mutex = qtc.QMutex()
         self.worker_txt_receiver = WorkerReceiveText(self.queue, self.mutex)
         self.worker_txt_receiver_thread = qtc.QThread()
 
-    def _start_worker_threads(self):
+    def _start_worker_threads(self) -> None:
         self.worker_txt_receiver.moveToThread(self.worker_txt_receiver_thread)
         self.worker_txt_receiver_thread.start()
 
     @qtc.pyqtSlot(str)
-    def _append_text(self, text):
+    def _append_text(self, text: str) -> None:
         self.view.ui.textEdit_output.moveCursor(qtg.QTextCursor.MoveOperation.End)
         self.view.ui.textEdit_output.insertPlainText(text)
 

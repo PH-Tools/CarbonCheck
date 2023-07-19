@@ -3,6 +3,9 @@
 
 """Model formatting for user-facing (Excel, GUI, etc) and object field ordering."""
 
+# ------------------------------------------------------------
+# -- Project
+
 
 class Format_NBDM_Project:
     project_name = "Project Name"
@@ -10,6 +13,10 @@ class Format_NBDM_Project:
     report_date = "Report Date"
     site = "Site"
     team = "Team"
+
+
+# ------------------------------------------------------------
+# -- Project Data (Site, Climate)
 
 
 class Format_NBDM_Site:
@@ -67,6 +74,10 @@ class Format_NBDM_Building:
     geometry = "Geometry"
     occupancy = "Occupancy"
     performance = "Performance"
+
+
+# ------------------------------------------------------------
+# -- Building Segments
 
 
 class Format_NBDM_BuildingSegment:
@@ -161,3 +172,79 @@ class Format_NBDM_PeakCoolingLoad:
     gains_internal = "Peak Internal Heat Gains"
     losses_total = "Total Peak Sensible Cooling Losses"
     gains_total = "Total Peak Sensible Cooling Gains"
+
+
+# ------------------------------------------------------------
+# -- Building Specifications
+
+
+class Format_NBDM_AssemblyType:
+    name = "Assembly Type"
+    u_value = "U-Value"
+    r_value = "R-Value"
+    ext_exposure = "Exterior Exposure"
+    int_exposure = "Interior Exposure"
+
+
+class Format_NBDM_ApertureType:
+    name = "Window Type"
+    u_value = "U-Value"
+
+
+class Format_NBDM_GlazingType:
+    display_name = "Glazing Type"
+    u_value = "U-Value"
+    g_value = "SHGC"
+
+
+class Format_NBDM_Appliance:
+    display_name = "Device"
+    appliance_type = "Type Number"
+    quantity = "Quantity"
+    annual_energy_use = "Annual Energy Use"
+
+
+class Format_NBDM_HeatingDevice:
+    device_type = "Device Type"
+    coverage_segment_heating = "Heating % Covered"
+
+
+class Format_NBDM_CoolingDevice:
+    device_type = "Device Type"
+    cooling_device_name = "Device"
+    SEER = "SEER"
+    num_units = "Quantity"
+
+
+class Format_NBDM_VentilationDevice:
+    display_name = "Device Name"
+    vent_unit_type_name = "Ventilator Unit Type"
+    quantity = "Quantity"
+    hr_efficiency = "Heat Recovery Efficiency"
+    mr_efficiency = "Moisture Recovery Efficiency"
+
+
+class Format_NBDM_DHWHeatingDevice:
+    device_type = "Device Type"
+    coverage_segment_hot_water = "Hot Water % Covered"
+
+
+class Format_NBDM_DHWTankDevice:
+    display_name = "Name"
+    heat_loss_rate = "Heat Loss Rate"
+    volume = "Volume"
+
+
+class Format_NBDM_SolarDHWDevice:
+    footprint = "Footprint"
+    annual_dhw_energy = "Hot-Water Energy"
+    annual_dhw_contribution = "How Water Contribution"
+    annual_heating_energy = "Heating Energy"
+    annual_heating_contribution = "Heating Contribution"
+
+
+class Format_NBDM_SolarPVDevice:
+    display_name = "Name"
+    footprint = "Footprint"
+    size = "Array Size"
+    annual_pv_energy = "PV Energy"

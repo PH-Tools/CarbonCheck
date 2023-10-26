@@ -35,7 +35,6 @@ try:
     )
 except Exception as e:
     raise Exception("Error importing CC_GUI library?", e)
-
 try:
     from ph_baseliner.codes.options import (
         BaselineCodes,
@@ -115,7 +114,7 @@ class Tab_Report:
 
     def add_baseline_seg_from_file(self) -> None:
         """Load a new Baseline Segment's data from a single PHPP file."""
-        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
+        filepath = self.view.get_file_path(filter=file_type.PH_SEGMENT_SOURCE)
 
         if not filepath or not filepath.exists():
             return None

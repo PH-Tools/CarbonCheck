@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -*- Python Version: 3.11 -*-
 
 """Thread Workers called by Model and App processes."""
@@ -51,6 +52,8 @@ try:
         create_NBDM_Renewable_Systems,
         create_NBDM_DHW_Systems,
     )
+    from NBDM.from_WUFI_PDF import pdf_reader
+    from NBDM.from_WUFI_PDF import create_NBDM_BuildingSegmentFromWufiPDF
 except Exception as e:
     raise Exception("Error importing NBDM library?", e)
 
@@ -171,12 +174,13 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
     loaded = qtc.pyqtSignal(NBDM_Project)
     logger = logging.getLogger()
 
-    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
-    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
-        print(SEPARATOR)
+    def _read_segment_from_excel(
+        self, _project: NBDM_Project, _filepath: pathlib.Path
+    ) -> Optional[NBDM_Project]:
         self.output = self.logger.excel  # type: ignore
-        self.output("Reading Baseline Building Segment data from Excel.")
+        self.output(f"Reading Baseline Building Segment data from File: {_filepath}")
 
+        # -- Connect to the PHPP XL Document
         try:
             self.logger.info(f"Connecting to excel document: {_filepath}")
             xl = xl_app.XLConnection(
@@ -189,19 +193,68 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
             self.logger.error(msg, e, exc_info=True)
             return None
 
+        # -- Create a new NBDM Segment from the PHPP
         with phpp_conn.xl.in_silent_mode():
             try:
                 new_seg = create_NBDM_BuildingSegment(phpp_conn)
             except PHPPDataMissingException as e:
-                msg = "Error creating the Baseline Building Segment."
+                msg = f"Error creating the Baseline Building Segment from file: {_filepath.name}."
                 print_error(msg, e)
                 self.logger.error(msg, e, exc_info=True)
                 return None
 
             _project.add_new_baseline_segment(new_seg)
 
-        self.output("Done reading from PHPP.")
-        self.loaded.emit(_project)
+        self.output(f"Done reading from Building Segment File: {_filepath.name}")
+        return _project
+
+    def _read_segment_from_wufi(
+        self, _project: NBDM_Project, _filepath: pathlib.Path
+    ) -> Optional[NBDM_Project]:
+        self.output = self.logger.wufi  # type: ignore
+        self.output(f"Reading Baseline Building Segment data from File: {_filepath}")
+
+        # -- Read in the WUFI-PDF file
+        try:
+            self.logger.info(f"Connecting to WUFI-PDF document: {_filepath}")
+            pdf_reader_obj = pdf_reader.PDFReader()
+            pdf_data = pdf_reader_obj.extract_pdf_text(_filepath)
+        except Exception as e:
+            msg = f"Error reading WUFI-PDF file:\n{e}"
+            print_error(msg)
+            self.logger.error(msg, exc_info=True)
+            return None
+
+        # -- Build a new NBDM Segment from the WUFI-PDF data
+        try:
+            new_seg = create_NBDM_BuildingSegmentFromWufiPDF(pdf_data)
+        except Exception as e:
+            msg = f"Error creating the Baseline Building Segment from WUFI-PDF file: {_filepath.name}."
+            print_error(msg, e)
+            self.logger.error(msg, e, exc_info=True)
+            return None
+
+        _project.add_new_baseline_segment(new_seg)
+
+        self.output(f"Done reading from Building Segment File: {_filepath.name}")
+        return _project
+
+    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
+    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
+        print(SEPARATOR)
+
+        if _filepath.suffix.upper() in [".XLSX", ".XLS", ".XLSM"]:
+            if project := self._read_segment_from_excel(_project, _filepath):
+                self.loaded.emit(project)
+        elif _filepath.suffix.upper() == ".PDF":
+            if project := self._read_segment_from_wufi(_project, _filepath):
+                self.loaded.emit(project)
+        else:
+            msg = (
+                f"Error: The file format '{_filepath.suffix}' is not supported?  "
+                "Please select a valid Excel (*.xlsx | *.xls) or WUFI-PDF (*.pdf) file."
+            )
+            raise Exception(msg)
 
 
 class WorkerReadProposedSegmentData(qtc.QObject):

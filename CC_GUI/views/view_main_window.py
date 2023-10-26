@@ -24,9 +24,11 @@ from CC_GUI.views.ui_files.layout_app import Ui_MainWindow
 class file_type(Enum):
     NONE = ""
     JSON = "JSON (*.json)"
-    PH_MODELS = "PHPP or WUFI-XML (*.xlsx *.xml *.xml)"
+    PH_MODELS = "PHPP or WUFI-XML (*.xlsx *.xml)"
+    PH_SEGMENT_SOURCE = "PHPP or WUFI-PDF (*.xlsx *.xls *.xlsm *.pdf)"
     XML = "XML (*.xml)"
     XL = "Excel (*.xlsx *.xls *.xlsm)"
+    PDF = "PDF (*.pdf)"
 
 
 class CCMainWindow(qtw.QMainWindow):

@@ -11,11 +11,11 @@ from NBDM.from_WUFI_PDF.performance import build_NBDM_performanceFromWufiPDF
 from NBDM.model import building
 from NBDM.model import enums
 
-from NBDM.from_WUFI_PDF.pdf_sections.typing import PDFSectionType
+from NBDM.from_WUFI_PDF.pdf_sections.__typing import WufiPDF_SectionType
 
 
 def create_NBDM_BuildingSegmentFromWufiPDF(
-    _pdf_data: Dict[str, PDFSectionType]
+    _pdf_data: Dict[str, WufiPDF_SectionType]
 ) -> building.NBDM_BuildingSegment:
     """Read in data from a PHPP and build up a new BuildingSegment."""
 

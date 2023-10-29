@@ -9,3 +9,4 @@ rich
 xlwings
 PyQt6
 PyYAML
+pdfplumber

@@ -1,3 +1,7 @@
+# -*- Python Version: 3.11 -*-
+
+"""WUFI-PDF Section: Passive House Requirements"""
+
 from typing import Any, List, Dict
 from ph_units.unit_type import Unit
 from ph_units.parser import parse_input
@@ -34,8 +38,7 @@ class _subsection_base:
         self._lines.append(line)
 
     def process_subsection_text(self) -> None:
-        return
-        raise NotImplementedError
+        raise NotImplementedError()
 
 
 class heating_demand(_subsection_base):
@@ -278,8 +281,9 @@ class airtightness(_subsection_base):
 # -----------------------------------------------------------------------------
 
 
-class PHRequirements:
+class WufiPDF_PHRequirements:
     __pdf_heading_string__ = "PASSIVEHOUSE REQUIREMENTS"
+    get_tables = False
     result_type_sections: Dict[str, type] = {
         heating_demand.__pdf_section_string__: heating_demand,
         cooling_demand.__pdf_section_string__: cooling_demand,
@@ -292,9 +296,13 @@ class PHRequirements:
 
     def __init__(self) -> None:
         self._lines: List[str] = []
+        self._tables = []
 
     def add_line(self, _line: str) -> None:
         self._lines.append(_line)
+
+    def add_table(self, _table: List) -> None:
+        self._tables.append(_table)
 
     def process_section_text(self) -> None:
         subsection = _subsection_base()

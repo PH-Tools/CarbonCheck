@@ -3,6 +3,7 @@
 
 """Thread Workers called by Model and App processes."""
 
+from enum import Enum
 import io
 import traceback
 import logging
@@ -53,7 +54,18 @@ try:
         create_NBDM_DHW_Systems,
     )
     from NBDM.from_WUFI_PDF import pdf_reader
-    from NBDM.from_WUFI_PDF import create_NBDM_BuildingSegmentFromWufiPDF
+    from NBDM.from_WUFI_PDF import (
+        create_NBDM_BuildingSegmentFromWufiPDF,
+        create_NBDM_Team_from_WufiPDF,
+        create_NBDM_Site_from_WufiPDF,
+        create_NBDM_Envelope_from_WufiPDF,
+        create_NBDM_Appliances_from_WufiPDF,
+        create_NBDM_Heating_Systems_from_WufiPDF,
+        create_NBDM_Cooling_Systems_from_WufiPDF,
+        create_NBDM_Vent_Systems_from_WufiPDF,
+        create_NBDM_DHW_Systems_from_WufiPDF,
+        create_NBDM_Renewable_Systems_from_WufiPDF,
+    )
 except Exception as e:
     raise Exception("Error importing NBDM library?", e)
 
@@ -71,6 +83,13 @@ except Exception as e:
 
 
 SEPARATOR = "- " * 50
+
+
+class SegmentTypename(Enum):
+    """Enum for the different types of Building Segments."""
+
+    BASELINE = "Baseline"
+    PROPOSED = "Proposed"
 
 
 def print_error(_msg: str, _e: Optional[Exception] = None):
@@ -142,12 +161,13 @@ class WorkerReadProjectData(qtc.QObject):
     loaded = qtc.pyqtSignal(NBDM_Project)
     logger = logging.getLogger()
 
-    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
-    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
-        print(SEPARATOR)
+    def _read_data_from_phpp(
+        self, _project: NBDM_Project, _filepath: pathlib.Path
+    ) -> Optional[NBDM_Project]:
         self.output = self.logger.excel  # type: ignore
         self.output("Reading Project Team and Site data from Excel.")
 
+        # -- Connect to the PHPP XL Document
         try:
             self.logger.info(f"Connecting to excel document: {_filepath}")
             xl = xl_app.XLConnection(
@@ -160,6 +180,7 @@ class WorkerReadProjectData(qtc.QObject):
             self.logger.error(msg, e, exc_info=True)
             return None
 
+        # -- Create new Team and Site objects from the PHPP
         with phpp_conn.xl.in_silent_mode():
             _project.team = create_NBDM_Team(phpp_conn)
             _project.site = create_NBDM_Site(phpp_conn)
@@ -167,18 +188,66 @@ class WorkerReadProjectData(qtc.QObject):
         self.output("Done reading from PHPP.")
         self.loaded.emit(_project)
 
+        return _project
 
-class WorkerReadBaselineSegmentData(qtc.QObject):
-    """Thread Worker for loading Baseline Segment Data from PHPP."""
+    def _read_data_from_wufi_pdf(
+        self, _project: NBDM_Project, _filepath: pathlib.Path
+    ) -> Optional[NBDM_Project]:
+        self.output = self.logger.wufi  # type: ignore
+        self.output("Reading Project Team and Site data from WUFI-PDF.")
 
-    loaded = qtc.pyqtSignal(NBDM_Project)
-    logger = logging.getLogger()
+        # -- Read in the WUFI-PDF file
+        try:
+            self.logger.info(f"Opening WUFI-PDF document: {_filepath}")
+            pdf_reader_obj = pdf_reader.PDFReader()
+            pdf_data = pdf_reader_obj.extract_pdf_text(_filepath)
+        except Exception as e:
+            msg = f"Error reading WUFI-PDF file:\n{e}"
+            print_error(msg)
+            self.logger.error(msg, exc_info=True)
+            return None
 
-    def _read_segment_from_excel(
+        # -- Create the new NBDM team and site objects
+        _project.team = create_NBDM_Team_from_WufiPDF(pdf_data)
+        _project.site = create_NBDM_Site_from_WufiPDF(pdf_data)
+
+        self.output("Done reading from WUFI-PDF.")
+        self.loaded.emit(_project)
+
+        return _project
+
+    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
+    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
+        print(SEPARATOR)
+
+        if _filepath.suffix.upper() in [".XLSX", ".XLS", ".XLSM"]:
+            if project := self._read_data_from_phpp(_project, _filepath):
+                self.loaded.emit(project)
+        elif _filepath.suffix.upper() == ".PDF":
+            if project := self._read_data_from_wufi_pdf(_project, _filepath):
+                self.loaded.emit(project)
+        else:
+            msg = (
+                f"Error: The file format '{_filepath.suffix}' is not supported?  "
+                "Please select a valid Excel (*.xlsx | *.xls) or WUFI-PDF (*.pdf) file."
+            )
+            raise Exception(msg)
+
+
+class _WorkerReadSegmentData(qtc.QObject):
+    """Base Thread Worker for loading Segment Data from PHPP or WUFI-Passive."""
+
+    loaded: qtc.pyqtSignal
+    logger: logging.Logger
+    segment_typename: SegmentTypename
+
+    def _read_data_from_phpp(
         self, _project: NBDM_Project, _filepath: pathlib.Path
     ) -> Optional[NBDM_Project]:
         self.output = self.logger.excel  # type: ignore
-        self.output(f"Reading Baseline Building Segment data from File: {_filepath}")
+        self.output(
+            f"Reading Baseline {self.segment_typename.value} Segment data from File: {_filepath}"
+        )
 
         # -- Connect to the PHPP XL Document
         try:
@@ -198,21 +267,28 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
             try:
                 new_seg = create_NBDM_BuildingSegment(phpp_conn)
             except PHPPDataMissingException as e:
-                msg = f"Error creating the Baseline Building Segment from file: {_filepath.name}."
+                msg = f"Error creating the {self.segment_typename.value} Building Segment from file: {_filepath.name}."
                 print_error(msg, e)
                 self.logger.error(msg, e, exc_info=True)
                 return None
 
+        if self.segment_typename == SegmentTypename.BASELINE:
             _project.add_new_baseline_segment(new_seg)
+        elif self.segment_typename == SegmentTypename.PROPOSED:
+            _project.add_new_proposed_segment(new_seg)
 
-        self.output(f"Done reading from Building Segment File: {_filepath.name}")
+        self.output(
+            f"Done reading from {self.segment_typename.value} Segment File: {_filepath.name}"
+        )
         return _project
 
-    def _read_segment_from_wufi(
+    def _read_data_from_wufi_pdf(
         self, _project: NBDM_Project, _filepath: pathlib.Path
     ) -> Optional[NBDM_Project]:
         self.output = self.logger.wufi  # type: ignore
-        self.output(f"Reading Baseline Building Segment data from File: {_filepath}")
+        self.output(
+            f"Reading {self.segment_typename.value} Building Segment data from File: {_filepath}"
+        )
 
         # -- Read in the WUFI-PDF file
         try:
@@ -229,12 +305,15 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
         try:
             new_seg = create_NBDM_BuildingSegmentFromWufiPDF(pdf_data)
         except Exception as e:
-            msg = f"Error creating the Baseline Building Segment from WUFI-PDF file: {_filepath.name}."
+            msg = f"Error creating the {self.segment_typename.value} Building Segment from WUFI-PDF file: {_filepath.name}."
             print_error(msg, e)
             self.logger.error(msg, e, exc_info=True)
             return None
 
-        _project.add_new_baseline_segment(new_seg)
+        if self.segment_typename == SegmentTypename.BASELINE:
+            _project.add_new_baseline_segment(new_seg)
+        elif self.segment_typename == SegmentTypename.PROPOSED:
+            _project.add_new_proposed_segment(new_seg)
 
         self.output(f"Done reading from Building Segment File: {_filepath.name}")
         return _project
@@ -244,10 +323,10 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
         print(SEPARATOR)
 
         if _filepath.suffix.upper() in [".XLSX", ".XLS", ".XLSM"]:
-            if project := self._read_segment_from_excel(_project, _filepath):
+            if project := self._read_data_from_phpp(_project, _filepath):
                 self.loaded.emit(project)
         elif _filepath.suffix.upper() == ".PDF":
-            if project := self._read_segment_from_wufi(_project, _filepath):
+            if project := self._read_data_from_wufi_pdf(_project, _filepath):
                 self.loaded.emit(project)
         else:
             msg = (
@@ -257,36 +336,20 @@ class WorkerReadBaselineSegmentData(qtc.QObject):
             raise Exception(msg)
 
 
-class WorkerReadProposedSegmentData(qtc.QObject):
+class WorkerReadBaselineSegmentData(_WorkerReadSegmentData):
+    """Thread Worker for loading Baseline Segment Data from PHPP."""
+
+    loaded = qtc.pyqtSignal(NBDM_Project)
+    logger = logging.getLogger()
+    segment_typename = SegmentTypename.BASELINE
+
+
+class WorkerReadProposedSegmentData(_WorkerReadSegmentData):
     """Thread Worker for loading Proposed Segment Data from PHPP."""
 
     loaded = qtc.pyqtSignal(NBDM_Project)
     logger = logging.getLogger()
-
-    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
-    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
-        print(SEPARATOR)
-        self.output = self.logger.excel  # type: ignore
-        self.output("Reading Proposed Building Segment data from Excel.")
-
-        try:
-            self.logger.info(f"Connecting to excel document: {_filepath}")
-            xl = xl_app.XLConnection(
-                xl_framework=xw, output=self.output, xl_file_path=_filepath
-            )
-            phpp_conn = phpp_app.PHPPConnection(xl)
-        except Exception as e:
-            msg = f"Error connecting to the PHPP: '{_filepath}'."
-            print_error(msg, e)
-            self.logger.error(msg, e, exc_info=True)
-            return None
-
-        with phpp_conn.xl.in_silent_mode():
-            new_seg = create_NBDM_BuildingSegment(phpp_conn)
-            _project.add_new_proposed_segment(new_seg)
-
-        self.output("Done reading from PHPP.")
-        self.loaded.emit(_project)
+    segment_typename = SegmentTypename.PROPOSED
 
 
 class WorkerWriteExcelReport(qtc.QObject):
@@ -544,9 +607,9 @@ class WorkerReadBldgComponentData(qtc.QObject):
     loaded = qtc.pyqtSignal(NBDM_Project)
     logger = logging.getLogger()
 
-    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
-    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
-        print(SEPARATOR)
+    def _read_data_from_phpp(
+        self, _project: NBDM_Project, _filepath: pathlib.Path
+    ) -> Optional[NBDM_Project]:
         self.output = self.logger.excel  # type: ignore
         self.output("Reading Building Component data from Excel.")
 
@@ -573,3 +636,52 @@ class WorkerReadBldgComponentData(qtc.QObject):
 
         self.output("Done reading from PHPP.")
         self.loaded.emit(_project)
+
+        return _project
+
+    def _read_data_from_wufi_pdf(
+        self, _project: NBDM_Project, _filepath: pathlib.Path
+    ) -> Optional[NBDM_Project]:
+        self.output = self.logger.excel  # type: ignore
+        self.output("Reading Building Component data from WUFI-PDF.")
+
+        # -- Read in the WUFI-PDF file
+        try:
+            self.logger.info(f"Opening WUFI-PDF document: {_filepath}")
+            pdf_reader_obj = pdf_reader.PDFReader()
+            pdf_data = pdf_reader_obj.extract_pdf_text(_filepath)
+        except Exception as e:
+            msg = f"Error reading WUFI-PDF file:\n{e}"
+            print_error(msg)
+            self.logger.error(msg, exc_info=True)
+            return None
+
+        # -- Create the new NBDM team and site objects
+        _project.envelope = create_NBDM_Envelope_from_WufiPDF(pdf_data)
+        _project.appliances = create_NBDM_Appliances_from_WufiPDF(pdf_data)
+        _project.heating_systems = create_NBDM_Heating_Systems_from_WufiPDF(pdf_data)
+        _project.cooling_systems = create_NBDM_Cooling_Systems_from_WufiPDF(pdf_data)
+        _project.ventilation_systems = create_NBDM_Vent_Systems_from_WufiPDF(pdf_data)
+        _project.dhw_systems = create_NBDM_DHW_Systems_from_WufiPDF(pdf_data)
+        _project.renewable_systems = create_NBDM_Renewable_Systems_from_WufiPDF(pdf_data)
+
+        self.output("Done reading from WUFI-PDF.")
+        self.loaded.emit(_project)
+
+        return _project
+
+    @qtc.pyqtSlot(NBDM_Project, pathlib.Path)
+    def run(self, _project: NBDM_Project, _filepath: pathlib.Path) -> None:
+        print(SEPARATOR)
+        if _filepath.suffix.upper() in [".XLSX", ".XLS", ".XLSM"]:
+            if project := self._read_data_from_phpp(_project, _filepath):
+                self.loaded.emit(project)
+        elif _filepath.suffix.upper() == ".PDF":
+            if project := self._read_data_from_wufi_pdf(_project, _filepath):
+                self.loaded.emit(project)
+        else:
+            msg = (
+                f"Error: The file format '{_filepath.suffix}' is not supported?  "
+                "Please select a valid Excel (*.xlsx | *.xls) or WUFI-PDF (*.pdf) file."
+            )
+            raise Exception(msg)

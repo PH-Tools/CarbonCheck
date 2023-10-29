@@ -1,4 +1,8 @@
-from typing import Any, Optional
+# -*- Python Version: 3.11 -*-
+
+"""WUFI-PDF Section: Annual Heating / Cooling Demand"""
+
+from typing import Any, Optional, List
 from ph_units.unit_type import Unit
 from ph_units.parser import parse_input
 from ph_units.converter import _standardize_unit_name, unit_type_alias_dict
@@ -45,16 +49,21 @@ class AnnualDemand:
             return super().__setattr__(__name, __value)
 
 
-class AnnualHeatingAndCoolingDemand:
+class WufiPDF_AnnualHeatingAndCoolingDemand:
     __pdf_heading_string__ = "ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND"
+    get_tables = False
 
     def __init__(self) -> None:
         self._lines = []
+        self._tables = []
         self.heating_demand = AnnualDemand("heating_demand")
         self.cooling_demand = AnnualDemand("cooling_demand")
 
     def add_line(self, _line: str) -> None:
         self._lines.append(_line)
+
+    def add_table(self, _table: List) -> None:
+        self._tables.append(_table)
 
     def process_section_text(self) -> None:
         """

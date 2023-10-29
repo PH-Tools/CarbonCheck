@@ -1,15 +1,21 @@
-from typing import Any
+# -*- Python Version: 3.11 -*-
+
+"""WUFI-PDF Section: Building Information"""
+
+from typing import Any, List
 from ph_units.unit_type import Unit
 from ph_units.parser import parse_input
 from ph_units.converter import _standardize_unit_name, unit_type_alias_dict
 from ph_units.converter import UnitTypeNameNotFound
 
 
-class BuildingInformation:
+class WufiPDF_BuildingInformation:
     __pdf_heading_string__ = "BUILDING INFORMATION"
+    get_tables = False
 
     def __init__(self) -> None:
         self._lines = []
+        self._tables = []
         self.category = ""
         self.units = 0
         self.number_of_occupants = 0.0
@@ -21,6 +27,9 @@ class BuildingInformation:
         """Add a line of text to the section."""
         line = _line.split(":")
         self._lines.append(line)
+
+    def add_table(self, _table: List) -> None:
+        self._tables.append(_table)
 
     def __setattr__(self, __name: str, __value: Any) -> None:
         if not isinstance(__value, str):

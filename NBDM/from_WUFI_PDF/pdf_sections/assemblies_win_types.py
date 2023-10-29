@@ -1,12 +1,12 @@
 # -*- Python Version: 3.11 -*-
 
-"""WUFI-PDF Section: Residential Electric"""
+"""WUFI-PDF Section: Assembly / Window Types"""
 
 from typing import List
 
 
-class WufiPDF_ResidentialElectric:
-    __pdf_heading_string__ = "ELECTRICITY DEMAND RESIDENTIAL BUILDING"
+class WufiPDF_AssemblyAndWindowTypes:
+    __pdf_heading_string__ = "Assemblies/window types"
     get_tables = False
 
     def __init__(self) -> None:

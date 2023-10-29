@@ -1,4 +1,9 @@
-from typing import Any, Optional
+# -*- Python Version: 3.11 -*-
+
+"""WUFI-PDF Section: Peak Heating and Cooling Load"""
+
+
+from typing import Any, Optional, List
 from ph_units.unit_type import Unit
 from ph_units.parser import parse_input
 from ph_units.converter import _standardize_unit_name, unit_type_alias_dict
@@ -66,17 +71,22 @@ class PeakLoad:
         return False
 
 
-class PeakHeatingAndCoolingLoad:
+class WufiPDF_PeakHeatingAndCoolingLoad:
     __pdf_heading_string__ = "HEATING LOAD COOLING LOAD"
+    get_tables = False
 
     def __init__(self) -> None:
         self._lines = []
+        self._tables = []
         self.heating_load_1 = PeakLoad("heating_load_1")
         self.heating_load_2 = PeakLoad("heating_load_2")
         self.cooling_load = PeakLoad("cooling_load")
 
     def add_line(self, _line: str) -> None:
         self._lines.append(_line)
+
+    def add_table(self, _table: List) -> None:
+        self._tables.append(_table)
 
     def process_section_text(self) -> None:
         """

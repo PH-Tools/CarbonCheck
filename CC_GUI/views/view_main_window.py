@@ -24,8 +24,8 @@ from CC_GUI.views.ui_files.layout_app import Ui_MainWindow
 class file_type(Enum):
     NONE = ""
     JSON = "JSON (*.json)"
-    PH_MODELS = "PHPP or WUFI-XML (*.xlsx *.xml)"
-    PH_SEGMENT_SOURCE = "PHPP or WUFI-PDF (*.xlsx *.xls *.xlsm *.pdf)"
+    PH_MODEL = "PHPP or WUFI-XML (*.xlsx *.xml)"
+    PH_SOURCE_FILE = "PHPP or WUFI-PDF (*.xlsx *.xls *.xlsm *.pdf)"
     XML = "XML (*.xml)"
     XL = "Excel (*.xlsx *.xls *.xlsm)"
     PDF = "PDF (*.pdf)"
@@ -63,7 +63,7 @@ class CCMainWindow(qtw.QMainWindow):
         return self.findChildren(qtg.QAction)  # type: ignore
 
     def get_file_path(
-        self, filter: file_type = file_type.PH_MODELS
+        self, filter: file_type = file_type.PH_MODEL
     ) -> Optional[pathlib.Path]:
         """Return a user-selected file path from a Dialog window."""
 

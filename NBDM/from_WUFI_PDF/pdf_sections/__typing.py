@@ -1,14 +1,27 @@
+# -*- Python Version: 3.11 -*-
+
+"""WUFI-PDF Section: Base"""
+
 from abc import ABC, abstractmethod
+from typing import List
 
 
-class PDFSectionType(ABC):
+class WufiPDF_SectionType(ABC):
     """Abstract base class for all PDF Section classes."""
+
+    __pdf_heading_string__: str = ""
+    get_tables: bool = False
 
     def __init__(self) -> None:
         self._lines = []
+        self._tables = []
 
     @abstractmethod
     def add_line(self, _line: str) -> None:
+        ...
+
+    @abstractmethod
+    def add_table(self, _table: List) -> None:
         ...
 
     @abstractmethod

@@ -55,11 +55,7 @@ class PDFReader:
             for name, obj in inspect.getmembers(module):
                 if hasattr(obj, "__pdf_heading_string__"):
                     WufiPDF_SectionType.register(type(obj))
-                    try:
-                        classes[obj.__pdf_heading_string__] = obj()
-                    except:
-                        print(f"Failed to add {obj.__name__}")
-                        raise Exception(f"Failed to add {obj.__name__}")
+                    classes[obj.__pdf_heading_string__] = obj()
 
         return classes
 
@@ -78,7 +74,6 @@ class PDFReader:
                     x_density=7.25,
                     y_density=13,
                 )
-
                 for line in lines.split("\n"):
                     # -- See if the line is one of the 'Section-Markers'
                     # -- like "BUILDING INFORMATION", etc...
@@ -95,7 +90,7 @@ class PDFReader:
 
                 for table in page.extract_tables():
                     try:
-                        section.add_table(table)  # <-- Add .add_table to all....
+                        section.add_table(table)
                     except AttributeError:
                         pass
 

@@ -6,7 +6,7 @@
 from typing import Dict
 from NBDM.model.site import NBDM_Site, NBDM_Climate, NBDM_Location, NBDM_ProjectAddress
 from NBDM.from_WUFI_PDF.pdf_reader import WufiPDF_SectionType
-from NBDM.from_WUFI_PDF.pdf_sections.climate import WufiPDF_Climate
+from NBDM.from_WUFI_PDF.pdf_sections.climate_summary import WufiPDF_Climate
 from NBDM.from_WUFI_PDF.pdf_sections.site import WufiPDF_PropertySite
 from NBDM.from_WUFI_PDF.pdf_sections.project_data import WufiPDF_ProjectData
 from rich import print
@@ -20,12 +20,15 @@ def create_NBDM_Climate_from_WufiPDF(
     new_climate = NBDM_Climate()
 
     # -- Pull out the data from the PDF dict, if it exists
-    pdf_climate_section: WufiPDF_Climate
-    if pdf_climate_section := _pdf_data.get(WufiPDF_Climate.__pdf_heading_string__, None):  # type: ignore
+    pdf_climate_section: WufiPDF_PropertySite
+    if pdf_climate_section := _pdf_data.get(WufiPDF_PropertySite.__pdf_heading_string__, None):  # type: ignore
         new_climate.zone_passive_house = pdf_climate_section.zone_passive_house
-        new_climate.country = pdf_climate_section.country
-        new_climate.region = pdf_climate_section.region
         new_climate.data_set = pdf_climate_section.data_set
+
+    pdf_proj_data_section: WufiPDF_ProjectData
+    if pdf_proj_data_section := _pdf_data.get(WufiPDF_ProjectData.__pdf_heading_string__, None):  # type: ignore
+        new_climate.country = pdf_proj_data_section.building.country
+        new_climate.region = pdf_proj_data_section.building.state
 
     return new_climate
 
@@ -37,11 +40,11 @@ def create_NBDM_BuildingAddress_from_WufiPDF(
 
     new_address = NBDM_ProjectAddress()
 
-    new_address.building_number = _pdf_data.address.building_number
-    new_address.street_name = _pdf_data.address.street_name
-    new_address.city = _pdf_data.address.city
-    new_address.state = _pdf_data.address.state
-    new_address.post_code = _pdf_data.address.post_code
+    new_address.building_number = _pdf_data.building.building_number
+    new_address.street_name = _pdf_data.building.street
+    new_address.city = _pdf_data.building.locality
+    new_address.state = _pdf_data.building.state
+    new_address.post_code = _pdf_data.building.postal_code
 
     return new_address
 

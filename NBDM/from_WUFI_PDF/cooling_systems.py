@@ -3,6 +3,8 @@
 
 """Functions to create NBDM Cooling Systems from WUFI-PDF."""
 
+from typing import List, Dict
+from NBDM.from_WUFI_PDF.pdf_reader import WufiPDF_SectionType
 
 from PHX.model.enums.hvac import CoolingType
 
@@ -22,7 +24,7 @@ device_map = {
 
 
 def create_NBDM_Cooling_Systems_from_WufiPDF(
-    _pdf_data,
+    _pdf_data: Dict[str, WufiPDF_SectionType],
 ) -> NBDM_BuildingSegmentCoolingSystems:
     """Read in data from a WUFI-PDF document and create a new NBDM_BuildingSegmentCoolingSystems Object."""
     obj = NBDM_BuildingSegmentCoolingSystems()

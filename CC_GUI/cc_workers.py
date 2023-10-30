@@ -98,9 +98,9 @@ def print_error(_msg: str, _e: Optional[Exception] = None):
     print(SEPARATOR)
     print(SEPARATOR)
     print("\n")
-    print(_msg)
+    print("\t", _msg)
     if _e:
-        print(_e)
+        print("\t", _e)
     print("\n")
     print(SEPARATOR)
     print(SEPARATOR)
@@ -177,13 +177,19 @@ class WorkerReadProjectData(qtc.QObject):
         except Exception as e:
             msg = f"Error connecting to the PHPP: '{_filepath}'"
             print_error(msg, e)
-            self.logger.error(msg, e, exc_info=True)
+            self.logger.error(e, exc_info=True)
             return None
 
         # -- Create new Team and Site objects from the PHPP
-        with phpp_conn.xl.in_silent_mode():
-            _project.team = create_NBDM_Team(phpp_conn)
-            _project.site = create_NBDM_Site(phpp_conn)
+        try:
+            with phpp_conn.xl.in_silent_mode():
+                _project.team = create_NBDM_Team(phpp_conn)
+                _project.site = create_NBDM_Site(phpp_conn)
+        except Exception as e:
+            msg = f"Error creating the Team and Site from file: {_filepath.name}."
+            print_error(msg, e)
+            self.logger.error(e, exc_info=True)
+            return None
 
         self.output("Done reading from PHPP.")
         self.loaded.emit(_project)
@@ -194,7 +200,7 @@ class WorkerReadProjectData(qtc.QObject):
         self, _project: NBDM_Project, _filepath: pathlib.Path
     ) -> Optional[NBDM_Project]:
         self.output = self.logger.wufi  # type: ignore
-        self.output("Reading Project Team and Site data from WUFI-PDF.")
+        self.output(f"Reading Project Team and Site data from file: {_filepath.name}.")
 
         # -- Read in the WUFI-PDF file
         try:
@@ -203,13 +209,19 @@ class WorkerReadProjectData(qtc.QObject):
             pdf_data = pdf_reader_obj.extract_pdf_text(_filepath)
         except Exception as e:
             msg = f"Error reading WUFI-PDF file:\n{e}"
-            print_error(msg)
-            self.logger.error(msg, exc_info=True)
+            print_error(msg, e)
+            self.logger.error(e, exc_info=True)
             return None
 
         # -- Create the new NBDM team and site objects
-        _project.team = create_NBDM_Team_from_WufiPDF(pdf_data)
-        _project.site = create_NBDM_Site_from_WufiPDF(pdf_data)
+        try:
+            _project.team = create_NBDM_Team_from_WufiPDF(pdf_data)
+            _project.site = create_NBDM_Site_from_WufiPDF(pdf_data)
+        except Exception as e:
+            msg = f"Error reading the Team and Site from WUFI-PDF file: {_filepath.name}."
+            print_error(msg, e)
+            self.logger.error(e, exc_info=True)
+            return None
 
         self.output("Done reading from WUFI-PDF.")
         self.loaded.emit(_project)
@@ -259,7 +271,7 @@ class _WorkerReadSegmentData(qtc.QObject):
         except Exception as e:
             msg = f"Error connecting to the PHPP: '{_filepath}'."
             print_error(msg, e)
-            self.logger.error(msg, e, exc_info=True)
+            self.logger.error(e, exc_info=True)
             return None
 
         # -- Create a new NBDM Segment from the PHPP
@@ -269,7 +281,7 @@ class _WorkerReadSegmentData(qtc.QObject):
             except PHPPDataMissingException as e:
                 msg = f"Error creating the {self.segment_typename.value} Building Segment from file: {_filepath.name}."
                 print_error(msg, e)
-                self.logger.error(msg, e, exc_info=True)
+                self.logger.error(e, exc_info=True)
                 return None
 
         if self.segment_typename == SegmentTypename.BASELINE:
@@ -297,8 +309,8 @@ class _WorkerReadSegmentData(qtc.QObject):
             pdf_data = pdf_reader_obj.extract_pdf_text(_filepath)
         except Exception as e:
             msg = f"Error reading WUFI-PDF file:\n{e}"
-            print_error(msg)
-            self.logger.error(msg, exc_info=True)
+            print_error(msg, e)
+            self.logger.error(e, exc_info=True)
             return None
 
         # -- Build a new NBDM Segment from the WUFI-PDF data
@@ -307,7 +319,7 @@ class _WorkerReadSegmentData(qtc.QObject):
         except Exception as e:
             msg = f"Error creating the {self.segment_typename.value} Building Segment from WUFI-PDF file: {_filepath.name}."
             print_error(msg, e)
-            self.logger.error(msg, e, exc_info=True)
+            self.logger.error(e, exc_info=True)
             return None
 
         if self.segment_typename == SegmentTypename.BASELINE:
@@ -393,17 +405,24 @@ class WorkerWriteExcelReport(qtc.QObject):
         except Exception as e:
             msg = f"Error connecting to Excel?"
             print_error(msg, e)
-            self.logger.error(msg, e, exc_info=True)
+            self.logger.error(e, exc_info=True)
             return None
 
-        with xl.in_silent_mode():
-            xl.activate_new_workbook()
-            row_num = output_report.write_NBDM_Project(_nbdm_object=_project)
-            row_num = output_report.write_NBDM_Building_Components(_nbdm_object=_project)
-            row_num = output_report.write_NBDM_WholeBuilding(_nbdm_object=_project)
-            row_num = output_report.write_NBDM_BuildingSegments(_nbdm_object=_project)
-            row_num = output_report.write_log(_log_path)
-            output_report.remove_sheet_1()
+        try:
+            with xl.in_silent_mode():
+                xl.activate_new_workbook()
+                row_num = output_report.write_NBDM_Project(_nbdm_object=_project)
+                row_num = output_report.write_NBDM_Building_Components(
+                    _nbdm_object=_project
+                )
+                row_num = output_report.write_NBDM_WholeBuilding(_nbdm_object=_project)
+                row_num = output_report.write_NBDM_BuildingSegments(_nbdm_object=_project)
+                row_num = output_report.write_log(_log_path)
+                output_report.remove_sheet_1()
+        except Exception as e:
+            msg = f"Error writing to Excel document: {xl.xl_file_path}"
+            print_error(msg, e)
+            self.logger.error(e, exc_info=True)
 
         self.output("Done writing to Excel.")
         self.written.emit(_project)
@@ -441,7 +460,7 @@ class WorkerSetPHPPBaseline(qtc.QObject):
         except Exception as e:
             msg = f"Error connecting to the PHPP: '{_filepath}'."
             print_error(msg, e)
-            self.logger.error(msg, e, exc_info=True)
+            self.logger.error(e, exc_info=True)
             return None
 
         # -- Pull out the user-provided options.
@@ -520,10 +539,8 @@ class WorkerSetWUFIBaseline(qtc.QObject):
             msg = (
                 "Error: Something went wrong converting the WUFI-XML file to a PHX-Model?"
             )
-            output = io.StringIO()
-            traceback.print_exc(file=output)
-            error_message = output.getvalue()
-            print_error(error_message, e)
+            print_error(msg, e)
+            self.logger.error(e, exc_info=True)
             return None
 
         # ---------------------------------------------------------------------
@@ -583,10 +600,8 @@ class WorkerSetWUFIBaseline(qtc.QObject):
             xml_txt = xml_builder.generate_WUFI_XML_from_object(phx_project)
         except Exception as e:
             msg = "Error: Something went wrong trying to generate the XML file from PHX-Project?"
-            output = io.StringIO()
-            traceback.print_exc(file=output)
-            error_message = output.getvalue()
-            print_error(error_message, e)
+            print_error(msg, e)
+            self.logger.error(e, exc_info=True)
             return None
 
         output_filepath = pathlib.Path(_filepath.parent, f"{_filepath.stem}_baseline.xml")
@@ -596,6 +611,7 @@ class WorkerSetWUFIBaseline(qtc.QObject):
         except Exception as e:
             msg = f"Error writing the XML file to: '{output_filepath}'"
             print_error(msg, e)
+            self.logger.error(e, exc_info=True)
             return None
 
         self.output("Done writing the new WUFI Baseline file.")
@@ -622,17 +638,26 @@ class WorkerReadBldgComponentData(qtc.QObject):
         except Exception as e:
             msg = f"Error connecting to the PHPP: '{_filepath}'"
             print_error(msg, e)
-            self.logger.error(msg, e, exc_info=True)
+            self.logger.error(e, exc_info=True)
             return None
 
-        with phpp_conn.xl.in_silent_mode():
-            _project.envelope = create_NBDM_Envelope(phpp_conn)
-            _project.appliances = create_NBDM_Appliances(phpp_conn)
-            _project.heating_systems = create_NBDM_Heating_Systems(phpp_conn)
-            _project.cooling_systems = create_NBDM_Cooling_Systems(phpp_conn)
-            _project.ventilation_systems = create_NBDM_Ventilation_Systems(phpp_conn)
-            _project.dhw_systems = create_NBDM_DHW_Systems(phpp_conn)
-            _project.renewable_systems = create_NBDM_Renewable_Systems(phpp_conn)
+        # -- Read in the data from PHPP
+        try:
+            with phpp_conn.xl.in_silent_mode():
+                _project.envelope = create_NBDM_Envelope(phpp_conn)
+                _project.appliances = create_NBDM_Appliances(phpp_conn)
+                _project.heating_systems = create_NBDM_Heating_Systems(phpp_conn)
+                _project.cooling_systems = create_NBDM_Cooling_Systems(phpp_conn)
+                _project.ventilation_systems = create_NBDM_Ventilation_Systems(phpp_conn)
+                _project.dhw_systems = create_NBDM_DHW_Systems(phpp_conn)
+                _project.renewable_systems = create_NBDM_Renewable_Systems(phpp_conn)
+        except Exception as e:
+            msg = (
+                f"Error creating the Building Component data from file: {_filepath.name}."
+            )
+            print_error(msg, e)
+            self.logger.error(e, exc_info=True)
+            return None
 
         self.output("Done reading from PHPP.")
         self.loaded.emit(_project)
@@ -652,18 +677,28 @@ class WorkerReadBldgComponentData(qtc.QObject):
             pdf_data = pdf_reader_obj.extract_pdf_text(_filepath)
         except Exception as e:
             msg = f"Error reading WUFI-PDF file:\n{e}"
-            print_error(msg)
-            self.logger.error(msg, exc_info=True)
+            print_error(msg, e)
+            self.logger.error(e, exc_info=True)
             return None
 
-        # -- Create the new NBDM team and site objects
-        _project.envelope = create_NBDM_Envelope_from_WufiPDF(pdf_data)
-        _project.appliances = create_NBDM_Appliances_from_WufiPDF(pdf_data)
-        _project.heating_systems = create_NBDM_Heating_Systems_from_WufiPDF(pdf_data)
-        _project.cooling_systems = create_NBDM_Cooling_Systems_from_WufiPDF(pdf_data)
-        _project.ventilation_systems = create_NBDM_Vent_Systems_from_WufiPDF(pdf_data)
-        _project.dhw_systems = create_NBDM_DHW_Systems_from_WufiPDF(pdf_data)
-        _project.renewable_systems = create_NBDM_Renewable_Systems_from_WufiPDF(pdf_data)
+        # -- Create the new NBDM team and site objects from the WUFI-File
+        try:
+            _project.envelope = create_NBDM_Envelope_from_WufiPDF(pdf_data)
+            _project.appliances = create_NBDM_Appliances_from_WufiPDF(pdf_data)
+            _project.heating_systems = create_NBDM_Heating_Systems_from_WufiPDF(pdf_data)
+            _project.cooling_systems = create_NBDM_Cooling_Systems_from_WufiPDF(pdf_data)
+            _project.ventilation_systems = create_NBDM_Vent_Systems_from_WufiPDF(pdf_data)
+            _project.dhw_systems = create_NBDM_DHW_Systems_from_WufiPDF(pdf_data)
+            _project.renewable_systems = create_NBDM_Renewable_Systems_from_WufiPDF(
+                pdf_data
+            )
+        except Exception as e:
+            msg = (
+                f"Error creating the Building Component data from file: {_filepath.name}."
+            )
+            print_error(msg, e)
+            self.logger.error(e, exc_info=True)
+            return None
 
         self.output("Done reading from WUFI-PDF.")
         self.loaded.emit(_project)

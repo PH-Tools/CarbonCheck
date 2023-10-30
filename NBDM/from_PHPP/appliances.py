@@ -43,7 +43,7 @@ def create_NBDM_Appliances(_phpp_conn: PHPPConnection) -> NBDM_BuildingSegmentAp
         new_appliance = NBDM_Appliance()
         new_appliance.appliance_type = device_map[phpp_elec_appliance.device_type]
         new_appliance.quantity = phpp_elec_appliance.quantity
-        new_appliance.display_name = (
+        new_appliance._display_name = (
             phpp_elec_appliance.display_name or new_appliance.appliance_type.name
         )
         new_appliance.annual_energy_use = Unit(phpp_elec_appliance.energy_demand, "KWH")

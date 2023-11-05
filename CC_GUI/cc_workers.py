@@ -304,7 +304,7 @@ class _WorkerReadSegmentData(qtc.QObject):
 
         # -- Read in the WUFI-PDF file
         try:
-            self.logger.info(f"Connecting to WUFI-PDF document: {_filepath}")
+            self.logger.info(f"Reading WUFI-PDF file: {_filepath}")
             pdf_reader_obj = pdf_reader.PDFReader()
             pdf_data = pdf_reader_obj.extract_pdf_text(_filepath)
         except Exception as e:
@@ -327,7 +327,7 @@ class _WorkerReadSegmentData(qtc.QObject):
         elif self.segment_typename == SegmentTypename.PROPOSED:
             _project.add_new_proposed_segment(new_seg)
 
-        self.output(f"Done reading from Building Segment File: {_filepath.name}")
+        self.output(f"Done reading Building Segment from file: {_filepath.name}")
         return _project
 
     @qtc.pyqtSlot(NBDM_Project, pathlib.Path)

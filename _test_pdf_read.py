@@ -13,12 +13,9 @@ from NBDM.from_WUFI_PDF import (
 
 reader = PDFReader()
 reader.import_pdf_section_classes()
-# pdf_data = reader.extract_pdf_text(
-#     Path(
-#         "/Users/em/Dropbox/bldgtyp-00/00_PH_Tools/CarbonCheck/01_Reference/_example_files/example_wufi_report.pdf"
-#     )
-# )
-pdf_data = reader.extract_pdf_text(Path("/Users/em/Desktop/arverne_proposed.pdf"))
+pdf_data = reader.extract_pdf_text(
+    Path("/Users/em/Desktop/Arverne_D_231101_Proposed.pdf")
+)
 
 # heating_systems = create_NBDM_Heating_Systems_from_WufiPDF(pdf_data)
 # cooling_systems = create_NBDM_Cooling_Systems_from_WufiPDF(pdf_data)

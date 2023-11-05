@@ -3,8 +3,6 @@
 
 """PDFReader class for loading and reading WUFI-PDF files."""
 
-from abc import ABC
-from rich import print
 import importlib.util
 from importlib.machinery import SourceFileLoader
 import inspect
@@ -16,16 +14,24 @@ import pdfplumber
 from NBDM.from_WUFI_PDF.pdf_sections._default import _WufiPDF_DefaultSection
 from NBDM.from_WUFI_PDF.pdf_sections.__typing import WufiPDF_SectionType
 
+from CC_GUI.cc_app_config import find_application_path
+
 
 class PDFReader:
-    base_path = pathlib.Path(
-        "/Users/em/Dropbox/bldgtyp-00/00_PH_Tools/CarbonCheck/NBDM/from_WUFI_PDF/pdf_sections"
-    )
+    """PDFReader class for loading and reading data from WUFI-PDF files."""
 
     def __init__(self) -> None:
         self.pdf_sections: Dict[
             str, WufiPDF_SectionType
         ] = self.import_pdf_section_classes()
+
+    def find_pdf_section_path(self) -> pathlib.Path:
+        """Return the path to the PDF Sections during initialization and loading."""
+
+        application_path = find_application_path()
+        # = /Users/em/Dropbox/bldgtyp-00/00_PH_Tools/CarbonCheck/CC_GUI
+        root_path = application_path.parent
+        return root_path / "NBDM" / "from_WUFI_PDF" / "pdf_sections"
 
     def import_pdf_section_classes(self) -> Dict[str, WufiPDF_SectionType]:
         """Import all the PDF Section classes and return them as a single Dict.
@@ -33,8 +39,9 @@ class PDFReader:
         The dict key will be the '__pdf_heading_string__' attribute of the class.
         """
 
+        pdf_sections_path = self.find_pdf_section_path()
         classes: Dict[str, WufiPDF_SectionType] = {}
-        for py_file in self.base_path.glob("*.py"):
+        for py_file in pdf_sections_path.glob("*.py"):
             if py_file.name.startswith("__"):
                 continue
 

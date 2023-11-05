@@ -1,0 +1,21 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.0, pytest-7.3.1, pluggy-1.0.0
+rootdir: /Users/em/Dropbox/bldgtyp-00/00_PH_Tools/CarbonCheck
+configfile: pyproject.toml
+collected 39 items / 1 error
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_pdf_read.py _______________________
+test_pdf_read.py:16: in <module>
+    pdf_data = reader.extract_pdf_text(
+NBDM/from_WUFI_PDF/pdf_reader.py:106: in extract_pdf_text
+    self.load_pdf_file_data(_filepath)
+NBDM/from_WUFI_PDF/pdf_reader.py:72: in load_pdf_file_data
+    with pdfplumber.open(_filepath) as pdf:
+.venv/lib/python3.11/site-packages/pdfplumber/pdf.py:84: in open
+    stream = open(path_or_fp, "rb")
+E   FileNotFoundError: [Errno 2] No such file or directory: '/Users/em/Desktop/Arverne_D_231101_Proposed.pdf'
+=========================== short test summary info ============================
+ERROR test_pdf_read.py - FileNotFoundError: [Errno 2] No such file or directo...
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.34s ===============================

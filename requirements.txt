@@ -2,6 +2,7 @@ ladybug-core
 honeybee-core
 honeybee-energy
 honeybee-ph
+lxml
 PH-units
 PHX
 PH-Baseliner

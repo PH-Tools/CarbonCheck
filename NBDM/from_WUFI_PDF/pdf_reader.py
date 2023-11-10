@@ -5,7 +5,7 @@
 
 from logging import Logger
 import pathlib
-from typing import Dict, Type
+from typing import Dict, Type, Optional
 
 import pdfplumber
 
@@ -18,8 +18,8 @@ class PDFReader:
 
     pdf_sections: Dict[str, WufiPDF_SectionType] = {}
 
-    def __init__(self, _logger: Logger) -> None:
-        self.logger = _logger
+    def __init__(self, _logger: Optional[Logger] = None) -> None:
+        self.logger = _logger or Logger("PDF_Reader")
         self.logger.info("Initializing PDFReader")
 
     @classmethod

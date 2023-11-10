@@ -261,10 +261,9 @@ def sample_NBDM_Project() -> NBDM_Project:
 # -- PDF ----------------------------------------------------------------------
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def sample_pdf_data_ridgeway() -> Dict[str, WufiPDF_SectionType]:
     reader = PDFReader()
-    reader.import_pdf_section_classes()
     return reader.extract_pdf_text(
         Path("tests/_source_pdf/example_complete_ridgeway.pdf")
     )

@@ -1,7 +1,9 @@
 name: "PR Verification"
 on:
   pull_request:
-    types: [opened, edited]
+    types: [opened]
+    branches:
+      - main
 
 jobs:
   task-check:

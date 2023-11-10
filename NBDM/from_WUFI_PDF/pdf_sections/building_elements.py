@@ -1,19 +1,19 @@
 # -*- Python Version: 3.11 -*-
 
-"""WUFI-PDF Section: Passive House Recommendations"""
+"""WUFI-PDF Section: Building-Elements"""
 
 from typing import List
 
 
-class PHRecommendations:
-    __pdf_heading_string__ = "PASSIVEHOUSE RECOMMENDATIONS"
+class WufiPDF_BuildingElements:
+    __pdf_heading_string__ = "BUILDING ELEMENTS"
     get_tables = False
 
     def __init__(self) -> None:
         self._lines = []
         self._tables = []
 
-    def add_line(self, _line: str) -> None:
+    def add_line(self, _line: str):
         self._lines.append(_line)
 
     def add_table(self, _table: List) -> None:

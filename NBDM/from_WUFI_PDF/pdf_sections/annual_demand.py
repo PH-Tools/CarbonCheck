@@ -48,6 +48,9 @@ class AnnualDemand:
         except UnitTypeNameNotFound:
             return super().__setattr__(__name, __value)
 
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}({vars(self).items()})"
+
 
 class WufiPDF_AnnualHeatingAndCoolingDemand:
     __pdf_heading_string__ = "ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND"

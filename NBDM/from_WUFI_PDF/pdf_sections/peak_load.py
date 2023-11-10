@@ -147,7 +147,12 @@ class WufiPDF_PeakHeatingAndCoolingLoad:
                 continue
             else:
                 # -- Handle the 'normal' lines
-                _, middle, clg_attr_value = line
+                try:
+                    _, middle, clg_attr_value = line
+                except Exception as e:
+                    print("ERROR:", line)
+                    raise Exception(e)
+
                 htg_attr_value_1, htg_attr_value_2, clg_attr_name = middle.split(
                     " Btu/hr "
                 )

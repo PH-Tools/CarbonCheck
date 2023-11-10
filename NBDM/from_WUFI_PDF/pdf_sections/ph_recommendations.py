@@ -1,12 +1,12 @@
 # -*- Python Version: 3.11 -*-
 
-"""WUFI-PDF Section: Climate-Detailed"""
+"""WUFI-PDF Section: Passive House Recommendations"""
 
 from typing import List
 
 
-class WufiPDF_ClimateDetailed:
-    __pdf_heading_string__ = "Climate"  # Note: lower-case
+class WufiPDF_PHRecommendations:
+    __pdf_heading_string__ = "PASSIVEHOUSE RECOMMENDATIONS"
     get_tables = False
 
     def __init__(self) -> None:

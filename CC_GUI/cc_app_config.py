@@ -67,6 +67,8 @@ def find_log_file_path() -> pathlib.Path:
     if not log_file_path.exists():
         os.makedirs(log_file_path)
 
+    logging.basicConfig(level=logging.DEBUG)
+
     return log_file_path
 
 

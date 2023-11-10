@@ -205,7 +205,7 @@ class WorkerReadProjectData(qtc.QObject):
         # -- Read in the WUFI-PDF file
         try:
             self.logger.info(f"Opening WUFI-PDF document: {_filepath}")
-            pdf_reader_obj = pdf_reader.PDFReader()
+            pdf_reader_obj = pdf_reader.PDFReader(self.logger)
             pdf_data = pdf_reader_obj.extract_pdf_text(_filepath)
         except Exception as e:
             msg = f"Error reading WUFI-PDF file:\n{e}"
@@ -305,7 +305,7 @@ class _WorkerReadSegmentData(qtc.QObject):
         # -- Read in the WUFI-PDF file
         try:
             self.logger.info(f"Reading WUFI-PDF file: {_filepath}")
-            pdf_reader_obj = pdf_reader.PDFReader()
+            pdf_reader_obj = pdf_reader.PDFReader(self.logger)
             pdf_data = pdf_reader_obj.extract_pdf_text(_filepath)
         except Exception as e:
             msg = f"Error reading WUFI-PDF file:\n{e}"
@@ -673,7 +673,7 @@ class WorkerReadBldgComponentData(qtc.QObject):
         # -- Read in the WUFI-PDF file
         try:
             self.logger.info(f"Opening WUFI-PDF document: {_filepath}")
-            pdf_reader_obj = pdf_reader.PDFReader()
+            pdf_reader_obj = pdf_reader.PDFReader(self.logger)
             pdf_data = pdf_reader_obj.extract_pdf_text(_filepath)
         except Exception as e:
             msg = f"Error reading WUFI-PDF file:\n{e}"

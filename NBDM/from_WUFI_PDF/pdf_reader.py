@@ -3,77 +3,45 @@
 
 """PDFReader class for loading and reading WUFI-PDF files."""
 
-import importlib.util
-from importlib.machinery import SourceFileLoader
-import inspect
+from logging import Logger
 import pathlib
-from typing import Optional, Dict
+from typing import Dict, Type
 
 import pdfplumber
 
 from NBDM.from_WUFI_PDF.pdf_sections._default import _WufiPDF_DefaultSection
 from NBDM.from_WUFI_PDF.pdf_sections.__typing import WufiPDF_SectionType
 
-from CC_GUI.cc_app_config import find_application_path
-
 
 class PDFReader:
     """PDFReader class for loading and reading data from WUFI-PDF files."""
 
-    def __init__(self) -> None:
-        self.pdf_sections: Dict[
-            str, WufiPDF_SectionType
-        ] = self.import_pdf_section_classes()
+    pdf_sections: Dict[str, WufiPDF_SectionType] = {}
 
-    def find_pdf_section_path(self) -> pathlib.Path:
-        """Return the path to the PDF Sections during initialization and loading."""
+    def __init__(self, _logger: Logger) -> None:
+        self.logger = _logger
+        self.logger.info("Initializing PDFReader")
 
-        application_path = find_application_path()
-        # = /Users/em/Dropbox/bldgtyp-00/00_PH_Tools/CarbonCheck/CC_GUI
-        root_path = application_path.parent
-        return root_path / "NBDM" / "from_WUFI_PDF" / "pdf_sections"
-
-    def import_pdf_section_classes(self) -> Dict[str, WufiPDF_SectionType]:
-        """Import all the PDF Section classes and return them as a single Dict.
-
-        The dict key will be the '__pdf_heading_string__' attribute of the class.
-        """
-
-        pdf_sections_path = self.find_pdf_section_path()
-        classes: Dict[str, WufiPDF_SectionType] = {}
-        for py_file in pdf_sections_path.glob("*.py"):
-            if py_file.name.startswith("__"):
-                continue
-
-            spec = importlib.util.spec_from_file_location(py_file.stem, py_file)
-            if not spec:
-                continue
-
-            # -- Load all the PDF-Section classes
-            module = importlib.util.module_from_spec(spec)
-            loader: Optional[SourceFileLoader]
-            if loader := getattr(spec, "loader", None):
-                loader.exec_module(module)
-            else:
-                continue
-
-            # -- Register all the PDF-Section classes as 'PDFSectionType' and
-            # -- add each section to the 'classes' dict
-            for name, obj in inspect.getmembers(module):
-                if hasattr(obj, "__pdf_heading_string__"):
-                    WufiPDF_SectionType.register(type(obj))
-                    classes[obj.__pdf_heading_string__] = obj()
-
-        return classes
+    @classmethod
+    def register_pdf_section(cls, pdf_section_class: Type[WufiPDF_SectionType]) -> None:
+        """Register a new PDF-Section class as part of the PDF-Reader."""
+        cls.pdf_sections[pdf_section_class.__pdf_heading_string__] = pdf_section_class()
 
     def load_pdf_file_data(self, _filepath: pathlib.Path) -> None:
         """Populate the .sections with data from a PDF file."""
+
+        self.logger.info(f"Reading in the PDF file: {_filepath}")
+        self.logger.info(
+            f"Looking for sections: '{[section_name for section_name in list(self.pdf_sections.keys())]}'"
+        )
 
         with pdfplumber.open(_filepath) as pdf:
             # -- Start with the default section
             section = self.pdf_sections[_WufiPDF_DefaultSection.__pdf_heading_string__]
 
             for page in pdf.pages[0:]:
+                self.logger.info(f"Extracting Text from page: {page.page_number}")
+
                 lines = page.extract_text(
                     x_tolerance=3,
                     y_tolerance=3,
@@ -86,7 +54,12 @@ class PDFReader:
                     # -- like "BUILDING INFORMATION", etc...
                     if section_marker := self.pdf_sections.get(line, None):
                         # -- If it is, make that section the 'active' one
+                        self.logger.info(f"Found PDF Section-Marker: in line '{line}'.")
+                        self.logger.info(
+                            f"Changing section to {section_marker.__pdf_heading_string__}."
+                        )
                         section = section_marker
+
                     else:
                         # -- otherwise, just add the line to the 'active' section
                         section.add_line(line)
@@ -95,6 +68,7 @@ class PDFReader:
                 if not getattr(section, "get_tables", False):
                     continue
 
+                self.logger.info(f"Extracting Table from page: {page.page_number}")
                 for table in page.extract_tables():
                     try:
                         section.add_table(table)
@@ -103,8 +77,15 @@ class PDFReader:
 
     def extract_pdf_text(self, _filepath: pathlib.Path) -> Dict[str, WufiPDF_SectionType]:
         """Extract the text from a WUFI-PDF file and return it as a dict of PDFSection objects."""
+
+        # -- Read in the PDF text and table raw-data
         self.load_pdf_file_data(_filepath)
+
+        # -- Process all the text extracted for each section
         for pdf_section in self.pdf_sections.values():
+            self.logger.info(
+                f"Processing Text from the PDF Section: {pdf_section.__pdf_heading_string__}"
+            )
             pdf_section.process_section_text()
 
         return self.pdf_sections

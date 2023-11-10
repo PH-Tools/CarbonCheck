@@ -5,7 +5,7 @@
 from typing import List
 
 
-class InternalGains:
+class WufiPdf_InternalGains:
     __pdf_heading_string__ = "INTERNAL HEAT GAINS"
     get_tables = False
 

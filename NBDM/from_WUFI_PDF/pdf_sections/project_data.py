@@ -6,7 +6,7 @@ from typing import Any, List, Optional
 
 
 class WufiPDF_BuildingAddress:
-    def __init__(self):
+    def __init__(self) -> None:
         self.name: str = "-"
         self.building_number: str = "-"
         self.street: str = "-"

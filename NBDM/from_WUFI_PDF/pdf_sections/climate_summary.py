@@ -7,7 +7,7 @@ from ph_units.unit_type import Unit
 from rich import print
 
 
-class WufiPDF_Climate:
+class WufiPDF_ClimateSummary:
     __pdf_heading_string__ = "CLIMATE"  # Note: upper case, not lower
     get_tables = False
 

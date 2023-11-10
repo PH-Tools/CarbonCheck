@@ -6,7 +6,7 @@
 from typing import Dict
 from NBDM.model.site import NBDM_Site, NBDM_Climate, NBDM_Location, NBDM_ProjectAddress
 from NBDM.from_WUFI_PDF.pdf_reader import WufiPDF_SectionType
-from NBDM.from_WUFI_PDF.pdf_sections.climate_summary import WufiPDF_Climate
+from NBDM.from_WUFI_PDF.pdf_sections.climate_summary import WufiPDF_ClimateSummary
 from NBDM.from_WUFI_PDF.pdf_sections.site import WufiPDF_PropertySite
 from NBDM.from_WUFI_PDF.pdf_sections.project_data import WufiPDF_ProjectData
 from rich import print
@@ -63,8 +63,8 @@ def create_NBDM_Location_from_WufiPDF(
             pdf_section_project_data
         )
 
-    pdf_section_climate: WufiPDF_Climate
-    if pdf_section_climate := _pdf_data.get(WufiPDF_Climate.__pdf_heading_string__, None):  # type: ignore
+    pdf_section_climate: WufiPDF_ClimateSummary
+    if pdf_section_climate := _pdf_data.get(WufiPDF_ClimateSummary.__pdf_heading_string__, None):  # type: ignore
         new_location.longitude = pdf_section_climate.longitude
         new_location.latitude = pdf_section_climate.latitude
 

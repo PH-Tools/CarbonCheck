@@ -3,7 +3,7 @@
 """WUFI-PDF Section: HVAC"""
 
 from enum import Enum
-from typing import List, Union
+from typing import List, Union, TypeVar, Type
 import re
 
 from ph_units.unit_type import Unit
@@ -13,6 +13,8 @@ from NBDM.model.enums import (
     cooling_device_type,
     dhw_tank_device_type,
 )
+
+T = TypeVar("T")
 
 
 class WufiPDF_HvacDeviceType(Enum):
@@ -44,13 +46,29 @@ class WufiPDF_HvacDevice:
         self.storage_capacity = Unit(0.0, "GAL")
         self.tank_heat_loss = Unit(0.0, "BTU/HR-F")
 
+    def text_to_value(self, _text: str, _type: Type[T], _default: T) -> T:
+        """Try to return the text segment as the specified type (float, int), provide error message on fail."""
+        try:
+            return _type(_text)
+        except:
+            msg = (
+                "- - - - - - - "
+                f"Error creating HVAC Device: Cannot convert the PDF line: '{_text}' to a number? "
+                f"Most likely your WUFI-PDF contains overlapping text in the 'HVAC' section "
+                "because of bugs and errors in the way WUFI prints out the reports. "
+                f"For now, setting the value to '{_default}'.\n"
+            )
+            print(msg)
+            return _default
+
     def add_line(self, _line: str) -> None:
         self._lines.append(_line)
 
     def process_heat_pump_text(self) -> None:
         for line in self._lines:
             if "Annual heating coefficient of performance (COP) [-]" in line:
-                value = line.split("[-]")[-1].strip()
+                txt = line.split("[-]")[-1].strip()
+                value = self.text_to_value(txt, float, 1.0)
                 self.cop = Unit(value, "BTU/HR-W")
 
     def process_boiler_text(self) -> None:
@@ -70,10 +88,12 @@ class WufiPDF_HvacDevice:
         """
         for line in self._lines:
             if "Storage capacity [gal]" in line:
-                value = line.split("[gal]")[-1].strip()
+                txt = line.split("[gal]")[-1].strip()
+                value = self.text_to_value(txt, float, 0.0)
                 self.storage_capacity = Unit(value, "GAL")
             elif "Specific total thermal storage losses [Btu/hr F]" in line:
-                value = line.split("[Btu/hr F]")[-1].strip()
+                txt = line.split("[Btu/hr F]")[-1].strip()
+                value = self.text_to_value(txt, float, 0.0)
                 self.tank_heat_loss = Unit(value, "BTU/HR-F")
 
     def process_mech_vent_text(self) -> None:
@@ -99,18 +119,18 @@ class WufiPDF_HvacDevice:
 
         for line in self._lines:
             if "Sensible recovery efficiency [-]" in line:
-                value = float(line.split("[-]")[-1])
+                value = self.text_to_value(line.split("[-]")[-1], float, 0.0)
                 if value < 1.0:
                     value = value * 100
                 self.sensible_recovery = Unit(value, "%")
             elif "Humidity recovery efficiency [-]" in line:
-                value = float(line.split("[-]")[-1])
+                value = self.text_to_value(line.split("[-]")[-1], float, 0.0)
                 if value < 1.0:
                     value = value * 100
                 self.moisture_recovery = Unit(value, "%")
             elif "Quantity" in line:
-                value = line.split(" ")[-1]
-                self.quantity = int(value)
+                value = self.text_to_value(line.split(" ")[-1], int, 1)
+                self.quantity = value
 
     def process_renewable_text(self) -> None:
         """self._lines = [
@@ -121,7 +141,8 @@ class WufiPDF_HvacDevice:
         """
         for line in self._lines:
             if "Photovoltaic / renewable energy [kWh/yr]" in line:
-                value = line.split("[kWh/yr]")[-1].strip().replace(",", "")
+                txt = line.split("[kWh/yr]")[-1].strip().replace(",", "")
+                value = self.text_to_value(txt, float, 0.0)
                 self.annual_energy_production = Unit(value, "KWH")
 
     def process_section_text(self) -> None:
@@ -165,6 +186,9 @@ class WufiPDF_HvacDevices:
 
         for line in self._lines:
             parts = line.split(":")  # -- ':' means it might be a device heading...
+            if len(parts) < 2:
+                continue
+
             possible_device_name = parts[0].strip().split(",")[0].strip()
 
             try:

@@ -6,7 +6,7 @@ PH-units
 PHX
 PH-Baseliner
 rich
-xlwings
 PyQt6
 PyYAML
 pdfplumber
+xlwings

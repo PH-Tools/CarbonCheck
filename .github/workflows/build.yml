@@ -43,5 +43,5 @@ jobs:
           git config --global user.name "GitHub Actions"
           git pull origin main
           git add dist\*.msi
-          git commit -m "Add new EXE file"
+          git commit -m "Add new .MSI file"
           git push origin HEAD:main

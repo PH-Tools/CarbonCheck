@@ -1,15 +1,14 @@
 name: Build Windows MSI
 
-# on:
-#   pull_request:
-#     types: [closed]
-#     branches:
-#       - main
-
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
+
+  #   push:
+  #     branches:
+  #       - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -35,8 +34,9 @@ jobs:
         run: |
           python build_windows.py bdist_msi
 
-      # Make sure Github settings / permissions allow
-      # read / write access to Actions
+      # -- Github settings / permissions allow read / write access
+      # -- Get the .MSI file from the dist folder
+      # -- Commit the new .MSI file to the repo
       - name: Commit changes
         run: |
           git config --global user.email "actions@github.com"

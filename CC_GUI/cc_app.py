@@ -35,7 +35,6 @@ try:
     )
 except Exception as e:
     raise Exception("Error importing CC_GUI library?", e)
-
 try:
     from ph_baseliner.codes.options import (
         BaselineCodes,
@@ -115,7 +114,7 @@ class Tab_Report:
 
     def add_baseline_seg_from_file(self) -> None:
         """Load a new Baseline Segment's data from a single PHPP file."""
-        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
+        filepath = self.view.get_file_path(filter=file_type.PH_SOURCE_FILE)
 
         if not filepath or not filepath.exists():
             return None
@@ -127,7 +126,7 @@ class Tab_Report:
 
     def add_proposed_seg_from_file(self) -> None:
         """Load a new Proposed Segment's data from a single PHPP file."""
-        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
+        filepath = self.view.get_file_path(filter=file_type.PH_SOURCE_FILE)
 
         if not filepath or not filepath.exists():
             return None
@@ -173,8 +172,8 @@ class Tab_Report:
     # -- Team and Site Window and Buttons
 
     def add_project_info_from_file(self) -> None:
-        """Load 'Project' information from a single PHPP file (Team, Climate, Site...)"""
-        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
+        """Load 'Project' information from a single PHPP/WUFI-PDF file (Team, Climate, Site...)"""
+        filepath = self.view.get_file_path(filter=file_type.PH_SOURCE_FILE)
 
         if not filepath or not filepath.exists():
             return None
@@ -200,8 +199,8 @@ class Tab_Report:
     # -- Building Component Window and Buttons
 
     def add_bldg_component_info_from_file(self) -> None:
-        """Load 'Bldg-Component' information from a single PHPP file (Envelope, Appliances, etc..)"""
-        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
+        """Load 'Bldg-Component' information from a single PHPP/WUFI-PDF file (Envelope, Appliances, etc..)"""
+        filepath = self.view.get_file_path(filter=file_type.PH_SOURCE_FILE)
 
         if not filepath or not filepath.exists():
             return None
@@ -357,7 +356,7 @@ class Tab_Baseline:
 
     def set_source_phpp_file_path(self) -> None:
         """Set the path to the PHPP file to be used as the Baseline."""
-        filepath = self.view.get_file_path(filter=file_type.PH_MODELS)
+        filepath = self.view.get_file_path(filter=file_type.PH_MODEL)
         self.logger.debug(f"Setting source PHPP file path to {filepath}")
 
         if not filepath or not filepath.exists():

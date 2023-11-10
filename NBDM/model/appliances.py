@@ -21,11 +21,17 @@ class NBDM_Appliance:
     appliance_type: appliance_type = field(default=appliance_type.CUSTOM)
     quantity: int = 1
     annual_energy_use: Unit = field(default_factory=Unit)
-    display_name: str = str(appliance_type.name)
+    _display_name: str = str(appliance_type.name)
 
     @property
     def key(self) -> str:
         return str(self.id_num)
+
+    @property
+    def display_name(self) -> str:
+        if not self._display_name or self._display_name == "None":
+            self._display_name = str(self.appliance_type.name)
+        return self._display_name
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_Appliance:

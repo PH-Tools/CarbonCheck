@@ -4,3 +4,4 @@ coverage
 cx_Freeze
 pyinstaller
 pyinstaller-hooks-contrib
+toml

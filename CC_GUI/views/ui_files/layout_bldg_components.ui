@@ -63,7 +63,7 @@
          <item>
           <widget class="QPushButton" name="btn_add_bldg_component_info">
            <property name="text">
-            <string>Import Component Data from PH Model...</string>
+            <string>Import Component Data from PHPP or WUFI-PDF File ...</string>
            </property>
           </widget>
          </item>

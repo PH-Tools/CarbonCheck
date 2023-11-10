@@ -63,7 +63,7 @@
          <item>
           <widget class="QPushButton" name="btn_add_team_info">
            <property name="text">
-            <string>Import Data from PHPP File</string>
+            <string>Import Data from PHPP or WUFI-PDF File ...</string>
            </property>
           </widget>
          </item>

@@ -2,8 +2,9 @@
 # -*- Python Version: 3.7 -*-
 
 import pytest
+from pathlib import Path
 
-from ph_units.unit_type import Unit
+from ph_units.unit_type import Unit, Dict
 
 from NBDM.model.building import NBDM_Building, NBDM_BuildingSegment
 from NBDM.model.geometry import NBDM_BuildingSegmentGeometry
@@ -21,6 +22,9 @@ from NBDM.model.project import NBDM_Project, NBDM_Variant, NBDM_Variants
 from NBDM.model.site import NBDM_Climate, NBDM_Location, NBDM_Site, NBDM_ProjectAddress
 from NBDM.model.team import NBDM_Team, NBDM_TeamContactInfo, NBDM_TeamMember
 from NBDM.model import enums
+from NBDM.from_WUFI_PDF.pdf_reader import PDFReader
+from NBDM.from_WUFI_PDF.pdf_sections import WufiPDF_SectionType
+
 
 # -- Project Site -------------------------------------------------------------
 
@@ -252,3 +256,14 @@ sample_Project = NBDM_Project(
 @pytest.fixture
 def sample_NBDM_Project() -> NBDM_Project:
     return sample_Project
+
+
+# -- PDF ----------------------------------------------------------------------
+
+
+@pytest.fixture(scope="session")
+def sample_pdf_data_ridgeway() -> Dict[str, WufiPDF_SectionType]:
+    reader = PDFReader()
+    return reader.extract_pdf_text(
+        Path("tests/_source_pdf/example_complete_ridgeway.pdf")
+    )

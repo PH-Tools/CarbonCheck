@@ -1,10 +1,20 @@
+[tool.cx_Freeze.bdsist.msi]
+target_name = "CabonCheck"
+target_version = "0.0.1"
+initial_target_dir = "C:\\CarbonCheck"
+add_to_path = false
+
+[tool.cx_Freeze.app]
+name = "CarbonCheck"
+description = "Passive House Model Baseliner and Reporting."
+copyright = "Copyright (C) 2023 Passive House Accelerator"
+
 [tool.pytest.ini_options]
 filterwarnings = [
     "error",
     "ignore::UserWarning",
     'ignore:function ham\(\) is deprecated:DeprecationWarning',
 ]
-
 
 [tool.coverage.run]
 # --- For testing...
@@ -13,9 +23,7 @@ source = ["NBDM"]
 # ---
 branch = true
 cover_pylib = false
-omit = [
-    "*.venv/*",
-]
+omit = ["*.venv/*"]
 
 [tool.coverage.report]
 show_missing = true

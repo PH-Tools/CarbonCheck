@@ -1,0 +1,47 @@
+name: Build Windows MSI
+
+# on:
+#   pull_request:
+#     types: [closed]
+#     branches:
+#       - main
+
+on:
+  push:
+    branches:
+      - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-windows-msi:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r dev_requirements.txt
+          pip install -r requirements.txt
+
+      - name: Build MSI file
+        run: |
+          python build_windows.py bdist_msi
+
+      # Make sure Github settings / permissions allow
+      # read / write access to Actions
+      - name: Commit changes
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git pull origin main
+          git add dist\*.msi
+          git commit -m "Add new EXE file"
+          git push origin HEAD:main

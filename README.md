@@ -22,4 +22,5 @@ For any questions regarding the use of CarbonCheck, feel free to reach out at Ca
 
 CarbonCheck is part of the [Passive House Tools project](http://www.passivehousetools.com/) and was developed in collaboration with the [Passive House Accelerator](https://passivehouseaccelerator.com/) and the [New York State Energy Research and Development Authority (NYSERDA)](https://www.nyserda.ny.gov/).
 
-![Tests](https://github.com/PH-Tools/CarbonCheck/actions/workflows/hugo.yml/badge.svg)
+![Build .msi](https://github.com/PH-Tools/CarbonCheck/actions/workflows/build.yml/badge.svg)
+![Build Website](https://github.com/PH-Tools/CarbonCheck/actions/workflows/hugo.yml/badge.svg)

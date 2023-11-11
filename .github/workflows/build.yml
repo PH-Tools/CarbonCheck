@@ -10,7 +10,7 @@ on:
   #   branches:
   #     - main
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Allows this workflow to be run manually from the 'Actions' tab in GitHub
   workflow_dispatch:
 
 jobs:
@@ -24,13 +24,11 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Cache Python Development dependencies
+      # -- Install Develpment / Pacakaging dependencies, use cache if available
+      - name: Cache python dependencies [Dev]
         uses: actions/cache@v2
         with:
-          path: |
-            ~/.cache/pip
-            |./path/to/requirements.txt
-            |./path/to/dev-requirements.txt
+          path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/dev-requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
@@ -40,18 +38,28 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r dev-requirements.txt
 
-      - name: Install Primnary dependencies
+      # -- Install Application dependencies, use cache if available
+      - name: Cache python dependencies [App]
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Application dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # -- Build the Windows .MSI installer file using cx_Freeze
       - name: Build MSI file
         run: |
           python build_windows.py bdist_msi
 
       # -- Github settings / permissions allow read / write access
-      # -- Get the .MSI file from the dist folder
-      # -- Commit the new .MSI file to the repo
+      # -- Get the .MSI file from the ./dist/. folder
+      # -- Commit the newly created .MSI file back to the repo
       - name: Commit changes
         run: |
           git config --global user.email "actions@github.com"

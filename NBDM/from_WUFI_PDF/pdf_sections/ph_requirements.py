@@ -2,12 +2,15 @@
 
 """WUFI-PDF Section: Passive House Requirements"""
 
-from typing import Any, List, Dict
-from ph_units.unit_type import Unit
-from ph_units.parser import parse_input
-from ph_units.converter import _standardize_unit_name, unit_type_alias_dict
-from ph_units.converter import UnitTypeNameNotFound
+from typing import Any, Dict, List
 
+from ph_units.converter import (
+    UnitTypeNameNotFound,
+    _standardize_unit_name,
+    unit_type_alias_dict,
+)
+from ph_units.parser import parse_input
+from ph_units.unit_type import Unit
 
 # -----------------------------------------------------------------------------
 # -- Subsections --

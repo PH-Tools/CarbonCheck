@@ -3,6 +3,7 @@
 """WUFI-PDF Section: Assembly / Window Types"""
 
 from typing import List
+
 from ph_units.unit_type import Unit
 
 

@@ -3,6 +3,7 @@
 """WUFI-PDF Section: Climate-Summary"""
 
 from typing import List
+
 from ph_units.unit_type import Unit
 from rich import print
 

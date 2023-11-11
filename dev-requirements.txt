@@ -5,3 +5,4 @@ pyinstaller==6.1.0
 pyinstaller-hooks-contrib==2023.10
 pytest==7.4.3
 toml==0.10.2
+isort==5.12.0

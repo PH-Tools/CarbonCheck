@@ -3,13 +3,13 @@
 
 """Function to create NBDM_Team object from WUFI-PDF data."""
 
-from typing import Dict, Optional
-from NBDM.model.team import NBDM_Team, NBDM_TeamMember, NBDM_TeamContactInfo
-from NBDM.from_WUFI_PDF.pdf_reader import WufiPDF_SectionType
+
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 from NBDM.from_WUFI_PDF.pdf_sections.project_data import (
-    WufiPDF_ProjectData,
     WufiPDF_BuildingAddress,
+    WufiPDF_ProjectData,
 )
+from NBDM.model.team import NBDM_Team, NBDM_TeamContactInfo, NBDM_TeamMember
 
 
 def team_member_contact_info_from_WufiPDF_data(
@@ -35,11 +35,10 @@ def team_member_from_WufiPDF_data(_pdf_data: WufiPDF_BuildingAddress) -> NBDM_Te
     return new_team_member
 
 
-def create_NBDM_Team_from_WufiPDF(_pdf_data: Dict[str, WufiPDF_SectionType]) -> NBDM_Team:
+def create_NBDM_Team_from_WufiPDF(_pdf_data: PDFSectionsCollection) -> NBDM_Team:
     new_team = NBDM_Team()
 
-    owner_data: Optional[WufiPDF_ProjectData] = None
-    if owner_data := _pdf_data.get(WufiPDF_ProjectData.__pdf_heading_string__, None):  # type: ignore
+    if owner_data := _pdf_data.get_section(WufiPDF_ProjectData):
         new_team.site_owner = team_member_from_WufiPDF_data(owner_data.owner)
         new_team.primary_energy_consultant = team_member_from_WufiPDF_data(
             owner_data.responsible

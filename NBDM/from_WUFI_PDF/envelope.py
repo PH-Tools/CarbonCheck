@@ -3,17 +3,16 @@
 
 """Function to create NBDM Envelope from WUFI-PDF."""
 
-from typing import List, Dict
-from NBDM.from_WUFI_PDF.pdf_reader import WufiPDF_SectionType
+
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 from NBDM.from_WUFI_PDF.pdf_sections.assemblies_win_types import (
     WufiPDF_AssemblyAndWindowTypes,
     WufiPDF_AssemblyType,
     WufiPDF_WindowType,
 )
-from rich import print
 from NBDM.model.envelope import (
-    NBDM_BuildingSegmentEnvelope,
     NBDM_AssemblyType,
+    NBDM_BuildingSegmentEnvelope,
     NBDM_GlazingType,
 )
 
@@ -45,16 +44,13 @@ def create_NBDM_GlazingType_from_WufiPDF(
 
 
 def create_NBDM_Envelope_from_WufiPDF(
-    _pdf_data: Dict[str, WufiPDF_SectionType]
+    _pdf_data: PDFSectionsCollection,
 ) -> NBDM_BuildingSegmentEnvelope:
     """Create NBDM Envelope from WUFI-PDF."""
 
     new_obj = NBDM_BuildingSegmentEnvelope()
 
-    envelope_data: WufiPDF_AssemblyAndWindowTypes
-    if envelope_data := _pdf_data.get(
-        WufiPDF_AssemblyAndWindowTypes.__pdf_heading_string__, None
-    ):
+    if envelope_data := _pdf_data.get_section(WufiPDF_AssemblyAndWindowTypes):
         for assembly_type in envelope_data._assembly_types:
             new_obj.add_assembly_type(
                 create_NBDM_AssemblyType_from_WufiPDF(assembly_type)

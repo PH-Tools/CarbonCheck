@@ -3,19 +3,16 @@
 
 """Functions to create NBDM BuildingSegment objects from WUFI-PDF data."""
 
-from typing import Dict
+
 from NBDM.from_WUFI_PDF.geometry import build_NBDM_geometryFromWufiPDF
 from NBDM.from_WUFI_PDF.occupancy import build_NBDM_occupancyFromWufiPDF
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 from NBDM.from_WUFI_PDF.performance import build_NBDM_performanceFromWufiPDF
-
-from NBDM.model import building
-from NBDM.model import enums
-
-from NBDM.from_WUFI_PDF.pdf_sections.__typing import WufiPDF_SectionType
+from NBDM.model import building, enums
 
 
 def create_NBDM_BuildingSegmentFromWufiPDF(
-    _pdf_data: Dict[str, WufiPDF_SectionType]
+    _pdf_data: PDFSectionsCollection,
 ) -> building.NBDM_BuildingSegment:
     """Read in data from a PHPP and build up a new BuildingSegment."""
 

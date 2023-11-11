@@ -34,3 +34,7 @@ directory = "_coverage_html"
 
 [tool.black]
 line-length = 90
+
+[tool.isort]
+# make it compatible with black
+profile = "black" 

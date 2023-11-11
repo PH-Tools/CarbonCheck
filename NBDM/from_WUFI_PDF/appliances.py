@@ -3,19 +3,16 @@
 
 """Functions to create NBDM Appliances from WUFI-PDF."""
 
-from typing import Dict
-
-from ph_units.unit_type import Unit
 
 from PHX.model.enums.elec_equip import ElectricEquipmentType
 
-from NBDM.model.appliances import NBDM_BuildingSegmentAppliances, NBDM_Appliance
-from NBDM.model.enums import appliance_type
-from NBDM.from_WUFI_PDF.pdf_reader import WufiPDF_SectionType
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 from NBDM.from_WUFI_PDF.pdf_sections.res_electric import (
-    WufiPDF_ResidentialElectric,
     WufiPDF_ElectricAppliance,
+    WufiPDF_ResidentialElectric,
 )
+from NBDM.model.appliances import NBDM_Appliance, NBDM_BuildingSegmentAppliances
+from NBDM.model.enums import appliance_type
 
 # -- Map NBDM Appliance Types to PHX Device Types
 device_map = {
@@ -37,13 +34,12 @@ device_map = {
 
 
 def create_NBDM_Appliances_from_WufiPDF(
-    _pdf_data: Dict[str, WufiPDF_SectionType]
+    _pdf_data: PDFSectionsCollection,
 ) -> NBDM_BuildingSegmentAppliances:
-    """Read in data from a WUFI-PDF document and create a new NBDM_BuildingSegmentAppliances Object."""
+    """Read in data from a WUFI-PDF document and create a new 'NBDM_Appliance' Object."""
     new_obj = NBDM_BuildingSegmentAppliances()
 
-    appliance_data: WufiPDF_ResidentialElectric
-    if appliance_data := _pdf_data[WufiPDF_ResidentialElectric.__pdf_heading_string__]:
+    if appliance_data := _pdf_data.get_section(WufiPDF_ResidentialElectric):
         for appliance in appliance_data._appliances:
             new_appliance = NBDM_Appliance()
             new_appliance.appliance_type = device_map[appliance.nbdm_appliance_type]

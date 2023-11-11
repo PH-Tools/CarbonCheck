@@ -3,10 +3,14 @@
 """WUFI-PDF Section: Building Information"""
 
 from typing import Any, List
-from ph_units.unit_type import Unit
+
+from ph_units.converter import (
+    UnitTypeNameNotFound,
+    _standardize_unit_name,
+    unit_type_alias_dict,
+)
 from ph_units.parser import parse_input
-from ph_units.converter import _standardize_unit_name, unit_type_alias_dict
-from ph_units.converter import UnitTypeNameNotFound
+from ph_units.unit_type import Unit
 
 
 class WufiPDF_BuildingInformation:

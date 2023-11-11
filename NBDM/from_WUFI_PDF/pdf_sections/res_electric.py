@@ -2,11 +2,10 @@
 
 """WUFI-PDF Section: Residential Electric"""
 
-from typing import List
 import re
+from typing import List
 
 from ph_units.unit_type import Unit
-
 from PHX.model.enums.elec_equip import ElectricEquipmentType
 
 
@@ -25,8 +24,10 @@ class WufiPDF_ElectricAppliance:
 
 
 class WufiPDF_ResidentialElectric:
-    __pdf_heading_string__ = "ELECTRICITY DEMAND RESIDENTIAL BUILDING"
-    get_tables = False
+    __pdf_heading_string__: str = "ELECTRICITY DEMAND RESIDENTIAL BUILDING"
+    get_tables: bool = False
+    _lines: List
+    _tables: List
 
     # -- Map WUFI_PDF Names to PHX Appliance Types
     device_map = {

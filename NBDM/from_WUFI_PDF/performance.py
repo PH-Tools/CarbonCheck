@@ -3,27 +3,29 @@
 
 """Functions to create NBDM_BuildingSegmentPerformance objects from WUFI-PDF data."""
 
-from typing import Dict
+from typing import Optional
 
-from NBDM.model.performance import (
-    NBDM_SiteEnergy,
-    NBDM_SourceEnergy,
-    NBDM_AnnualHeatingDemandEnergy,
-    NBDM_AnnualCoolingDemandEnergy,
-    NBDM_PeakHeatingLoad,
-    NBDM_PeakCoolingLoad,
-    NBDM_BuildingSegmentPerformance,
-)
-from NBDM.from_WUFI_PDF.pdf_sections.__typing import WufiPDF_SectionType
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 from NBDM.from_WUFI_PDF.pdf_sections.annual_demand import (
-    WufiPDF_AnnualHeatingAndCoolingDemand,
     AnnualDemand,
+    WufiPDF_AnnualHeatingAndCoolingDemand,
 )
 from NBDM.from_WUFI_PDF.pdf_sections.peak_load import (
-    WufiPDF_PeakHeatingAndCoolingLoad,
     PeakLoad,
+    WufiPDF_PeakHeatingAndCoolingLoad,
 )
-from NBDM.from_WUFI_PDF.pdf_sections.site_energy_monthly import WufiPDF_SiteEnergyMonthly
+from NBDM.from_WUFI_PDF.pdf_sections.site_energy_monthly import (
+    WufiPDF_SiteEnergyMonthly,
+)
+from NBDM.model.performance import (
+    NBDM_AnnualCoolingDemandEnergy,
+    NBDM_AnnualHeatingDemandEnergy,
+    NBDM_BuildingSegmentPerformance,
+    NBDM_PeakCoolingLoad,
+    NBDM_PeakHeatingLoad,
+    NBDM_SiteEnergy,
+    NBDM_SourceEnergy,
+)
 
 
 def build_NBDM_siteEnergyFromWufiPDF(
@@ -93,40 +95,35 @@ def build_NBDM_peakCoolingLoadFromWufiPDF(_pdf_data: PeakLoad) -> NBDM_PeakCooli
 
 
 def build_NBDM_performanceFromWufiPDF(
-    _pdf_data: Dict[str, WufiPDF_SectionType]
+    _pdf_data: PDFSectionsCollection,
 ) -> NBDM_BuildingSegmentPerformance:
+    new_nbdm_obj = NBDM_BuildingSegmentPerformance()
+
     # -- Pull out the relevant sections
-    demand_section: WufiPDF_AnnualHeatingAndCoolingDemand = _pdf_data[
-        WufiPDF_AnnualHeatingAndCoolingDemand.__pdf_heading_string__
-    ]  # type: ignore
-    load_section: WufiPDF_PeakHeatingAndCoolingLoad = _pdf_data[
-        WufiPDF_PeakHeatingAndCoolingLoad.__pdf_heading_string__
-    ]  # type: ignore
-    site_energy_section: WufiPDF_SiteEnergyMonthly = _pdf_data[
-        WufiPDF_SiteEnergyMonthly.__pdf_heading_string__
-    ]  # type: ignore
+    # -------------------------------------------------------------------------
+    site_energy_section: Optional[WufiPDF_SiteEnergyMonthly]
+    if site_energy_section := _pdf_data.get_section(WufiPDF_SiteEnergyMonthly):
+        new_nbdm_obj.site_energy = build_NBDM_siteEnergyFromWufiPDF(site_energy_section)
+        new_nbdm_obj.source_energy = build_NBDM_sourceEnergyFromWufiPDF()
 
-    # -- Build up the performance object
-    site_energy = build_NBDM_siteEnergyFromWufiPDF(site_energy_section)
-    source_energy = build_NBDM_sourceEnergyFromWufiPDF()
-    annual_heating_energy_demand = build_annualHeatingDemandFromWufiPDF(
-        demand_section.heating_demand
-    )
-    annual_cooling_energy_demand = build_annualCoolingDemandFromWufiPDF(
-        demand_section.cooling_demand
-    )
-    peak_heating_load = build_NBDM_peakHeatingLoadFromWufiPDF(
-        max(load_section.heating_load_1, load_section.heating_load_2)
-    )
-    peak_sensible_cooling_load = build_NBDM_peakCoolingLoadFromWufiPDF(
-        load_section.cooling_load
-    )
+    # -------------------------------------------------------------------------
+    load_section: Optional[WufiPDF_PeakHeatingAndCoolingLoad]
+    if load_section := _pdf_data.get_section(WufiPDF_PeakHeatingAndCoolingLoad):
+        new_nbdm_obj.peak_heating_load = build_NBDM_peakHeatingLoadFromWufiPDF(
+            max(load_section.heating_load_1, load_section.heating_load_2)
+        )
+        new_nbdm_obj.peak_sensible_cooling_load = build_NBDM_peakCoolingLoadFromWufiPDF(
+            load_section.cooling_load
+        )
 
-    return NBDM_BuildingSegmentPerformance(
-        site_energy,
-        source_energy,
-        annual_heating_energy_demand,
-        annual_cooling_energy_demand,
-        peak_heating_load,
-        peak_sensible_cooling_load,
-    )
+    # -------------------------------------------------------------------------
+    demand_section: Optional[WufiPDF_AnnualHeatingAndCoolingDemand]
+    if demand_section := _pdf_data.get_section(WufiPDF_AnnualHeatingAndCoolingDemand):
+        new_nbdm_obj.annual_heating_energy_demand = build_annualHeatingDemandFromWufiPDF(
+            demand_section.heating_demand
+        )
+        new_nbdm_obj.annual_cooling_energy_demand = build_annualCoolingDemandFromWufiPDF(
+            demand_section.cooling_demand
+        )
+
+    return new_nbdm_obj

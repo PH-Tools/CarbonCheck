@@ -1,5 +1,5 @@
 from typing import Dict, Any
-from NBDM.from_WUFI_PDF.pdf_sections import WufiPDF_SectionType
+from NBDM.from_WUFI_PDF.pdf_sections.__typing import SupportsWufiPDF_Section
 from NBDM.from_WUFI_PDF.pdf_sections.annual_demand import (
     WufiPDF_AnnualHeatingAndCoolingDemand,
     AnnualDemand,
@@ -9,7 +9,7 @@ from ph_units.unit_type import Unit
 
 
 def test_pdf_read_sections_heating_demand(
-    sample_pdf_data_ridgeway: Dict[str, WufiPDF_SectionType]
+    sample_pdf_data_ridgeway: Dict[str, SupportsWufiPDF_Section]
 ) -> None:
     section_key = WufiPDF_AnnualHeatingAndCoolingDemand.__pdf_heading_string__
     pdf_section: Any = sample_pdf_data_ridgeway[section_key]
@@ -31,7 +31,7 @@ def test_pdf_read_sections_heating_demand(
 
 
 def test_pdf_read_sections_cooling_demand(
-    sample_pdf_data_ridgeway: Dict[str, WufiPDF_SectionType]
+    sample_pdf_data_ridgeway: Dict[str, SupportsWufiPDF_Section]
 ) -> None:
     section_key = WufiPDF_AnnualHeatingAndCoolingDemand.__pdf_heading_string__
     pdf_section: Any = sample_pdf_data_ridgeway[section_key]

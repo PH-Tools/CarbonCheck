@@ -2,16 +2,16 @@
 
 """WUFI-PDF Section: HVAC"""
 
-from enum import Enum
-from typing import List, Union, TypeVar, Type
 import re
+from enum import Enum
+from typing import List, Type, TypeVar, Union
 
 from ph_units.unit_type import Unit
 
 from NBDM.model.enums import (
-    heating_device_type,
     cooling_device_type,
     dhw_tank_device_type,
+    heating_device_type,
 )
 
 T = TypeVar("T")

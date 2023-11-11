@@ -2,11 +2,15 @@
 
 """WUFI-PDF Section: Annual Heating / Cooling Demand"""
 
-from typing import Any, Optional, List
-from ph_units.unit_type import Unit
+from typing import Any, List, Optional
+
+from ph_units.converter import (
+    UnitTypeNameNotFound,
+    _standardize_unit_name,
+    unit_type_alias_dict,
+)
 from ph_units.parser import parse_input
-from ph_units.converter import _standardize_unit_name, unit_type_alias_dict
-from ph_units.converter import UnitTypeNameNotFound
+from ph_units.unit_type import Unit
 
 
 class AnnualDemand:

@@ -3,17 +3,15 @@
 
 """Functions to create NBDM Domestic Hot-Water (DHW) Systems from WUFI-PDF."""
 
-from typing import List, Dict
-
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
+from NBDM.from_WUFI_PDF.pdf_reader import SupportsWufiPDF_Section
+from NBDM.from_WUFI_PDF.pdf_sections.hvac import WufiPDF_HVAC
 from NBDM.model.dhw_systems import (
     NBDM_BuildingSegmentDHWSystems,
     NBDM_DHWHeatingDevice,
     NBDM_DHWTankDevice,
 )
 from NBDM.model.enums import heating_device_type
-from NBDM.from_WUFI_PDF.pdf_reader import WufiPDF_SectionType
-from NBDM.from_WUFI_PDF.pdf_sections.hvac import WufiPDF_HVAC
-
 
 # -- WUFI type name --> NBDM type
 device_map = {
@@ -27,13 +25,12 @@ device_map = {
 
 
 def create_NBDM_DHW_Systems_from_WufiPDF(
-    _pdf_data: Dict[str, WufiPDF_SectionType]
+    _pdf_data: PDFSectionsCollection,
 ) -> NBDM_BuildingSegmentDHWSystems:
     """Read in data from a WUFI-PDF document and create a new NBDM_BuildingSegmentDHWSystems Object."""
     obj = NBDM_BuildingSegmentDHWSystems()
 
-    pdf_hvac_data: WufiPDF_HVAC
-    if pdf_hvac_data := _pdf_data[WufiPDF_HVAC.__pdf_heading_string__]:
+    if pdf_hvac_data := _pdf_data.get_section(WufiPDF_HVAC):
         for pdf_dhw_tank_device_data in pdf_hvac_data.dhw_tank_devices:
             new_vent_unit = NBDM_DHWTankDevice(
                 display_name=pdf_dhw_tank_device_data.device_name,

@@ -3,29 +3,38 @@
 
 """PDFReader class for loading and reading WUFI-PDF files."""
 
-from logging import Logger
 import pathlib
-from typing import Dict, Type, Optional
+from logging import Logger
+from typing import (
+    Optional,
+    Type,
+    TypeVar,
+)
 
 import pdfplumber
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 
+from NBDM.from_WUFI_PDF.pdf_sections.__typing import SupportsWufiPDF_Section
 from NBDM.from_WUFI_PDF.pdf_sections._default import _WufiPDF_DefaultSection
-from NBDM.from_WUFI_PDF.pdf_sections.__typing import WufiPDF_SectionType
+
+T = TypeVar("T", bound=SupportsWufiPDF_Section)
 
 
 class PDFReader:
     """PDFReader class for loading and reading data from WUFI-PDF files."""
 
-    pdf_sections: Dict[str, WufiPDF_SectionType] = {}
+    pdf_sections: PDFSectionsCollection = PDFSectionsCollection()
 
     def __init__(self, _logger: Optional[Logger] = None) -> None:
         self.logger = _logger or Logger("PDF_Reader")
         self.logger.info("Initializing PDFReader")
 
     @classmethod
-    def register_pdf_section(cls, pdf_section_class: Type[WufiPDF_SectionType]) -> None:
+    def register_pdf_section(
+        cls, pdf_section_class: Type[SupportsWufiPDF_Section]
+    ) -> None:
         """Register a new PDF-Section class as part of the PDF-Reader."""
-        cls.pdf_sections[pdf_section_class.__pdf_heading_string__] = pdf_section_class()
+        cls.pdf_sections.set_section(pdf_section_class, pdf_section_class())
 
     def load_pdf_file_data(self, _filepath: pathlib.Path) -> None:
         """Populate the .sections with data from a PDF file."""
@@ -75,7 +84,7 @@ class PDFReader:
                     except AttributeError:
                         pass
 
-    def extract_pdf_text(self, _filepath: pathlib.Path) -> Dict[str, WufiPDF_SectionType]:
+    def extract_pdf_text(self, _filepath: pathlib.Path) -> PDFSectionsCollection:
         """Extract the text from a WUFI-PDF file and return it as a dict of PDFSection objects."""
 
         # -- Read in the PDF text and table raw-data

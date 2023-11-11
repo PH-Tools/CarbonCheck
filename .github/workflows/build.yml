@@ -33,7 +33,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install Development dependencies
+      - name: Install python dependencies [Dev]
         run: |
           python -m pip install --upgrade pip
           pip install -r dev-requirements.txt
@@ -47,7 +47,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install Application dependencies
+      - name: Install python dependencies [App]
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt

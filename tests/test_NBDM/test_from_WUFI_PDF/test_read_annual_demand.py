@@ -1,5 +1,6 @@
 from typing import Dict, Any
 from NBDM.from_WUFI_PDF.pdf_sections.__typing import SupportsWufiPDF_Section
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 from NBDM.from_WUFI_PDF.pdf_sections.annual_demand import (
     WufiPDF_AnnualHeatingAndCoolingDemand,
     AnnualDemand,
@@ -9,10 +10,10 @@ from ph_units.unit_type import Unit
 
 
 def test_pdf_read_sections_heating_demand(
-    sample_pdf_data_ridgeway: Dict[str, SupportsWufiPDF_Section]
+    sample_pdf_data_ridgeway_proposed: PDFSectionsCollection,
 ) -> None:
     section_key = WufiPDF_AnnualHeatingAndCoolingDemand.__pdf_heading_string__
-    pdf_section: Any = sample_pdf_data_ridgeway[section_key]
+    pdf_section: Any = sample_pdf_data_ridgeway_proposed[section_key]
     demand: AnnualDemand = pdf_section.heating_demand
 
     assert demand.transmission_losses == Unit(611713.0, "KBTU")
@@ -31,10 +32,10 @@ def test_pdf_read_sections_heating_demand(
 
 
 def test_pdf_read_sections_cooling_demand(
-    sample_pdf_data_ridgeway: Dict[str, SupportsWufiPDF_Section]
+    sample_pdf_data_ridgeway_proposed: PDFSectionsCollection,
 ) -> None:
     section_key = WufiPDF_AnnualHeatingAndCoolingDemand.__pdf_heading_string__
-    pdf_section: Any = sample_pdf_data_ridgeway[section_key]
+    pdf_section: Any = sample_pdf_data_ridgeway_proposed[section_key]
     demand: AnnualDemand = pdf_section.cooling_demand
 
     assert demand.transmission_losses == Unit(1149853.0, "KBTU")

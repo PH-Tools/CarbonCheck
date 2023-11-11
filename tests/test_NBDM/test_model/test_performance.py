@@ -74,9 +74,7 @@ def test_heat_load_to_dict(
 def test_cooling_load_to_dict(
     sample_NBDM_BuildingSegmentPerformance: NBDM_BuildingSegmentPerformance,
 ):
-    d1 = serialization.to_dict(
-        sample_NBDM_BuildingSegmentPerformance.peak_sensible_cooling_load
-    )
+    d1 = serialization.to_dict(sample_NBDM_BuildingSegmentPerformance.peak_cooling_load)
     obj = NBDM_PeakCoolingLoad.from_dict(d1)
     d2 = serialization.to_dict(obj)
 
@@ -102,7 +100,4 @@ def test_add_building_segment_performance(
         == perf_1.annual_cooling_energy_demand + perf_2.annual_cooling_energy_demand
     )
     assert perf_3.peak_heating_load == perf_1.peak_heating_load + perf_2.peak_heating_load
-    assert (
-        perf_3.peak_sensible_cooling_load
-        == perf_1.peak_sensible_cooling_load + perf_2.peak_sensible_cooling_load
-    )
+    assert perf_3.peak_cooling_load == perf_1.peak_cooling_load + perf_2.peak_cooling_load

@@ -87,7 +87,7 @@ class SiteEnergyMonthlyTable:
         self.auxiliary_energy_fans = SiteEnergyMonthlyTableRow()
         self.large_appliances = SiteEnergyMonthlyTableRow()
         self.lighting = SiteEnergyMonthlyTableRow()
-        self.misc_loads = SiteEnergyMonthlyTableRow()
+        self.miscellaneous_loads = SiteEnergyMonthlyTableRow()
         self.renewable_electricity_production = SiteEnergyMonthlyTableRow()
 
     def get_row_data_type_name(self, _row_data: List[str]) -> str:
@@ -121,14 +121,24 @@ class SiteEnergyMonthlyTable:
         ]
 
     @property
-    def total_consumption(self) -> Unit:
-        """Return the total energy consumption (KBTU)"""
-        return Unit(sum(row.total for row in self.consumption_rows), "KWH").as_a("KBTU")
+    def total_consumption_kwh(self) -> Unit:
+        """Return the total energy consumption (KWH)"""
+        return Unit(sum(row.total for row in self.consumption_rows), "KWH")
 
     @property
-    def total_production(self) -> Unit:
+    def total_consumption_kbtu(self) -> Unit:
+        """Return the total energy consumption (KBTU)"""
+        return self.total_consumption_kwh.as_a("KBTU")
+
+    @property
+    def total_production_kwh(self) -> Unit:
+        """Return the total energy production (KWH)"""
+        return Unit(sum(row.total for row in self.production_rows), "KWH")
+
+    @property
+    def total_production_kbtu(self) -> Unit:
         """Return the total energy production (KBTU)"""
-        return Unit(sum(row.total for row in self.production_rows), "KWH").as_a("KBTU")
+        return self.total_production_kwh.as_a("KBTU")
 
 
 class WufiPDF_SiteEnergyMonthly:
@@ -160,12 +170,12 @@ class WufiPDF_SiteEnergyMonthly:
     @property
     def consumption_gas(self) -> Unit:
         """Return the total energy consumption (KBTU)"""
-        return self.table_gas_kwh.total_consumption
+        return self.table_gas_kwh.total_consumption_kbtu
 
     @property
     def consumption_electricity(self) -> Unit:
         """Return the total energy consumption (KBTU)"""
-        return self.table_electricity_kwh.total_consumption
+        return self.table_electricity_kwh.total_consumption_kbtu
 
     @property
     def consumption_district_heat(self) -> Unit:
@@ -180,7 +190,7 @@ class WufiPDF_SiteEnergyMonthly:
     @property
     def production_solar_photovoltaic(self) -> Unit:
         """Return the total energy production (KBTU)"""
-        return self.table_electricity_kwh.total_production
+        return self.table_electricity_kwh.total_production_kbtu
 
     @property
     def production_solar_thermal(self) -> Unit:

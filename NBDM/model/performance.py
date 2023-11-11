@@ -222,9 +222,7 @@ class NBDM_BuildingSegmentPerformance:
     )
 
     peak_heating_load: NBDM_PeakHeatingLoad = field(default_factory=NBDM_PeakHeatingLoad)
-    peak_sensible_cooling_load: NBDM_PeakCoolingLoad = field(
-        default_factory=NBDM_PeakCoolingLoad
-    )
+    peak_cooling_load: NBDM_PeakCoolingLoad = field(default_factory=NBDM_PeakCoolingLoad)
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentPerformance:

@@ -161,7 +161,7 @@ sample_BuildingSegmentPerformance = NBDM_BuildingSegmentPerformance(
     annual_heating_energy_demand=sample_AnnualHeatingDemand,
     annual_cooling_energy_demand=sample_AnnualCoolingDemand,
     peak_heating_load=sample_PeakHeatingLoad,
-    peak_sensible_cooling_load=sample_PeakSensibleCoolingLoad,
+    peak_cooling_load=sample_PeakSensibleCoolingLoad,
 )
 
 
@@ -262,6 +262,6 @@ def sample_NBDM_Project() -> NBDM_Project:
 
 
 @pytest.fixture(scope="session")
-def sample_pdf_data_ridgeway() -> PDFSectionsCollection:
+def sample_pdf_data_ridgeway_proposed() -> PDFSectionsCollection:
     reader = PDFReader()
     return reader.extract_pdf_text(Path("tests/_source_pdf/ridgeway_proposed.pdf"))

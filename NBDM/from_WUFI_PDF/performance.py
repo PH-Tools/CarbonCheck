@@ -112,7 +112,7 @@ def build_NBDM_performanceFromWufiPDF(
         new_nbdm_obj.peak_heating_load = build_NBDM_peakHeatingLoadFromWufiPDF(
             max(load_section.heating_load_1, load_section.heating_load_2)
         )
-        new_nbdm_obj.peak_sensible_cooling_load = build_NBDM_peakCoolingLoadFromWufiPDF(
+        new_nbdm_obj.peak_cooling_load = build_NBDM_peakCoolingLoadFromWufiPDF(
             load_section.cooling_load
         )
 

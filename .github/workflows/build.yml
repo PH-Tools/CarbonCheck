@@ -52,6 +52,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # -- Run all Tests
+      - name: Run all Tests
+        run: python -m pytest tests/
+
       # -- Build the Windows .MSI installer file using cx_Freeze
       - name: Build MSI file
         run: |

@@ -556,41 +556,46 @@ class WorkerSetWUFIBaseline(qtc.QObject):
         # ---------------------------------------------------------------------
         # -- Baseline the PHX Model
         self.output("Setting Baseline values...")
+        try:
+            if _options.get("set_envelope_u_values", False):
+                self.output("Setting Baseline opaque envelope U-values.")
+                phx_project = phx_areas.set_baseline_envelope_constructions(
+                    phx_project, _baseline_code, climate_zone, use_group, self.output
+                )
 
-        if _options.get("set_envelope_u_values", False):
-            self.output("Setting Baseline opaque envelope U-values.")
-            phx_project = phx_areas.set_baseline_envelope_constructions(
-                phx_project, _baseline_code, climate_zone, use_group, self.output
-            )
+            if _options.get("set_window_u_values", False):
+                self.output("Setting Baseline window U-values.")
+                phx_project = phx_windows.set_baseline_window_construction(
+                    phx_project,
+                    _baseline_code,
+                    climate_zone,
+                    pf_group,
+                    use_group,
+                    self.output,
+                )
 
-        if _options.get("set_window_u_values", False):
-            self.output("Setting Baseline window U-values.")
-            phx_project = phx_windows.set_baseline_window_construction(
-                phx_project,
-                _baseline_code,
-                climate_zone,
-                pf_group,
-                use_group,
-                self.output,
-            )
+            if _options.get("set_win_areas", False):
+                self.output("Setting Baseline window areas.")
+                phx_project = phx_windows.set_baseline_window_area(
+                    phx_project, _baseline_code, self.output
+                )
 
-        if _options.get("set_win_areas", False):
-            self.output("Setting Baseline window areas.")
-            phx_project = phx_windows.set_baseline_window_area(
-                phx_project, _baseline_code, self.output
-            )
+            if _options.get("set_skylight_areas", False):
+                self.output("Setting Baseline skylight areas.")
+                phx_project = phx_windows.set_baseline_skylight_area(
+                    phx_project, _baseline_code, self.output
+                )
 
-        if _options.get("set_skylight_areas", False):
-            self.output("Setting Baseline skylight areas.")
-            phx_project = phx_windows.set_baseline_skylight_area(
-                phx_project, _baseline_code, self.output
-            )
-
-        if _options.get("set_lighting", False):
-            self.output("Setting Baseline Lighting installed power density.")
-            phx_project = phx_lighting.set_baseline_lighting_installed_power_density(
-                phx_project, _baseline_code, self.output
-            )
+            if _options.get("set_lighting", False):
+                self.output("Setting Baseline Lighting installed power density.")
+                phx_project = phx_lighting.set_baseline_lighting_installed_power_density(
+                    phx_project, _baseline_code, self.output
+                )
+        except Exception as e:
+            msg = "Error: Something went wrong setting the Baseline values in the PHX-Model?"
+            print_error(msg, e)
+            self.logger.error(e, exc_info=True)
+            return None
 
         self.output("Done setting baseline values in the WUFI Model.")
 

@@ -17,7 +17,7 @@ def create_NBDM_BuildingSegmentFromWufiPDF(
     """Read in data from a PHPP and build up a new BuildingSegment."""
 
     return building.NBDM_BuildingSegment(
-        segment_name="- - WUFI-PDF File Name - -",
+        segment_name=_pdf_data.__file_name__,
         construction_type=enums.construction_type.NEW_CONSTRUCTION,
         construction_method=enums.construction_method.METHOD_A,
         geometry=build_NBDM_geometryFromWufiPDF(_pdf_data),

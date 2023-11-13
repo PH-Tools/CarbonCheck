@@ -14,6 +14,8 @@ from typing import (
     ValuesView,
     TypeVar,
 )
+from logging import Logger
+
 
 from NBDM.from_WUFI_PDF.pdf_sections.__typing import SupportsWufiPDF_Section
 
@@ -24,10 +26,13 @@ class PDFSectionsCollection:
     """A Wrapper Class to organize the PDF Sections."""
 
     _d: Dict[str, SupportsWufiPDF_Section] = {}
+    __file_name__: str = "_unnamed_pdf_document_"
+
+    def __init__(self, _logger: Optional[Logger] = None) -> None:
+        self.logger = _logger or Logger("PDF_Sections_Collection")
 
     def get_section(self, _section_class_type: Type[T]) -> Optional[T]:
         """Return the PDF-Section of the given type, or None if not found."""
-
         try:
             return self._d[_section_class_type.__pdf_heading_string__]
         except KeyError:
@@ -35,7 +40,6 @@ class PDFSectionsCollection:
 
     def set_section(self, _section_class_type: Type[T], _section: T) -> None:
         """Add a new PDF-Section to the collection."""
-
         self._d[_section_class_type.__pdf_heading_string__] = _section
 
     def __getitem__(self, _section_class_type_name: str) -> SupportsWufiPDF_Section:
@@ -69,3 +73,11 @@ class PDFSectionsCollection:
 
     def __repr__(self) -> str:
         return f"PDFSectionsCollection({self._d})"
+
+    def process_all_sections(self) -> None:
+        """Walk through all the PDF-Sections and process the raw data which was read from the PDF-file"""
+        for pdf_section in self.values():
+            self.logger.info(
+                f"Processing Text from the PDF Section: {pdf_section.__pdf_heading_string__}"
+            )
+            pdf_section.process_section_text()

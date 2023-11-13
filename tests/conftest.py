@@ -264,4 +264,22 @@ def sample_NBDM_Project() -> NBDM_Project:
 @pytest.fixture(scope="session")
 def sample_pdf_data_ridgeway_proposed() -> PDFSectionsCollection:
     reader = PDFReader()
-    return reader.extract_pdf_text(Path("tests/_source_pdf/ridgeway_proposed.pdf"))
+    return reader.extract_pdf_text_from_file(
+        Path("tests/_source_pdf/ridgeway_proposed.pdf")
+    )
+
+
+@pytest.fixture(scope="session")
+def sample_pdf_data_la_mora_proposed() -> PDFSectionsCollection:
+    reader = PDFReader()
+    return reader.extract_pdf_text_from_file(
+        Path("tests/_source_pdf/la_mora_proposed.pdf")
+    )
+
+
+@pytest.fixture(scope="session")
+def sample_pdf_data_la_mora_baseline() -> PDFSectionsCollection:
+    reader = PDFReader()
+    return reader.extract_pdf_text_from_file(
+        Path("tests/_source_pdf/la_mora_baseline.pdf")
+    )

@@ -1,0 +1,592 @@
+{
+    "project_name": "-",
+    "client": "-",
+    "report_date": "-",
+    "team": {
+        "site_owner": {
+            "name": "Municipal Housing Authority of Yonkers",
+            "contact_info": {
+                "building_number": "-",
+                "street_name": "1511 Central Park Ave",
+                "city": "Yonkers, NY",
+                "state": "-",
+                "country": "-",
+                "post_code": "10710",
+                "phone": "-",
+                "email": "-"
+            }
+        },
+        "designer": {
+            "name": "John Loercher, Northeast Projects LLC (CPHC 2093)",
+            "contact_info": {
+                "building_number": "-",
+                "street_name": "76 Albany Turnpike",
+                "city": "Old Chatham, NY",
+                "state": "-",
+                "country": "-",
+                "post_code": "12136",
+                "phone": "-",
+                "email": "-"
+            }
+        },
+        "contractor": {
+            "name": "-",
+            "contact_info": {
+                "building_number": "-",
+                "street_name": "-",
+                "city": "-",
+                "state": "-",
+                "country": "-",
+                "post_code": "-",
+                "phone": "-",
+                "email": "-"
+            }
+        },
+        "primary_energy_consultant": {
+            "name": "John Loercher, Northeast Projects LLC (CPHC 2093)",
+            "contact_info": {
+                "building_number": "-",
+                "street_name": "76 Albany Turnpike",
+                "city": "Old Chatham, NY",
+                "state": "-",
+                "country": "-",
+                "post_code": "12136",
+                "phone": "-",
+                "email": "-"
+            }
+        }
+    },
+    "site": {
+        "climate": {
+            "zone_passive_house": "N/A",
+            "country": "-",
+            "region": "-",
+            "data_set": "User defined"
+        },
+        "location": {
+            "address": {
+                "building_number": "-",
+                "street_name": "23 Mulberry Street",
+                "city": "Yonkers, NY",
+                "state": "-",
+                "post_code": "10701"
+            },
+            "longitude": -73.7,
+            "latitude": 41.1
+        }
+    },
+    "variants": {
+        "proposed": {
+            "variant_name": "-",
+            "building": {
+                "building_name": "-",
+                "building_type": "Multi-Family",
+                "_building_segments": {
+                    "- - WUFI-PDF File Name - -": {
+                        "segment_name": "- - WUFI-PDF File Name - -",
+                        "construction_type": "New Construction",
+                        "construction_method": "Method A",
+                        "geometry": {
+                            "area_envelope": {
+                                "value": 52713.9,
+                                "unit": "FT2"
+                            },
+                            "area_floor_area_net_interior_weighted": {
+                                "value": 55289.0,
+                                "unit": "FT2"
+                            },
+                            "volume_net_interior": {
+                                "value": 660421.3,
+                                "unit": "FT3"
+                            }
+                        },
+                        "occupancy": {
+                            "total_dwelling_units": 60,
+                            "total_occupants": 123.0
+                        },
+                        "performance": {
+                            "site_energy": {
+                                "consumption_gas": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_electricity": {
+                                    "value": 1288488.2,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_district_heat": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_photovoltaic": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_thermal": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                }
+                            },
+                            "source_energy": {
+                                "consumption_gas": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "consumption_electricity": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "consumption_district_heat": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "consumption_other": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "production_solar_photovoltaic": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "production_solar_thermal": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "production_other": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                }
+                            },
+                            "annual_heating_energy_demand": {
+                                "heating_demand": {
+                                    "value": 207125.0,
+                                    "unit": "KBTU"
+                                },
+                                "losses_transmission": {
+                                    "value": 417218.0,
+                                    "unit": "KBTU"
+                                },
+                                "losses_ventilation": {
+                                    "value": 337686.0,
+                                    "unit": "KBTU"
+                                },
+                                "gains_solar": {
+                                    "value": 264420.0,
+                                    "unit": "KBTU"
+                                },
+                                "gains_internal": {
+                                    "value": 402235.0,
+                                    "unit": "KBTU"
+                                },
+                                "utilization_factor": {
+                                    "value": 0.822,
+                                    "unit": "-"
+                                }
+                            },
+                            "annual_cooling_energy_demand": {
+                                "sensible_cooling_demand": {
+                                    "value": 161213.0,
+                                    "unit": "KBTU"
+                                },
+                                "latent_cooling_demand": {
+                                    "value": 18684.0,
+                                    "unit": "KBTU"
+                                },
+                                "losses_transmission": {
+                                    "value": 666057.0,
+                                    "unit": "KBTU"
+                                },
+                                "losses_ventilation": {
+                                    "value": 1445805.0,
+                                    "unit": "KBTU"
+                                },
+                                "utilization_factor": {
+                                    "value": 0.0,
+                                    "unit": "%"
+                                },
+                                "gains_solar": {
+                                    "value": 366623.0,
+                                    "unit": "KBTU"
+                                },
+                                "gains_internal": {
+                                    "value": 709705.0,
+                                    "unit": "KBTU"
+                                }
+                            },
+                            "peak_heating_load": {
+                                "peak_heating_load": {
+                                    "value": 203053.4,
+                                    "unit": "BTUH"
+                                },
+                                "losses_transmission": {
+                                    "value": 143602.3,
+                                    "unit": "BTUH"
+                                },
+                                "losses_ventilation": {
+                                    "value": 140946.7,
+                                    "unit": "BTUH"
+                                },
+                                "gains_solar": {
+                                    "value": 53453.2,
+                                    "unit": "BTUH"
+                                },
+                                "gains_internal": {
+                                    "value": 28042.4,
+                                    "unit": "BTUH"
+                                }
+                            },
+                            "peak_cooling_load": {
+                                "peak_sensible_cooling_load": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "peak_latent_cooling_load": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "losses_transmission": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "losses_ventilation": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "gains_solar": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "gains_internal": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "baseline": {
+            "variant_name": "-",
+            "building": {
+                "building_name": "-",
+                "building_type": "Multi-Family",
+                "_building_segments": {
+                    "- - WUFI-PDF File Name - -": {
+                        "segment_name": "- - WUFI-PDF File Name - -",
+                        "construction_type": "New Construction",
+                        "construction_method": "Method A",
+                        "geometry": {
+                            "area_envelope": {
+                                "value": 52691.2,
+                                "unit": "FT2"
+                            },
+                            "area_floor_area_net_interior_weighted": {
+                                "value": 55289.0,
+                                "unit": "FT2"
+                            },
+                            "volume_net_interior": {
+                                "value": 660421.3,
+                                "unit": "FT3"
+                            }
+                        },
+                        "occupancy": {
+                            "total_dwelling_units": 60,
+                            "total_occupants": 123.0
+                        },
+                        "performance": {
+                            "site_energy": {
+                                "consumption_gas": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_electricity": {
+                                    "value": 1475269.4,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_district_heat": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "consumption_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_photovoltaic": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_solar_thermal": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                },
+                                "production_other": {
+                                    "value": 0.0,
+                                    "unit": "KBTU"
+                                }
+                            },
+                            "source_energy": {
+                                "consumption_gas": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "consumption_electricity": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "consumption_district_heat": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "consumption_other": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "production_solar_photovoltaic": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "production_solar_thermal": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "production_other": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                }
+                            },
+                            "annual_heating_energy_demand": {
+                                "heating_demand": {
+                                    "value": 697285.0,
+                                    "unit": "KBTU"
+                                },
+                                "losses_transmission": {
+                                    "value": 991016.0,
+                                    "unit": "KBTU"
+                                },
+                                "losses_ventilation": {
+                                    "value": 339201.0,
+                                    "unit": "KBTU"
+                                },
+                                "gains_solar": {
+                                    "value": 260517.0,
+                                    "unit": "KBTU"
+                                },
+                                "gains_internal": {
+                                    "value": 393102.0,
+                                    "unit": "KBTU"
+                                },
+                                "utilization_factor": {
+                                    "value": 0.968,
+                                    "unit": "-"
+                                }
+                            },
+                            "annual_cooling_energy_demand": {
+                                "sensible_cooling_demand": {
+                                    "value": 82289.0,
+                                    "unit": "KBTU"
+                                },
+                                "latent_cooling_demand": {
+                                    "value": 18884.0,
+                                    "unit": "KBTU"
+                                },
+                                "losses_transmission": {
+                                    "value": 1593621.0,
+                                    "unit": "KBTU"
+                                },
+                                "losses_ventilation": {
+                                    "value": 1445818.0,
+                                    "unit": "KBTU"
+                                },
+                                "utilization_factor": {
+                                    "value": 0.0,
+                                    "unit": "%"
+                                },
+                                "gains_solar": {
+                                    "value": 372003.0,
+                                    "unit": "KBTU"
+                                },
+                                "gains_internal": {
+                                    "value": 697834.0,
+                                    "unit": "KBTU"
+                                }
+                            },
+                            "peak_heating_load": {
+                                "peak_heating_load": {
+                                    "value": 396002.4,
+                                    "unit": "BTUH"
+                                },
+                                "losses_transmission": {
+                                    "value": 331706.0,
+                                    "unit": "BTUH"
+                                },
+                                "losses_ventilation": {
+                                    "value": 140958.8,
+                                    "unit": "BTUH"
+                                },
+                                "gains_solar": {
+                                    "value": 48620.0,
+                                    "unit": "BTUH"
+                                },
+                                "gains_internal": {
+                                    "value": 28042.4,
+                                    "unit": "BTUH"
+                                }
+                            },
+                            "peak_cooling_load": {
+                                "peak_sensible_cooling_load": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "peak_latent_cooling_load": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "losses_transmission": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "losses_ventilation": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "gains_solar": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                },
+                                "gains_internal": {
+                                    "value": 0.0,
+                                    "unit": "-"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "envelope": {
+        "_assembly_types": {
+            "BASELINE": {
+                "name": "BASELINE",
+                "u_value": {
+                    "value": 0.068,
+                    "unit": "BTU/HR-FT2-F"
+                },
+                "r_value": {
+                    "value": 14.7,
+                    "unit": "HR-FT2-F/BTU"
+                },
+                "ext_exposure": "NA",
+                "int_exposure": "NA"
+            }
+        },
+        "_glazing_types": {
+            "BASELINE": {
+                "display_name": "BASELINE",
+                "u_value": {
+                    "value": 0.45,
+                    "unit": "BTU/HR-FT2-F"
+                },
+                "g_value": {
+                    "value": 0.38,
+                    "unit": "-"
+                }
+            }
+        }
+    },
+    "appliances": {
+        "_appliances": {}
+    },
+    "heating_systems": {
+        "_devices": {}
+    },
+    "cooling_systems": {
+        "_devices": {}
+    },
+    "dhw_systems": {
+        "_heating_devices": {},
+        "_tank_devices": {
+            "WH-1_Bradford White Electric Brute VR-300-15_300 gal": {
+                "display_name": "WH-1_Bradford White Electric Brute VR-300-15_300 gal",
+                "heat_loss_rate": {
+                    "value": 0.0,
+                    "unit": "BTU/HR-F"
+                },
+                "volume": {
+                    "value": 0.0,
+                    "unit": "GAL"
+                }
+            },
+            "WH-2_AO Smith": {
+                "display_name": "WH-2_AO Smith",
+                "heat_loss_rate": {
+                    "value": 0.0,
+                    "unit": "BTU/HR-F"
+                },
+                "volume": {
+                    "value": 0.0,
+                    "unit": "GAL"
+                }
+            }
+        }
+    },
+    "ventilation_systems": {
+        "_devices": {
+            "ERU-1": {
+                "display_name": "ERU-1",
+                "vent_unit_type_name": "ERU-1",
+                "quantity": 0,
+                "hr_efficiency": {
+                    "value": 0.0,
+                    "unit": "%"
+                },
+                "mr_efficiency": {
+                    "value": 0.0,
+                    "unit": "%"
+                }
+            },
+            "ERU-2": {
+                "display_name": "ERU-2",
+                "vent_unit_type_name": "ERU-2",
+                "quantity": 0,
+                "hr_efficiency": {
+                    "value": 0.0,
+                    "unit": "%"
+                },
+                "mr_efficiency": {
+                    "value": 0.0,
+                    "unit": "%"
+                }
+            }
+        }
+    },
+    "renewable_systems": {
+        "_solar_dhw_devices": {},
+        "_solar_pv_devices": {
+            "Solar PV: Phius CORE 2021": {
+                "display_name": "Phius CORE 2021",
+                "footprint": {
+                    "value": 0.0,
+                    "unit": "FT2"
+                },
+                "size": {
+                    "value": 0.0,
+                    "unit": "KW"
+                },
+                "annual_pv_energy": {
+                    "value": 0.0,
+                    "unit": "KWH"
+                }
+            }
+        }
+    }
+}

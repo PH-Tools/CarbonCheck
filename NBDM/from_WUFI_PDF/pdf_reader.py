@@ -5,11 +5,7 @@
 
 import pathlib
 from logging import Logger
-from typing import (
-    Optional,
-    Type,
-    TypeVar,
-)
+from typing import Optional, Type, TypeVar, Dict
 
 import pdfplumber
 from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
@@ -23,18 +19,31 @@ T = TypeVar("T", bound=SupportsWufiPDF_Section)
 class PDFReader:
     """PDFReader class for loading and reading data from WUFI-PDF files."""
 
-    pdf_sections: PDFSectionsCollection = PDFSectionsCollection()
+    # -- Store a reference to each of the PDF-Section classes registered with the PDF-Reader
+    pdf_section_classes: Dict[str, Type[SupportsWufiPDF_Section]] = {}
 
     def __init__(self, _logger: Optional[Logger] = None) -> None:
         self.logger = _logger or Logger("PDF_Reader")
         self.logger.info("Initializing PDFReader")
 
+        # -------
+        self.pdf_sections = PDFSectionsCollection(self.logger)
+        self.setup_pdf_sections()
+
+    def setup_pdf_sections(self) -> PDFSectionsCollection:
+        """Create a new PDF-Section-Object for each type that is registered with the PDF-Reader."""
+        for section_class in self.pdf_section_classes.values():
+            self.pdf_sections.set_section(section_class, section_class())
+        return self.pdf_sections
+
     @classmethod
-    def register_pdf_section(
+    def register_pdf_section_class(
         cls, pdf_section_class: Type[SupportsWufiPDF_Section]
     ) -> None:
         """Register a new PDF-Section class as part of the PDF-Reader."""
-        cls.pdf_sections.set_section(pdf_section_class, pdf_section_class())
+        cls.pdf_section_classes[
+            pdf_section_class.__pdf_heading_string__
+        ] = pdf_section_class
 
     def load_pdf_file_data(self, _filepath: pathlib.Path) -> None:
         """Populate the .sections with data from a PDF file."""
@@ -84,17 +93,12 @@ class PDFReader:
                     except AttributeError:
                         pass
 
-    def extract_pdf_text(self, _filepath: pathlib.Path) -> PDFSectionsCollection:
+    def extract_pdf_text_from_file(
+        self, _filepath: pathlib.Path
+    ) -> PDFSectionsCollection:
         """Extract the text from a WUFI-PDF file and return it as a dict of PDFSection objects."""
-
-        # -- Read in the PDF text and table raw-data
+        self.pdf_sections.__file_name__ = pathlib.Path(_filepath.name).stem
+        self.setup_pdf_sections()
         self.load_pdf_file_data(_filepath)
-
-        # -- Process all the text extracted for each section
-        for pdf_section in self.pdf_sections.values():
-            self.logger.info(
-                f"Processing Text from the PDF Section: {pdf_section.__pdf_heading_string__}"
-            )
-            pdf_section.process_section_text()
-
+        self.pdf_sections.process_all_sections()
         return self.pdf_sections

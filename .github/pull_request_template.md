@@ -12,4 +12,5 @@ On merge, a new version will be built. See GH-Actions for details.
 ## Checklist
 
 - [ ] **NOTE:** Update the `target_version` number in [pyproject.toml](https://github.com/PH-Tools/CarbonCheck/blob/main/pyproject.toml)
-- [x] All tests pass
+- [ ] Update all dependency versions (app and dev)
+- [ ] All tests pass

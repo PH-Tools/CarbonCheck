@@ -1,0 +1,1164 @@
+> Starting up the CarbonCheck Application.
+> Finished starting up Application.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+> Reading Baseline Building Segment data from WUFI-PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_baseline.pdf
+> Reading WUFI-PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_baseline.pdf
+> Initializing PDFReader
+> Reading in the PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_baseline.pdf
+> Looking for sections: '['__DEFAULT__', 'ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND', 'AREAS', 'Assemblies/window types', 'ELECTRICITY DEMAND - AUXILIARY ELECTRICITY', 'BUILDING INFORMATION', 'BUILDING ELEMENTS', 'Calculation parameters', 'CLIMATE', 'Climate', 'DHW AND DISTRIBUTION', 'Summary building envelope', 'HEAT FLOW - HEATING PERIOD', 'HVAC', 'INTERNAL HEAT GAINS', 'HEATING LOAD COOLING LOAD', 'Passive house data', 'PASSIVEHOUSE RECOMMENDATIONS', 'PASSIVEHOUSE REQUIREMENTS', 'Project data', 'ELECTRICITY DEMAND RESIDENTIAL BUILDING', 'Results', 'SITE ENERGY MONTHLY REPORT', 'Property/Site', 'SPECIFIC HEAT/COOLING DEMAND MONTHLY', 'THERMAL BRIDGES', 'VENTILATION', 'WINDOWS', 'Zones / Components']'
+> Extracting Text from page: 1
+> Found PDF Section-Marker: in line 'BUILDING INFORMATION'.
+> Changing section to BUILDING INFORMATION.
+> Found PDF Section-Marker: in line 'PASSIVEHOUSE REQUIREMENTS'.
+> Changing section to PASSIVEHOUSE REQUIREMENTS.
+> Extracting Text from page: 2
+> Found PDF Section-Marker: in line 'PASSIVEHOUSE RECOMMENDATIONS'.
+> Changing section to PASSIVEHOUSE RECOMMENDATIONS.
+> Extracting Text from page: 3
+> Found PDF Section-Marker: in line 'BUILDING ELEMENTS'.
+> Changing section to BUILDING ELEMENTS.
+> Found PDF Section-Marker: in line 'HVAC'.
+> Changing section to HVAC.
+> Found PDF Section-Marker: in line 'HEAT FLOW - HEATING PERIOD'.
+> Changing section to HEAT FLOW - HEATING PERIOD.
+> Extracting Text from page: 4
+> Found PDF Section-Marker: in line 'CLIMATE'.
+> Changing section to CLIMATE.
+> Found PDF Section-Marker: in line 'Calculation parameters'.
+> Changing section to Calculation parameters.
+> Extracting Text from page: 5
+> Found PDF Section-Marker: in line 'ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND'.
+> Changing section to ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND.
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Extracting Text from page: 6
+> Found PDF Section-Marker: in line 'SPECIFIC HEAT/COOLING DEMAND MONTHLY'.
+> Changing section to SPECIFIC HEAT/COOLING DEMAND MONTHLY.
+> Extracting Text from page: 7
+> Found PDF Section-Marker: in line 'HEATING LOAD COOLING LOAD'.
+> Changing section to HEATING LOAD COOLING LOAD.
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Extracting Text from page: 8
+> Found PDF Section-Marker: in line 'AREAS'.
+> Changing section to AREAS.
+> Extracting Text from page: 9
+> Extracting Text from page: 10
+> Extracting Text from page: 11
+> Extracting Text from page: 12
+> Extracting Text from page: 13
+> Extracting Text from page: 14
+> Found PDF Section-Marker: in line 'THERMAL BRIDGES'.
+> Changing section to THERMAL BRIDGES.
+> Extracting Text from page: 15
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Extracting Text from page: 16
+> Extracting Text from page: 17
+> Extracting Text from page: 18
+> Extracting Text from page: 19
+> Extracting Text from page: 20
+> Extracting Text from page: 21
+> Extracting Text from page: 22
+> Extracting Text from page: 23
+> Extracting Text from page: 24
+> Extracting Text from page: 25
+> Extracting Text from page: 26
+> Extracting Text from page: 27
+> Extracting Text from page: 28
+> Extracting Text from page: 29
+> Extracting Text from page: 30
+> Extracting Text from page: 31
+> Extracting Text from page: 32
+> Extracting Text from page: 33
+> Extracting Text from page: 34
+> Extracting Text from page: 35
+> Extracting Text from page: 36
+> Extracting Text from page: 37
+> Extracting Text from page: 38
+> Extracting Text from page: 39
+> Extracting Text from page: 40
+> Extracting Text from page: 41
+> Extracting Text from page: 42
+> Extracting Text from page: 43
+> Extracting Text from page: 44
+> Extracting Text from page: 45
+> Extracting Text from page: 46
+> Extracting Text from page: 47
+> Extracting Text from page: 48
+> Extracting Text from page: 49
+> Extracting Text from page: 50
+> Extracting Text from page: 51
+> Extracting Text from page: 52
+> Extracting Text from page: 53
+> Extracting Text from page: 54
+> Found PDF Section-Marker: in line 'Summary building envelope'.
+> Changing section to Summary building envelope.
+> Extracting Text from page: 55
+> Extracting Text from page: 56
+> Found PDF Section-Marker: in line 'VENTILATION'.
+> Changing section to VENTILATION.
+> Extracting Text from page: 57
+> Found PDF Section-Marker: in line 'ELECTRICITY DEMAND - AUXILIARY ELECTRICITY'.
+> Changing section to ELECTRICITY DEMAND - AUXILIARY ELECTRICITY.
+> Found PDF Section-Marker: in line 'ELECTRICITY DEMAND RESIDENTIAL BUILDING'.
+> Changing section to ELECTRICITY DEMAND RESIDENTIAL BUILDING.
+> Extracting Text from page: 58
+> Found PDF Section-Marker: in line 'INTERNAL HEAT GAINS'.
+> Changing section to INTERNAL HEAT GAINS.
+> Extracting Text from page: 59
+> Found PDF Section-Marker: in line 'DHW AND DISTRIBUTION'.
+> Changing section to DHW AND DISTRIBUTION.
+> Extracting Text from page: 60
+> Found PDF Section-Marker: in line 'Property/Site'.
+> Changing section to Property/Site.
+> Extracting Text from page: 61
+> Extracting Text from page: 62
+> Extracting Text from page: 63
+> Extracting Text from page: 64
+> Extracting Text from page: 65
+> Extracting Text from page: 66
+> Extracting Text from page: 67
+> Extracting Text from page: 68
+> Extracting Text from page: 69
+> Extracting Text from page: 70
+> Extracting Text from page: 71
+> Extracting Text from page: 72
+> Extracting Text from page: 73
+> Extracting Text from page: 74
+> Extracting Text from page: 75
+> Found PDF Section-Marker: in line 'SITE ENERGY MONTHLY REPORT'.
+> Changing section to SITE ENERGY MONTHLY REPORT.
+> Extracting Table from page: 75
+> Extracting Text from page: 76
+> Extracting Table from page: 76
+> Extracting Text from page: 77
+> Found PDF Section-Marker: in line 'Project data'.
+> Changing section to Project data.
+> Extracting Table from page: 77
+> Extracting Text from page: 78
+> Found PDF Section-Marker: in line 'Climate'.
+> Changing section to Climate.
+> Extracting Text from page: 79
+> Found PDF Section-Marker: in line 'Passive house data'.
+> Changing section to Passive house data.
+> Extracting Text from page: 80
+> Extracting Text from page: 81
+> Found PDF Section-Marker: in line 'Zones / Components'.
+> Changing section to Zones / Components.
+> Extracting Text from page: 82
+> Extracting Text from page: 83
+> Extracting Text from page: 84
+> Extracting Text from page: 85
+> Extracting Text from page: 86
+> Extracting Text from page: 87
+> Extracting Text from page: 88
+> Extracting Text from page: 89
+> Extracting Text from page: 90
+> Extracting Text from page: 91
+> Extracting Text from page: 92
+> Extracting Text from page: 93
+> Extracting Text from page: 94
+> Extracting Text from page: 95
+> Extracting Text from page: 96
+> Found PDF Section-Marker: in line 'Assemblies/window types'.
+> Changing section to Assemblies/window types.
+> Extracting Text from page: 97
+> Extracting Text from page: 98
+> Extracting Text from page: 99
+> Extracting Text from page: 100
+> Found PDF Section-Marker: in line 'HVAC'.
+> Changing section to HVAC.
+> Extracting Text from page: 101
+> Extracting Text from page: 102
+> Extracting Text from page: 103
+> Extracting Text from page: 104
+> Extracting Text from page: 105
+> Found PDF Section-Marker: in line 'Results'.
+> Changing section to Results.
+> Processing Text from the PDF Section: __DEFAULT__
+> Processing Text from the PDF Section: ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND
+> Processing Text from the PDF Section: AREAS
+> Processing Text from the PDF Section: Assemblies/window types
+> Processing Text from the PDF Section: ELECTRICITY DEMAND - AUXILIARY ELECTRICITY
+> Processing Text from the PDF Section: BUILDING INFORMATION
+> Processing Text from the PDF Section: BUILDING ELEMENTS
+> Processing Text from the PDF Section: Calculation parameters
+> Processing Text from the PDF Section: CLIMATE
+> Processing Text from the PDF Section: Climate
+> Processing Text from the PDF Section: DHW AND DISTRIBUTION
+> Processing Text from the PDF Section: Summary building envelope
+> Processing Text from the PDF Section: HEAT FLOW - HEATING PERIOD
+> Processing Text from the PDF Section: HVAC
+> Processing Text from the PDF Section: INTERNAL HEAT GAINS
+> Processing Text from the PDF Section: HEATING LOAD COOLING LOAD
+> Processing Text from the PDF Section: Passive house data
+> Processing Text from the PDF Section: PASSIVEHOUSE RECOMMENDATIONS
+> Processing Text from the PDF Section: PASSIVEHOUSE REQUIREMENTS
+> Processing Text from the PDF Section: Project data
+> Processing Text from the PDF Section: ELECTRICITY DEMAND RESIDENTIAL BUILDING
+> Processing Text from the PDF Section: Results
+> Processing Text from the PDF Section: SITE ENERGY MONTHLY REPORT
+> Processing Text from the PDF Section: Property/Site
+> Processing Text from the PDF Section: SPECIFIC HEAT/COOLING DEMAND MONTHLY
+> Processing Text from the PDF Section: THERMAL BRIDGES
+> Processing Text from the PDF Section: VENTILATION
+> Processing Text from the PDF Section: WINDOWS
+> Processing Text from the PDF Section: Zones / Components
+> Creating new NBDM Building Segment from PDF data.
+> - - WUFI-PDF File Name - -
+> 2172560836176 | 1,475,269.370 (KBTU)
+> Done reading Building Segment from file: la_mora_baseline.pdf
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+> Reading Proposed Building Segment data from WUFI-PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_proposed.pdf
+> Reading WUFI-PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_proposed.pdf
+> Initializing PDFReader
+> Reading in the PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_proposed.pdf
+> Looking for sections: '['__DEFAULT__', 'ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND', 'AREAS', 'Assemblies/window types', 'ELECTRICITY DEMAND - AUXILIARY ELECTRICITY', 'BUILDING INFORMATION', 'BUILDING ELEMENTS', 'Calculation parameters', 'CLIMATE', 'Climate', 'DHW AND DISTRIBUTION', 'Summary building envelope', 'HEAT FLOW - HEATING PERIOD', 'HVAC', 'INTERNAL HEAT GAINS', 'HEATING LOAD COOLING LOAD', 'Passive house data', 'PASSIVEHOUSE RECOMMENDATIONS', 'PASSIVEHOUSE REQUIREMENTS', 'Project data', 'ELECTRICITY DEMAND RESIDENTIAL BUILDING', 'Results', 'SITE ENERGY MONTHLY REPORT', 'Property/Site', 'SPECIFIC HEAT/COOLING DEMAND MONTHLY', 'THERMAL BRIDGES', 'VENTILATION', 'WINDOWS', 'Zones / Components']'
+> Extracting Text from page: 1
+> Found PDF Section-Marker: in line 'BUILDING INFORMATION'.
+> Changing section to BUILDING INFORMATION.
+> Found PDF Section-Marker: in line 'PASSIVEHOUSE REQUIREMENTS'.
+> Changing section to PASSIVEHOUSE REQUIREMENTS.
+> Extracting Text from page: 2
+> Found PDF Section-Marker: in line 'PASSIVEHOUSE RECOMMENDATIONS'.
+> Changing section to PASSIVEHOUSE RECOMMENDATIONS.
+> Extracting Text from page: 3
+> Found PDF Section-Marker: in line 'BUILDING ELEMENTS'.
+> Changing section to BUILDING ELEMENTS.
+> Found PDF Section-Marker: in line 'HVAC'.
+> Changing section to HVAC.
+> Found PDF Section-Marker: in line 'HEAT FLOW - HEATING PERIOD'.
+> Changing section to HEAT FLOW - HEATING PERIOD.
+> Extracting Text from page: 4
+> Found PDF Section-Marker: in line 'CLIMATE'.
+> Changing section to CLIMATE.
+> Found PDF Section-Marker: in line 'Calculation parameters'.
+> Changing section to Calculation parameters.
+> Extracting Text from page: 5
+> Found PDF Section-Marker: in line 'ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND'.
+> Changing section to ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND.
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Extracting Text from page: 6
+> Found PDF Section-Marker: in line 'SPECIFIC HEAT/COOLING DEMAND MONTHLY'.
+> Changing section to SPECIFIC HEAT/COOLING DEMAND MONTHLY.
+> Extracting Text from page: 7
+> Found PDF Section-Marker: in line 'HEATING LOAD COOLING LOAD'.
+> Changing section to HEATING LOAD COOLING LOAD.
+> Extracting Text from page: 8
+> Found PDF Section-Marker: in line 'AREAS'.
+> Changing section to AREAS.
+> Extracting Text from page: 9
+> Extracting Text from page: 10
+> Extracting Text from page: 11
+> Extracting Text from page: 12
+> Extracting Text from page: 13
+> Extracting Text from page: 14
+> Found PDF Section-Marker: in line 'THERMAL BRIDGES'.
+> Changing section to THERMAL BRIDGES.
+> Extracting Text from page: 15
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Extracting Text from page: 16
+> Extracting Text from page: 17
+> Extracting Text from page: 18
+> Extracting Text from page: 19
+> Extracting Text from page: 20
+> Extracting Text from page: 21
+> Extracting Text from page: 22
+> Extracting Text from page: 23
+> Extracting Text from page: 24
+> Extracting Text from page: 25
+> Extracting Text from page: 26
+> Extracting Text from page: 27
+> Extracting Text from page: 28
+> Extracting Text from page: 29
+> Extracting Text from page: 30
+> Extracting Text from page: 31
+> Extracting Text from page: 32
+> Extracting Text from page: 33
+> Extracting Text from page: 34
+> Extracting Text from page: 35
+> Extracting Text from page: 36
+> Extracting Text from page: 37
+> Extracting Text from page: 38
+> Extracting Text from page: 39
+> Extracting Text from page: 40
+> Extracting Text from page: 41
+> Extracting Text from page: 42
+> Extracting Text from page: 43
+> Extracting Text from page: 44
+> Extracting Text from page: 45
+> Extracting Text from page: 46
+> Extracting Text from page: 47
+> Extracting Text from page: 48
+> Extracting Text from page: 49
+> Extracting Text from page: 50
+> Extracting Text from page: 51
+> Extracting Text from page: 52
+> Extracting Text from page: 53
+> Extracting Text from page: 54
+> Found PDF Section-Marker: in line 'Summary building envelope'.
+> Changing section to Summary building envelope.
+> Extracting Text from page: 55
+> Extracting Text from page: 56
+> Found PDF Section-Marker: in line 'VENTILATION'.
+> Changing section to VENTILATION.
+> Extracting Text from page: 57
+> Found PDF Section-Marker: in line 'ELECTRICITY DEMAND - AUXILIARY ELECTRICITY'.
+> Changing section to ELECTRICITY DEMAND - AUXILIARY ELECTRICITY.
+> Found PDF Section-Marker: in line 'ELECTRICITY DEMAND RESIDENTIAL BUILDING'.
+> Changing section to ELECTRICITY DEMAND RESIDENTIAL BUILDING.
+> Extracting Text from page: 58
+> Found PDF Section-Marker: in line 'INTERNAL HEAT GAINS'.
+> Changing section to INTERNAL HEAT GAINS.
+> Extracting Text from page: 59
+> Found PDF Section-Marker: in line 'DHW AND DISTRIBUTION'.
+> Changing section to DHW AND DISTRIBUTION.
+> Extracting Text from page: 60
+> Found PDF Section-Marker: in line 'Property/Site'.
+> Changing section to Property/Site.
+> Extracting Text from page: 61
+> Extracting Text from page: 62
+> Extracting Text from page: 63
+> Extracting Text from page: 64
+> Extracting Text from page: 65
+> Extracting Text from page: 66
+> Extracting Text from page: 67
+> Extracting Text from page: 68
+> Extracting Text from page: 69
+> Extracting Text from page: 70
+> Extracting Text from page: 71
+> Extracting Text from page: 72
+> Extracting Text from page: 73
+> Extracting Text from page: 74
+> Extracting Text from page: 75
+> Extracting Text from page: 76
+> Extracting Text from page: 77
+> Extracting Text from page: 78
+> Extracting Text from page: 79
+> Extracting Text from page: 80
+> Extracting Text from page: 81
+> Extracting Text from page: 82
+> Extracting Text from page: 83
+> Extracting Text from page: 84
+> Found PDF Section-Marker: in line 'SITE ENERGY MONTHLY REPORT'.
+> Changing section to SITE ENERGY MONTHLY REPORT.
+> Extracting Table from page: 84
+> Extracting Text from page: 85
+> Extracting Table from page: 85
+> Extracting Text from page: 86
+> Found PDF Section-Marker: in line 'Project data'.
+> Changing section to Project data.
+> Extracting Table from page: 86
+> Extracting Text from page: 87
+> Found PDF Section-Marker: in line 'Climate'.
+> Changing section to Climate.
+> Extracting Text from page: 88
+> Found PDF Section-Marker: in line 'Passive house data'.
+> Changing section to Passive house data.
+> Extracting Text from page: 89
+> Extracting Text from page: 90
+> Found PDF Section-Marker: in line 'Zones / Components'.
+> Changing section to Zones / Components.
+> Extracting Text from page: 91
+> Extracting Text from page: 92
+> Extracting Text from page: 93
+> Extracting Text from page: 94
+> Extracting Text from page: 95
+> Extracting Text from page: 96
+> Extracting Text from page: 97
+> Extracting Text from page: 98
+> Extracting Text from page: 99
+> Extracting Text from page: 100
+> Extracting Text from page: 101
+> Extracting Text from page: 102
+> Extracting Text from page: 103
+> Extracting Text from page: 104
+> Extracting Text from page: 105
+> Found PDF Section-Marker: in line 'Assemblies/window types'.
+> Changing section to Assemblies/window types.
+> Extracting Text from page: 106
+> Extracting Text from page: 107
+> Extracting Text from page: 108
+> Extracting Text from page: 109
+> Extracting Text from page: 110
+> Extracting Text from page: 111
+> Extracting Text from page: 112
+> Extracting Text from page: 113
+> Extracting Text from page: 114
+> Extracting Text from page: 115
+> Found PDF Section-Marker: in line 'HVAC'.
+> Changing section to HVAC.
+> Extracting Text from page: 116
+> Extracting Text from page: 117
+> Extracting Text from page: 118
+> Extracting Text from page: 119
+> Extracting Text from page: 120
+> Found PDF Section-Marker: in line 'Results'.
+> Changing section to Results.
+> Processing Text from the PDF Section: __DEFAULT__
+> Processing Text from the PDF Section: ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND
+> Processing Text from the PDF Section: AREAS
+> Processing Text from the PDF Section: Assemblies/window types
+> Processing Text from the PDF Section: ELECTRICITY DEMAND - AUXILIARY ELECTRICITY
+> Processing Text from the PDF Section: BUILDING INFORMATION
+> Processing Text from the PDF Section: BUILDING ELEMENTS
+> Processing Text from the PDF Section: Calculation parameters
+> Processing Text from the PDF Section: CLIMATE
+> Processing Text from the PDF Section: Climate
+> Processing Text from the PDF Section: DHW AND DISTRIBUTION
+> Processing Text from the PDF Section: Summary building envelope
+> Processing Text from the PDF Section: HEAT FLOW - HEATING PERIOD
+> Processing Text from the PDF Section: HVAC
+> Processing Text from the PDF Section: INTERNAL HEAT GAINS
+> Processing Text from the PDF Section: HEATING LOAD COOLING LOAD
+> Processing Text from the PDF Section: Passive house data
+> Processing Text from the PDF Section: PASSIVEHOUSE RECOMMENDATIONS
+> Processing Text from the PDF Section: PASSIVEHOUSE REQUIREMENTS
+> Processing Text from the PDF Section: Project data
+> Processing Text from the PDF Section: ELECTRICITY DEMAND RESIDENTIAL BUILDING
+> Processing Text from the PDF Section: Results
+> Processing Text from the PDF Section: SITE ENERGY MONTHLY REPORT
+> Processing Text from the PDF Section: Property/Site
+> Processing Text from the PDF Section: SPECIFIC HEAT/COOLING DEMAND MONTHLY
+> Processing Text from the PDF Section: THERMAL BRIDGES
+> Processing Text from the PDF Section: VENTILATION
+> Processing Text from the PDF Section: WINDOWS
+> Processing Text from the PDF Section: Zones / Components
+> Creating new NBDM Building Segment from PDF data.
+> - - WUFI-PDF File Name - -
+> 2172356099920 | 1,288,488.178 (KBTU)
+> Done reading Building Segment from file: la_mora_proposed.pdf
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+> Reading Project Team and Site data from WUFI-PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_baseline.pdf.
+> Opening WUFI-PDF document: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_baseline.pdf
+> Initializing PDFReader
+> Reading in the PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_baseline.pdf
+> Looking for sections: '['__DEFAULT__', 'ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND', 'AREAS', 'Assemblies/window types', 'ELECTRICITY DEMAND - AUXILIARY ELECTRICITY', 'BUILDING INFORMATION', 'BUILDING ELEMENTS', 'Calculation parameters', 'CLIMATE', 'Climate', 'DHW AND DISTRIBUTION', 'Summary building envelope', 'HEAT FLOW - HEATING PERIOD', 'HVAC', 'INTERNAL HEAT GAINS', 'HEATING LOAD COOLING LOAD', 'Passive house data', 'PASSIVEHOUSE RECOMMENDATIONS', 'PASSIVEHOUSE REQUIREMENTS', 'Project data', 'ELECTRICITY DEMAND RESIDENTIAL BUILDING', 'Results', 'SITE ENERGY MONTHLY REPORT', 'Property/Site', 'SPECIFIC HEAT/COOLING DEMAND MONTHLY', 'THERMAL BRIDGES', 'VENTILATION', 'WINDOWS', 'Zones / Components']'
+> Extracting Text from page: 1
+> Found PDF Section-Marker: in line 'BUILDING INFORMATION'.
+> Changing section to BUILDING INFORMATION.
+> Found PDF Section-Marker: in line 'PASSIVEHOUSE REQUIREMENTS'.
+> Changing section to PASSIVEHOUSE REQUIREMENTS.
+> Extracting Text from page: 2
+> Found PDF Section-Marker: in line 'PASSIVEHOUSE RECOMMENDATIONS'.
+> Changing section to PASSIVEHOUSE RECOMMENDATIONS.
+> Extracting Text from page: 3
+> Found PDF Section-Marker: in line 'BUILDING ELEMENTS'.
+> Changing section to BUILDING ELEMENTS.
+> Found PDF Section-Marker: in line 'HVAC'.
+> Changing section to HVAC.
+> Found PDF Section-Marker: in line 'HEAT FLOW - HEATING PERIOD'.
+> Changing section to HEAT FLOW - HEATING PERIOD.
+> Extracting Text from page: 4
+> Found PDF Section-Marker: in line 'CLIMATE'.
+> Changing section to CLIMATE.
+> Found PDF Section-Marker: in line 'Calculation parameters'.
+> Changing section to Calculation parameters.
+> Extracting Text from page: 5
+> Found PDF Section-Marker: in line 'ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND'.
+> Changing section to ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND.
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Extracting Text from page: 6
+> Found PDF Section-Marker: in line 'SPECIFIC HEAT/COOLING DEMAND MONTHLY'.
+> Changing section to SPECIFIC HEAT/COOLING DEMAND MONTHLY.
+> Extracting Text from page: 7
+> Found PDF Section-Marker: in line 'HEATING LOAD COOLING LOAD'.
+> Changing section to HEATING LOAD COOLING LOAD.
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Extracting Text from page: 8
+> Found PDF Section-Marker: in line 'AREAS'.
+> Changing section to AREAS.
+> Extracting Text from page: 9
+> Extracting Text from page: 10
+> Extracting Text from page: 11
+> Extracting Text from page: 12
+> Extracting Text from page: 13
+> Extracting Text from page: 14
+> Found PDF Section-Marker: in line 'THERMAL BRIDGES'.
+> Changing section to THERMAL BRIDGES.
+> Extracting Text from page: 15
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Extracting Text from page: 16
+> Extracting Text from page: 17
+> Extracting Text from page: 18
+> Extracting Text from page: 19
+> Extracting Text from page: 20
+> Extracting Text from page: 21
+> Extracting Text from page: 22
+> Extracting Text from page: 23
+> Extracting Text from page: 24
+> Extracting Text from page: 25
+> Extracting Text from page: 26
+> Extracting Text from page: 27
+> Extracting Text from page: 28
+> Extracting Text from page: 29
+> Extracting Text from page: 30
+> Extracting Text from page: 31
+> Extracting Text from page: 32
+> Extracting Text from page: 33
+> Extracting Text from page: 34
+> Extracting Text from page: 35
+> Extracting Text from page: 36
+> Extracting Text from page: 37
+> Extracting Text from page: 38
+> Extracting Text from page: 39
+> Extracting Text from page: 40
+> Extracting Text from page: 41
+> Extracting Text from page: 42
+> Extracting Text from page: 43
+> Extracting Text from page: 44
+> Extracting Text from page: 45
+> Extracting Text from page: 46
+> Extracting Text from page: 47
+> Extracting Text from page: 48
+> Extracting Text from page: 49
+> Extracting Text from page: 50
+> Extracting Text from page: 51
+> Extracting Text from page: 52
+> Extracting Text from page: 53
+> Extracting Text from page: 54
+> Found PDF Section-Marker: in line 'Summary building envelope'.
+> Changing section to Summary building envelope.
+> Extracting Text from page: 55
+> Extracting Text from page: 56
+> Found PDF Section-Marker: in line 'VENTILATION'.
+> Changing section to VENTILATION.
+> Extracting Text from page: 57
+> Found PDF Section-Marker: in line 'ELECTRICITY DEMAND - AUXILIARY ELECTRICITY'.
+> Changing section to ELECTRICITY DEMAND - AUXILIARY ELECTRICITY.
+> Found PDF Section-Marker: in line 'ELECTRICITY DEMAND RESIDENTIAL BUILDING'.
+> Changing section to ELECTRICITY DEMAND RESIDENTIAL BUILDING.
+> Extracting Text from page: 58
+> Found PDF Section-Marker: in line 'INTERNAL HEAT GAINS'.
+> Changing section to INTERNAL HEAT GAINS.
+> Extracting Text from page: 59
+> Found PDF Section-Marker: in line 'DHW AND DISTRIBUTION'.
+> Changing section to DHW AND DISTRIBUTION.
+> Extracting Text from page: 60
+> Found PDF Section-Marker: in line 'Property/Site'.
+> Changing section to Property/Site.
+> Extracting Text from page: 61
+> Extracting Text from page: 62
+> Extracting Text from page: 63
+> Extracting Text from page: 64
+> Extracting Text from page: 65
+> Extracting Text from page: 66
+> Extracting Text from page: 67
+> Extracting Text from page: 68
+> Extracting Text from page: 69
+> Extracting Text from page: 70
+> Extracting Text from page: 71
+> Extracting Text from page: 72
+> Extracting Text from page: 73
+> Extracting Text from page: 74
+> Extracting Text from page: 75
+> Found PDF Section-Marker: in line 'SITE ENERGY MONTHLY REPORT'.
+> Changing section to SITE ENERGY MONTHLY REPORT.
+> Extracting Table from page: 75
+> Extracting Text from page: 76
+> Extracting Table from page: 76
+> Extracting Text from page: 77
+> Found PDF Section-Marker: in line 'Project data'.
+> Changing section to Project data.
+> Extracting Table from page: 77
+> Extracting Text from page: 78
+> Found PDF Section-Marker: in line 'Climate'.
+> Changing section to Climate.
+> Extracting Text from page: 79
+> Found PDF Section-Marker: in line 'Passive house data'.
+> Changing section to Passive house data.
+> Extracting Text from page: 80
+> Extracting Text from page: 81
+> Found PDF Section-Marker: in line 'Zones / Components'.
+> Changing section to Zones / Components.
+> Extracting Text from page: 82
+> Extracting Text from page: 83
+> Extracting Text from page: 84
+> Extracting Text from page: 85
+> Extracting Text from page: 86
+> Extracting Text from page: 87
+> Extracting Text from page: 88
+> Extracting Text from page: 89
+> Extracting Text from page: 90
+> Extracting Text from page: 91
+> Extracting Text from page: 92
+> Extracting Text from page: 93
+> Extracting Text from page: 94
+> Extracting Text from page: 95
+> Extracting Text from page: 96
+> Found PDF Section-Marker: in line 'Assemblies/window types'.
+> Changing section to Assemblies/window types.
+> Extracting Text from page: 97
+> Extracting Text from page: 98
+> Extracting Text from page: 99
+> Extracting Text from page: 100
+> Found PDF Section-Marker: in line 'HVAC'.
+> Changing section to HVAC.
+> Extracting Text from page: 101
+> Extracting Text from page: 102
+> Extracting Text from page: 103
+> Extracting Text from page: 104
+> Extracting Text from page: 105
+> Found PDF Section-Marker: in line 'Results'.
+> Changing section to Results.
+> Processing Text from the PDF Section: __DEFAULT__
+> Processing Text from the PDF Section: ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND
+> Processing Text from the PDF Section: AREAS
+> Processing Text from the PDF Section: Assemblies/window types
+> Processing Text from the PDF Section: ELECTRICITY DEMAND - AUXILIARY ELECTRICITY
+> Processing Text from the PDF Section: BUILDING INFORMATION
+> Processing Text from the PDF Section: BUILDING ELEMENTS
+> Processing Text from the PDF Section: Calculation parameters
+> Processing Text from the PDF Section: CLIMATE
+> Processing Text from the PDF Section: Climate
+> Processing Text from the PDF Section: DHW AND DISTRIBUTION
+> Processing Text from the PDF Section: Summary building envelope
+> Processing Text from the PDF Section: HEAT FLOW - HEATING PERIOD
+> Processing Text from the PDF Section: HVAC
+> Processing Text from the PDF Section: INTERNAL HEAT GAINS
+> Processing Text from the PDF Section: HEATING LOAD COOLING LOAD
+> Processing Text from the PDF Section: Passive house data
+> Processing Text from the PDF Section: PASSIVEHOUSE RECOMMENDATIONS
+> Processing Text from the PDF Section: PASSIVEHOUSE REQUIREMENTS
+> Processing Text from the PDF Section: Project data
+> Processing Text from the PDF Section: ELECTRICITY DEMAND RESIDENTIAL BUILDING
+> Processing Text from the PDF Section: Results
+> Processing Text from the PDF Section: SITE ENERGY MONTHLY REPORT
+> Processing Text from the PDF Section: Property/Site
+> Processing Text from the PDF Section: SPECIFIC HEAT/COOLING DEMAND MONTHLY
+> Processing Text from the PDF Section: THERMAL BRIDGES
+> Processing Text from the PDF Section: VENTILATION
+> Processing Text from the PDF Section: WINDOWS
+> Processing Text from the PDF Section: Zones / Components
+> Done reading from WUFI-PDF.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+> Updating all Project data.
+> Getting Project Team data from the GUI.
+> Updating the Project Team data.
+> Getting Project Site data from the GUI.
+> Updating the Project Site data.
+> Getting Proposed Building Segment data from the GUI.
+> Updating the Project Proposed Segments data.
+> Getting Baseline Building Segment data from the GUI.
+> Updating the Project Baseline Segments data.
+> Getting Project Building Component data from the GUI.
+> Updating the Project Envelope data.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+> Reading Building Component data from WUFI-PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_baseline.pdf.
+> Opening WUFI-PDF document: la_mora_baseline.pdf
+> Initializing PDFReader
+> Reading in the PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_baseline.pdf
+> Looking for sections: '['__DEFAULT__', 'ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND', 'AREAS', 'Assemblies/window types', 'ELECTRICITY DEMAND - AUXILIARY ELECTRICITY', 'BUILDING INFORMATION', 'BUILDING ELEMENTS', 'Calculation parameters', 'CLIMATE', 'Climate', 'DHW AND DISTRIBUTION', 'Summary building envelope', 'HEAT FLOW - HEATING PERIOD', 'HVAC', 'INTERNAL HEAT GAINS', 'HEATING LOAD COOLING LOAD', 'Passive house data', 'PASSIVEHOUSE RECOMMENDATIONS', 'PASSIVEHOUSE REQUIREMENTS', 'Project data', 'ELECTRICITY DEMAND RESIDENTIAL BUILDING', 'Results', 'SITE ENERGY MONTHLY REPORT', 'Property/Site', 'SPECIFIC HEAT/COOLING DEMAND MONTHLY', 'THERMAL BRIDGES', 'VENTILATION', 'WINDOWS', 'Zones / Components']'
+> Extracting Text from page: 1
+> Found PDF Section-Marker: in line 'BUILDING INFORMATION'.
+> Changing section to BUILDING INFORMATION.
+> Found PDF Section-Marker: in line 'PASSIVEHOUSE REQUIREMENTS'.
+> Changing section to PASSIVEHOUSE REQUIREMENTS.
+> Extracting Text from page: 2
+> Found PDF Section-Marker: in line 'PASSIVEHOUSE RECOMMENDATIONS'.
+> Changing section to PASSIVEHOUSE RECOMMENDATIONS.
+> Extracting Text from page: 3
+> Found PDF Section-Marker: in line 'BUILDING ELEMENTS'.
+> Changing section to BUILDING ELEMENTS.
+> Found PDF Section-Marker: in line 'HVAC'.
+> Changing section to HVAC.
+> Found PDF Section-Marker: in line 'HEAT FLOW - HEATING PERIOD'.
+> Changing section to HEAT FLOW - HEATING PERIOD.
+> Extracting Text from page: 4
+> Found PDF Section-Marker: in line 'CLIMATE'.
+> Changing section to CLIMATE.
+> Found PDF Section-Marker: in line 'Calculation parameters'.
+> Changing section to Calculation parameters.
+> Extracting Text from page: 5
+> Found PDF Section-Marker: in line 'ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND'.
+> Changing section to ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND.
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Extracting Text from page: 6
+> Found PDF Section-Marker: in line 'SPECIFIC HEAT/COOLING DEMAND MONTHLY'.
+> Changing section to SPECIFIC HEAT/COOLING DEMAND MONTHLY.
+> Extracting Text from page: 7
+> Found PDF Section-Marker: in line 'HEATING LOAD COOLING LOAD'.
+> Changing section to HEATING LOAD COOLING LOAD.
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Extracting Text from page: 8
+> Found PDF Section-Marker: in line 'AREAS'.
+> Changing section to AREAS.
+> Extracting Text from page: 9
+> Extracting Text from page: 10
+> Extracting Text from page: 11
+> Extracting Text from page: 12
+> Extracting Text from page: 13
+> Extracting Text from page: 14
+> Found PDF Section-Marker: in line 'THERMAL BRIDGES'.
+> Changing section to THERMAL BRIDGES.
+> Extracting Text from page: 15
+> Found PDF Section-Marker: in line 'WINDOWS'.
+> Changing section to WINDOWS.
+> Extracting Text from page: 16
+> Extracting Text from page: 17
+> Extracting Text from page: 18
+> Extracting Text from page: 19
+> Extracting Text from page: 20
+> Extracting Text from page: 21
+> Extracting Text from page: 22
+> Extracting Text from page: 23
+> Extracting Text from page: 24
+> Extracting Text from page: 25
+> Extracting Text from page: 26
+> Extracting Text from page: 27
+> Extracting Text from page: 28
+> Extracting Text from page: 29
+> Extracting Text from page: 30
+> Extracting Text from page: 31
+> Extracting Text from page: 32
+> Extracting Text from page: 33
+> Extracting Text from page: 34
+> Extracting Text from page: 35
+> Extracting Text from page: 36
+> Extracting Text from page: 37
+> Extracting Text from page: 38
+> Extracting Text from page: 39
+> Extracting Text from page: 40
+> Extracting Text from page: 41
+> Extracting Text from page: 42
+> Extracting Text from page: 43
+> Extracting Text from page: 44
+> Extracting Text from page: 45
+> Extracting Text from page: 46
+> Extracting Text from page: 47
+> Extracting Text from page: 48
+> Extracting Text from page: 49
+> Extracting Text from page: 50
+> Extracting Text from page: 51
+> Extracting Text from page: 52
+> Extracting Text from page: 53
+> Extracting Text from page: 54
+> Found PDF Section-Marker: in line 'Summary building envelope'.
+> Changing section to Summary building envelope.
+> Extracting Text from page: 55
+> Extracting Text from page: 56
+> Found PDF Section-Marker: in line 'VENTILATION'.
+> Changing section to VENTILATION.
+> Extracting Text from page: 57
+> Found PDF Section-Marker: in line 'ELECTRICITY DEMAND - AUXILIARY ELECTRICITY'.
+> Changing section to ELECTRICITY DEMAND - AUXILIARY ELECTRICITY.
+> Found PDF Section-Marker: in line 'ELECTRICITY DEMAND RESIDENTIAL BUILDING'.
+> Changing section to ELECTRICITY DEMAND RESIDENTIAL BUILDING.
+> Extracting Text from page: 58
+> Found PDF Section-Marker: in line 'INTERNAL HEAT GAINS'.
+> Changing section to INTERNAL HEAT GAINS.
+> Extracting Text from page: 59
+> Found PDF Section-Marker: in line 'DHW AND DISTRIBUTION'.
+> Changing section to DHW AND DISTRIBUTION.
+> Extracting Text from page: 60
+> Found PDF Section-Marker: in line 'Property/Site'.
+> Changing section to Property/Site.
+> Extracting Text from page: 61
+> Extracting Text from page: 62
+> Extracting Text from page: 63
+> Extracting Text from page: 64
+> Extracting Text from page: 65
+> Extracting Text from page: 66
+> Extracting Text from page: 67
+> Extracting Text from page: 68
+> Extracting Text from page: 69
+> Extracting Text from page: 70
+> Extracting Text from page: 71
+> Extracting Text from page: 72
+> Extracting Text from page: 73
+> Extracting Text from page: 74
+> Extracting Text from page: 75
+> Found PDF Section-Marker: in line 'SITE ENERGY MONTHLY REPORT'.
+> Changing section to SITE ENERGY MONTHLY REPORT.
+> Extracting Table from page: 75
+> Extracting Text from page: 76
+> Extracting Table from page: 76
+> Extracting Text from page: 77
+> Found PDF Section-Marker: in line 'Project data'.
+> Changing section to Project data.
+> Extracting Table from page: 77
+> Extracting Text from page: 78
+> Found PDF Section-Marker: in line 'Climate'.
+> Changing section to Climate.
+> Extracting Text from page: 79
+> Found PDF Section-Marker: in line 'Passive house data'.
+> Changing section to Passive house data.
+> Extracting Text from page: 80
+> Extracting Text from page: 81
+> Found PDF Section-Marker: in line 'Zones / Components'.
+> Changing section to Zones / Components.
+> Extracting Text from page: 82
+> Extracting Text from page: 83
+> Extracting Text from page: 84
+> Extracting Text from page: 85
+> Extracting Text from page: 86
+> Extracting Text from page: 87
+> Extracting Text from page: 88
+> Extracting Text from page: 89
+> Extracting Text from page: 90
+> Extracting Text from page: 91
+> Extracting Text from page: 92
+> Extracting Text from page: 93
+> Extracting Text from page: 94
+> Extracting Text from page: 95
+> Extracting Text from page: 96
+> Found PDF Section-Marker: in line 'Assemblies/window types'.
+> Changing section to Assemblies/window types.
+> Extracting Text from page: 97
+> Extracting Text from page: 98
+> Extracting Text from page: 99
+> Extracting Text from page: 100
+> Found PDF Section-Marker: in line 'HVAC'.
+> Changing section to HVAC.
+> Extracting Text from page: 101
+> Extracting Text from page: 102
+> Extracting Text from page: 103
+> Extracting Text from page: 104
+> Extracting Text from page: 105
+> Found PDF Section-Marker: in line 'Results'.
+> Changing section to Results.
+> Processing Text from the PDF Section: __DEFAULT__
+> Processing Text from the PDF Section: ANNUAL HEAT DEMAND ANNUAL COOLING DEMAND
+> Processing Text from the PDF Section: AREAS
+> Processing Text from the PDF Section: Assemblies/window types
+> Processing Text from the PDF Section: ELECTRICITY DEMAND - AUXILIARY ELECTRICITY
+> Processing Text from the PDF Section: BUILDING INFORMATION
+> Processing Text from the PDF Section: BUILDING ELEMENTS
+> Processing Text from the PDF Section: Calculation parameters
+> Processing Text from the PDF Section: CLIMATE
+> Processing Text from the PDF Section: Climate
+> Processing Text from the PDF Section: DHW AND DISTRIBUTION
+> Processing Text from the PDF Section: Summary building envelope
+> Processing Text from the PDF Section: HEAT FLOW - HEATING PERIOD
+> Processing Text from the PDF Section: HVAC
+> Processing Text from the PDF Section: INTERNAL HEAT GAINS
+> Processing Text from the PDF Section: HEATING LOAD COOLING LOAD
+> Processing Text from the PDF Section: Passive house data
+> Processing Text from the PDF Section: PASSIVEHOUSE RECOMMENDATIONS
+> Processing Text from the PDF Section: PASSIVEHOUSE REQUIREMENTS
+> Processing Text from the PDF Section: Project data
+> Processing Text from the PDF Section: ELECTRICITY DEMAND RESIDENTIAL BUILDING
+> Processing Text from the PDF Section: Results
+> Processing Text from the PDF Section: SITE ENERGY MONTHLY REPORT
+> Processing Text from the PDF Section: Property/Site
+> Processing Text from the PDF Section: SPECIFIC HEAT/COOLING DEMAND MONTHLY
+> Processing Text from the PDF Section: THERMAL BRIDGES
+> Processing Text from the PDF Section: VENTILATION
+> Processing Text from the PDF Section: WINDOWS
+> Processing Text from the PDF Section: Zones / Components
+> Done reading from WUFI-PDF.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+> Updating all Project data.
+> Getting Project Team data from the GUI.
+> Updating the Project Team data.
+> Getting Project Site data from the GUI.
+> Updating the Project Site data.
+> Getting Proposed Building Segment data from the GUI.
+> Updating the Project Proposed Segments data.
+> Getting Baseline Building Segment data from the GUI.
+> Updating the Project Baseline Segments data.
+> Getting Project Building Component data from the GUI.
+> Updating the Project Envelope data.
+> Writing out JSON file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_json\la_mora.json
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+> Updating all Project data.
+> Getting Project Team data from the GUI.
+> Updating the Project Team data.
+> Getting Project Site data from the GUI.
+> Updating the Project Site data.
+> Getting Proposed Building Segment data from the GUI.
+> Updating the Project Proposed Segments data.
+> Getting Baseline Building Segment data from the GUI.
+> Updating the Project Baseline Segments data.
+> Getting Project Building Component data from the GUI.
+> Updating the Project Envelope data.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+> Updating all Project data.
+> Getting Project Team data from the GUI.
+> Updating the Project Team data.
+> Getting Project Site data from the GUI.
+> Updating the Project Site data.
+> Getting Proposed Building Segment data from the GUI.
+> Updating the Project Proposed Segments data.
+> Getting Baseline Building Segment data from the GUI.
+> Updating the Project Baseline Segments data.
+> Getting Project Building Component data from the GUI.
+> Updating the Project Envelope data.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+> Writing report data to Excel.
+> Connecting to excel...
+no Excel running, staring a new Application instance.
+adding a new app to the self.apps....
+> > connected to excel doc: 'Book1'
+> Adding 'Project Data' to Workbook
+> Writing: Project Data:A1=['PROJECT', None, None, None, None]
+> Writing: Project Data:A3=['Project Name', None, '-', None, None]
+> Writing: Project Data:A4=['Client', None, '-', None, None]
+> Writing: Project Data:A5=['Report Date', None, '-', None, None]
+> Writing: Project Data:A6=[None, None, None, None, None]
+> Writing: Project Data:A7=['Site', None, None, None, None]
+> Writing: Project Data:A8=[None, None, None, None, None]
+> Writing: Project Data:A9=['Climate', None, None, None, None]
+> Writing: Project Data:A10=['Country', None, '-', None, None]
+> Writing: Project Data:A11=['Region', None, '-', None, None]
+> Writing: Project Data:A12=['Dataset Name', None, 'User defined', None, None]
+> Writing: Project Data:A13=['Passive House CZ', None, 'N/A', None, None]
+> Writing: Project Data:A14=[None, None, None, None, None]
+> Writing: Project Data:A15=['Location', None, None, None, None]
+> Writing: Project Data:A16=['Longitude', None, -73.7, None, None]
+> Writing: Project Data:A17=['Latitude', None, 41.1, None, None]
+> Writing: Project Data:A18=[None, None, None, None, None]
+> Writing: Project Data:A19=['Address', None, None, None, None]
+> Writing: Project Data:A20=['Number', None, '-', None, None]
+> Writing: Project Data:A21=['Street', None, '23 Mulberry Street', None, None]
+> Writing: Project Data:A22=['City', None, 'Yonkers, NY', None, None]
+> Writing: Project Data:A23=['State', None, '-', None, None]
+> Writing: Project Data:A24=['Zipcode', None, '10701', None, None]
+> Writing: Project Data:A25=[None, None, None, None, None]
+> Writing: Project Data:A26=['Team', None, None, None, None]
+> Writing: Project Data:A27=[None, None, None, None, None]
+> Writing: Project Data:A28=['Owner', None, None, None, None]
+> Writing: Project Data:A29=['Name', None, 'Municipal Housing Authority of Yonkers', None, None]
+> Writing: Project Data:A30=[None, None, None, None, None]
+> Writing: Project Data:A31=['Contact', None, None, None, None]
+> Writing: Project Data:A32=['Num.', None, '-', None, None]
+> Writing: Project Data:A33=['Street', None, '1511 Central Park Ave', None, None]
+> Writing: Project Data:A34=['City', None, 'Yonkers, NY', None, None]
+> Writing: Project Data:A35=['State', None, '-', None, None]
+> Writing: Project Data:A36=['Country', None, '-', None, None]
+> Writing: Project Data:A37=['Zipcode', None, '10710', None, None]
+> Writing: Project Data:A38=['Phone', None, '-', None, None]
+> Writing: Project Data:A39=['Email', None, '-', None, None]
+> Writing: Project Data:A40=[None, None, None, None, None]
+> Writing: Project Data:A41=['Designer', None, None, None, None]
+> Writing: Project Data:A42=['Name', None, 'John Loercher, Northeast Projects LLC (CPHC 2093)', None, None]
+> Writing: Project Data:A43=[None, None, None, None, None]
+> Writing: Project Data:A44=['Contact', None, None, None, None]
+> Writing: Project Data:A45=['Num.', None, '-', None, None]
+> Writing: Project Data:A46=['Street', None, '76 Albany Turnpike', None, None]
+> Writing: Project Data:A47=['City', None, 'Old Chatham, NY', None, None]
+> Writing: Project Data:A48=['State', None, '-', None, None]
+> Writing: Project Data:A49=['Country', None, '-', None, None]
+> Writing: Project Data:A50=['Zipcode', None, '12136', None, None]
+> Writing: Project Data:A51=['Phone', None, '-', None, None]
+> Writing: Project Data:A52=['Email', None, '-', None, None]
+> Writing: Project Data:A53=[None, None, None, None, None]
+> Writing: Project Data:A54=['Contractor', None, None, None, None]
+> Writing: Project Data:A55=['Name', None, '-', None, None]
+> Writing: Project Data:A56=[None, None, None, None, None]
+> Writing: Project Data:A57=['Contact', None, None, None, None]
+> Writing: Project Data:A58=['Num.', None, '-', None, None]
+> Writing: Project Data:A59=['Street', None, '-', None, None]
+> Writing: Project Data:A60=['City', None, '-', None, None]
+> Writing: Project Data:A61=['State', None, '-', None, None]
+> Writing: Project Data:A62=['Country', None, '-', None, None]
+> Writing: Project Data:A63=['Zipcode', None, '-', None, None]
+> Writing: Project Data:A64=['Phone', None, '-', None, None]
+> Writing: Project Data:A65=['Email', None, '-', None, None]
+> Writing: Project Data:A66=[None, None, None, None, None]
+> Writing: Project Data:A67=['Primary Energy Consultant', None, None, None, None]
+> Writing: Project Data:A68=['Name', None, 'John Loercher, Northeast Projects LLC (CPHC 2093)', None, None]
+> Writing: Project Data:A69=[None, None, None, None, None]
+> Writing: Project Data:A70=['Contact', None, None, None, None]
+> Writing: Project Data:A71=['Num.', None, '-', None, None]
+> Writing: Project Data:A72=['Street', None, '76 Albany Turnpike', None, None]
+> Writing: Project Data:A73=['City', None, 'Old Chatham, NY', None, None]
+> Writing: Project Data:A74=['State', None, '-', None, None]
+> Writing: Project Data:A75=['Country', None, '-', None, None]
+> Writing: Project Data:A76=['Zipcode', None, '12136', None, None]
+> Writing: Project Data:A77=['Phone', None, '-', None, None]
+> Writing: Project Data:A78=['Email', None, '-', None, None]
+> Adding 'Building Components' to Workbook
+> Writing: Building Components:A1=['BUILDING COMPONENTS', 'UNIT', None, None, None]
+> Writing: Building Components:A2=[None, None, None, None, None]
+> Writing: Building Components:A3=['ASSEMBLIES', None, None, None, None]
+> Writing: Building Components:A5=['Assembly Type', None, 'BASELINE', None, None]
+> Writing: Building Components:A6=['U-Value', 'BTU/HR-FT2-F', 0.068, None, None]
+> Writing: Building Components:A7=['R-Value', 'HR-FT2-F/BTU', 14.7, None, None]
+> Writing: Building Components:A8=['Exterior Exposure', None, 'NA', None, None]
+> Writing: Building Components:A9=['Interior Exposure', None, 'NA', None, None]
+> Writing: Building Components:A10=[None, None, None, None, None]
+> Writing: Building Components:A11=['GLAZING', None, None, None, None]
+> Writing: Building Components:A13=['Glazing Type', None, 'BASELINE', None, None]
+> Writing: Building Components:A14=['U-Value', 'BTU/HR-FT2-F', 0.45, None, None]
+> Writing: Building Components:A15=['SHGC', '-', 0.38, None, None]
+> Writing: Building Components:A16=[None, None, None, None, None]
+> Writing: Building Components:A17=['APPLIANCES', None, None, None, None]
+> Writing: Building Components:A18=[None, None, None, None, None]
+> Writing: Building Components:A19=['HEATING', None, None, None, None]
+> Writing: Building Components:A20=[None, None, None, None, None]
+> Writing: Building Components:A21=['COOLING', None, None, None, None]
+> Writing: Building Components:A22=[None, None, None, None, None]
+> Writing: Building Components:A23=['VENTILATION', None, None, None, None]
+> Writing: Building Components:A25=['Device Name', None, 'ERU-1', None, None]
+> Writing: Building Components:A26=['Ventilator Unit Type', None, 'ERU-1', None, None]
+> Writing: Building Components:A27=['Quantity', None, 0, None, None]
+> Writing: Building Components:A28=['Heat Recovery Efficiency', '%', 0.0, None, None]
+> Writing: Building Components:A29=['Moisture Recovery Efficiency', '%', 0.0, None, None]
+> Writing: Building Components:A31=['Device Name', None, 'ERU-2', None, None]
+> Writing: Building Components:A32=['Ventilator Unit Type', None, 'ERU-2', None, None]
+> Writing: Building Components:A33=['Quantity', None, 0, None, None]
+> Writing: Building Components:A34=['Heat Recovery Efficiency', '%', 0.0, None, None]
+> Writing: Building Components:A35=['Moisture Recovery Efficiency', '%', 0.0, None, None]
+> Writing: Building Components:A36=[None, None, None, None, None]
+> Writing: Building Components:A37=['HOT WATER HEATERS', None, None, None, None]
+> Writing: Building Components:A38=[None, None, None, None, None]
+> Writing: Building Components:A39=['HOT WATER TANKS', None, None, None, None]
+> Writing: Building Components:A41=['Name', None, 'WH-1_Bradford White Electric Brute VR-300-15_300 gal', None, None]
+> Writing: Building Components:A42=['Heat Loss Rate', 'BTU/HR-F', 0.0, None, None]
+> Writing: Building Components:A43=['Volume', 'GAL', 0.0, None, None]
+> Writing: Building Components:A45=['Name', None, 'WH-2_AO Smith', None, None]
+> Writing: Building Components:A46=['Heat Loss Rate', 'BTU/HR-F', 0.0, None, None]
+> Writing: Building Components:A47=['Volume', 'GAL', 0.0, None, None]
+> Writing: Building Components:A48=[None, None, None, None, None]
+> Writing: Building Components:A49=['SOLAR HOT WATER', None, None, None, None]
+> Writing: Building Components:A50=[None, None, None, None, None]
+> Writing: Building Components:A51=['SOLAR PV', None, None, None, None]
+> Writing: Building Components:A53=['Name', None, 'Phius CORE 2021', None, None]
+> Writing: Building Components:A54=['Footprint', 'FT2', 0.0, None, None]
+> Writing: Building Components:A55=['Array Size', 'KW', 0.0, None, None]
+> Writing: Building Components:A56=['PV Energy', 'KWH', 0.0, None, None]
+> Writing: Building Components:A57=[None, None, None, None, None]
+> Adding 'Building Data' to Workbook
+> Writing: Building Data:A1=['WHOLE BUILDING', 'UNIT', 'BASELINE', 'PROPOSED', 'CHANGE']
+> Writing: Building Data:A3=['Building Name', None, '-', '-', '-']
+> Writing: Building Data:A4=['Building Type', None, 'Multi-Family', 'Multi-Family', 'Multi-Family']
+> Writing: Building Data:A5=[None, None, None, None, None]
+> Writing: Building Data:A6=['Geometry', None, None, None, None]
+> Writing: Building Data:A7=['Envelope Area', 'FT2', 52691.2, 52713.9, -22.700000000004366]
+> Writing: Building Data:A8=['Net Interior Floor Area', 'FT2', 55289.0, 55289.0, 0.0]
+> Writing: Building Data:A9=['Net Interior Volume', 'FT3', 660421.3, 660421.3, 0.0]
+> Writing: Building Data:A10=[None, None, None, None, None]
+> Writing: Building Data:A11=['Occupancy', None, None, None, None]
+> Writing: Building Data:A12=['Total Dwelling Units', None, 60, 60, 0]
+> Writing: Building Data:A13=['Total Num. Occupants', None, 123.0, 123.0, 0.0]
+> Writing: Building Data:A14=[None, None, None, None, None]
+> Writing: Building Data:A15=['Performance', None, None, None, None]
+> Writing: Building Data:A16=[None, None, None, None, None]
+> Writing: Building Data:A17=['Annual Site (End) Energy', None, None, None, None]
+> Writing: Building Data:A18=['Consumption: Gas', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: Building Data:A19=['Consumption: Electricity', 'KBTU', 1475269.4, 1288488.2, 186781.19999999995]
+> Writing: Building Data:A20=['Consumption: District Energy', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: Building Data:A21=['Consumption: Other', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: Building Data:A22=['Production: Solar PV', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: Building Data:A23=['Production Solar Thermal', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: Building Data:A24=['Production Other', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: Building Data:A25=[None, None, None, None, None]
+> Writing: Building Data:A26=['Annual Source (Primary) Energy', None, None, None, None]
+> Writing: Building Data:A27=['Consumption: Gas', '-', 0.0, 0.0, 0.0]
+> Writing: Building Data:A28=['Consumption: Electricity', '-', 0.0, 0.0, 0.0]
+> Writing: Building Data:A29=['Consumption: District Energy', '-', 0.0, 0.0, 0.0]
+> Writing: Building Data:A30=['Consumption: Other', '-', 0.0, 0.0, 0.0]
+> Writing: Building Data:A31=['Production: Solar PV', '-', 0.0, 0.0, 0.0]
+> Writing: Building Data:A32=['Production Solar Thermal', '-', 0.0, 0.0, 0.0]
+> Writing: Building Data:A33=['Production Other', '-', 0.0, 0.0, 0.0]
+> Writing: Building Data:A34=[None, None, None, None, None]
+> Writing: Building Data:A35=['Annual Heating Demand', None, None, None, None]
+> Writing: Building Data:A36=['Winter Heating Energy Demand', 'KBTU', 697285.0, 207125.0, 490160.0]
+> Writing: Building Data:A37=['Transmission Heat Losses', 'KBTU', 991016.0, 417218.0, 573798.0]
+> Writing: Building Data:A38=['Ventilation Heat Losses', 'KBTU', 339201.0, 337686.0, 1515.0]
+> Writing: Building Data:A39=['Solar Heat Gains', 'KBTU', 260517.0, 264420.0, -3903.0]
+> Writing: Building Data:A40=['Internal Heat Gains', 'KBTU', 393102.0, 402235.0, -9133.0]
+> Writing: Building Data:A41=['Winter Utilization Factor', '-', 0.968, 0.822, 0.14600000000000002]
+> Writing: Building Data:A42=['Total Winter Heat Losses', 'KBTU', 1330217.0, 754904.0, 575313.0]
+> Writing: Building Data:A43=['Total Winter Useful Heat Gains', 'KBTU', 632703.192, 547990.4099999999, -1903.2560000000003]
+> Writing: Building Data:A44=[None, None, None, None, None]
+> Writing: Building Data:A45=['Annual Cooling Demand', None, None, None, None]
+> Writing: Building Data:A46=['Summer Sensible Cooling Energy Demand', 'KBTU', 82289.0, 161213.0, -78924.0]
+> Writing: Building Data:A47=['Summer Latent Cooling Energy Demand', 'KBTU', 18884.0, 18684.0, 200.0]
+> Writing: Building Data:A48=['Summer Total Cooling Energy Demand', 'KBTU', 101173.0, 179897.0, -78724.0]
+> Writing: Building Data:A49=['Transmission Heat Losses', 'KBTU', 1593621.0, 666057.0, 927564.0]
+> Writing: Building Data:A50=['Ventilation Heat Losses', 'KBTU', 1445818.0, 1445805.0, 13.0]
+> Writing: Building Data:A51=['Solar Heat Gains', 'KBTU', 372003.0, 366623.0, 5380.0]
+> Writing: Building Data:A52=['Internal Heat Gains', 'KBTU', 697834.0, 709705.0, -11871.0]
+> Writing: Building Data:A53=['Seasonal Utilization Factor', '%', 0.0, 0.0, 0.0]
+> Writing: Building Data:A54=['Total Summer Useful Heat Losses', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: Building Data:A55=['Total Summer Heat Gains', 'KBTU', 1069837.0, 1076328.0, -6491.0]
+> Writing: Building Data:A56=[None, None, None, None, None]
+> Writing: Building Data:A57=['Peak Heating Load', None, None, None, None]
+> Writing: Building Data:A58=['Peak Heating Load', 'BTUH', 396002.4, 203053.4, 192949.00000000003]
+> Writing: Building Data:A59=['Peak Transmission Heat Losses', 'BTUH', 331706.0, 143602.3, 188103.7]
+> Writing: Building Data:A60=['Peak Ventilation Heat Losses', 'BTUH', 140958.8, 140946.7, 12.099999999976717]
+> Writing: Building Data:A61=['Peak Solar Heat Gains', 'BTUH', 48620.0, 53453.2, -4833.199999999997]
+> Writing: Building Data:A62=['Peak Internal Heat Gains', 'BTUH', 28042.4, 28042.4, 0.0]
+> Writing: Building Data:A63=['Total Peak Heat Losses', 'BTUH', 472664.8, 284549.0, 188115.8]
+> Writing: Building Data:A64=['Total Peak Heat Gains', 'BTUH', 76662.4, 81495.6, -4833.199999999997]
+> Writing: Building Data:A65=['Peak Cooling Load', None, None, None, None]
+> Adding '- - WUFI-PDF File Name - -' to Workbook
+> Worksheet '- - WUFI-PDF File Name - -' already in Workbook.
+> Writing: - - WUFI-PDF File Name - -:A1=['BUILDING SEGMENT', 'UNIT', 'BASELINE', 'PROPOSED', 'CHANGE']
+> Writing: - - WUFI-PDF File Name - -:A3=['Segment Name', None, '- - WUFI-PDF File Name - -', '- - WUFI-PDF File Name - -', '- - WUFI-PDF File Name - -']
+> Writing: - - WUFI-PDF File Name - -:A4=['Construction Type', None, 'New Construction', 'New Construction', 'New Construction']
+> Writing: - - WUFI-PDF File Name - -:A5=['Construction Method', None, 'Method A', 'Method A', 'Method A']
+> Writing: - - WUFI-PDF File Name - -:A6=[None, None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A7=['Geometry', None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A8=['Envelope Area', 'FT2', 52691.2, 52713.9, -22.700000000004366]
+> Writing: - - WUFI-PDF File Name - -:A9=['Net Interior Floor Area', 'FT2', 55289.0, 55289.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A10=['Net Interior Volume', 'FT3', 660421.3, 660421.3, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A11=[None, None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A12=['Occupancy', None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A13=['Total Dwelling Units', None, 60, 60, 0]
+> Writing: - - WUFI-PDF File Name - -:A14=['Total Num. Occupants', None, 123.0, 123.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A15=[None, None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A16=['Energy', None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A17=[None, None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A18=['Annual Site (End) Energy', None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A19=['Consumption: Gas', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A20=['Consumption: Electricity', 'KBTU', 1475269.4, 1288488.2, 186781.19999999995]
+> Writing: - - WUFI-PDF File Name - -:A21=['Consumption: District Energy', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A22=['Consumption: Other', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A23=['Production: Solar PV', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A24=['Production Solar Thermal', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A25=['Production Other', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A26=[None, None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A27=['Annual Source (Primary) Energy', None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A28=['Consumption: Gas', '-', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A29=['Consumption: Electricity', '-', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A30=['Consumption: District Energy', '-', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A31=['Consumption: Other', '-', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A32=['Production: Solar PV', '-', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A33=['Production Solar Thermal', '-', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A34=['Production Other', '-', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A35=[None, None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A36=['Annual Heating Demand', None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A37=['Winter Heating Energy Demand', 'KBTU', 697285.0, 207125.0, 490160.0]
+> Writing: - - WUFI-PDF File Name - -:A38=['Transmission Heat Losses', 'KBTU', 991016.0, 417218.0, 573798.0]
+> Writing: - - WUFI-PDF File Name - -:A39=['Ventilation Heat Losses', 'KBTU', 339201.0, 337686.0, 1515.0]
+> Writing: - - WUFI-PDF File Name - -:A40=['Solar Heat Gains', 'KBTU', 260517.0, 264420.0, -3903.0]
+> Writing: - - WUFI-PDF File Name - -:A41=['Internal Heat Gains', 'KBTU', 393102.0, 402235.0, -9133.0]
+> Writing: - - WUFI-PDF File Name - -:A42=['Winter Utilization Factor', '-', 0.968, 0.822, 0.14600000000000002]
+> Writing: - - WUFI-PDF File Name - -:A43=['Total Winter Heat Losses', 'KBTU', 1330217.0, 754904.0, 575313.0]
+> Writing: - - WUFI-PDF File Name - -:A44=['Total Winter Useful Heat Gains', 'KBTU', 632703.192, 547990.4099999999, -1903.2560000000003]
+> Writing: - - WUFI-PDF File Name - -:A45=[None, None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A46=['Annual Cooling Demand', None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A47=['Summer Sensible Cooling Energy Demand', 'KBTU', 82289.0, 161213.0, -78924.0]
+> Writing: - - WUFI-PDF File Name - -:A48=['Summer Latent Cooling Energy Demand', 'KBTU', 18884.0, 18684.0, 200.0]
+> Writing: - - WUFI-PDF File Name - -:A49=['Summer Total Cooling Energy Demand', 'KBTU', 101173.0, 179897.0, -78724.0]
+> Writing: - - WUFI-PDF File Name - -:A50=['Transmission Heat Losses', 'KBTU', 1593621.0, 666057.0, 927564.0]
+> Writing: - - WUFI-PDF File Name - -:A51=['Ventilation Heat Losses', 'KBTU', 1445818.0, 1445805.0, 13.0]
+> Writing: - - WUFI-PDF File Name - -:A52=['Solar Heat Gains', 'KBTU', 372003.0, 366623.0, 5380.0]
+> Writing: - - WUFI-PDF File Name - -:A53=['Internal Heat Gains', 'KBTU', 697834.0, 709705.0, -11871.0]
+> Writing: - - WUFI-PDF File Name - -:A54=['Seasonal Utilization Factor', '%', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A55=['Total Summer Useful Heat Losses', 'KBTU', 0.0, 0.0, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A56=['Total Summer Heat Gains', 'KBTU', 1069837.0, 1076328.0, -6491.0]
+> Writing: - - WUFI-PDF File Name - -:A57=[None, None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A58=['Peak Heating Load', None, None, None, None]
+> Writing: - - WUFI-PDF File Name - -:A59=['Peak Heating Load', 'BTUH', 396002.4, 203053.4, 192949.00000000003]
+> Writing: - - WUFI-PDF File Name - -:A60=['Peak Transmission Heat Losses', 'BTUH', 331706.0, 143602.3, 188103.7]
+> Writing: - - WUFI-PDF File Name - -:A61=['Peak Ventilation Heat Losses', 'BTUH', 140958.8, 140946.7, 12.099999999976717]
+> Writing: - - WUFI-PDF File Name - -:A62=['Peak Solar Heat Gains', 'BTUH', 48620.0, 53453.2, -4833.199999999997]
+> Writing: - - WUFI-PDF File Name - -:A63=['Peak Internal Heat Gains', 'BTUH', 28042.4, 28042.4, 0.0]
+> Writing: - - WUFI-PDF File Name - -:A64=['Total Peak Heat Losses', 'BTUH', 472664.8, 284549.0, 188115.8]
+> Writing: - - WUFI-PDF File Name - -:A65=['Total Peak Heat Gains', 'BTUH', 76662.4, 81495.6, -4833.199999999997]
+> Writing: - - WUFI-PDF File Name - -:A66=['Peak Cooling Load', None, None, None, None]
+> Done writing to Excel.

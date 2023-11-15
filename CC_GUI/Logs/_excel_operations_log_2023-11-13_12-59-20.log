@@ -1,0 +1,16 @@
+Reading Baseline Building Segment data from WUFI-PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_baseline.pdf
+Creating new NBDM Building Segment from PDF data.
+- - WUFI-PDF File Name - -
+2172560836176 | 1,475,269.370 (KBTU)
+Done reading Building Segment from file: la_mora_baseline.pdf
+Reading Proposed Building Segment data from WUFI-PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_proposed.pdf
+Creating new NBDM Building Segment from PDF data.
+- - WUFI-PDF File Name - -
+2172356099920 | 1,288,488.178 (KBTU)
+Done reading Building Segment from file: la_mora_proposed.pdf
+Reading Project Team and Site data from WUFI-PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_baseline.pdf.
+Done reading from WUFI-PDF.
+Reading Building Component data from WUFI-PDF file: \\Mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\tests\_source_pdf\la_mora_baseline.pdf.
+Done reading from WUFI-PDF.
+Writing report data to Excel.
+Done writing to Excel.

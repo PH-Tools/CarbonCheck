@@ -7,14 +7,14 @@ Comparing the performance of your proposed building design to a standard 'baseli
 </br>CarbonCheck is an open-source tool, provided free of charge, created to support the Passive House Community in New York State. We encourage you to download and try it out for yourself.
 
 ## Download the CarbonCheck Installer
-- [For Windows OS v0.1](https://github.com/PH-Tools/CarbonCheck/raw/main/Installers/CarbonCheck-0.1-win64.msi)
-- [For Mac OS v0.1](https://github.com/PH-Tools/CarbonCheck/raw/main/Installers/CarbonCheck-0.1-macos.dmg)
+- [For Windows OS v0.0.1](https://github.com/PH-Tools/CarbonCheck/blob/main/dist/CabonCheck-0.0.1-win64.msi)
+- For Mac [Coming Soon...]
 
 
 ## Watch a YouTube Walk Through
 Watch a detailed step-by-step walk through:
 -  [For Windows OS](https://youtu.be/DvH_Wxf1D8A)
--  [For Mac OS](https://youtu.be/DvH_Wxf1D8A)
+- For Mac [Coming Soon...]
 
 
 ## Requirements

@@ -8,10 +8,10 @@ weight: 30
 > Yes! CarbonCheck is free to download and use. You can find all the source code at the [GitHub repository](https://github.com/PH-Tools/CarbonCheck). It was developed by [bldgtyp](http://bldgtyp.com/) and the [Passive House Accelerator](https://passivehouseaccelerator.com/) team to help the New York State Passive House community. This project is made possible by the support of the [New York State Energy Research and Development Authority (NYSERDA)](https://www.nyserda.ny.gov/).
 
 ### Can CarbonCheck baseline models be used for New York State Energy Code compliance?
-> No. The State of New York does not accept either PHPP or WUFI-Passive for the purposes of demonstrating code-compliance.
+> No. The State of New York does not currently accept either PHPP or WUFI-Passive for the purposes of demonstrating energy-code-compliance.
 
-### Can I use CarbonCheck to create baseline models for states other than New York?
-> No: The CarbonCheck application was developed for New York State and currently only includes the information related to the NYS Energy Code. While it is possible to include the specific code requirements for other states in the future, right now CarbonCheck is only for New York State practitioners.
+### Can I use CarbonCheck to create baseline models for states other than New York, or for other protocols?
+> No: The CarbonCheck application was developed for New York State and currently only includes the information related to the NYS Energy Code's baseline as described in section [R405.5.2](https://up.codes/viewer/new_york/ny-energy-conservation-code-2020/chapter/RE_4/re-residential-energy-efficiency#R405.5.2). While it is possible to include the specific code requirements for other states in the future, right now CarbonCheck is only for New York State practitioners.
 
 ### I am getting errors when I try and use CarbonCheck?
 > Take a look at the [Contact](/{{< gh_pages_name >}}/contact/) for information on how to reach out if you are having trouble.
@@ -23,4 +23,4 @@ weight: 30
 > Check out the [Reporting](/{{< gh_pages_name >}}/reporting/) page for a detailed how-to guide.
 
 ### Can I use CarbonCheck on a Mac?
-> Yes. CarbonCheck works on both Mac and Windows. Note that WUFI-Passive only works on Windows however.
+> No. CarbonCheck currently only supports Windows OS.

@@ -71,7 +71,7 @@ build_exe_options = {
     "zip_include_packages": [
         "PyQt6",
     ],
-    "include_files": [("CC_GUI\\resources", "resources")],
+    "include_files": [("CC_GUI\\resources", "resources"), ("CC_GUI\\Logs", "Logs")],
     "include_msvcr": True,
 }
 

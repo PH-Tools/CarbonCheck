@@ -23,4 +23,4 @@ weight: 30
 > Check out the [Reporting](/{{< gh_pages_name >}}/reporting/) page for a detailed how-to guide.
 
 ### Can I use CarbonCheck on a Mac?
-> No. CarbonCheck currently only supports Windows OS.
+> No, not at this time. CarbonCheck currently only supports Windows OS.

@@ -4,7 +4,7 @@
 
 import re
 from enum import Enum
-from typing import List, Type, TypeVar, Union
+from typing import List, Type, TypeVar, Tuple
 
 from ph_units.unit_type import Unit
 
@@ -26,6 +26,7 @@ class WufiPDF_HvacDeviceType(Enum):
     BOILER = "Boiler"
     MECH_VENT = "Mechanical ventilation"
     RENEWABLE = "Photovoltaic / renewable energy"
+    ELECTRIC_HEATING = "Electric resistance space heat / DHW"
 
 
 class WufiPDF_HvacDevice:
@@ -33,7 +34,7 @@ class WufiPDF_HvacDevice:
         self, _device_type: WufiPDF_HvacDeviceType, _device_name: str = ""
     ) -> None:
         self.device_type = _device_type
-        self.device_name = _device_name
+        self.device_name: str = _device_name
         self._lines: List[str] = []
         self._tables: List[List[str]] = []
 
@@ -45,6 +46,9 @@ class WufiPDF_HvacDevice:
         self.annual_energy_production = Unit(0.0, "KWH")
         self.storage_capacity = Unit(0.0, "GAL")
         self.tank_heat_loss = Unit(0.0, "BTU/HR-F")
+        self.coverage_heating = Unit(0.0, "%")
+        self.coverage_hot_water = Unit(0.0, "%")
+        self.coverage_cooling = Unit(0.0, "%")
 
     def text_to_value(self, _text: str, _type: Type[T], _default: T) -> T:
         """Try to return the text segment as the specified type (float, int), provide error message on fail."""
@@ -64,12 +68,77 @@ class WufiPDF_HvacDevice:
     def add_line(self, _line: str) -> None:
         self._lines.append(_line)
 
+    def process_coverage_line(self, _line: str) -> Tuple[Unit, Unit]:
+        """_line= 'Coverage Heating 1, Cooling 0.5'"""
+        heating_coverage, cooling_coverage = 0.0, 0.0
+
+        for part in _line.split(","):
+            if "Heating" in part:
+                heating_coverage = part.split("Heating ")[-1]
+            if "Cooling" in part:
+                cooling_coverage = part.split("Cooling ")[-1]
+
+        return Unit(heating_coverage, "%"), Unit(cooling_coverage, "%")
+
+    def process_electric_heating_text(self) -> None:
+        """
+        self._lines = [
+        Coverage DHW 1
+        WUFI®Passive V.3.3.0.2: Edwin P May/BLDGTYP, LLC Page 172
+        WUFI®Passive V.3.3.0.2: Edwin P May/BLDGTYP, LLC Page 172
+        WUFI®Passive
+        ]
+        """
+
+        for line in self._lines:
+            if "Coverage" in line:
+                # -- line = "Coverage: DHW 0.1, Heating 1.0"
+
+                parts = line.strip().split("Coverage ")
+                # -- parts = ["Coverage", "DHW 0.1, Heating 1.0"]
+
+                if len(parts) < 2:
+                    continue
+
+                coverage_types = parts[-1].strip().split(",")
+                # -- coverage_types = ["DHW 0.1", "Heating 1.0"]
+
+                for coverage_types in coverage_types:
+                    if "DHW" in coverage_types:
+                        # -- coverage_type = "DWH 0.5"
+                        coverage = coverage_types.strip().split(" ")[-1]
+                        self.coverage_hot_water = Unit(coverage, "%")
+                    elif "Heating" in coverage_types:
+                        # -- coverage_type = "Heating 1.0"
+                        coverage = coverage_types.strip().split(" ")[-1]
+                        self.coverage_heating = Unit(coverage, "%")
+
     def process_heat_pump_text(self) -> None:
+        """
+        Rated COP 1 [-]2.08
+        Ambient Temperature 1 [°F]17
+        Rated COP 2 [-]4.1
+        Ambient Temperature 2 [°F]47
+        Coverage Heating 1, Cooling 0.5
+        Electric resistance space heat / DHW: Hot Water Heater
+        Coverage DHW 1
+        WUFI®Passive V.3.3.0.2: Edwin P May/BLDGTYP, LLC Page 172
+        WUFI®Passive V.3.3.0.2: Edwin P May/BLDGTYP, LLC Page 172
+        WUFI®Passive
+        Coverage Cooling 0.5
+        """
         for line in self._lines:
             if "Annual heating coefficient of performance (COP) [-]" in line:
                 txt = line.split("[-]")[-1].strip()
                 value = self.text_to_value(txt, float, 1.0)
                 self.cop = Unit(value, "BTU/HR-W")
+            elif "Rated COP 1" in line:
+                txt = line.split("[-]")[-1].strip()
+                value = self.text_to_value(txt, float, 1.0)
+                self.cop = Unit(value, "BTU/HR-W")
+            elif "Coverage" in line:
+                coverages = self.process_coverage_line(line)
+                self.coverage_heating, self.coverage_cooling = coverages
 
     def process_boiler_text(self) -> None:
         pass
@@ -146,13 +215,6 @@ class WufiPDF_HvacDevice:
                 self.annual_energy_production = Unit(value, "KWH")
 
     def process_section_text(self) -> None:
-        """self._lines = [
-        Heat pump
-        Annual heating coefficient of performance (COP) [-]2.5
-        Total system performance ratio of heat generator [-]0.4
-        Coverage Heating 1
-        ]
-        """
         if self.device_type is WufiPDF_HvacDeviceType.HEAT_PUMP:
             self.process_heat_pump_text()
         elif self.device_type is WufiPDF_HvacDeviceType.BOILER:
@@ -163,6 +225,8 @@ class WufiPDF_HvacDevice:
             self.process_mech_vent_text()
         elif self.device_type is WufiPDF_HvacDeviceType.RENEWABLE:
             self.process_renewable_text()
+        elif self.device_type is WufiPDF_HvacDeviceType.ELECTRIC_HEATING:
+            self.process_electric_heating_text()
         else:
             pass
 
@@ -181,26 +245,32 @@ class WufiPDF_HvacDevices:
     def add_line(self, _line: str) -> None:
         self._lines.append(_line)
 
+    def possible_device_heading(self, _parts: List[str]) -> bool:
+        """Check if the line is a possible device heading. ie: ['Mechanical ventilation', 'ERV-C']"""
+        if len(_parts) < 2:
+            return False
+        return True
+
     def process_section_text(self) -> None:
         device = WufiPDF_HvacDevice(WufiPDF_HvacDeviceType.NONE)
 
         for line in self._lines:
-            parts = line.split(":")  # -- ':' means it might be a device heading...
-            if len(parts) < 2:
-                continue
-
-            possible_device_name = parts[0].strip().split(",")[0].strip()
-
-            try:
+            parts = line.split(":")
+            if self.possible_device_heading(parts):
                 # -- See if this line is the start of a device-type
                 # -- if not a valid type, will raise a ValueError
-                device_type = WufiPDF_HvacDeviceType(possible_device_name)
 
-                # -- Start a new Device
-                device_name = parts[1].strip()
-                device = WufiPDF_HvacDevice(device_type, device_name)
-                self._devices.append(device)
-            except ValueError:
+                possible_device_name = parts[0].strip().split(",")[0].strip()
+                try:
+                    device_type = WufiPDF_HvacDeviceType(possible_device_name)
+
+                    # -- Start a new Device
+                    device_name = parts[1].strip()
+                    device = WufiPDF_HvacDevice(device_type, device_name)
+                    self._devices.append(device)
+                except ValueError:
+                    device.add_line(line)
+            else:
                 device.add_line(line)
 
         for device in self._devices:
@@ -224,6 +294,20 @@ class WufiPDF_HvacDevices:
     def renewable_devices(self) -> List[WufiPDF_HvacDevice]:
         return [
             d for d in self._devices if d.device_type == WufiPDF_HvacDeviceType.RENEWABLE
+        ]
+
+    @property
+    def heat_pump_devices(self) -> List[WufiPDF_HvacDevice]:
+        return [
+            d for d in self._devices if d.device_type == WufiPDF_HvacDeviceType.HEAT_PUMP
+        ]
+
+    @property
+    def electric_heating_devices(self) -> List[WufiPDF_HvacDevice]:
+        return [
+            d
+            for d in self._devices
+            if d.device_type == WufiPDF_HvacDeviceType.ELECTRIC_HEATING
         ]
 
 
@@ -252,8 +336,12 @@ class WufiPDF_HVAC:
         self._distribution_groups: List[WufiPDF_HvacDistribution] = []
 
     @property
-    def heating_devices(self) -> List[WufiPDF_HvacDevice]:
-        return []
+    def heat_pump_devices(self) -> List[WufiPDF_HvacDevice]:
+        return [d for gr in self._device_groups for d in gr.heat_pump_devices]
+
+    @property
+    def electric_heating_devices(self) -> List[WufiPDF_HvacDevice]:
+        return [d for gr in self._device_groups for d in gr.electric_heating_devices]
 
     @property
     def ventilation_devices(self) -> List[WufiPDF_HvacDevice]:
@@ -276,11 +364,11 @@ class WufiPDF_HVAC:
     def process_section_text(self) -> None:
         section = WufiPDF_HvacDevices()
 
-        # -- Separate out each System's text
+        # -- Separate out each System's text into separate sections
         for line in self._lines:
-            match = re.search(r"System \d", line)  # -- might be a 'Group' heading
+            match = re.search(r"System \d", line)  # -- might be a 'System' heading
             if match and "Device" in line:
-                # -- Start a new 'Group''
+                # -- Start a new 'System' (group of devices)
                 section = WufiPDF_HvacDevices()
                 self._device_groups.append(section)
             elif match and "Distribution" in line:

@@ -5,6 +5,8 @@
 
 
 from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
+from NBDM.from_WUFI_PDF.pdf_sections.hvac import WufiPDF_HVAC
+
 from NBDM.model.enums import heating_device_type
 from NBDM.model.heating_systems import (
     NBDM_BuildingSegmentHeatingSystems,
@@ -28,9 +30,28 @@ def create_NBDM_Heating_Systems_from_WufiPDF(
     """Read in data from a WUFI-PDF document and create a new NBDM_BuildingSegmentHeatingSystems Object."""
     obj = NBDM_BuildingSegmentHeatingSystems()
 
-    # if heating_system_data := _pdf_data.get_section(WufiPDF_HVAC):
-    #     for pdf_heating_device_data in heating_system_data.heating_devices:
-    #         new_heating_device = NBDM_HeatingDevice()
-    #         obj.add_device(new_heating_device)
+    if pdf_hvac_data := _pdf_data.get_section(WufiPDF_HVAC):
+        # --- Heat Pumps ------------------------------------------------------
+        for pdf_heat_pump_device_data in pdf_hvac_data.heat_pump_devices:
+            new_device = NBDM_HeatingDevice()
+            new_device.device_type = heating_device_type.HEAT_PUMP
+            new_device.display_name = pdf_heat_pump_device_data.device_name
+            new_device.coverage_segment_heating = (
+                pdf_heat_pump_device_data.coverage_heating
+            )
+            new_device.coverage_segment_cooling = (
+                pdf_heat_pump_device_data.coverage_cooling
+            )
+            obj.add_device(new_device)
+
+        # --- Electric Heaters ------------------------------------------------
+        for pdf_elec_heating_device_data in pdf_hvac_data.electric_heating_devices:
+            new_device = NBDM_HeatingDevice()
+            new_device.device_type = heating_device_type.DIRECT_ELECTRIC
+            new_device.display_name = pdf_elec_heating_device_data.device_name
+            new_device.coverage_segment_heating = (
+                pdf_elec_heating_device_data.coverage_heating
+            )
+            obj.add_device(new_device)
 
     return obj

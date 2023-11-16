@@ -9,7 +9,6 @@ from typing import Dict, Generator
 
 from ph_units.unit_type import Unit
 
-from NBDM.model import operations
 from NBDM.model.enums import heating_device_type
 from NBDM.model.collections import Collection
 
@@ -18,14 +17,23 @@ from NBDM.model.collections import Collection
 class NBDM_HeatingDevice:
     device_type: heating_device_type = field(default=heating_device_type.NONE)
     coverage_segment_heating: Unit = field(default_factory=Unit)
+    coverage_segment_cooling: Unit = field(default_factory=Unit)
+    _display_name: str = ""
 
     @property
     def display_name(self) -> str:
-        return str(self.device_type.name).title().replace("_", " ")
+        if not self._display_name:
+            return str(self.device_type.name).title().replace("_", " ")
+        else:
+            return self._display_name
+
+    @display_name.setter
+    def display_name(self, value: str) -> None:
+        self._display_name = value
 
     @property
     def key(self) -> str:
-        return self.device_type.name
+        return f"{self.device_type.name}-{self.display_name}-{self.coverage_segment_heating}-{self.coverage_segment_cooling}"
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_HeatingDevice:
@@ -33,6 +41,8 @@ class NBDM_HeatingDevice:
         return cls(
             heating_device_type(_d["device_type"]),
             Unit.from_dict(_d["coverage_segment_heating"]),
+            Unit.from_dict(_d["coverage_segment_cooling"]),
+            _d.get("_display_name", ""),
         )
 
 

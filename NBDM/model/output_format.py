@@ -206,7 +206,9 @@ class Format_NBDM_Appliance:
 
 class Format_NBDM_HeatingDevice:
     device_type = "Device Type"
+    _display_name = "Name"
     coverage_segment_heating = "Heating % Covered"
+    coverage_segment_cooling = "Cooling % Covered"
 
 
 class Format_NBDM_CoolingDevice:

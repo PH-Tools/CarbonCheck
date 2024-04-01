@@ -1,5 +1,0 @@
-Reading Building Component data from WUFI-PDF file: '/Users/em/Dropbox/bldgtyp-00/00_PH_Tools/CarbonCheck/tests/_source_pdf/ridgeway_proposed.pdf'
-Opening WUFI-PDF file: 'ridgeway_proposed.pdf'
-Done reading from WUFI-PDF file: 'ridgeway_proposed.pdf'
-No data passed to set_project_proposed_segments_from_treeView_data()
-No data passed to set_project_baseline_segments_from_treeView_data()

@@ -1,6 +1,6 @@
 [tool.cx_Freeze.bdsist.msi]
 target_name = "CabonCheck"
-target_version = "0.0.1"
+target_version = "0.0.2"
 initial_target_dir = "C:\\CarbonCheck"
 add_to_path = false
 

@@ -1,4 +1,4 @@
-honeybee-core==1.57.3
+honeybee-core==1.57.34
 honeybee-energy==1.105.35
 honeybee-ph==1.23.2
 ladybug-core==0.42.19

@@ -7,6 +7,7 @@ On merge, a new version will be built. See GH-Actions for details.
 - [ ] Bug Fix
 - [ ] Feature
 - [ ] Documentation
+- [ ] Dependency Version Update
 <!-- ignore-task-list-end -->
 
 ## Checklist

@@ -61,9 +61,11 @@ jobs:
         run: |
           python build_windows.py bdist_msi
 
-      # -- Github settings / permissions allow read / write access
       # -- Get the .MSI file from the ./dist/. folder
       # -- Commit the newly created .MSI file back to the repo
+      # -- 
+      # -- Github settings / Actions / General / Workflow permissions -->
+      # -- "Read and write permissions"
       - name: Commit changes
         run: |
           git config --global user.email "actions@github.com"

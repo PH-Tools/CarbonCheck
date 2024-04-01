@@ -2,47 +2,49 @@
 
 """Main Application."""
 
-from datetime import datetime
-from dataclasses import dataclass
 import logging
 import logging.config
+import sys
+from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from queue import Queue
-import sys
 from types import ModuleType
 from typing import Dict, Tuple
+
 import yaml
 
 try:
+    from PyQt6 import QtCore as qtc
     from PyQt6 import QtGui as qtg
     from PyQt6 import QtWidgets as qtw
-    from PyQt6 import QtCore as qtc
 except Exception as e:
     raise Exception("Error importing PyQt6 library?", e)
 
 try:
-    from CC_GUI.views.view_main_window import CCMainWindow, file_type
-    from CC_GUI.views.view_baseline_options_window import Window_BaselineOptions
-    from CC_GUI.views.view_team_site_window import Window_TeamAndSiteData
-    from CC_GUI.views.view_building_components import Window_BuildingComponents
-    from CC_GUI.views.tree_view_tools import find_parent_treeView_index
-    from CC_GUI.cc_model import CCModel
-    from CC_GUI.cc_workers import WorkerReceiveText, WriteStream
     from CC_GUI.cc_app_config import (
+        add_logging_level,
         find_application_path,
         log_exception,
-        add_logging_level,
     )
+    from CC_GUI.cc_model import CCModel
+    from CC_GUI.cc_workers import WorkerReceiveText, WriteStream
+    from CC_GUI.views.tree_view_tools import find_parent_treeView_index
+    from CC_GUI.views.view_baseline_options_window import Window_BaselineOptions
+    from CC_GUI.views.view_building_components import Window_BuildingComponents
+    from CC_GUI.views.view_main_window import CCMainWindow, file_type
+    from CC_GUI.views.view_team_site_window import Window_TeamAndSiteData
 except Exception as e:
     raise Exception("Error importing CC_GUI library?", e)
+
 try:
+    from ph_baseliner.codes.model import BaselineCode
     from ph_baseliner.codes.options import (
         BaselineCodes,
         ClimateZones,
-        Use_Groups,
         PF_Groups,
+        Use_Groups,
     )
-    from ph_baseliner.codes.model import BaselineCode
 except Exception as e:
     raise Exception("Error importing App library?", e)
 

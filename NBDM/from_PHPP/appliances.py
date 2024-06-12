@@ -4,11 +4,10 @@
 """Functions to create NBDM Appliances from PHPP."""
 
 from ph_units.unit_type import Unit
-
-from PHX.PHPP.phpp_app import PHPPConnection
 from PHX.model.enums.elec_equip import ElectricEquipmentType
+from PHX.PHPP.phpp_app import PHPPConnection
 
-from NBDM.model.appliances import NBDM_BuildingSegmentAppliances, NBDM_Appliance
+from NBDM.model.appliances import NBDM_Appliance, NBDM_BuildingSegmentAppliances
 from NBDM.model.enums import appliance_type
 
 # -- Map NBDM Appliance Types to PHX Device Types

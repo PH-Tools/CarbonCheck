@@ -4,7 +4,7 @@
 
 import re
 from enum import Enum
-from typing import List, Type, TypeVar, Tuple
+from typing import List, Tuple, Type, TypeVar
 
 from ph_units.unit_type import Unit
 

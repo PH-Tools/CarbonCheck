@@ -6,7 +6,6 @@
 
 from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 from NBDM.from_WUFI_PDF.pdf_sections.hvac import WufiPDF_HVAC
-
 from NBDM.model.enums import heating_device_type
 from NBDM.model.heating_systems import (
     NBDM_BuildingSegmentHeatingSystems,

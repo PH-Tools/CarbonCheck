@@ -1,6 +1,8 @@
-from NBDM.model import serialization
 from copy import copy
+
 import pytest
+
+from NBDM.model import serialization
 from NBDM.model.project import NBDM_Project, NBDM_Variant
 
 

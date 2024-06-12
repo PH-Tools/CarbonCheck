@@ -14,8 +14,8 @@ try:
     from CC_GUI.cc_app import CCApp
     from CC_GUI.cc_app_config import (
         find_log_file_path,
-        remove_old_log_files,
         find_resources_path,
+        remove_old_log_files,
     )
 except Exception as e:
     raise Exception("Error importing App library?", e)

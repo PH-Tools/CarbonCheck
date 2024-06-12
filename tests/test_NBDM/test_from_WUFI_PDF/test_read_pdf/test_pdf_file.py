@@ -1,6 +1,7 @@
 from typing import Dict
-from NBDM.from_WUFI_PDF.pdf_sections.__typing import SupportsWufiPDF_Section
+
 from NBDM.from_WUFI_PDF.pdf_sections import annual_demand
+from NBDM.from_WUFI_PDF.pdf_sections.__typing import SupportsWufiPDF_Section
 
 
 def test_read_in_valid_pdf_file(

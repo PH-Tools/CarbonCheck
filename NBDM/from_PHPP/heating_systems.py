@@ -5,11 +5,11 @@
 
 from PHX.PHPP.phpp_app import PHPPConnection
 
+from NBDM.model.enums import heating_device_type
 from NBDM.model.heating_systems import (
     NBDM_BuildingSegmentHeatingSystems,
     NBDM_HeatingDevice,
 )
-from NBDM.model.enums import heating_device_type
 
 # -- PHPP type name --> NBDM type
 heating_device_type_map = {

@@ -5,11 +5,11 @@
 
 import pathlib
 from logging import Logger
-from typing import Optional, Type, TypeVar, Dict
+from typing import Dict, Optional, Type, TypeVar
 
 import pdfplumber
-from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 from NBDM.from_WUFI_PDF.pdf_sections.__typing import SupportsWufiPDF_Section
 from NBDM.from_WUFI_PDF.pdf_sections._default import _WufiPDF_DefaultSection
 

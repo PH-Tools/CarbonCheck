@@ -4,6 +4,7 @@
 """NBDM Enum Classes."""
 
 from __future__ import annotations
+
 from enum import Enum
 
 
@@ -56,6 +57,7 @@ class cooling_device_type(Enum):
     RECIRCULATION_AIR = "Recirculation Air"
     DEHUMIDIFICATION = "Dedicated Dehumidification"
     PANEL = "Panel Cooling"
+
 
 class dhw_tank_device_type(Enum):
     NONE = "None"

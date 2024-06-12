@@ -4,15 +4,15 @@
 """NBDM Building Classes."""
 
 from __future__ import annotations
-from dataclasses import dataclass, field
-from typing import List, Dict, Optional
-from functools import reduce
 
+from dataclasses import dataclass, field
+from functools import reduce
+from typing import Dict, List, Optional
+
+from NBDM.model import enums, serialization
 from NBDM.model.geometry import NBDM_BuildingSegmentGeometry
 from NBDM.model.occupancy import NBDM_BuildingSegmentOccupancy
 from NBDM.model.performance import NBDM_BuildingSegmentPerformance
-from NBDM.model import serialization
-from NBDM.model import enums
 
 
 @dataclass

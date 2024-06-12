@@ -6,9 +6,9 @@
 import logging
 from typing import List
 
+from PyQt6 import QtCore as qtc
 from PyQt6 import QtGui as qtg
 from PyQt6 import QtWidgets as qtw
-from PyQt6 import QtCore as qtc
 
 # -- Layout from QtDesigner
 from CC_GUI.views.ui_files.layout_baseline_options import Ui_Form

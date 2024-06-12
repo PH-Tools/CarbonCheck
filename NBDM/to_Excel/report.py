@@ -4,15 +4,16 @@
 """Excel report generator / writer."""
 
 from __future__ import annotations
-from copy import copy
+
 import inspect
 import pathlib
+from copy import copy
 from typing import Tuple
 
 from PHX.xl import xl_app
 
-from NBDM.model.project import NBDM_Project
 from NBDM.model.building import NBDM_BuildingSegment
+from NBDM.model.project import NBDM_Project
 from NBDM.to_Excel import as_xl_items
 
 row_num = int  # type alias

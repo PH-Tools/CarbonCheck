@@ -7,62 +7,61 @@ import logging
 import os
 import pathlib
 import sys
-from typing import Dict, get_type_hints, Any, Optional, List, Generator, Union
 from types import ModuleType
-
+from typing import Any, Dict, Generator, List, Optional, Union, get_type_hints
 
 try:
+    from PyQt6 import QtCore as qtc
     from PyQt6 import QtGui as qtg
     from PyQt6 import QtWidgets as qtw
-    from PyQt6 import QtCore as qtc
 except Exception as e:
     raise Exception("Error importing PyQt6 library?", e)
 
 try:
     from CC_GUI.cc_workers import (
-        WorkerReadProjectData,
         WorkerReadBaselineSegmentData,
+        WorkerReadBldgComponentData,
+        WorkerReadProjectData,
         WorkerReadProposedSegmentData,
-        WorkerWriteExcelReport,
         WorkerSetPHPPBaseline,
         WorkerSetWUFIBaseline,
-        WorkerReadBldgComponentData,
+        WorkerWriteExcelReport,
     )
     from CC_GUI.views.tree_view_tools import (
-        create_tree_data,
-        build_NBDM_obj_from_treeView,
         NBDM_Object_from_treeView,
+        build_NBDM_obj_from_treeView,
+        create_tree_data,
     )
 except Exception as e:
     raise Exception("Error importing App library?", e)
 
 try:
     from NBDM.model import (
-        project,
-        team,
-        site,
-        building,
-        envelope,
         appliances,
-        dhw_systems,
-        heating_systems,
+        building,
         cooling_systems,
+        dhw_systems,
+        envelope,
+        heating_systems,
+        project,
         renewable_systems,
+        site,
+        team,
         ventilation_systems,
     )
     from NBDM.model.project import NBDM_Project
-    from NBDM.to_JSON.write import NBDM_Project_to_json_file
     from NBDM.model.serialization import build_NBDM_obj_from_treeView
+    from NBDM.to_JSON.write import NBDM_Project_to_json_file
 except Exception as e:
     raise Exception("Error importing NBDM library?", e)
 
 try:
     from ph_baseliner.codes.model import BaselineCode
     from ph_baseliner.codes.options import (
-        ClimateZones,
         BaselineCodes,
-        Use_Groups,
+        ClimateZones,
         PF_Groups,
+        Use_Groups,
     )
 except Exception as e:
     raise Exception("Error importing ph_baseliner library?", e)

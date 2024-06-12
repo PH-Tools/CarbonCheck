@@ -9,7 +9,7 @@ import pathlib
 import sys
 import traceback
 from types import TracebackType
-from typing import Optional, Any
+from typing import Any, Optional
 
 
 def find_application_path() -> pathlib.Path:

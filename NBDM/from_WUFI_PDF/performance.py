@@ -5,6 +5,8 @@
 
 from typing import Optional
 
+from ph_units.unit_type import Unit
+
 from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 from NBDM.from_WUFI_PDF.pdf_sections.annual_demand import (
     AnnualDemand,
@@ -16,6 +18,9 @@ from NBDM.from_WUFI_PDF.pdf_sections.peak_load import (
 )
 from NBDM.from_WUFI_PDF.pdf_sections.site_energy_monthly import (
     WufiPDF_SiteEnergyMonthly,
+)
+from NBDM.from_WUFI_PDF.renewable_systems import (
+    create_NBDM_Renewable_Systems_from_WufiPDF,
 )
 from NBDM.model.performance import (
     NBDM_AnnualCoolingDemandEnergy,
@@ -40,6 +45,18 @@ def build_NBDM_siteEnergyFromWufiPDF(
         production_solar_thermal=_pdf_data.production_solar_thermal,
         production_other=_pdf_data.production_other,
     )
+
+
+def get_photovoltaic_production_from_hvac_devices(
+    _pdf_data: PDFSectionsCollection,
+) -> Unit:
+    """Get the PV Electric Yield
+
+    For some reason WUFI's site-energy table does not include PV Solar. So we'll
+    instead pull it from from the HVAC section.
+    """
+    renewable_devices = create_NBDM_Renewable_Systems_from_WufiPDF(_pdf_data)
+    return renewable_devices.total_solar_ph_energy.as_a("KBTU")
 
 
 def build_NBDM_sourceEnergyFromWufiPDF() -> NBDM_SourceEnergy:
@@ -104,7 +121,12 @@ def build_NBDM_performanceFromWufiPDF(
     site_energy_section: Optional[WufiPDF_SiteEnergyMonthly]
     if site_energy_section := _pdf_data.get_section(WufiPDF_SiteEnergyMonthly):
         new_nbdm_obj.site_energy = build_NBDM_siteEnergyFromWufiPDF(site_energy_section)
+        # -- WUFI does not report Source Energy, so leave it all 0 for now
         new_nbdm_obj.source_energy = build_NBDM_sourceEnergyFromWufiPDF()
+
+        # -- We have to pull the PV yield from Devices, not Site Energy Table
+        pv_yield_kbtu = get_photovoltaic_production_from_hvac_devices(_pdf_data)
+        new_nbdm_obj.site_energy.production_solar_photovoltaic = pv_yield_kbtu
 
     # -------------------------------------------------------------------------
     load_section: Optional[WufiPDF_PeakHeatingAndCoolingLoad]

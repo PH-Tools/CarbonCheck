@@ -4,13 +4,13 @@
 """Functions to convert NBDM Project/Building/Segment objects into Excel Report writable items."""
 
 from dataclasses import dataclass
-from typing import Optional, List, Union, Tuple, Any, Iterable
+from typing import Any, Iterable, List, Optional, Tuple, Union
 
 from ph_units.unit_type import Unit
-
 from PHX.xl import xl_data
+
+from NBDM.model import building, output_format, project
 from NBDM.to_Excel import report_styles
-from NBDM.model import output_format, project, building
 
 
 @dataclass

@@ -4,6 +4,7 @@
 """NBDM Building Renewable Systems (PV, Solar Hot-Water, ...) Classes."""
 
 from __future__ import annotations
+
 from dataclasses import dataclass, field
 from typing import Dict, Generator
 
@@ -102,6 +103,10 @@ class NBDM_BuildingSegmentRenewableSystems:
 
     def add_solar_pv_device(self, device: NBDM_SolarPVDevice) -> None:
         self._solar_pv_devices.add_item(device)
+
+    @property
+    def total_solar_ph_energy(self) -> Unit:
+        return sum([d.annual_pv_energy for d in self.solar_pv_devices], Unit(0.0, "KWH"))
 
     @classmethod
     def from_dict(cls, _d: Dict) -> NBDM_BuildingSegmentRenewableSystems:

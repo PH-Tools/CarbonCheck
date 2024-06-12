@@ -1,8 +1,9 @@
+import os
 import pathlib
+
+from NBDM.from_JSON.read import NBDM_Project_from_json_file
 from NBDM.model.project import NBDM_Project
 from NBDM.to_JSON.write import NBDM_Project_to_json_file
-from NBDM.from_JSON.read import NBDM_Project_from_json_file
-import os
 
 
 def test_write_project_to_json_file(sample_NBDM_Project: NBDM_Project) -> None:

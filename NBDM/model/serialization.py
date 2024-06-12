@@ -5,14 +5,14 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, get_type_hints, Type, Union
+from dataclasses import _MISSING_TYPE, fields, is_dataclass
 from enum import Enum
+from typing import Any, Dict, Type, Union, get_type_hints
 from uuid import UUID
-from dataclasses import fields, is_dataclass, _MISSING_TYPE
-
-from NBDM.model.collections import Collection
 
 from ph_units.unit_type import Unit
+
+from NBDM.model.collections import Collection
 
 
 class FromDictException(Exception):

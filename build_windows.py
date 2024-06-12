@@ -17,11 +17,12 @@ NOTE: Be sure to update all dependencies before building.
 >> python build_windows.py build
 """
 
-import sys
 import os
+import sys
 from pathlib import Path
+
 import toml
-from cx_Freeze import setup, Executable
+from cx_Freeze import Executable, setup
 
 # -----------------------------------------------------------------------------
 # Read the pyproject.toml file with then various build options / attributes

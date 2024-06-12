@@ -1,4 +1,5 @@
 from dataclasses import asdict
+
 from NBDM.model.occupancy import NBDM_BuildingSegmentOccupancy
 
 

@@ -1,5 +1,5 @@
 from NBDM.model import serialization
-from NBDM.model.project import NBDM_Project, NBDM_Variants, NBDM_Variant
+from NBDM.model.project import NBDM_Project, NBDM_Variant, NBDM_Variants
 
 
 def test_variants_to_dict(sample_NBDM_Project: NBDM_Project):

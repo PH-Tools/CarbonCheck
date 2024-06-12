@@ -6,12 +6,6 @@ from NBDM.from_WUFI_PDF.cooling_systems import create_NBDM_Cooling_Systems_from_
 from NBDM.from_WUFI_PDF.dhw_systems import create_NBDM_DHW_Systems_from_WufiPDF
 from NBDM.from_WUFI_PDF.envelope import create_NBDM_Envelope_from_WufiPDF
 from NBDM.from_WUFI_PDF.heating_systems import create_NBDM_Heating_Systems_from_WufiPDF
-from NBDM.from_WUFI_PDF.renewable_systems import (
-    create_NBDM_Renewable_Systems_from_WufiPDF,
-)
-from NBDM.from_WUFI_PDF.site import create_NBDM_Site_from_WufiPDF
-from NBDM.from_WUFI_PDF.team import create_NBDM_Team_from_WufiPDF
-from NBDM.from_WUFI_PDF.ventilation_systems import create_NBDM_Vent_Systems_from_WufiPDF
 
 # -----------------------------------------------------------------------------
 from NBDM.from_WUFI_PDF.pdf_reader import PDFReader
@@ -30,7 +24,9 @@ from NBDM.from_WUFI_PDF.pdf_sections.assemblies_win_types import (
 from NBDM.from_WUFI_PDF.pdf_sections.aux_electric import WufiPDF_AuxElectricity
 from NBDM.from_WUFI_PDF.pdf_sections.bldg_info import WufiPDF_BuildingInformation
 from NBDM.from_WUFI_PDF.pdf_sections.building_elements import WufiPDF_BuildingElements
-from NBDM.from_WUFI_PDF.pdf_sections.calc_parameters import WufiPDF_CalculationParameters
+from NBDM.from_WUFI_PDF.pdf_sections.calc_parameters import (
+    WufiPDF_CalculationParameters,
+)
 from NBDM.from_WUFI_PDF.pdf_sections.climate_detailed import WufiPDF_ClimateDetailed
 from NBDM.from_WUFI_PDF.pdf_sections.climate_summary import WufiPDF_ClimateSummary
 from NBDM.from_WUFI_PDF.pdf_sections.dhw_and_distribution import (
@@ -50,7 +46,9 @@ from NBDM.from_WUFI_PDF.pdf_sections.project_data import WufiPDF_ProjectData
 from NBDM.from_WUFI_PDF.pdf_sections.res_electric import WufiPDF_ResidentialElectric
 from NBDM.from_WUFI_PDF.pdf_sections.results import WufiPDF_Results
 from NBDM.from_WUFI_PDF.pdf_sections.site import WufiPDF_PropertySite
-from NBDM.from_WUFI_PDF.pdf_sections.site_energy_monthly import WufiPDF_SiteEnergyMonthly
+from NBDM.from_WUFI_PDF.pdf_sections.site_energy_monthly import (
+    WufiPDF_SiteEnergyMonthly,
+)
 from NBDM.from_WUFI_PDF.pdf_sections.specific_monthly_demand import (
     WufiPDF_SpecificMonthlyDemand,
 )
@@ -60,6 +58,12 @@ from NBDM.from_WUFI_PDF.pdf_sections.windows import WufiPDF_Windows
 from NBDM.from_WUFI_PDF.pdf_sections.zones_and_components import (
     WufiPDF_ZonesAndComponents,
 )
+from NBDM.from_WUFI_PDF.renewable_systems import (
+    create_NBDM_Renewable_Systems_from_WufiPDF,
+)
+from NBDM.from_WUFI_PDF.site import create_NBDM_Site_from_WufiPDF
+from NBDM.from_WUFI_PDF.team import create_NBDM_Team_from_WufiPDF
+from NBDM.from_WUFI_PDF.ventilation_systems import create_NBDM_Vent_Systems_from_WufiPDF
 
 # -- Register each of the PDF sections with the PDF Reader class
 PDFReader.register_pdf_section_class(_WufiPDF_DefaultSection)

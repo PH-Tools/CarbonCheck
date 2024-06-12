@@ -12,7 +12,6 @@ from NBDM.model.dhw_systems import (
 )
 from NBDM.model.enums import heating_device_type
 
-
 # -- PHPP type name --> NBDM type
 device_map = {
     "1-HP compact unit": heating_device_type.COMPACT_HEAT_PUMP,

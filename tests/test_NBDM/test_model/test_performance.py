@@ -1,13 +1,14 @@
-from NBDM.model import serialization
 from copy import copy
+
+from NBDM.model import serialization
 from NBDM.model.performance import (
+    NBDM_AnnualCoolingDemandEnergy,
+    NBDM_AnnualHeatingDemandEnergy,
     NBDM_BuildingSegmentPerformance,
+    NBDM_PeakCoolingLoad,
+    NBDM_PeakHeatingLoad,
     NBDM_SiteEnergy,
     NBDM_SourceEnergy,
-    NBDM_AnnualHeatingDemandEnergy,
-    NBDM_AnnualCoolingDemandEnergy,
-    NBDM_PeakHeatingLoad,
-    NBDM_PeakCoolingLoad,
 )
 
 

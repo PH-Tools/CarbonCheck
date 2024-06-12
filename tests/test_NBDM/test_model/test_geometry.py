@@ -1,7 +1,9 @@
 from copy import copy
-from NBDM.model.geometry import NBDM_BuildingSegmentGeometry
+
 from ph_units.unit_type import Unit
+
 from NBDM.model import serialization
+from NBDM.model.geometry import NBDM_BuildingSegmentGeometry
 
 
 def test_building_segment_geometry(sample_NBDM_BuildingSegmentGeometry):

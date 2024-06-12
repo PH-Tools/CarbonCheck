@@ -6,15 +6,15 @@
 from __future__ import annotations
 
 from typing import (
-    Dict,
-    Iterator,
     Any,
+    Dict,
+    Generic,
     ItemsView,
-    ValuesView,
+    Iterator,
     KeysView,
     Protocol,
     TypeVar,
-    Generic,
+    ValuesView,
 )
 
 

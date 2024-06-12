@@ -3,11 +3,11 @@
 
 """Thread Workers called by Model and App processes."""
 
-from enum import Enum
 import logging
 import pathlib
-from queue import Queue
 import sys
+from enum import Enum
+from queue import Queue
 from typing import Dict, Optional
 
 try:
@@ -16,54 +16,54 @@ except Exception as e:
     raise Exception("Error importing xlwings library?", e)
 
 try:
+    from PyQt6 import QtCore as qtc
     from PyQt6 import QtGui as qtg
     from PyQt6 import QtWidgets as qtw
-    from PyQt6 import QtCore as qtc
 except Exception as e:
     raise Exception("Error importing PyQt6 library?", e)
 
 try:
     # -- PHX-PHPP Modules
-    from PHX.xl import xl_app
-    from PHX.PHPP import phpp_app
-    from PHX.PHPP.sheet_io.io_exceptions import PHPPDataMissingException
+    from PHX.from_WUFI_XML.phx_converter import convert_WUFI_XML_to_PHX_project
 
     # -- PHX-WUFI Modules
     from PHX.from_WUFI_XML.read_WUFI_XML_file import get_WUFI_XML_file_as_dict
-    from PHX.from_WUFI_XML.phx_converter import convert_WUFI_XML_to_PHX_project
-    from PHX.to_WUFI_XML import xml_builder, xml_txt_to_file
     from PHX.from_WUFI_XML.wufi_file_schema import WUFIplusProject
+    from PHX.PHPP import phpp_app
+    from PHX.PHPP.sheet_io.io_exceptions import PHPPDataMissingException
+    from PHX.to_WUFI_XML import xml_builder, xml_txt_to_file
+    from PHX.xl import xl_app
 except Exception as e:
     raise Exception("Error importing PHX library?", e)
 
 try:
+    from NBDM.from_PHPP import (
+        create_NBDM_Appliances,
+        create_NBDM_BuildingSegment,
+        create_NBDM_Cooling_Systems,
+        create_NBDM_DHW_Systems,
+        create_NBDM_Envelope,
+        create_NBDM_Heating_Systems,
+        create_NBDM_Renewable_Systems,
+        create_NBDM_Site,
+        create_NBDM_Team,
+        create_NBDM_Ventilation_Systems,
+    )
+    from NBDM.from_WUFI_PDF import (
+        create_NBDM_Appliances_from_WufiPDF,
+        create_NBDM_BuildingSegmentFromWufiPDF,
+        create_NBDM_Cooling_Systems_from_WufiPDF,
+        create_NBDM_DHW_Systems_from_WufiPDF,
+        create_NBDM_Envelope_from_WufiPDF,
+        create_NBDM_Heating_Systems_from_WufiPDF,
+        create_NBDM_Renewable_Systems_from_WufiPDF,
+        create_NBDM_Site_from_WufiPDF,
+        create_NBDM_Team_from_WufiPDF,
+        create_NBDM_Vent_Systems_from_WufiPDF,
+        pdf_reader,
+    )
     from NBDM.model.project import NBDM_Project
     from NBDM.to_Excel import report
-    from NBDM.from_PHPP import (
-        create_NBDM_BuildingSegment,
-        create_NBDM_Team,
-        create_NBDM_Site,
-        create_NBDM_Envelope,
-        create_NBDM_Appliances,
-        create_NBDM_Cooling_Systems,
-        create_NBDM_Heating_Systems,
-        create_NBDM_Ventilation_Systems,
-        create_NBDM_Renewable_Systems,
-        create_NBDM_DHW_Systems,
-    )
-    from NBDM.from_WUFI_PDF import pdf_reader
-    from NBDM.from_WUFI_PDF import (
-        create_NBDM_BuildingSegmentFromWufiPDF,
-        create_NBDM_Team_from_WufiPDF,
-        create_NBDM_Site_from_WufiPDF,
-        create_NBDM_Envelope_from_WufiPDF,
-        create_NBDM_Appliances_from_WufiPDF,
-        create_NBDM_Heating_Systems_from_WufiPDF,
-        create_NBDM_Cooling_Systems_from_WufiPDF,
-        create_NBDM_Vent_Systems_from_WufiPDF,
-        create_NBDM_DHW_Systems_from_WufiPDF,
-        create_NBDM_Renewable_Systems_from_WufiPDF,
-    )
 except Exception as e:
     raise Exception("Error importing NBDM library?", e)
 
@@ -71,11 +71,11 @@ try:
     from ph_baseliner.codes.model import BaselineCode
     from ph_baseliner.codes.options import ClimateZones, PF_Groups, Use_Groups
     from ph_baseliner.phpp import areas as phpp_areas
-    from ph_baseliner.phpp import windows as phpp_windows
     from ph_baseliner.phpp import lighting as phpp_lighting
+    from ph_baseliner.phpp import windows as phpp_windows
     from ph_baseliner.phx import areas as phx_areas
-    from ph_baseliner.phx import windows as phx_windows
     from ph_baseliner.phx import lighting as phx_lighting
+    from ph_baseliner.phx import windows as phx_windows
 except Exception as e:
     raise Exception("Error importing ph_baseliner library?", e)
 

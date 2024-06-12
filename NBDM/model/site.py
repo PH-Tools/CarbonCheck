@@ -4,8 +4,10 @@
 """NBDM Project Site Classes."""
 
 from __future__ import annotations
+
 from dataclasses import dataclass, field
 from typing import Dict
+
 from NBDM.model import serialization
 
 

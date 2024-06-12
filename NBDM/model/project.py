@@ -4,20 +4,21 @@
 """NBDM Project Classes."""
 
 from __future__ import annotations
-from dataclasses import dataclass, field
-from typing import Dict, List, Tuple, Optional
 
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Tuple
+
+from NBDM.model import serialization
+from NBDM.model.appliances import NBDM_BuildingSegmentAppliances
 from NBDM.model.building import NBDM_Building, NBDM_BuildingSegment
+from NBDM.model.cooling_systems import NBDM_BuildingSegmentCoolingSystems
+from NBDM.model.dhw_systems import NBDM_BuildingSegmentDHWSystems
+from NBDM.model.envelope import NBDM_BuildingSegmentEnvelope
+from NBDM.model.heating_systems import NBDM_BuildingSegmentHeatingSystems
+from NBDM.model.renewable_systems import NBDM_BuildingSegmentRenewableSystems
 from NBDM.model.site import NBDM_Site
 from NBDM.model.team import NBDM_Team
-from NBDM.model import serialization
-from NBDM.model.envelope import NBDM_BuildingSegmentEnvelope
-from NBDM.model.appliances import NBDM_BuildingSegmentAppliances
-from NBDM.model.cooling_systems import NBDM_BuildingSegmentCoolingSystems
-from NBDM.model.heating_systems import NBDM_BuildingSegmentHeatingSystems
 from NBDM.model.ventilation_systems import NBDM_BuildingSegmentVentilationSystems
-from NBDM.model.dhw_systems import NBDM_BuildingSegmentDHWSystems
-from NBDM.model.renewable_systems import NBDM_BuildingSegmentRenewableSystems
 
 
 @dataclass

@@ -1,8 +1,9 @@
-import pathlib
-from NBDM.model.project import NBDM_Project
-from NBDM.from_JSON.read import NBDM_Project_from_json_file
-from NBDM.to_JSON.write import NBDM_Project_to_json_file
 import os
+import pathlib
+
+from NBDM.from_JSON.read import NBDM_Project_from_json_file
+from NBDM.model.project import NBDM_Project
+from NBDM.to_JSON.write import NBDM_Project_to_json_file
 
 JSON_FILE = pathlib.Path("tests/_source_json/la_mora.json")
 

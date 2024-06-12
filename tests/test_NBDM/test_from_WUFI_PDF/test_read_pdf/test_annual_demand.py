@@ -1,12 +1,13 @@
-from typing import Dict, Any
-from NBDM.from_WUFI_PDF.pdf_sections.__typing import SupportsWufiPDF_Section
-from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
-from NBDM.from_WUFI_PDF.pdf_sections.annual_demand import (
-    WufiPDF_AnnualHeatingAndCoolingDemand,
-    AnnualDemand,
-)
+from typing import Any, Dict
 
 from ph_units.unit_type import Unit
+
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
+from NBDM.from_WUFI_PDF.pdf_sections.__typing import SupportsWufiPDF_Section
+from NBDM.from_WUFI_PDF.pdf_sections.annual_demand import (
+    AnnualDemand,
+    WufiPDF_AnnualHeatingAndCoolingDemand,
+)
 
 
 def test_pdf_read_sections_heating_demand(

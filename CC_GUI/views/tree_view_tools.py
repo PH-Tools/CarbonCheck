@@ -5,14 +5,14 @@
 
 import enum
 import json
-from typing import List, Dict, Any, Optional, Tuple, Union, get_type_hints, Type
-from types import ModuleType
 from collections import namedtuple
-from PyQt6 import QtGui as qtg
-from PyQt6 import QtWidgets as qtw
-from PyQt6 import QtCore as qtc
+from types import ModuleType
+from typing import Any, Dict, List, Optional, Tuple, Type, Union, get_type_hints
 
 from ph_units.unit_type import Unit
+from PyQt6 import QtCore as qtc
+from PyQt6 import QtGui as qtg
+from PyQt6 import QtWidgets as qtw
 
 from NBDM.model.serialization import build_NBDM_obj_from_treeView
 

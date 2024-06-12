@@ -4,16 +4,13 @@
 """Report Team and Site Data Window View Class."""
 
 import logging
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
+from PyQt6 import QtCore as qtc
 from PyQt6 import QtGui as qtg
 from PyQt6 import QtWidgets as qtw
-from PyQt6 import QtCore as qtc
 
-from CC_GUI.views.tree_view_tools import (
-    get_treeView_model_as_dict,
-    build_treeView,
-)
+from CC_GUI.views.tree_view_tools import build_treeView, get_treeView_model_as_dict
 
 # -- Layout from QtDesigner
 from CC_GUI.views.ui_files.layout_team_and_site import Ui_Form

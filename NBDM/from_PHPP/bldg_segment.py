@@ -6,13 +6,10 @@
 
 from PHX.PHPP import phpp_app
 
-
 from NBDM.from_PHPP.geometry import build_NBDM_geometry
 from NBDM.from_PHPP.occupancy import build_NBDM_occupancy
 from NBDM.from_PHPP.performance import build_NBDM_performance
-
-from NBDM.model import building
-from NBDM.model import enums
+from NBDM.model import building, enums
 
 
 def create_NBDM_BuildingSegment(

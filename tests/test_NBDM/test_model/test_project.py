@@ -1,5 +1,5 @@
-from NBDM.model.project import NBDM_Project
 from NBDM.model import serialization
+from NBDM.model.project import NBDM_Project
 
 
 def test_project(sample_NBDM_Project: NBDM_Project):

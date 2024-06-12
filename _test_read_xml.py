@@ -1,11 +1,9 @@
 import pathlib
 
-from rich import print
-from PHX.from_WUFI_XML.read_WUFI_XML_file import get_WUFI_XML_file_as_dict
 from PHX.from_WUFI_XML.phx_converter import convert_WUFI_XML_to_PHX_project
-
+from PHX.from_WUFI_XML.read_WUFI_XML_file import get_WUFI_XML_file_as_dict
 from PHX.from_WUFI_XML.wufi_file_schema import WUFIplusProject
-
+from rich import print
 
 file_paths = [
     pathlib.Path(

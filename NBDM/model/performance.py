@@ -4,13 +4,13 @@
 """NBDM Building Energy Performance Classes."""
 
 from __future__ import annotations
+
 from dataclasses import dataclass, field
 from typing import Dict
 
 from ph_units.unit_type import Unit
 
-from NBDM.model import serialization
-from NBDM.model import operations
+from NBDM.model import operations, serialization
 
 
 @dataclass

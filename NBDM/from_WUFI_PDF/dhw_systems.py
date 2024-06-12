@@ -3,8 +3,8 @@
 
 """Functions to create NBDM Domestic Hot-Water (DHW) Systems from WUFI-PDF."""
 
-from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 from NBDM.from_WUFI_PDF.pdf_reader import SupportsWufiPDF_Section
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 from NBDM.from_WUFI_PDF.pdf_sections.hvac import WufiPDF_HVAC
 from NBDM.model.dhw_systems import (
     NBDM_BuildingSegmentDHWSystems,

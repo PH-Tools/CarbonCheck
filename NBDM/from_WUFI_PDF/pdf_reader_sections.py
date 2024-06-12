@@ -3,6 +3,7 @@
 
 """Wrapper Class to organize the PDF Sections."""
 
+from logging import Logger
 from typing import (
     Any,
     Dict,
@@ -11,11 +12,9 @@ from typing import (
     KeysView,
     Optional,
     Type,
-    ValuesView,
     TypeVar,
+    ValuesView,
 )
-from logging import Logger
-
 
 from NBDM.from_WUFI_PDF.pdf_sections.__typing import SupportsWufiPDF_Section
 

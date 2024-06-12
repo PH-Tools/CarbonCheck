@@ -6,8 +6,8 @@
 import json
 import pathlib
 
-from NBDM.model.project import NBDM_Project
 from NBDM.model import serialization
+from NBDM.model.project import NBDM_Project
 
 
 def NBDM_Project_to_json_file(_project: NBDM_Project, _output_file: pathlib.Path) -> None:

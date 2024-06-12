@@ -1,30 +1,29 @@
 # -*- coding: utf-8 -*-
 # -*- Python Version: 3.7 -*-
 
-import pytest
 from pathlib import Path
 
+import pytest
 from ph_units.unit_type import Unit
-from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
 
+from NBDM.from_WUFI_PDF.pdf_reader import PDFReader
+from NBDM.from_WUFI_PDF.pdf_reader_sections import PDFSectionsCollection
+from NBDM.model import enums
 from NBDM.model.building import NBDM_Building, NBDM_BuildingSegment
 from NBDM.model.geometry import NBDM_BuildingSegmentGeometry
 from NBDM.model.occupancy import NBDM_BuildingSegmentOccupancy
 from NBDM.model.performance import (
+    NBDM_AnnualCoolingDemandEnergy,
+    NBDM_AnnualHeatingDemandEnergy,
     NBDM_BuildingSegmentPerformance,
+    NBDM_PeakCoolingLoad,
+    NBDM_PeakHeatingLoad,
     NBDM_SiteEnergy,
     NBDM_SourceEnergy,
-    NBDM_AnnualHeatingDemandEnergy,
-    NBDM_AnnualCoolingDemandEnergy,
-    NBDM_PeakHeatingLoad,
-    NBDM_PeakCoolingLoad,
 )
 from NBDM.model.project import NBDM_Project, NBDM_Variant, NBDM_Variants
-from NBDM.model.site import NBDM_Climate, NBDM_Location, NBDM_Site, NBDM_ProjectAddress
+from NBDM.model.site import NBDM_Climate, NBDM_Location, NBDM_ProjectAddress, NBDM_Site
 from NBDM.model.team import NBDM_Team, NBDM_TeamContactInfo, NBDM_TeamMember
-from NBDM.model import enums
-from NBDM.from_WUFI_PDF.pdf_reader import PDFReader
-
 
 # -- Project Site -------------------------------------------------------------
 

@@ -4,15 +4,15 @@
 """NBDM Building DHW Systems Classes."""
 
 from __future__ import annotations
+
 from dataclasses import dataclass, field
 from typing import Dict, Generator
 
 from ph_units.unit_type import Unit
 
 from NBDM.model import operations
-from NBDM.model.enums import dhw_tank_device_type
-from NBDM.model.enums import heating_device_type
 from NBDM.model.collections import Collection
+from NBDM.model.enums import dhw_tank_device_type, heating_device_type
 
 
 @dataclass

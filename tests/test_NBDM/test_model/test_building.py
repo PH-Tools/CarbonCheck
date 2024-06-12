@@ -1,7 +1,8 @@
-from dataclasses import asdict
 from copy import copy
-from NBDM.model.building import NBDM_Building
+from dataclasses import asdict
+
 from NBDM.model import serialization
+from NBDM.model.building import NBDM_Building
 
 
 def test_building(sample_NBDM_Building):

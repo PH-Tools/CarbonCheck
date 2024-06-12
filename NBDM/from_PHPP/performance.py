@@ -3,13 +3,12 @@
 
 """Functions to create NBDM Performance objects from PHPP data."""
 
-from typing import Dict, Optional, List, Tuple
 from collections import defaultdict
-from functools import reduce
 from enum import Enum
+from functools import reduce
+from typing import Dict, List, Optional, Tuple
 
 from ph_units.unit_type import Unit
-
 from PHX.PHPP import phpp_app
 
 from NBDM.model import performance

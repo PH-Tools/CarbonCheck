@@ -1,7 +1,7 @@
 from copy import copy
+
+from NBDM.model import enums, serialization
 from NBDM.model.building import NBDM_Building, NBDM_BuildingSegment
-from NBDM.model import enums
-from NBDM.model import serialization
 
 
 def test_building_segment_to_dict(sample_NBDM_Building: NBDM_Building):

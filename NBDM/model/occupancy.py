@@ -4,10 +4,11 @@
 """NBDM Building Occupancy Classes."""
 
 from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Dict
-from NBDM.model import serialization
-from NBDM.model import operations
+
+from NBDM.model import operations, serialization
 
 
 @dataclass

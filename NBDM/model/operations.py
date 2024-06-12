@@ -4,6 +4,7 @@
 """Operator functions (Add, Subtract) used by NBDM Objects."""
 
 from __future__ import annotations
+
 from dataclasses import fields
 from typing import TypeVar
 

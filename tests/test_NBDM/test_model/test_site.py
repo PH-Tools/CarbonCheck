@@ -1,5 +1,5 @@
 from NBDM.model import serialization
-from NBDM.model.site import NBDM_Site, NBDM_Location, NBDM_ProjectAddress, NBDM_Climate
+from NBDM.model.site import NBDM_Climate, NBDM_Location, NBDM_ProjectAddress, NBDM_Site
 
 
 def test_project_site(sample_NBDM_Site: NBDM_Site):

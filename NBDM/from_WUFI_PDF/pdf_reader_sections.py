@@ -24,10 +24,10 @@ T = TypeVar("T", bound=SupportsWufiPDF_Section)
 class PDFSectionsCollection:
     """A Wrapper Class to organize the PDF Sections."""
 
-    _d: Dict[str, SupportsWufiPDF_Section] = {}
     __file_name__: str = "_unnamed_pdf_document_"
 
     def __init__(self, _logger: Optional[Logger] = None) -> None:
+        self._d: Dict[str, SupportsWufiPDF_Section] = {}
         self.logger = _logger or Logger("PDF_Sections_Collection")
 
     def get_section(self, _section_class_type: Type[T]) -> Optional[T]:
@@ -37,9 +37,9 @@ class PDFSectionsCollection:
         except KeyError:
             return None
 
-    def set_section(self, _section_class_type: Type[T], _section: T) -> None:
+    def set_section(self, _section_class_type: Type[T], _section_object: T) -> None:
         """Add a new PDF-Section to the collection."""
-        self._d[_section_class_type.__pdf_heading_string__] = _section
+        self._d[_section_class_type.__pdf_heading_string__] = _section_object
 
     def __getitem__(self, _section_class_type_name: str) -> SupportsWufiPDF_Section:
         return self._d[_section_class_type_name]

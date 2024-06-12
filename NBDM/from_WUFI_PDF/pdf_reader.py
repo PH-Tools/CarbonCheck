@@ -41,9 +41,9 @@ class PDFReader:
         cls, pdf_section_class: Type[SupportsWufiPDF_Section]
     ) -> None:
         """Register a new PDF-Section class as part of the PDF-Reader."""
-        cls.pdf_section_classes[
-            pdf_section_class.__pdf_heading_string__
-        ] = pdf_section_class
+        cls.pdf_section_classes[pdf_section_class.__pdf_heading_string__] = (
+            pdf_section_class
+        )
 
     def load_pdf_file_data(self, _filepath: pathlib.Path) -> None:
         """Populate the .sections with data from a PDF file."""

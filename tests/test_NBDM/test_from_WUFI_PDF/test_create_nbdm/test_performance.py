@@ -113,9 +113,19 @@ def test_create_nbdm_performance_peak_cooling_load_from_wufi_pdf(
     assert obj.peak_cooling_load.peak_latent_cooling_load == Unit(0.0, "BTUH")
 
 
-def test_create_nbdm_performance_solar_from_wufi_pdf(
+def test_la_mora_create_nbdm_performance_solar_from_wufi_pdf(
     sample_pdf_data_la_mora_proposed: PDFSectionsCollection,
 ) -> None:
     obj = build_NBDM_performanceFromWufiPDF(sample_pdf_data_la_mora_proposed)
 
-    assert obj.site_energy.production_solar_photovoltaic == Unit(103_056, "KBTU")
+    assert obj.site_energy.production_solar_photovoltaic == Unit(
+        78_257.43089999999, "KBTU"
+    )
+
+
+def test_ridgeway_create_nbdm_performance_solar_from_wufi_pdf(
+    sample_pdf_data_ridgeway_proposed: PDFSectionsCollection,
+) -> None:
+    obj = build_NBDM_performanceFromWufiPDF(sample_pdf_data_ridgeway_proposed)
+
+    assert obj.site_energy.production_solar_photovoltaic == Unit(351_641.49984, "KBTU")

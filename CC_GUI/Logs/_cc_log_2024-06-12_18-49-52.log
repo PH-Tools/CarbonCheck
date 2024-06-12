@@ -1,0 +1,28 @@
+2024-06-12 18:49:52,607 - CC_GUI.cc_app - INFO - __init__ - Starting up the CarbonCheck Application.
+2024-06-12 18:49:52,607 - CC_GUI.cc_app - DEBUG - __init__ - application_path: \\mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\CC_GUI
+2024-06-12 18:49:52,607 - CC_GUI.cc_app - DEBUG - __init__ - log_path: \\mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\CC_GUI\Logs\_cc_log_2024-06-12_18-49-52.log
+2024-06-12 18:49:52,607 - CC_GUI.views.view_main_window - DEBUG - __init__ - Loading UI Layout from QtDesigner.
+2024-06-12 18:49:52,763 - CC_GUI.cc_model - DEBUG - __init__ - Initializing CCModel.
+2024-06-12 18:49:52,763 - CC_GUI.cc_model - DEBUG - _configure_worker_threads - Configuring worker threads.
+2024-06-12 18:49:52,763 - CC_GUI.cc_model - DEBUG - _create_workers - Creating worker threads.
+2024-06-12 18:49:52,763 - CC_GUI.cc_model - DEBUG - _start_worker_threads - Starting worker threads.
+2024-06-12 18:49:52,763 - CC_GUI.cc_model - DEBUG - _connect_worker_signals - Connecting worker signals.
+2024-06-12 18:49:52,763 - CC_GUI.cc_model - DEBUG - __init__ - CCModel successfully initialized.
+2024-06-12 18:49:52,763 - CC_GUI.cc_model - DEBUG - __init__ - CCModel.output_format=\\mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\NBDM\model\output_format.py.
+2024-06-12 18:49:52,763 - CC_GUI.cc_model - DEBUG - __init__ - CCModel.application_path=\\mac\Home\Dropbox\bldgtyp-00\00_PH_Tools\CarbonCheck\CC_GUI.
+2024-06-12 18:49:52,763 - CC_GUI.cc_app - DEBUG - __init__ - Creating Tab_Report...
+2024-06-12 18:49:52,763 - CC_GUI.views.view_team_site_window - DEBUG - __init__ - Loading Team/Site UI Layout from QtDesigner.
+2024-06-12 18:49:52,763 - CC_GUI.views.view_building_components - DEBUG - __init__ - Loading Bldg-Component UI Layout from QtDesigner.
+2024-06-12 18:49:52,763 - CC_GUI.cc_app - DEBUG - __init__ - Tab_Report successfully setup.
+2024-06-12 18:49:52,763 - CC_GUI.cc_app - DEBUG - __init__ - Creating Tab_PHPPBaseline...
+2024-06-12 18:49:52,763 - CC_GUI.views.view_baseline_options_window - DEBUG - __init__ - Loading UI Layout from QtDesigner.
+2024-06-12 18:49:52,779 - CC_GUI.cc_app - DEBUG - populate_dropdown_codes - Populating dropdown menu with available Baseline Building Codes
+2024-06-12 18:49:52,779 - CC_GUI.cc_app - DEBUG - populate_dropdown_climate_zones - Populating dropdown menu with available Climate Zones
+2024-06-12 18:49:52,779 - CC_GUI.cc_app - DEBUG - populate_dropdown_use_types - Populating dropdown menu with available Use-Types
+2024-06-12 18:49:52,779 - CC_GUI.cc_app - DEBUG - populate_dropdown_pf_groups - Populating dropdown menu with available PF Groups
+2024-06-12 18:49:52,779 - CC_GUI.cc_app - DEBUG - __init__ - Tab_PHPPBaseline successfully setup.
+2024-06-12 18:49:52,779 - CC_GUI.cc_app - DEBUG - _connect_all_button_signals - Connecting signals and slots...
+2024-06-12 18:49:52,795 - CC_GUI.cc_app - DEBUG - _connect_all_button_signals - Done connecting signals and slots.
+2024-06-12 18:49:52,795 - CC_GUI.cc_app - DEBUG - _connect_button_loggers - Connecting button loggers...
+2024-06-12 18:49:52,795 - CC_GUI.cc_app - DEBUG - _connect_action_loggers - Connecting action loggers...
+2024-06-12 18:49:52,795 - CC_GUI.cc_app - INFO - __init__ - Finished starting up Application.
